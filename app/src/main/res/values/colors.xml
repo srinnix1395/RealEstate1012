@@ -1,6 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorPrimaryDark">#0e6d4a</color>
     <color name="colorAccent">#FF4081</color>
+
+    <!--color background activity-->
+    <color name="startColor">#04eb85</color>
+    <color name="centerColor">#04d984</color>
+    <color name="endColor">#03d2a2</color>
+    <!--color background activity-->
+
+    <color name="colorDarkGreen">#03705b</color>
+    <color name="colorGray">#e5e5e5</color>
+    <color name="colorFacebook">#3b5998</color>
 </resources>

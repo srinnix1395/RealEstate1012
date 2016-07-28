@@ -1,3 +1,14 @@
 <resources>
     <string name="app_name">RealEstate1012</string>
+
+
+    <string name="facebook_app_id">659512657531017</string>
+    <string name="submit">Tiếp tục</string>
+    <string name="email">Email</string>
+    <string name="termAndPolicy">Điều khoản sử dụng và chính sách riêng tư</string>
+    <string name="login">Đăng nhập</string>
+    <string name="forgotPassword">Quên mật khẩu?</string>
+    <string name="password">Mật khẩu</string>
+    <string name="enterYourPassword">Xin chào\nHãy nhập mật khẩu của bạn</string>
+    <string name="orLoginWith">Hoặc đăng nhập với</string>
 </resources>
