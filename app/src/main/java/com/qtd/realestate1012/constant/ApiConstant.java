@@ -16,4 +16,7 @@ public class ApiConstant {
     public static final String TYPE = "Type";
     public static final String _ID_SOCIAL = "_Id_social";
     public static final String NOTIFICATION_ID = "RegID";
+    public static final String RESULT = "Result";
+    public static final String SUCCESS = "Success";
+    public static final String FAILED = "Failed";
 }
