@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void initView() {
         arrayListFragments = new ArrayList<>();
-        adapter = new MainPagerAdapter(getSupportFragmentManager(), arrayListFragments);
+        adapter = new MainPagerAdapter(this, getSupportFragmentManager(), arrayListFragments);
         viewPager.setAdapter(adapter);
 
         tabLayout.setupWithViewPager(viewPager);
