@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">RealEstate1012</string>
+    <string name="app_name">Housie</string>
 
 
     <string name="facebook_app_id">659512657531017</string>
@@ -11,4 +11,7 @@
     <string name="password">Mật khẩu</string>
     <string name="enterYourPassword">Xin chào\nHãy nhập mật khẩu của bạn</string>
     <string name="orLoginWith">Hoặc đăng nhập với</string>
+    <string name="errorLogin">Đã có lỗi trong quá trình đăng nhập, xin thử lại.</string>
+    <string name="emailCannotBeNull">Email không thể để trống</string>
+    <string name="emailIsNotValid">Email không hợp lệ</string>
 </resources>

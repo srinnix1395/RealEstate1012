@@ -1,7 +1,9 @@
-package com.qtd.realestate1012;
+package com.qtd.realestate1012.activity;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+
+import com.qtd.realestate1012.R;
 
 import butterknife.ButterKnife;
 
