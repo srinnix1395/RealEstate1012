@@ -26,4 +26,21 @@
         <item name="android:layout_gravity">center_horizontal</item>
     </style>
     <!--style facebook button-->
+
+    <!--style tab layout-->
+    <style name="MyCustomTabLayout" parent="Widget.Design.TabLayout">
+        <item name="tabIndicatorColor">@android:color/transparent</item>
+        <item name="tabIndicatorHeight">0dp</item>
+        <item name="tabPaddingStart">12dp</item>
+        <item name="tabPaddingEnd">12dp</item>
+        <item name="tabTextAppearance">@style/MyCustomTabTextAppearance</item>
+        <item name="tabSelectedTextColor">@android:color/white</item>
+    </style>
+
+    <style name="MyCustomTabTextAppearance" parent="TextAppearance.Design.Tab">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/colorPrimaryDark</item>
+        <item name="textAllCaps">true</item>
+    </style>
+    <!--style tab layout-->
 </resources>
