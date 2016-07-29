@@ -8,6 +8,10 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.qtd.realestate1012.R;
 import com.qtd.realestate1012.adapter.MainPagerAdapter;
+import com.qtd.realestate1012.fragment.FavoriteFragment;
+import com.qtd.realestate1012.fragment.HomeFragment;
+import com.qtd.realestate1012.fragment.NotificationFragment;
+import com.qtd.realestate1012.fragment.SearchFragment;
 
 import java.util.ArrayList;
 
@@ -23,6 +27,10 @@ public class MainActivity extends AppCompatActivity {
 
     private MainPagerAdapter adapter;
     private ArrayList<Fragment> arrayListFragments;
+    private HomeFragment homeFragment;
+    private SearchFragment searchFragment;
+    private FavoriteFragment favoriteFragment;
+    private NotificationFragment notificationFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,7 +41,15 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initView() {
+        homeFragment = new HomeFragment();
+        searchFragment = new SearchFragment();
+        favoriteFragment = new FavoriteFragment();
+        notificationFragment = new NotificationFragment();
         arrayListFragments = new ArrayList<>();
+        arrayListFragments.add(homeFragment);
+        arrayListFragments.add(searchFragment);
+        arrayListFragments.add(favoriteFragment);
+        arrayListFragments.add(notificationFragment);
         adapter = new MainPagerAdapter(this, getSupportFragmentManager(), arrayListFragments);
         viewPager.setAdapter(adapter);
 
