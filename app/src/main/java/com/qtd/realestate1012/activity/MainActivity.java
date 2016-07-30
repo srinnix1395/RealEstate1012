@@ -7,14 +7,11 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 
 import com.qtd.realestate1012.R;
-import com.qtd.realestate1012.adapter.MainPagerAdapter;
 import com.qtd.realestate1012.constant.AppConstant;
 import com.qtd.realestate1012.fragment.FavoriteFragment;
 import com.qtd.realestate1012.fragment.HomeFragment;
 import com.qtd.realestate1012.fragment.NotificationFragment;
 import com.qtd.realestate1012.fragment.SearchFragment;
-
-import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -23,8 +20,6 @@ public class MainActivity extends AppCompatActivity {
     @BindView(R.id.tabLayout)
     TabLayout tabLayout;
 
-    private MainPagerAdapter adapter;
-    private ArrayList<Fragment> arrayListFragments;
     private HomeFragment homeFragment;
     private SearchFragment searchFragment;
     private FavoriteFragment favoriteFragment;
