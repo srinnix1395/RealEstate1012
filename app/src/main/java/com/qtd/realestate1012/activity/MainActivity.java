@@ -57,17 +57,44 @@ public class MainActivity extends AppCompatActivity {
         tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                viewPager.setCurrentItem(tab.getPosition());
+                switch (tab.getPosition()) {
+                    case 4: {
+
+                        break;
+                    }
+                    default: {
+                        viewPager.setCurrentItem(tab.getPosition());
+                        break;
+                    }
+                }
             }
 
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {
-                viewPager.setCurrentItem(tab.getPosition());
+                switch (tab.getPosition()) {
+                    case 4: {
+
+                        break;
+                    }
+                    default: {
+                        viewPager.setCurrentItem(tab.getPosition());
+                        break;
+                    }
+                }
             }
 
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
-                viewPager.setCurrentItem(tab.getPosition());
+                switch (tab.getPosition()) {
+                    case 4: {
+
+                        break;
+                    }
+                    default: {
+                        viewPager.setCurrentItem(tab.getPosition());
+                        break;
+                    }
+                }
             }
         });
         tabLayout.addTab(tabLayout.newTab().setIcon(R.drawable.ic_dot_vertical));
