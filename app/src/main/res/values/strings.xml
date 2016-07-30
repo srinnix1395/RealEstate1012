@@ -14,4 +14,5 @@
     <string name="errorLogin">Đã có lỗi trong quá trình đăng nhập, xin thử lại.</string>
     <string name="emailCannotBeNull">Email không thể để trống</string>
     <string name="emailIsNotValid">Email không hợp lệ</string>
+    <string name="setting">Cài đặt</string>
 </resources>
