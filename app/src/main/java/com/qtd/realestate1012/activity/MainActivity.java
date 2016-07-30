@@ -3,10 +3,8 @@ package com.qtd.realestate1012.activity;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.ViewPager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
-import android.view.MotionEvent;
-import android.view.View;
 
 import com.qtd.realestate1012.R;
 import com.qtd.realestate1012.adapter.MainPagerAdapter;
@@ -25,9 +23,6 @@ public class MainActivity extends AppCompatActivity {
     @BindView(R.id.tabLayout)
     TabLayout tabLayout;
 
-    @BindView(R.id.viewPager)
-    ViewPager viewPager;
-
     private MainPagerAdapter adapter;
     private ArrayList<Fragment> arrayListFragments;
     private HomeFragment homeFragment;
@@ -44,33 +39,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initView() {
-        homeFragment = new HomeFragment();
-        searchFragment = new SearchFragment();
-        favoriteFragment = new FavoriteFragment();
-        notificationFragment = new NotificationFragment();
-        arrayListFragments = new ArrayList<>();
-        arrayListFragments.add(homeFragment);
-        arrayListFragments.add(searchFragment);
-        arrayListFragments.add(favoriteFragment);
-        arrayListFragments.add(notificationFragment);
-
-        adapter = new MainPagerAdapter(this, getSupportFragmentManager(), arrayListFragments);
-        viewPager.setAdapter(adapter);
-        viewPager.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                return true;
-            }
-        });
-        setupTabLayout();
-    }
-
-    private void setupTabLayout() {
-        tabLayout.setupWithViewPager(viewPager);
-        tabLayout.getTabAt(0).setIcon(AppConstant.ICON_TAB_SELECTED[0]);
-        tabLayout.getTabAt(1).setIcon(AppConstant.ICON_TAB_NORMAL[1]);
-        tabLayout.getTabAt(2).setIcon(AppConstant.ICON_TAB_NORMAL[2]);
-        tabLayout.getTabAt(3).setIcon(AppConstant.ICON_TAB_NORMAL[3]);
+        tabLayout.addTab(tabLayout.newTab().setIcon(AppConstant.ICON_TAB_SELECTED[0]));
+        tabLayout.addTab(tabLayout.newTab().setIcon(AppConstant.ICON_TAB_NORMAL[1]));
+        tabLayout.addTab(tabLayout.newTab().setIcon(AppConstant.ICON_TAB_NORMAL[2]));
+        tabLayout.addTab(tabLayout.newTab().setIcon(AppConstant.ICON_TAB_NORMAL[3]));
         tabLayout.addTab(tabLayout.newTab().setIcon(AppConstant.ICON_TAB_NORMAL[4]));
         tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
@@ -81,14 +53,7 @@ public class MainActivity extends AppCompatActivity {
                         break;
                     }
                     default: {
-                        int tabPosition = tab.getPosition();
-                        for (int i = 0; i < tabLayout.getTabCount(); i++) {
-                            if (i != tabPosition) {
-                                tabLayout.getTabAt(i).setIcon(AppConstant.ICON_TAB_NORMAL[i]);
-                            }
-                        }
-                        tab.setIcon(AppConstant.ICON_TAB_SELECTED[tab.getPosition()]);
-                        viewPager.setCurrentItem(tab.getPosition(), false);
+                        showFragment(tab);
                         break;
                     }
                 }
@@ -102,5 +67,55 @@ public class MainActivity extends AppCompatActivity {
             public void onTabReselected(TabLayout.Tab tab) {
             }
         });
+        homeFragment = new HomeFragment();
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.add(R.id.layoutMain, homeFragment);
+        transaction.commit();
+    }
+
+    private void showFragment(TabLayout.Tab tab) {
+        int tabPosition = tab.getPosition();
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        for (Fragment fragment : getSupportFragmentManager().getFragments()) {
+            transaction.hide(fragment);
+        }
+        switch (tabPosition) {
+            case 0: {
+                transaction.show(homeFragment);
+                break;
+            }
+            case 1: {
+                if (searchFragment == null) {
+                    searchFragment = new SearchFragment();
+                    transaction.add(R.id.layoutMain, searchFragment);
+                }
+                transaction.show(searchFragment);
+                break;
+            }
+            case 2: {
+                if (favoriteFragment == null) {
+                    favoriteFragment = new FavoriteFragment();
+                    transaction.add(R.id.layoutMain, favoriteFragment);
+                }
+                transaction.show(favoriteFragment);
+                break;
+            }
+            case 3: {
+                if (notificationFragment == null) {
+                    notificationFragment = new NotificationFragment();
+                    transaction.add(R.id.layoutMain, notificationFragment);
+                }
+                transaction.show(notificationFragment);
+                break;
+            }
+        }
+        transaction.commit();
+
+        for (int i = 0; i < tabLayout.getTabCount(); i++) {
+            if (i != tabPosition) {
+                tabLayout.getTabAt(i).setIcon(AppConstant.ICON_TAB_NORMAL[i]);
+            }
+        }
+        tab.setIcon(AppConstant.ICON_TAB_SELECTED[tab.getPosition()]);
     }
 }
