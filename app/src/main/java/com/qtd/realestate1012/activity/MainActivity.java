@@ -70,5 +70,6 @@ public class MainActivity extends AppCompatActivity {
                 viewPager.setCurrentItem(tab.getPosition());
             }
         });
+        tabLayout.addTab(tabLayout.newTab().setIcon(R.drawable.ic_dot_vertical));
     }
 }

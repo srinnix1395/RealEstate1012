@@ -22,8 +22,7 @@ public class MainPagerAdapter extends FragmentPagerAdapter {
             R.drawable.ic_home,
             R.drawable.ic_search,
             R.drawable.ic_heart,
-            R.drawable.ic_bell,
-            R.drawable.ic_dot_vertical
+            R.drawable.ic_bell
     };
 
     private Context context;
