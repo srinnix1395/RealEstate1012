@@ -5,9 +5,12 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.view.MotionEvent;
+import android.view.View;
 
 import com.qtd.realestate1012.R;
 import com.qtd.realestate1012.adapter.MainPagerAdapter;
+import com.qtd.realestate1012.constant.AppConstant;
 import com.qtd.realestate1012.fragment.FavoriteFragment;
 import com.qtd.realestate1012.fragment.HomeFragment;
 import com.qtd.realestate1012.fragment.NotificationFragment;
@@ -50,20 +53,42 @@ public class MainActivity extends AppCompatActivity {
         arrayListFragments.add(searchFragment);
         arrayListFragments.add(favoriteFragment);
         arrayListFragments.add(notificationFragment);
+
         adapter = new MainPagerAdapter(this, getSupportFragmentManager(), arrayListFragments);
         viewPager.setAdapter(adapter);
+        viewPager.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                return true;
+            }
+        });
+        setupTabLayout();
+    }
 
+    private void setupTabLayout() {
         tabLayout.setupWithViewPager(viewPager);
+        tabLayout.getTabAt(0).setIcon(AppConstant.ICON_TAB_SELECTED[0]);
+        tabLayout.getTabAt(1).setIcon(AppConstant.ICON_TAB_NORMAL[1]);
+        tabLayout.getTabAt(2).setIcon(AppConstant.ICON_TAB_NORMAL[2]);
+        tabLayout.getTabAt(3).setIcon(AppConstant.ICON_TAB_NORMAL[3]);
+        tabLayout.addTab(tabLayout.newTab().setIcon(AppConstant.ICON_TAB_NORMAL[4]));
         tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 switch (tab.getPosition()) {
-                    case 4: {
+                    case AppConstant.LAST_TAB: {
 
                         break;
                     }
                     default: {
-                        viewPager.setCurrentItem(tab.getPosition());
+                        int tabPosition = tab.getPosition();
+                        for (int i = 0; i < tabLayout.getTabCount(); i++) {
+                            if (i != tabPosition) {
+                                tabLayout.getTabAt(i).setIcon(AppConstant.ICON_TAB_NORMAL[i]);
+                            }
+                        }
+                        tab.setIcon(AppConstant.ICON_TAB_SELECTED[tab.getPosition()]);
+                        viewPager.setCurrentItem(tab.getPosition(), false);
                         break;
                     }
                 }
@@ -71,32 +96,11 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {
-                switch (tab.getPosition()) {
-                    case 4: {
-
-                        break;
-                    }
-                    default: {
-                        viewPager.setCurrentItem(tab.getPosition());
-                        break;
-                    }
-                }
             }
 
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
-                switch (tab.getPosition()) {
-                    case 4: {
-
-                        break;
-                    }
-                    default: {
-                        viewPager.setCurrentItem(tab.getPosition());
-                        break;
-                    }
-                }
             }
         });
-        tabLayout.addTab(tabLayout.newTab().setIcon(R.drawable.ic_dot_vertical));
     }
 }
