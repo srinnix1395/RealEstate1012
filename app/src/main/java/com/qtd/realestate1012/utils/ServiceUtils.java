@@ -15,21 +15,19 @@ public class ServiceUtils {
                 && mConnectivityManager.getActiveNetworkInfo().isConnected());
     }
 
-    public static boolean isLocationServiceEnabled(Context context){
-        LocationManager locationManager = null;
-        boolean gps_enabled= false,network_enabled = false;
+    public static boolean isLocationServiceEnabled(Context context) {
+        LocationManager locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
+        boolean gps_enabled = false, network_enabled = false;
 
-        if(locationManager ==null)
-            locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
-        try{
+        try {
             gps_enabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
-        }catch(Exception ex){
+        } catch (Exception ex) {
             //do nothing...
         }
 
-        try{
+        try {
             network_enabled = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
-        }catch(Exception ex){
+        } catch (Exception ex) {
             //do nothing...
         }
 
