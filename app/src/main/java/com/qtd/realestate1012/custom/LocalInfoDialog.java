@@ -5,6 +5,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
+import android.view.WindowManager;
 import android.widget.RadioButton;
 
 import com.google.android.gms.maps.GoogleMap;
@@ -37,6 +38,7 @@ public class LocalInfoDialog extends Dialog {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.dialog_local_info);
+
         ButterKnife.bind(this);
         initView();
     }
@@ -52,7 +54,7 @@ public class LocalInfoDialog extends Dialog {
     void onClick(View view) {
         switch (view.getId()) {
             case R.id.radioSatellite: {
-                changeSatelliteMode();
+                changeMapType();
                 dismiss();
                 break;
             }
@@ -67,12 +69,15 @@ public class LocalInfoDialog extends Dialog {
         }
     }
 
-    private void changeSatelliteMode() {
-        satelliteChecked = !satelliteChecked;
-        radioSatellite.setChecked(satelliteChecked);
+    private void changeMapType() {
+        if (mapType == GoogleMap.MAP_TYPE_SATELLITE) {
+            mapType = GoogleMap.MAP_TYPE_NORMAL;
+            return;
+        }
+        mapType = GoogleMap.MAP_TYPE_SATELLITE;
     }
 
-    public boolean getSatelliteModesStatus(){
-        return radioSatellite.isChecked();
+    public int getMapType(){
+        return mapType;
     }
 }

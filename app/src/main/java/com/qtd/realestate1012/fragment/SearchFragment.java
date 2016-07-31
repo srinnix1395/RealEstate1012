@@ -12,6 +12,7 @@ import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -136,14 +137,20 @@ public class SearchFragment extends Fragment implements OnMapReadyCallback {
         localInfoDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
             @Override
             public void onDismiss(DialogInterface dialog) {
-                if (((LocalInfoDialog) dialog).getSatelliteModesStatus() && mapManager.getMapType() != GoogleMap.MAP_TYPE_SATELLITE) {
-                    mapManager.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
-                } else {
-                    mapManager.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+                if (((LocalInfoDialog) dialog).getMapType() != mapManager.getMapType()) {
+                    mapManager.setMapType(((LocalInfoDialog) dialog).getMapType());
+                    return;
                 }
+
+                // TODO: 7/31/2016 add appropriate markers
+
             }
         });
         localInfoDialog.show();
+
+        //change size local dialog info
+        int width = (int)(view.getContext().getResources().getDisplayMetrics().widthPixels*0.90);
+        localInfoDialog.getWindow().setLayout(width, WindowManager.LayoutParams.WRAP_CONTENT);
     }
 
     private void onClickFabEnableMarker() {
