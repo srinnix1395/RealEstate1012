@@ -68,11 +68,7 @@ public class LocalInfoDialog extends Dialog {
     }
 
     private void changeSatelliteMode() {
-        if (satelliteChecked) {
-            satelliteChecked = false;
-        } else {
-            satelliteChecked = true;
-        }
+        satelliteChecked = !satelliteChecked;
         radioSatellite.setChecked(satelliteChecked);
     }
 
