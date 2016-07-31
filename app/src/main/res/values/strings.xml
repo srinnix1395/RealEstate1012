@@ -28,4 +28,5 @@
     <string name="amenities">Các tiện ích</string>
     <string name="satellite">Chế độ vệ tinh</string>
     <string name="schools">Các trường học</string>
+    <string name="noInternetConnection">Không có kết nối internet</string>
 </resources>

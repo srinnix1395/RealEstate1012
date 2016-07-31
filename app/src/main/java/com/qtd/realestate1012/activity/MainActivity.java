@@ -114,7 +114,7 @@ public class MainActivity extends AppCompatActivity {
         switch (tabPosition) {
             case 0: {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    tabLayout.setElevation(ImageUtils.convertDpToPixel(this,4));
+                    tabLayout.setElevation(ImageUtils.convertDpToPixel(this, 4));
                 }
                 transaction.show(homeFragment);
                 break;
@@ -143,7 +143,7 @@ public class MainActivity extends AppCompatActivity {
             }
             case 3: {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    tabLayout.setElevation(ImageUtils.convertDpToPixel(this,4));
+                    tabLayout.setElevation(ImageUtils.convertDpToPixel(this, 4));
                 }
                 if (notificationFragment == null) {
                     notificationFragment = new NotificationFragment();
