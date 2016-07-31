@@ -24,4 +24,8 @@
     <string name="close">Đóng</string>
     <string name="pleaseCheckYourConnection">Hãy kiểm tra lại kết nối mạng</string>
     <string name="pleaseEnableLocationService">Hãy kích hoạt dịch vụ vị trí.</string>
+    <string name="localInfoDialog">Thông tin về khu vực</string>
+    <string name="amenities">Các tiện ích</string>
+    <string name="satellite">Chế độ vệ tinh</string>
+    <string name="schools">Các trường học</string>
 </resources>

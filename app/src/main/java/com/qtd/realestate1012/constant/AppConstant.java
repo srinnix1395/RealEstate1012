@@ -6,6 +6,9 @@ import com.qtd.realestate1012.R;
  * Created by Dell on 7/28/2016.
  */
 public class AppConstant {
+    public static final int TURN_ON_SATELLITE_MODE = 1;
+    public static final int TURN_OFF_SATELLITE_MODE = 0;
+
     public static int ICON_TAB_NORMAL[] = {
             R.drawable.ic_home_dark_green,
             R.drawable.ic_search_dark_green,

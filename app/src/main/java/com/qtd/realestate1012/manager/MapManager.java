@@ -3,7 +3,6 @@ package com.qtd.realestate1012.manager;
 import android.Manifest;
 import android.content.Context;
 import android.content.pm.PackageManager;
-import android.location.Location;
 import android.os.Build;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -17,7 +16,7 @@ import com.qtd.realestate1012.constant.AppConstant;
 /**
  * Created by Dell on 7/31/2016.
  */
-public class MapManager implements GoogleMap.OnMyLocationChangeListener {
+public class MapManager {
     private Context context;
     private GoogleMap map;
 
@@ -44,7 +43,6 @@ public class MapManager implements GoogleMap.OnMyLocationChangeListener {
 
         map.getUiSettings().setCompassEnabled(true);
         map.setMapType(GoogleMap.MAP_TYPE_NORMAL);
-        map.setOnMyLocationChangeListener(this);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             if (ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -61,10 +59,6 @@ public class MapManager implements GoogleMap.OnMyLocationChangeListener {
         map.setMyLocationEnabled(true);
     }
 
-    @Override
-    public void onMyLocationChange(Location location) {
-
-    }
 
     public void clearMarker() {
 
@@ -72,5 +66,13 @@ public class MapManager implements GoogleMap.OnMyLocationChangeListener {
 
     public void drawMarker() {
 
+    }
+
+    public int getMapType() {
+        return map.getMapType();
+    }
+
+    public void setMapType(int mapTypeSatellite) {
+        map.setMapType(mapTypeSatellite);
     }
 }

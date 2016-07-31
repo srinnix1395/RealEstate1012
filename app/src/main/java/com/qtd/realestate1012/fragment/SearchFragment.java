@@ -1,5 +1,6 @@
 package com.qtd.realestate1012.fragment;
 
+import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
@@ -21,6 +22,7 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.qtd.realestate1012.R;
 import com.qtd.realestate1012.constant.AppConstant;
+import com.qtd.realestate1012.custom.LocalInfoDialog;
 import com.qtd.realestate1012.manager.MapManager;
 import com.qtd.realestate1012.utils.ServiceUtils;
 
@@ -104,7 +106,7 @@ public class SearchFragment extends Fragment implements OnMapReadyCallback {
     void onClick(View view) {
         switch (view.getId()) {
             case R.id.tvLocalInfo: {
-
+                showDialogLocalInfo();
                 break;
             }
             case R.id.tvSaveSearch: {
@@ -127,6 +129,21 @@ public class SearchFragment extends Fragment implements OnMapReadyCallback {
                 break;
             }
         }
+    }
+
+    private void showDialogLocalInfo() {
+        LocalInfoDialog localInfoDialog = new LocalInfoDialog(view.getContext(), mapManager.getMapType());
+        localInfoDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialog) {
+                if (((LocalInfoDialog) dialog).getSatelliteModesStatus() && mapManager.getMapType() != GoogleMap.MAP_TYPE_SATELLITE) {
+                    mapManager.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
+                } else {
+                    mapManager.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+                }
+            }
+        });
+        localInfoDialog.show();
     }
 
     private void onClickFabEnableMarker() {
