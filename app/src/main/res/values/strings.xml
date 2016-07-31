@@ -15,4 +15,11 @@
     <string name="emailCannotBeNull">Email không thể để trống</string>
     <string name="emailIsNotValid">Email không hợp lệ</string>
     <string name="setting">Cài đặt</string>
+    <string name="districtStreet">Quận/huyện, phố...</string>
+    <string name="filter">Lọc</string>
+    <string name="searchAddress">Tìm kiếm địa chỉ...</string>
+    <string name="listResult">Danh sách</string>
+    <string name="localInfo">Thông tin</string>
+    <string name="saveSearch">Lưu tìm kiếm</string>
+    <string name="close">Đóng</string>
 </resources>

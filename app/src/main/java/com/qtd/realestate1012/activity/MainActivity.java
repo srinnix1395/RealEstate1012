@@ -1,6 +1,7 @@
 package com.qtd.realestate1012.activity;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -15,6 +16,7 @@ import com.qtd.realestate1012.fragment.FavoriteFragment;
 import com.qtd.realestate1012.fragment.HomeFragment;
 import com.qtd.realestate1012.fragment.NotificationFragment;
 import com.qtd.realestate1012.fragment.SearchFragment;
+import com.qtd.realestate1012.utils.ImageUtils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -111,10 +113,16 @@ public class MainActivity extends AppCompatActivity {
         }
         switch (tabPosition) {
             case 0: {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    tabLayout.setElevation(ImageUtils.convertDpToPixel(this,4));
+                }
                 transaction.show(homeFragment);
                 break;
             }
             case 1: {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    tabLayout.setElevation(0);
+                }
                 if (searchFragment == null) {
                     searchFragment = new SearchFragment();
                     transaction.add(R.id.layoutMain, searchFragment);
@@ -123,6 +131,9 @@ public class MainActivity extends AppCompatActivity {
                 break;
             }
             case 2: {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    tabLayout.setElevation(0);
+                }
                 if (favoriteFragment == null) {
                     favoriteFragment = new FavoriteFragment();
                     transaction.add(R.id.layoutMain, favoriteFragment);
@@ -131,6 +142,9 @@ public class MainActivity extends AppCompatActivity {
                 break;
             }
             case 3: {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    tabLayout.setElevation(ImageUtils.convertDpToPixel(this,4));
+                }
                 if (notificationFragment == null) {
                     notificationFragment = new NotificationFragment();
                     transaction.add(R.id.layoutMain, notificationFragment);

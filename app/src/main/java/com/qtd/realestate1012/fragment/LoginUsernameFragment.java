@@ -66,11 +66,12 @@ public class LoginUsernameFragment extends Fragment implements GoogleApiClient.O
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        FacebookSdk.sdkInitialize(getActivity());
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestId()
                 .requestEmail()
                 .build();
-        mGoogleApiClient = new GoogleApiClient.Builder(view.getContext())
+        mGoogleApiClient = new GoogleApiClient.Builder(getActivity())
                 .enableAutoManage(getActivity(), this)
                 .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
                 .build();
@@ -79,14 +80,14 @@ public class LoginUsernameFragment extends Fragment implements GoogleApiClient.O
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_login_id, container, false);
+        view = inflater.inflate(R.layout.fragment_login_username, container, false);
         ButterKnife.bind(this, view);
         return view;
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        FacebookSdk.sdkInitialize(view.getContext());
+
         initView();
     }
 
@@ -149,7 +150,7 @@ public class LoginUsernameFragment extends Fragment implements GoogleApiClient.O
         return bundle;
     }
 
-    @OnClick({R.id.btnSubmit, R.id.imbFacebook, R.id.imbGoogle, R.id.tvTerm})
+    @OnClick({R.id.btnSubmit, R.id.imbFacebook, R.id.imbGoogle, R.id.tvTerm, R.id.tvClose})
     void onClick(View view) {
         switch (view.getId()) {
             case R.id.btnSubmit: {
@@ -168,12 +169,16 @@ public class LoginUsernameFragment extends Fragment implements GoogleApiClient.O
 
                 break;
             }
+            case R.id.tvClose:{
+                getActivity().finish();
+                break;
+            }
         }
     }
 
     private void signInGoogle() {
         Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
-        startActivityForResult(signInIntent, AppConstant.RC_SIGN_IN_GOOGLE);
+        startActivityForResult(signInIntent, AppConstant.REQUEST_CODE_SIGN_IN_GOOGLE);
     }
 
     private void onClickSubmit() {
@@ -236,7 +241,7 @@ public class LoginUsernameFragment extends Fragment implements GoogleApiClient.O
         super.onActivityResult(requestCode, resultCode, data);
 
         //google sign in
-        if (requestCode == AppConstant.RC_SIGN_IN_GOOGLE) {
+        if (requestCode == AppConstant.REQUEST_CODE_SIGN_IN_GOOGLE) {
             GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
             handleGoogleSignInResult(result);
             return;

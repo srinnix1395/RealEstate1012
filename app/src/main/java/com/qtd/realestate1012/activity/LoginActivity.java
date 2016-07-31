@@ -1,8 +1,8 @@
 package com.qtd.realestate1012.activity;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 
 import com.qtd.realestate1012.R;
@@ -19,13 +19,16 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.fragment_login_id);
+        setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
         initView();
     }
 
     private void initView() {
         usernameFragment = new LoginUsernameFragment();
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.add(R.id.layoutLogin, usernameFragment);
+        transaction.commit();
     }
 
 
