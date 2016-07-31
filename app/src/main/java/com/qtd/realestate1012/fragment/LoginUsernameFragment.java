@@ -8,13 +8,13 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
-import android.util.Log;
 import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -38,6 +38,7 @@ import com.qtd.realestate1012.HousieApplication;
 import com.qtd.realestate1012.R;
 import com.qtd.realestate1012.constant.ApiConstant;
 import com.qtd.realestate1012.constant.AppConstant;
+import com.qtd.realestate1012.utils.NetworkUtils;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -87,7 +88,6 @@ public class LoginUsernameFragment extends Fragment implements GoogleApiClient.O
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-
         initView();
     }
 
@@ -106,15 +106,12 @@ public class LoginUsernameFragment extends Fragment implements GoogleApiClient.O
 
                     @Override
                     public void onCompleted(JSONObject object, GraphResponse response) {
-                        Log.i("LoginActivity", response.toString());
-                        // Get facebook data from login
                         Bundle bFacebookData = getFacebookData(object);
-
-
+                        sendLoginInfoToServer(bFacebookData);
                     }
                 });
                 Bundle parameters = new Bundle();
-                parameters.putString("fields", "id, first_name, last_name, email, gender");
+                parameters.putString("fields", "id, first_name, last_name, picture, email, gender");
                 request.setParameters(parameters);
                 request.executeAsync();
             }
@@ -142,6 +139,7 @@ public class LoginUsernameFragment extends Fragment implements GoogleApiClient.O
         try {
             bundle.putInt(ApiConstant._ID_SOCIAL, object.getInt("id"));
             bundle.putString(ApiConstant.NAME, object.getString("first_name") + " " + object.getString("last_name"));
+            bundle.putString(ApiConstant.AVATAR, object.getString("picture"));
             bundle.putString(ApiConstant.EMAIL, object.getString("email"));
             bundle.putString(ApiConstant.GENDER, object.getString("gender"));
         } catch (JSONException e) {
@@ -158,6 +156,10 @@ public class LoginUsernameFragment extends Fragment implements GoogleApiClient.O
                 break;
             }
             case R.id.imbFacebook: {
+                if (!NetworkUtils.isNetworkAvailable(view.getContext())) {
+                    Toast.makeText(view.getContext(), R.string.pleaseCheckYourConnection, Toast.LENGTH_SHORT).show();
+                    break;
+                }
                 btnFacebook.performClick();
                 break;
             }
@@ -169,7 +171,7 @@ public class LoginUsernameFragment extends Fragment implements GoogleApiClient.O
 
                 break;
             }
-            case R.id.tvClose:{
+            case R.id.tvClose: {
                 getActivity().finish();
                 break;
             }
@@ -227,10 +229,6 @@ public class LoginUsernameFragment extends Fragment implements GoogleApiClient.O
                 }).create().show();
     }
 
-    public CallbackManager getCallbackManger() {
-        return callback;
-    }
-
     @Override
     public void onConnectionFailed(ConnectionResult connectionResult) {
 
@@ -254,10 +252,20 @@ public class LoginUsernameFragment extends Fragment implements GoogleApiClient.O
     private void handleGoogleSignInResult(GoogleSignInResult result) {
         if (result.isSuccess()) {
             GoogleSignInAccount account = result.getSignInAccount();
-            // TODO: 7/29/2016 get information google account
 
+            Bundle bGoogleData = new Bundle();
+            bGoogleData.putInt(ApiConstant._ID_SOCIAL, Integer.parseInt(account.getId()));
+            bGoogleData.putString(ApiConstant.NAME, account.getDisplayName());
+            bGoogleData.putString(ApiConstant.EMAIL, account.getEmail());
+            bGoogleData.putString(ApiConstant.AVATAR, account.getPhotoUrl().toString());
+
+            sendLoginInfoToServer(bGoogleData);
         } else {
-
+            showErrorDialog();
         }
+    }
+
+    private void sendLoginInfoToServer(Bundle bundle) {
+
     }
 }

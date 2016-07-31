@@ -22,4 +22,5 @@
     <string name="localInfo">Thông tin</string>
     <string name="saveSearch">Lưu tìm kiếm</string>
     <string name="close">Đóng</string>
+    <string name="pleaseCheckYourConnection">Hãy kiểm tra lại kết nối mạng!</string>
 </resources>
