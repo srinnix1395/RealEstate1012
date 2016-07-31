@@ -27,21 +27,24 @@
     </style>
     <!--style facebook button-->
 
-    <!--style tab layout-->
+    <!--style tab layout main-->
     <style name="MyCustomTabLayout" parent="Widget.Design.TabLayout">
         <item name="tabIndicatorColor">@android:color/transparent</item>
         <item name="tabIndicatorHeight">0dp</item>
     </style>
-    <!--style tab layout-->
+    <!--style tab layout main-->
 
-    <style name="CustomDialog" parent="Theme.AppCompat.Dialog">
-        <item name="android:windowIsTranslucent">true</item>
-        <item name="android:windowBackground">@color/colorWhite</item>
-        <item name="android:paddingTop">20dp</item>
-        <item name="android:windowContentOverlay">@null</item>
-        <item name="android:windowNoTitle">true</item>
-        <item name="android:backgroundDimEnabled">false</item>
-        <item name="android:windowIsFloating">false</item>
+    <!--style tab layout favorite fragment-->
+    <style name="CustomTabLayoutFavoriteFragment" parent="Widget.Design.TabLayout">
+        <item name="tabIndicatorColor">@android:color/white</item>
+        <item name="tabTextAppearance">@style/CustomTabFavoriteTextAppearance</item>
+        <item name="tabSelectedTextColor">@android:color/white</item>
     </style>
 
+    <style name="CustomTabFavoriteTextAppearance" parent="TextAppearance.Design.Tab">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/colorLightGreen</item>
+        <item name="textAllCaps">true</item>
+    </style>
+    <!--style tab layout favorite fragment-->
 </resources>

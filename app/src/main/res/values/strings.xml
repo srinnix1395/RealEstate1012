@@ -29,4 +29,7 @@
     <string name="satellite">Chế độ vệ tinh</string>
     <string name="schools">Các trường học</string>
     <string name="noInternetConnection">Không có kết nối internet</string>
+    <string name="boards">Nhóm</string>
+    <string name="homes">Nhà</string>
+    <string name="searches">Các tìm kiếm</string>
 </resources>

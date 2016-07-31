@@ -24,6 +24,11 @@ public class AppConstant {
             R.drawable.ic_bell_white
     };
 
+    public static int TITLE_TAB_FAVORITE[] = {
+            R.string.boards,
+            R.string.homes,
+            R.string.searches
+    };
 
     public static final int REQUEST_CODE_SIGN_IN_GOOGLE = 122;
     public static final int REQUEST_CODE_LOCATION_PERMISSION = 123;
