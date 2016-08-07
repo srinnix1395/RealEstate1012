@@ -65,7 +65,7 @@ public class BoardFragment extends Fragment {
     }
 
     private void initView() {
-        refreshLayout.setProgressBackgroundColorSchemeResource(R.color.colorPrimary);
+        refreshLayout.setColorSchemeResources(R.color.colorPrimary);
         refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -78,7 +78,6 @@ public class BoardFragment extends Fragment {
         arrayListBoards = new ArrayList<>();
         adapter = new BoardAdapter(arrayListBoards);
 
-        refreshLayout.setRefreshing(true);
 
         recyclerView.setLayoutManager(new GridLayoutManager(view.getContext(), 2));
         RecyclerView.ItemAnimator itemAnimator = new DefaultItemAnimator();
@@ -86,14 +85,12 @@ public class BoardFragment extends Fragment {
         itemAnimator.setRemoveDuration(1000);
         recyclerView.setItemAnimator(itemAnimator);
         recyclerView.setAdapter(adapter);
+
         requestBoard(idUserLoggedIn);
     }
 
     private void requestBoard(int idUserLoggedIn) {
         if (idUserLoggedIn != -1) {
-            if (!refreshLayout.isRefreshing()) {
-                refreshLayout.setRefreshing(true);
-            }
             String url = StringUtils.getURLBoardFavorite(idUserLoggedIn);
             JsonObjectRequest arrayRequest = new JsonObjectRequest(Request.Method.GET, url, new Response.Listener<JSONObject>() {
                 @Override
