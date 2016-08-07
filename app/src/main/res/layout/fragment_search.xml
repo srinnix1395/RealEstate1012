@@ -70,7 +70,7 @@
             android:layout_marginEnd="16dp"
             android:background="?android:attr/selectableItemBackground"
             android:src="@drawable/drawable_ic_marker_level_list"
-            app:backgroundTint="@color/colorWhite" />
+            app:backgroundTint="@color/colorWhiteBackground" />
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/fabLocation"
@@ -81,54 +81,89 @@
             android:layout_margin="16dp"
             android:background="?android:attr/selectableItemBackground"
             android:src="@drawable/ic_location"
-            app:backgroundTint="@color/colorWhite" />
+            app:backgroundTint="@color/colorWhiteBackground" />
     </RelativeLayout>
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="45dp"
-        android:gravity="center_vertical">
+        android:layout_height="?android:attr/actionBarSize">
 
-        <TextView
-            android:id="@+id/tvListResult"
-            style="?android:attr/textAppearanceSmall"
-            android:layout_width="0dp"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_margin="5dp"
-            android:layout_weight="1"
-            android:background="?android:attr/selectableItemBackground"
-            android:clickable="true"
-            android:gravity="center"
-            android:text="@string/listResult"
-            android:textAllCaps="true"
-            android:textColor="@color/colorDarkGray" />
+            android:gravity="center_vertical">
 
-        <TextView
-            android:id="@+id/tvLocalInfo"
-            style="?android:attr/textAppearanceSmall"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_margin="5dp"
-            android:layout_weight="1"
-            android:background="?android:attr/selectableItemBackground"
-            android:clickable="true"
-            android:gravity="center"
-            android:text="@string/localInfo"
-            android:textAllCaps="true"
-            android:textColor="@color/colorDarkGray" />
+            <TextView
+                android:id="@+id/tvListResult"
+                style="?android:attr/textAppearanceSmall"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:background="?android:attr/selectableItemBackground"
+                android:clickable="true"
+                android:gravity="center"
+                android:text="@string/listResult"
+                android:textAllCaps="true"
+                android:textColor="@color/colorDarkGray" />
 
-        <TextView
-            android:id="@+id/tvSaveSearch"
-            style="?android:attr/textAppearanceSmall"
-            android:layout_width="0dp"
+            <TextView
+                android:id="@+id/tvLocalInfo"
+                style="?android:attr/textAppearanceSmall"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:background="?android:attr/selectableItemBackground"
+                android:clickable="true"
+                android:gravity="center"
+                android:text="@string/localInfo"
+                android:textAllCaps="true"
+                android:textColor="@color/colorDarkGray" />
+
+            <TextView
+                android:id="@+id/tvSaveSearch"
+                style="?android:attr/textAppearanceSmall"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:background="?android:attr/selectableItemBackground"
+                android:clickable="true"
+                android:gravity="center"
+                android:text="@string/saveSearch"
+                android:textAllCaps="true"
+                android:textColor="@color/colorDarkGray" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/layoutLocalInfo"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_margin="5dp"
-            android:layout_weight="1"
-            android:background="?android:attr/selectableItemBackground"
-            android:clickable="true"
-            android:gravity="center"
-            android:text="@string/saveSearch"
-            android:textAllCaps="true"
-            android:textColor="@color/colorDarkGray" />
-    </LinearLayout>
+            android:background="@color/colorWhiteBackground"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:visibility="invisible">
+
+            <ImageView
+                android:id="@+id/imvClose"
+                android:layout_width="@dimen/defaultSize"
+                android:layout_height="@dimen/defaultSize"
+                android:layout_marginStart="10dp"
+                android:src="@drawable/ic_home_dark_green" />
+
+            <TextView
+                android:id="@+id/tvInfoType"
+                style="?android:attr/textAppearanceSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/activity_vertical_margin"
+                android:background="@drawable/background_text_view_info_type"
+                android:paddingBottom="5dp"
+                android:paddingEnd="@dimen/activity_vertical_margin"
+                android:paddingStart="@dimen/activity_vertical_margin"
+                android:paddingTop="5dp"
+                android:textColor="@android:color/white" />
+        </LinearLayout>
+    </RelativeLayout>
 </LinearLayout>

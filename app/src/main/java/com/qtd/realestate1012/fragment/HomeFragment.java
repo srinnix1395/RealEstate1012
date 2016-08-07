@@ -58,7 +58,7 @@ public class HomeFragment extends Fragment {
             progressBar.setVisibility(View.INVISIBLE);
         } else {
             progressBar.setEnabled(true);
-            tvNoInternet.setVisibility(View.VISIBLE);
+            tvNoInternet.setVisibility(View.INVISIBLE);
         }
     }
 

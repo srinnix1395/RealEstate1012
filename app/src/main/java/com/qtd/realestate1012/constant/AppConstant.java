@@ -8,6 +8,11 @@ import com.qtd.realestate1012.R;
 public class AppConstant {
     public static final int TURN_ON_SATELLITE_MODE = 1;
     public static final int TURN_OFF_SATELLITE_MODE = 0;
+    public static final int WHAT_LOCAL_INFO_ASYNC_TASK = 2;
+    public static final int REQUEST_CODE_SIGN_IN_GOOGLE = 3;
+    public static final int REQUEST_CODE_LOCATION_PERMISSION = 4;
+    public static final String HOUSIE_SHARED_PREFERENCES = "housie_shared_preferences";
+    public static final String USER_LOGGED_IN = "user_logged_in";
 
     public static int ICON_TAB_NORMAL[] = {
             R.drawable.ic_home_dark_green,
@@ -30,8 +35,6 @@ public class AppConstant {
             R.string.searches
     };
 
-    public static final int REQUEST_CODE_SIGN_IN_GOOGLE = 122;
-    public static final int REQUEST_CODE_LOCATION_PERMISSION = 123;
 
     public static final int LAST_TAB = 4;
     public static final double LATITUDE_HANOI = 21.027784;

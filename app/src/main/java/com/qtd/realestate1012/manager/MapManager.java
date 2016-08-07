@@ -9,9 +9,18 @@ import android.support.v4.content.ContextCompat;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
+import com.qtd.realestate1012.R;
 import com.qtd.realestate1012.activity.MainActivity;
+import com.qtd.realestate1012.constant.ApiConstant;
 import com.qtd.realestate1012.constant.AppConstant;
+import com.qtd.realestate1012.model.Place;
+import com.qtd.realestate1012.utils.ImageUtils;
+
+import java.util.ArrayList;
 
 /**
  * Created by Dell on 7/31/2016.
@@ -19,25 +28,16 @@ import com.qtd.realestate1012.constant.AppConstant;
 public class MapManager {
     private Context context;
     private GoogleMap map;
+    private ArrayList<Marker> arrayMarkerPlace;
 
     public MapManager(Context context, GoogleMap map) {
         this.context = context;
         this.map = map;
+        arrayMarkerPlace = new ArrayList<>();
         initMap();
     }
 
     private void initMap() {
-//        change location button's position to right bottom
-//        if (mapView != null && mapView.findViewById(1) != null) {
-//            View locationButton = ((View) mapView.findViewById(1).getParent()).findViewById(2);
-//            RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams)
-//                    locationButton.getLayoutParams();
-//            // position on right bottom
-//            layoutParams.addRule(RelativeLayout.ALIGN_PARENT_TOP, 0);
-//            layoutParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, RelativeLayout.TRUE);
-//            layoutParams.setMargins(0, 0, 30, 30);
-//        }
-
         LatLng latLngHaNoi = new LatLng(AppConstant.LATITUDE_HANOI, AppConstant.LONGITUDE_HANOI);
         map.moveCamera(CameraUpdateFactory.newLatLngZoom(latLngHaNoi, 13));
 
@@ -45,7 +45,8 @@ public class MapManager {
         map.setMapType(GoogleMap.MAP_TYPE_NORMAL);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            if (ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            if (ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                    && ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                 ActivityCompat.requestPermissions(((MainActivity) context), new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, AppConstant.REQUEST_CODE_LOCATION_PERMISSION);
             } else {
                 map.setMyLocationEnabled(true);
@@ -53,6 +54,7 @@ public class MapManager {
         } else {
             map.setMyLocationEnabled(true);
         }
+
     }
 
     public void setEnabledMyLocation() {
@@ -64,8 +66,41 @@ public class MapManager {
 
     }
 
-    public void drawMarker() {
+    public void drawRealEstateMarker() {
 
+    }
+
+    public void showLocationNearByMarker(String type, ArrayList<Place> arrayLocationNearby) {
+        int markerType = 0;
+        switch (type) {
+            case ApiConstant.API_PLACE_TYPE_SCHOOL: {
+                markerType = R.drawable.drawable_marker_school;
+                break;
+            }
+            case ApiConstant.API_PLACE_TYPE_HOSPITAL: {
+
+                break;
+            }
+        }
+        for (Place place : arrayLocationNearby) {
+            arrayMarkerPlace.add(drawPlaceMarker(place.getLatitude(), place.getLongitude(), markerType));
+        }
+    }
+
+    private Marker drawPlaceMarker(double lat, double lng, int icon) {
+        MarkerOptions markerOptions = new MarkerOptions();
+        markerOptions.title("school");
+        markerOptions.snippet("school");
+        markerOptions.position(new LatLng(lat, lng));
+        markerOptions.icon(BitmapDescriptorFactory.fromBitmap(ImageUtils.getBitmapFromDrawable(context, icon)));
+        return map.addMarker(markerOptions);
+    }
+
+    public void clearMarkerPlace() {
+        for (Marker marker : arrayMarkerPlace) {
+            marker.remove();
+        }
+        arrayMarkerPlace.clear();
     }
 
     public int getMapType() {
@@ -74,5 +109,9 @@ public class MapManager {
 
     public void setMapType(int mapTypeSatellite) {
         map.setMapType(mapTypeSatellite);
+    }
+
+    public LatLng getLatLng() {
+        return map.getCameraPosition().target;
     }
 }

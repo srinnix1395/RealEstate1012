@@ -32,4 +32,6 @@
     <string name="boards">Nhóm</string>
     <string name="homes">Nhà</string>
     <string name="searches">Các tìm kiếm</string>
+    <string name="hospitals">Các bệnh viện</string>
+    <string name="houses">" ngôi nhà"</string>
 </resources>
