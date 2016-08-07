@@ -29,4 +29,6 @@
     <string name="satellite">Chế độ vệ tinh</string>
     <string name="schools">Các trường học</string>
     <string name="noInternetConnection">Không có kết nối internet</string>
+    <string name="currency">VNĐ</string>
+    <string name="errorConnection">Đã có lỗi trong quá trình kêt nối, xin thử lại</string>
 </resources>

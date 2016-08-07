@@ -5,16 +5,30 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.qtd.realestate1012.HousieApplication;
 import com.qtd.realestate1012.R;
+import com.qtd.realestate1012.adapter.HouseNewsAdapter;
+import com.qtd.realestate1012.constant.ApiConstant;
+import com.qtd.realestate1012.custom.PinnedSectionListView;
+import com.qtd.realestate1012.utils.ProcessJson;
 import com.qtd.realestate1012.utils.ServiceUtils;
 import com.qtd.realestate1012.utils.SnackbarUtils;
+import com.qtd.realestate1012.utils.StringUtils;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -27,14 +41,17 @@ public class HomeFragment extends Fragment {
     private static final String TAG = "homeFragment";
     private View view;
 
-    @BindView(R.id.recyclerView)
-    RecyclerView recyclerView;
+    @BindView(R.id.listView)
+    PinnedSectionListView listView;
 
     @BindView(R.id.progress_bar)
     ProgressBar progressBar;
 
     @BindView(R.id.tvNoInternet)
-    TextView tvNoInternet;
+    TextView tvError;
+
+    private ArrayList<Object> arrayList;
+    private HouseNewsAdapter adapter;
 
     @Nullable
     @Override
@@ -46,10 +63,56 @@ public class HomeFragment extends Fragment {
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        initData();
         initView();
     }
 
+    private void initData() {
+        arrayList = new ArrayList<>();
+        adapter = new HouseNewsAdapter(view.getContext(), android.R.layout.simple_list_item_1, arrayList);
+
+    }
+
+    private void requestData() {
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, StringUtils.getURLHomeFragment(), new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                try {
+                    if (response.getString(ApiConstant.RESULT).equals(ApiConstant.FAILED)) {
+                        tvError.setVisibility(View.VISIBLE);
+                        tvError.setText(R.string.errorConnection);
+                        progressBar.setEnabled(false);
+                        progressBar.setVisibility(View.INVISIBLE);
+                        return;
+                    }
+
+                    arrayList.clear();
+                    arrayList.addAll(ProcessJson.getArrayListHousesNew(response.getJSONArray(ApiConstant.LIST_HOUSE)));
+                    adapter.notifyDataSetChanged();
+                    if (tvError.getVisibility() == View.VISIBLE) {
+                        tvError.setVisibility(View.INVISIBLE);
+                    }
+                    progressBar.setEnabled(false);
+                    progressBar.setVisibility(View.INVISIBLE);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                tvError.setText(R.string.errorConnection);
+                tvError.setVisibility(View.VISIBLE);
+                progressBar.setEnabled(false);
+                progressBar.setVisibility(View.INVISIBLE);
+            }
+        });
+        HousieApplication.getInstance().addToRequestQueue(request);
+    }
+
     private void initView() {
+        listView.setAdapter(adapter);
+
         progressBar.setIndeterminate(true);
         progressBar.getIndeterminateDrawable().setColorFilter(ContextCompat.getColor(view.getContext(), R.color.colorPrimary), PorterDuff.Mode.SRC_IN);
 
@@ -58,7 +121,8 @@ public class HomeFragment extends Fragment {
             progressBar.setVisibility(View.INVISIBLE);
         } else {
             progressBar.setEnabled(true);
-            tvNoInternet.setVisibility(View.VISIBLE);
+            tvError.setVisibility(View.VISIBLE);
+            requestData();
         }
     }
 

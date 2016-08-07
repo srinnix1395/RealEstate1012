@@ -36,7 +36,7 @@
 
     <style name="CustomDialog" parent="Theme.AppCompat.Dialog">
         <item name="android:windowIsTranslucent">true</item>
-        <item name="android:windowBackground">@color/colorWhite</item>
+        <item name="android:windowBackground">@color/colorWhiteBackground</item>
         <item name="android:paddingTop">20dp</item>
         <item name="android:windowContentOverlay">@null</item>
         <item name="android:windowNoTitle">true</item>
@@ -44,4 +44,9 @@
         <item name="android:windowIsFloating">false</item>
     </style>
 
+    <!--style text view fragment house-->
+    <style name="TextViewFragmentHouse">
+
+    </style>
+    <!--style text view fragment house-->
 </resources>
