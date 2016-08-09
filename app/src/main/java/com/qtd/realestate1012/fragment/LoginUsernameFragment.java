@@ -39,7 +39,7 @@ import com.qtd.realestate1012.R;
 import com.qtd.realestate1012.activity.LoginActivity;
 import com.qtd.realestate1012.constant.ApiConstant;
 import com.qtd.realestate1012.constant.AppConstant;
-import com.qtd.realestate1012.utils.NetworkUtils;
+import com.qtd.realestate1012.utils.ServiceUtils;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -157,7 +157,7 @@ public class LoginUsernameFragment extends Fragment implements GoogleApiClient.O
                 break;
             }
             case R.id.imbFacebook: {
-                if (!NetworkUtils.isNetworkAvailable(view.getContext())) {
+                if (!ServiceUtils.isNetworkAvailable(view.getContext())) {
                     Toast.makeText(view.getContext(), R.string.pleaseCheckYourConnection, Toast.LENGTH_SHORT).show();
                     break;
                 }

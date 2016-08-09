@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -34,6 +35,7 @@
             android:layout_marginStart="10dp"
             android:layout_weight="2"
             android:background="?android:attr/selectableItemBackground"
+            android:clickable="true"
             android:gravity="center_horizontal|bottom"
             android:paddingBottom="6dp"
             android:text="@string/filter"
@@ -58,6 +60,28 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true" />
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fabEnableMarker"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/fabLocation"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="16dp"
+            android:background="?android:attr/selectableItemBackground"
+            android:src="@drawable/drawable_ic_marker_level_list"
+            app:backgroundTint="@color/colorWhiteBackground" />
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fabLocation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            android:layout_margin="16dp"
+            android:background="?android:attr/selectableItemBackground"
+            android:src="@drawable/ic_location"
+            app:backgroundTint="@color/colorWhiteBackground" />
     </RelativeLayout>
 
     <LinearLayout
@@ -76,7 +100,8 @@
             android:clickable="true"
             android:gravity="center"
             android:text="@string/listResult"
-            android:textAllCaps="true" />
+            android:textAllCaps="true"
+            android:textColor="@color/colorDarkGray" />
 
         <TextView
             android:id="@+id/tvLocalInfo"
@@ -89,7 +114,8 @@
             android:clickable="true"
             android:gravity="center"
             android:text="@string/localInfo"
-            android:textAllCaps="true" />
+            android:textAllCaps="true"
+            android:textColor="@color/colorDarkGray" />
 
         <TextView
             android:id="@+id/tvSaveSearch"
@@ -102,6 +128,7 @@
             android:clickable="true"
             android:gravity="center"
             android:text="@string/saveSearch"
-            android:textAllCaps="true" />
+            android:textAllCaps="true"
+            android:textColor="@color/colorDarkGray" />
     </LinearLayout>
 </LinearLayout>

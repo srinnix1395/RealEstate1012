@@ -1,0 +1,277 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginBottom="5dp"
+    android:background="@color/colorWhiteBackground"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="3"
+        android:baselineAligned="false"
+        android:minHeight="170dp">
+
+        <RelativeLayout
+            android:id="@+id/layoutHouse1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginEnd="@dimen/marginHouse"
+            android:layout_weight="6"
+            android:background="?android:attr/selectableItemBackground">
+
+            <ImageView
+                android:id="@+id/imvImage1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/drawable_house_new" />
+
+            <TextView
+                android:id="@+id/tvAddress1"
+                style="?android:attr/textAppearanceSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_marginBottom="@dimen/com_facebook_tooltip_horizontal_padding"
+                android:layout_marginStart="@dimen/com_facebook_tooltip_horizontal_padding"
+                android:textColor="@android:color/white" />
+
+            <TextView
+                android:id="@+id/tvPrice1"
+                style="?android:attr/textAppearanceSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_above="@+id/tvAddress1"
+                android:layout_marginStart="@dimen/com_facebook_tooltip_horizontal_padding"
+                android:textColor="@android:color/white"
+                android:textSize="16sp" />
+
+            <ImageView
+                android:id="@+id/imvHeart1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_margin="@dimen/com_facebook_tooltip_horizontal_padding"
+                android:background="?android:attr/selectableItemBackground"
+                android:src="@drawable/ic_heart_outline" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/layoutHouse2"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="5">
+
+            <ImageView
+                android:id="@+id/imvImage2"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/drawable_house_new" />
+
+            <TextView
+                android:id="@+id/tvAddress2"
+                style="?android:attr/textAppearanceSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_marginBottom="@dimen/com_facebook_tooltip_horizontal_padding"
+                android:layout_marginStart="@dimen/com_facebook_tooltip_horizontal_padding"
+                android:textColor="@android:color/white" />
+
+            <TextView
+                android:id="@+id/tvPrice2"
+                style="?android:attr/textAppearanceSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_above="@+id/tvAddress2"
+                android:layout_marginStart="@dimen/com_facebook_tooltip_horizontal_padding"
+                android:textColor="@android:color/white"
+                android:textSize="16sp" />
+
+            <ImageView
+                android:id="@+id/imvHeart2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_margin="@dimen/com_facebook_tooltip_horizontal_padding"
+                android:background="?android:attr/selectableItemBackground"
+                android:src="@drawable/ic_heart_outline" />
+        </RelativeLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="@dimen/marginHouse"
+        android:layout_weight="3"
+        android:baselineAligned="false"
+        android:minHeight="170dp">
+
+        <RelativeLayout
+            android:id="@+id/layoutHouse3"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="5">
+
+            <ImageView
+                android:id="@+id/imvImage3"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/drawable_house_new" />
+
+            <TextView
+                android:id="@+id/tvAddress3"
+                style="?android:attr/textAppearanceSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_marginBottom="@dimen/com_facebook_tooltip_horizontal_padding"
+                android:layout_marginStart="@dimen/com_facebook_tooltip_horizontal_padding"
+                android:textColor="@android:color/white" />
+
+            <TextView
+                android:id="@+id/tvPrice3"
+                style="?android:attr/textAppearanceSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_above="@+id/tvAddress3"
+                android:layout_marginStart="@dimen/com_facebook_tooltip_horizontal_padding"
+                android:textColor="@android:color/white"
+                android:textSize="16sp" />
+
+            <ImageView
+                android:id="@+id/imvHeart3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_margin="@dimen/com_facebook_tooltip_horizontal_padding"
+                android:background="?android:attr/selectableItemBackground"
+                android:src="@drawable/ic_heart_outline" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/layoutHouse4"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="@dimen/marginHouse"
+            android:layout_weight="5.5">
+
+            <ImageView
+                android:id="@+id/imvImage4"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/drawable_house_new" />
+
+            <TextView
+                android:id="@+id/tvAddress4"
+                style="?android:attr/textAppearanceSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_marginBottom="@dimen/com_facebook_tooltip_horizontal_padding"
+                android:layout_marginStart="@dimen/com_facebook_tooltip_horizontal_padding"
+                android:textColor="@android:color/white" />
+
+            <TextView
+                android:id="@+id/tvPrice4"
+                style="?android:attr/textAppearanceSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_above="@+id/tvAddress4"
+                android:layout_marginStart="@dimen/com_facebook_tooltip_horizontal_padding"
+                android:textColor="@android:color/white"
+                android:textSize="16sp" />
+
+            <ImageView
+                android:id="@+id/imvHeart4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_margin="@dimen/com_facebook_tooltip_horizontal_padding"
+                android:background="?android:attr/selectableItemBackground"
+                android:src="@drawable/ic_heart_outline" />
+        </RelativeLayout>
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/layoutHouse5"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="@dimen/marginHouse"
+        android:layout_weight="3"
+        android:minHeight="170dp">
+
+        <ImageView
+            android:id="@+id/imvImage5"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="fitXY" />
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/drawable_house_new" />
+
+        <TextView
+            android:id="@+id/tvAddress5"
+            style="?android:attr/textAppearanceSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="@dimen/com_facebook_tooltip_horizontal_padding"
+            android:layout_marginStart="@dimen/com_facebook_tooltip_horizontal_padding"
+            android:textColor="@android:color/white" />
+
+        <TextView
+            android:id="@+id/tvPrice5"
+            style="?android:attr/textAppearanceSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/tvAddress5"
+            android:layout_marginStart="@dimen/com_facebook_tooltip_horizontal_padding"
+            android:textColor="@android:color/white"
+            android:textSize="16sp" />
+
+        <ImageView
+            android:id="@+id/imvHeart5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_margin="@dimen/com_facebook_tooltip_horizontal_padding"
+            android:background="?android:attr/selectableItemBackground"
+            android:src="@drawable/ic_heart_outline" />
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/tvSeeAll"
+        style="?android:attr/textAppearanceSmall"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/defaultSizeButton"
+        android:layout_marginBottom="@dimen/com_facebook_tooltip_horizontal_padding"
+        android:layout_marginEnd="6dp"
+        android:layout_marginStart="6dp"
+        android:layout_marginTop="@dimen/com_facebook_tooltip_horizontal_padding"
+        android:background="@drawable/background_button_see_all"
+        android:foreground="?android:attr/selectableItemBackground"
+        android:gravity="center"
+        android:textAllCaps="true"
+        android:textColor="@color/colorDarkGray"
+        android:textSize="16sp" />
+</LinearLayout>

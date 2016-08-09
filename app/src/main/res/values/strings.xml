@@ -22,5 +22,15 @@
     <string name="localInfo">Thông tin</string>
     <string name="saveSearch">Lưu tìm kiếm</string>
     <string name="close">Đóng</string>
-    <string name="pleaseCheckYourConnection">Hãy kiểm tra lại kết nối mạng!</string>
+    <string name="pleaseCheckYourConnection">Hãy kiểm tra lại kết nối mạng</string>
+    <string name="pleaseEnableLocationService">Hãy kích hoạt dịch vụ vị trí.</string>
+    <string name="localInfoDialog">Thông tin về khu vực</string>
+    <string name="amenities">Các tiện ích</string>
+    <string name="satellite">Chế độ vệ tinh</string>
+    <string name="schools">Các trường học</string>
+    <string name="noInternetConnection">Không có kết nối internet</string>
+    <string name="currency">VNĐ</string>
+    <string name="errorConnection">Đã có lỗi trong quá trình kêt nối, xin thử lại</string>
+    <string name="selectBoard">Chọn nhóm</string>
+    <string name="seeAll">"Xem tất cả "</string>
 </resources>

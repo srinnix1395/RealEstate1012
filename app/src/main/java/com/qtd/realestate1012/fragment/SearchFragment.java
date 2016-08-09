@@ -1,28 +1,35 @@
 package com.qtd.realestate1012.fragment;
 
+import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.qtd.realestate1012.R;
 import com.qtd.realestate1012.constant.AppConstant;
+import com.qtd.realestate1012.custom.LocalInfoDialog;
 import com.qtd.realestate1012.manager.MapManager;
+import com.qtd.realestate1012.utils.ServiceUtils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * Created by Dell on 7/30/2016.
@@ -40,14 +47,13 @@ public class SearchFragment extends Fragment implements OnMapReadyCallback {
     @BindView(R.id.tvListResult)
     TextView tvListResult;
 
-    @BindView(R.id.tvLocalInfo)
-    TextView tvLocalInfo;
-
-    @BindView(R.id.tvSaveSearch)
-    TextView tvSaveSearch;
+    @BindView(R.id.fabEnableMarker)
+    FloatingActionButton fabEnableMarker;
 
     @BindView(R.id.progress_bar)
     ProgressBar progressBar;
+
+    View locationButton;
 
     private SupportMapFragment supportMapFragment;
     private MapManager mapManager;
@@ -66,6 +72,8 @@ public class SearchFragment extends Fragment implements OnMapReadyCallback {
     }
 
     private void initView() {
+        fabEnableMarker.getDrawable().setLevel(1);
+
         progressBar.setIndeterminate(true);
         progressBar.getIndeterminateDrawable().setColorFilter(ContextCompat.getColor(view.getContext(), R.color.colorPrimary), PorterDuff.Mode.SRC_ATOP);
         progressBar.setEnabled(true);
@@ -80,6 +88,12 @@ public class SearchFragment extends Fragment implements OnMapReadyCallback {
         mapManager = new MapManager(view.getContext(), googleMap);
         progressBar.setEnabled(false);
         progressBar.setVisibility(View.INVISIBLE);
+
+        //hide google map's location button
+        if (supportMapFragment.getView() != null && supportMapFragment.getView().findViewById(Integer.parseInt("1")) != null) {
+            locationButton = ((View) supportMapFragment.getView().findViewById(Integer.parseInt("1")).getParent()).findViewById(Integer.parseInt("2"));
+            locationButton.setVisibility(View.INVISIBLE);
+        }
     }
 
     @Override
@@ -88,4 +102,66 @@ public class SearchFragment extends Fragment implements OnMapReadyCallback {
             mapManager.setEnabledMyLocation();
         }
     }
+
+    @OnClick({R.id.tvLocalInfo, R.id.tvSaveSearch, R.id.fabLocation, R.id.fabEnableMarker})
+    void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.tvLocalInfo: {
+                showDialogLocalInfo();
+                break;
+            }
+            case R.id.tvSaveSearch: {
+
+                break;
+            }
+            case R.id.fabEnableMarker: {
+                onClickFabEnableMarker();
+                break;
+            }
+            case R.id.fabLocation: {
+                if (!ServiceUtils.isLocationServiceEnabled(view.getContext())) {
+                    Toast.makeText(view.getContext(), R.string.pleaseEnableLocationService, Toast.LENGTH_SHORT).show();
+                    break;
+                }
+
+                if (locationButton != null) {
+                    locationButton.performClick();
+                }
+                break;
+            }
+        }
+    }
+
+    private void showDialogLocalInfo() {
+        LocalInfoDialog localInfoDialog = new LocalInfoDialog(view.getContext(), mapManager.getMapType());
+        localInfoDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialog) {
+                if (((LocalInfoDialog) dialog).getMapType() != mapManager.getMapType()) {
+                    mapManager.setMapType(((LocalInfoDialog) dialog).getMapType());
+                    return;
+                }
+
+                // TODO: 7/31/2016 add appropriate markers
+
+            }
+        });
+        localInfoDialog.show();
+
+        //change size local dialog info
+        int width = (int)(view.getContext().getResources().getDisplayMetrics().widthPixels*0.90);
+        localInfoDialog.getWindow().setLayout(width, WindowManager.LayoutParams.WRAP_CONTENT);
+    }
+
+    private void onClickFabEnableMarker() {
+        if (fabEnableMarker.getDrawable().getLevel() == 1) {
+            fabEnableMarker.getDrawable().setLevel(2);
+            mapManager.clearMarker();
+            return;
+        }
+
+        fabEnableMarker.getDrawable().setLevel(1);
+        mapManager.drawMarker();
+    }
 }
+
