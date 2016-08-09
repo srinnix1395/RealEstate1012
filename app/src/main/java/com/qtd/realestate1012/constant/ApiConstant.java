@@ -23,4 +23,17 @@ public class ApiConstant {
     public static final String PRICE = "price";
     public static final String IMAGE = "image";
     public static final String IMAGE_NO1 = "no1";
+    public static final String API_PLACE_STATUS_SUCCESS = "aldsjf;lj";
+    public static final String API_PLACE_STATUS = "sldakjf";
+    public static final String API_PLACE_KEY_RESULTS = " safsd";
+    public static final String API_PLACE_GEOMETRY = "fsadf";
+    public static final String API_PLACE_LOCATION = "sdafsdf";
+    public static final String API_PLACE_LATITUDE = "dsfs";
+    public static final String API_PLACE_LONGITUDE = "sdafds";
+    public static final String API_PLACE_PLACE_ID = "dsafasdf";
+    public static final int API_PLACE_URL = 2;
+    public static final String API_KEY = "lakdsjflj";
+    public static String DEFAULT_RADIUS = "3";
+    public static String API_PLACE_TYPE_SCHOOL = "lasdkfj" +
+            "";
 }
