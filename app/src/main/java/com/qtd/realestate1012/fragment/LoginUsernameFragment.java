@@ -36,6 +36,7 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.qtd.realestate1012.HousieApplication;
 import com.qtd.realestate1012.R;
+import com.qtd.realestate1012.activity.LoginActivity;
 import com.qtd.realestate1012.constant.ApiConstant;
 import com.qtd.realestate1012.constant.AppConstant;
 import com.qtd.realestate1012.utils.ServiceUtils;
@@ -200,8 +201,7 @@ public class LoginUsernameFragment extends Fragment implements GoogleApiClient.O
         JsonObjectRequest request = new JsonObjectRequest(url, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-
-
+                handleAccountSignInResult(response);
                 progressBar.setEnabled(false);
                 progressBar.setVisibility(View.INVISIBLE);
             }
@@ -215,6 +215,26 @@ public class LoginUsernameFragment extends Fragment implements GoogleApiClient.O
             }
         });
         HousieApplication.getInstance().addToRequestQueue(request);
+    }
+
+    private void handleAccountSignInResult(JSONObject response) {
+        String result = "";
+        try {
+             result = response.getString(ApiConstant.RESULT);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        switch (result) {
+            case ApiConstant.SUCCESS:{
+
+                ((LoginActivity) getActivity()).showFragmentPassword();
+                break;
+            }
+            case ApiConstant.FAILED:{
+
+                break;
+            }
+        }
     }
 
     private void showErrorDialog() {
