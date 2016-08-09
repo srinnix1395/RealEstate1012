@@ -14,7 +14,6 @@ import java.util.ArrayList;
  * Created by Dell on 8/8/2016.
  */
 public class ProcessJson {
-
     public static ArrayList<Object> getArrayListHousesNew(JSONArray jsonArray) {
         ArrayList<Object> arrayList = new ArrayList<>();
         arrayList.add("Nhà thường");
