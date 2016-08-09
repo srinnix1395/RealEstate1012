@@ -33,4 +33,9 @@
     <string name="errorConnection">Đã có lỗi trong quá trình kêt nối, xin thử lại</string>
     <string name="selectBoard">Chọn nhóm</string>
     <string name="seeAll">"Xem tất cả "</string>
+    <string name="boards">Nhóm</string>
+    <string name="homes">Nhà</string>
+    <string name="searches">Các tìm kiếm</string>
+    <string name="hospitals">Các bệnh viện</string>
+    <string name="houses">" ngôi nhà"</string>
 </resources>

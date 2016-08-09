@@ -5,6 +5,8 @@
     <dimen name="paddingActivityLogin">25dp</dimen>
     <dimen name="marginHouse">4dp</dimen>
     <dimen name="defaultSizeButton">48dp</dimen>
+    <dimen name="defaultSize">44dp</dimen>
+    <dimen name="radius_board">6dp</dimen>
 
 
 </resources>

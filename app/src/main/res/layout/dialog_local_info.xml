@@ -13,6 +13,7 @@
         android:textColor="@color/colorDarkGray" />
 
     <RadioGroup
+        android:id="@+id/radioGroup"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp">
@@ -24,6 +25,15 @@
             android:layout_height="wrap_content"
             android:padding="15dp"
             android:text="@string/amenities"
+            android:textColor="@color/colorDarkGray" />
+
+        <RadioButton
+            android:id="@+id/radioHospital"
+            style="?android:attr/textAppearanceMedium"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="15dp"
+            android:text="@string/hospitals"
             android:textColor="@color/colorDarkGray" />
 
         <RadioButton

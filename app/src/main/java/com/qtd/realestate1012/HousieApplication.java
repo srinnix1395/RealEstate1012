@@ -5,6 +5,7 @@ import android.app.Application;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
+import com.qtd.realestate1012.utils.SharedPreUtils;
 
 /**
  * Created by Dell on 7/28/2016.
@@ -15,6 +16,7 @@ public class HousieApplication extends Application {
 
     private RequestQueue queue;
     private static HousieApplication instance;
+    private SharedPreUtils sharedPreUtils;
 
     @Override
     public void onCreate() {
@@ -31,6 +33,13 @@ public class HousieApplication extends Application {
             queue = Volley.newRequestQueue(getApplicationContext());
         }
         return queue;
+    }
+
+    public SharedPreUtils getSharedPreUtils() {
+        if (sharedPreUtils == null) {
+            sharedPreUtils = new SharedPreUtils(getApplicationContext());
+        }
+        return sharedPreUtils;
     }
 
     public <T> void addToRequestQueue(Request<T> request) {

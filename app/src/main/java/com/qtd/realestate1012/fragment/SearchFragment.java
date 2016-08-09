@@ -4,6 +4,8 @@ import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -14,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -22,10 +25,16 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.qtd.realestate1012.R;
+import com.qtd.realestate1012.asynctask.LocalInfoAsyncTask;
+import com.qtd.realestate1012.constant.ApiConstant;
 import com.qtd.realestate1012.constant.AppConstant;
 import com.qtd.realestate1012.custom.LocalInfoDialog;
 import com.qtd.realestate1012.manager.MapManager;
+import com.qtd.realestate1012.manager.PlaceManager;
+import com.qtd.realestate1012.model.Place;
 import com.qtd.realestate1012.utils.ServiceUtils;
+
+import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -53,10 +62,27 @@ public class SearchFragment extends Fragment implements OnMapReadyCallback {
     @BindView(R.id.progress_bar)
     ProgressBar progressBar;
 
-    View locationButton;
+    @BindView(R.id.layoutLocalInfo)
+    LinearLayout layoutLocalInfo;
+
+    @BindView(R.id.tvInfoType)
+    TextView tvInfoType;
+
+    private View locationButton;
 
     private SupportMapFragment supportMapFragment;
     private MapManager mapManager;
+    private Handler handlerLocalInfo = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            if (msg.what == AppConstant.WHAT_LOCAL_INFO_ASYNC_TASK) {
+                ArrayList<Place> arrayLocationNearby = PlaceManager.getLocationNearBy(msg.getData().getString(ApiConstant.API_PLACE_DATA));
+                mapManager.showLocationNearByMarker(msg.getData().getString(ApiConstant.API_PLACE_KEY_TYPE), arrayLocationNearby);
+                tvInfoType.setText(msg.getData().getString(ApiConstant.API_PLACE_KEY_TYPE));
+                layoutLocalInfo.setVisibility(View.VISIBLE);
+            }
+        }
+    };
 
     @Nullable
     @Override
@@ -81,6 +107,7 @@ public class SearchFragment extends Fragment implements OnMapReadyCallback {
         supportMapFragment = new SupportMapFragment();
         getChildFragmentManager().beginTransaction().add(R.id.layoutSearch, supportMapFragment).commit();
         supportMapFragment.getMapAsync(this);
+
     }
 
     @Override
@@ -103,7 +130,7 @@ public class SearchFragment extends Fragment implements OnMapReadyCallback {
         }
     }
 
-    @OnClick({R.id.tvLocalInfo, R.id.tvSaveSearch, R.id.fabLocation, R.id.fabEnableMarker})
+    @OnClick({R.id.tvLocalInfo, R.id.tvSaveSearch, R.id.fabLocation, R.id.fabEnableMarker, R.id.imvClose})
     void onClick(View view) {
         switch (view.getId()) {
             case R.id.tvLocalInfo: {
@@ -119,38 +146,72 @@ public class SearchFragment extends Fragment implements OnMapReadyCallback {
                 break;
             }
             case R.id.fabLocation: {
-                if (!ServiceUtils.isLocationServiceEnabled(view.getContext())) {
-                    Toast.makeText(view.getContext(), R.string.pleaseEnableLocationService, Toast.LENGTH_SHORT).show();
-                    break;
-                }
-
-                if (locationButton != null) {
-                    locationButton.performClick();
-                }
+                onClickFabLocation();
+                break;
+            }
+            case R.id.imvClose: {
+                onClickImvCloseLayoutLocalInfo();
                 break;
             }
         }
     }
 
+    private void onClickImvCloseLayoutLocalInfo() {
+        layoutLocalInfo.setVisibility(View.INVISIBLE);
+        mapManager.clearMarkerPlace();
+    }
+
+    private void onClickFabLocation() {
+        if (!ServiceUtils.isLocationServiceEnabled(view.getContext())) {
+            Toast.makeText(view.getContext(), R.string.pleaseEnableLocationService, Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if (locationButton != null) {
+            locationButton.performClick();
+        }
+    }
+
     private void showDialogLocalInfo() {
-        LocalInfoDialog localInfoDialog = new LocalInfoDialog(view.getContext(), mapManager.getMapType());
+        String placeType = layoutLocalInfo.getVisibility() == View.INVISIBLE ? "" : tvInfoType.getText().toString();
+        LocalInfoDialog localInfoDialog = new LocalInfoDialog(view.getContext(), mapManager.getMapType(), placeType);
         localInfoDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
             @Override
             public void onDismiss(DialogInterface dialog) {
+                //change map type
                 if (((LocalInfoDialog) dialog).getMapType() != mapManager.getMapType()) {
                     mapManager.setMapType(((LocalInfoDialog) dialog).getMapType());
                     return;
                 }
 
-                // TODO: 7/31/2016 add appropriate markers
-
+                //show local info
+                switch (((LocalInfoDialog) dialog).getRadioButtonIdChecked()) {
+                    case R.id.radioSchools: {
+                        showSchoolsMarker();
+                        break;
+                    }
+                    case R.id.radioHospital: {
+                        showHospitalMarker();
+                        break;
+                    }
+                }
             }
         });
         localInfoDialog.show();
 
         //change size local dialog info
-        int width = (int)(view.getContext().getResources().getDisplayMetrics().widthPixels*0.90);
+        int width = (int) (view.getContext().getResources().getDisplayMetrics().widthPixels * 0.90);
         localInfoDialog.getWindow().setLayout(width, WindowManager.LayoutParams.WRAP_CONTENT);
+    }
+
+    private void showHospitalMarker() {
+        new LocalInfoAsyncTask(handlerLocalInfo).execute(ApiConstant.API_PLACE_TYPE_HOSPITAL,
+                String.valueOf(mapManager.getLatLng().latitude), String.valueOf(mapManager.getLatLng().longitude));
+    }
+
+    private void showSchoolsMarker() {
+        new LocalInfoAsyncTask(handlerLocalInfo).execute(ApiConstant.API_PLACE_TYPE_SCHOOL,
+                String.valueOf(mapManager.getLatLng().latitude), String.valueOf(mapManager.getLatLng().longitude));
     }
 
     private void onClickFabEnableMarker() {
@@ -161,7 +222,7 @@ public class SearchFragment extends Fragment implements OnMapReadyCallback {
         }
 
         fabEnableMarker.getDrawable().setLevel(1);
-        mapManager.drawMarker();
+        mapManager.drawRealEstateMarker();
     }
 }
 
