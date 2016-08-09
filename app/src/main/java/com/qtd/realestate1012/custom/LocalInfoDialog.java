@@ -5,11 +5,12 @@ import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
-import android.view.WindowManager;
 import android.widget.RadioButton;
+import android.widget.RadioGroup;
 
 import com.google.android.gms.maps.GoogleMap;
 import com.qtd.realestate1012.R;
+import com.qtd.realestate1012.constant.ApiConstant;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -24,13 +25,18 @@ public class LocalInfoDialog extends Dialog {
     @BindView(R.id.radioSatellite)
     RadioButton radioSatellite;
 
+    @BindView(R.id.radioGroup)
+    RadioGroup radioGroup;
+
     private int mapType;
     private boolean satelliteChecked;
+    private String placeType;
 
-    public LocalInfoDialog(Context context, int mapType) {
+    public LocalInfoDialog(Context context, int mapType, String placeType) {
         super(context);
         this.context = context;
         this.mapType = mapType;
+        this.placeType = placeType;
     }
 
     @Override
@@ -48,9 +54,19 @@ public class LocalInfoDialog extends Dialog {
             radioSatellite.setChecked(true);
             satelliteChecked = true;
         }
+        switch (placeType) {
+            case ApiConstant.API_PLACE_TYPE_SCHOOL: {
+                radioGroup.check(R.id.radioSchools);
+                break;
+            }
+            case ApiConstant.API_PLACE_TYPE_HOSPITAL: {
+                radioGroup.check(R.id.radioHospital);
+                break;
+            }
+        }
     }
 
-    @OnClick({R.id.radioAmenities, R.id.radioSchools, R.id.radioSatellite})
+    @OnClick({R.id.radioAmenities, R.id.radioSchools, R.id.radioSatellite, R.id.radioHospital})
     void onClick(View view) {
         switch (view.getId()) {
             case R.id.radioSatellite: {
@@ -58,12 +74,8 @@ public class LocalInfoDialog extends Dialog {
                 dismiss();
                 break;
             }
-            case R.id.radioAmenities: {
-
-                break;
-            }
-            case R.id.radioSchools: {
-
+            default: {
+                dismiss();
                 break;
             }
         }
@@ -77,7 +89,11 @@ public class LocalInfoDialog extends Dialog {
         mapType = GoogleMap.MAP_TYPE_SATELLITE;
     }
 
-    public int getMapType(){
+    public int getMapType() {
         return mapType;
+    }
+
+    public int getRadioButtonIdChecked() {
+        return radioGroup.getCheckedRadioButtonId();
     }
 }

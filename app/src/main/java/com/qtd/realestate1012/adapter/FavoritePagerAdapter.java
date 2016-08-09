@@ -5,18 +5,18 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
+import com.qtd.realestate1012.constant.AppConstant;
+
 import java.util.ArrayList;
 
 /**
  * Created by Dell on 7/30/2016.
  */
-public class MainPagerAdapter extends FragmentPagerAdapter {
-
-
+public class FavoritePagerAdapter extends FragmentPagerAdapter {
     private Context context;
     private ArrayList<Fragment> fragments;
 
-    public MainPagerAdapter(Context context, FragmentManager fm, ArrayList<Fragment> arrayList) {
+    public FavoritePagerAdapter(Context context, FragmentManager fm, ArrayList<Fragment> arrayList) {
         super(fm);
         this.context = context;
         fragments = arrayList;
@@ -34,6 +34,6 @@ public class MainPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public CharSequence getPageTitle(int position) {
-        return null;
+        return context.getString(AppConstant.TITLE_TAB_FAVORITE[position]);
     }
 }

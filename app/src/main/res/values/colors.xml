@@ -14,5 +14,7 @@
     <color name="colorGray">#e5e5e5</color>
     <color name="colorFacebook">#3b5998</color>
     <color name="colorDarkGray">#474e52</color>
+
+    <color name="colorLightGreen">#8fdfb1</color>
     <color name="colorWhiteBackground">#f5f6f8</color>
 </resources>
