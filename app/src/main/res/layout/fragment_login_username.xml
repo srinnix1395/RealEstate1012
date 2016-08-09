@@ -13,13 +13,23 @@
         android:paddingEnd="@dimen/paddingActivityLogin"
         android:paddingStart="@dimen/paddingActivityLogin">
 
+        <TextView
+            style="?android:attr/textAppearanceLarge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-light"
+            android:gravity="center"
+            android:text="@string/loginOrRegister"
+            android:textColor="@android:color/white"
+            android:textSize="24sp"
+            android:textStyle="bold" />
 
         <EditText
             android:id="@+id/etUsername"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="25dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="5dp"
             android:hint="@string/email"
             android:textColor="@android:color/white"
             android:textColorHint="@color/colorGray"

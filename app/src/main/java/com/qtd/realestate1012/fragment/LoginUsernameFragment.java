@@ -1,5 +1,6 @@
 package com.qtd.realestate1012.fragment;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
@@ -12,6 +13,7 @@ import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
@@ -40,6 +42,7 @@ import com.qtd.realestate1012.activity.LoginActivity;
 import com.qtd.realestate1012.constant.ApiConstant;
 import com.qtd.realestate1012.constant.AppConstant;
 import com.qtd.realestate1012.utils.ServiceUtils;
+import com.qtd.realestate1012.utils.SnackbarUtils;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -94,6 +97,8 @@ public class LoginUsernameFragment extends Fragment implements GoogleApiClient.O
 
 
     private void initView() {
+        etUsername.setText(HousieApplication.getInstance().getSharedPreUtils().getString(ApiConstant.LAST_EMAIL_AT_LOGIN_ACTIVITY, ""));
+
         btnFacebook.setFragment(this);
         callback = CallbackManager.Factory.create();
         btnFacebook.setReadPermissions("public_profile");
@@ -185,6 +190,11 @@ public class LoginUsernameFragment extends Fragment implements GoogleApiClient.O
     }
 
     private void onClickSubmit() {
+        if (!ServiceUtils.isNetworkAvailable(view.getContext())) {
+            SnackbarUtils.showSnackbar(view);
+            return;
+        }
+
         if (etUsername.getText().toString().isEmpty()) {
             etUsername.setError(view.getContext().getString(R.string.emailCannotBeNull));
             return;
@@ -195,9 +205,16 @@ public class LoginUsernameFragment extends Fragment implements GoogleApiClient.O
             return;
         }
 
+        View et = getActivity().getCurrentFocus();
+        if (et != null) {
+            InputMethodManager imm = (InputMethodManager) view.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(et.getWindowToken(), 0);
+        }
+
         progressBar.setEnabled(true);
         progressBar.setVisibility(View.VISIBLE);
-        String url = "";
+        String url = "http://protectedcedar-31067.rhcloud.com/isEmailExisted/" + etUsername.getText().toString();
+
         JsonObjectRequest request = new JsonObjectRequest(url, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
@@ -220,21 +237,16 @@ public class LoginUsernameFragment extends Fragment implements GoogleApiClient.O
     private void handleAccountSignInResult(JSONObject response) {
         String result = "";
         try {
-             result = response.getString(ApiConstant.RESULT);
+            result = response.getString(ApiConstant.RESULT);
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        switch (result) {
-            case ApiConstant.SUCCESS:{
-
-                ((LoginActivity) getActivity()).showFragmentPassword();
-                break;
-            }
-            case ApiConstant.FAILED:{
-
-                break;
-            }
+        if (result.equals(ApiConstant.FALSE)) {
+            ((LoginActivity) getActivity()).showFragmentPassword(etUsername.getText().toString(), ApiConstant.TYPE_REGISTER);
+            return;
         }
+
+        ((LoginActivity) getActivity()).showFragmentPassword(etUsername.getText().toString(), ApiConstant.TYPE_LOGIN);
     }
 
     private void showErrorDialog() {
@@ -287,5 +299,9 @@ public class LoginUsernameFragment extends Fragment implements GoogleApiClient.O
 
     private void sendLoginInfoToServer(Bundle bundle) {
 
+    }
+
+    public String getEmail() {
+        return etUsername.getText().toString();
     }
 }

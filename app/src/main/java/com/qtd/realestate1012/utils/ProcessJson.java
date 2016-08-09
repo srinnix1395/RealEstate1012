@@ -1,6 +1,7 @@
 package com.qtd.realestate1012.utils;
 
 import com.qtd.realestate1012.constant.ApiConstant;
+import com.qtd.realestate1012.model.Board;
 import com.qtd.realestate1012.model.BunchHouse;
 import com.qtd.realestate1012.model.CompactHouse;
 
@@ -9,12 +10,12 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Collection;
 
 /**
  * Created by Dell on 8/8/2016.
  */
 public class ProcessJson {
-
     public static ArrayList<Object> getArrayListHousesNew(JSONArray jsonArray) {
         ArrayList<Object> arrayList = new ArrayList<>();
         arrayList.add("Nhà thường");
@@ -33,5 +34,9 @@ public class ProcessJson {
         }
         bunchHouse.setType("Nhà thường");
         return arrayList;
+    }
+
+    public static Collection<? extends Board> getBoardFavorite(JSONObject response) {
+        return null;
     }
 }

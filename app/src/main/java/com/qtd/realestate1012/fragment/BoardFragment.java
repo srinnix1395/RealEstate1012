@@ -20,8 +20,7 @@ import com.qtd.realestate1012.R;
 import com.qtd.realestate1012.adapter.BoardAdapter;
 import com.qtd.realestate1012.constant.AppConstant;
 import com.qtd.realestate1012.model.Board;
-import com.qtd.realestate1012.utils.ProcessJSON;
-import com.qtd.realestate1012.utils.StringUtils;
+import com.qtd.realestate1012.utils.ProcessJson;
 
 import org.json.JSONObject;
 
@@ -91,12 +90,12 @@ public class BoardFragment extends Fragment {
 
     private void requestBoard(int idUserLoggedIn) {
         if (idUserLoggedIn != -1) {
-            String url = StringUtils.getURLBoardFavorite(idUserLoggedIn);
+            String url = "";
             JsonObjectRequest arrayRequest = new JsonObjectRequest(Request.Method.GET, url, new Response.Listener<JSONObject>() {
                 @Override
                 public void onResponse(JSONObject response) {
                     arrayListBoards.clear();
-                    arrayListBoards.addAll(ProcessJSON.getBoardFavorite(response));
+                    arrayListBoards.addAll(ProcessJson.getBoardFavorite(response));
                     adapter.notifyDataSetChanged();
 
                     if (refreshLayout.isRefreshing()) {
@@ -113,7 +112,6 @@ public class BoardFragment extends Fragment {
                 }
             });
             HousieApplication.getInstance().addToRequestQueue(arrayRequest);
-            return;
         }
 
 

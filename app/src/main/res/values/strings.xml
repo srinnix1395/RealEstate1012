@@ -9,7 +9,8 @@
     <string name="login">Đăng nhập</string>
     <string name="forgotPassword">Quên mật khẩu?</string>
     <string name="password">Mật khẩu</string>
-    <string name="enterYourPassword">Xin chào\nHãy nhập mật khẩu của bạn</string>
+    <string name="enterYourPassword">Chào mừng trở lại\nHãy nhập mật khẩu của bạn</string>
+    <string name="createYourPassword">Xin chào\nHãy tạo mật khẩu của bạn</string>
     <string name="orLoginWith">Hoặc đăng nhập với</string>
     <string name="errorLogin">Đã có lỗi trong quá trình đăng nhập, xin thử lại.</string>
     <string name="emailCannotBeNull">Email không thể để trống</string>
@@ -38,4 +39,7 @@
     <string name="searches">Các tìm kiếm</string>
     <string name="hospitals">Các bệnh viện</string>
     <string name="houses">" ngôi nhà"</string>
+    <string name="loginOrRegister">Đăng nhập hoặc\n đăng ký một tài khoản</string>
+    <string name="register">Đăng ký</string>
+
 </resources>

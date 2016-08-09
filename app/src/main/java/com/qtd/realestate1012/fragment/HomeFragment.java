@@ -5,7 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,7 +21,7 @@ import com.qtd.realestate1012.R;
 import com.qtd.realestate1012.adapter.HouseNewsAdapter;
 import com.qtd.realestate1012.constant.ApiConstant;
 import com.qtd.realestate1012.custom.PinnedSectionListView;
-import com.qtd.realestate1012.utils.ProcessJSON;
+import com.qtd.realestate1012.utils.ProcessJson;
 import com.qtd.realestate1012.utils.ServiceUtils;
 import com.qtd.realestate1012.utils.SnackbarUtils;
 
@@ -88,7 +88,7 @@ public class HomeFragment extends Fragment {
                     }
 
                     arrayList.clear();
-                    arrayList.addAll(ProcessJSON.getArrayListHousesNew(response.getJSONArray(ApiConstant.LIST_HOUSE)));
+                    arrayList.addAll(ProcessJson.getArrayListHousesNew(response.getJSONArray(ApiConstant.LIST_HOUSE)));
                     adapter.notifyDataSetChanged();
                     if (tvError.getVisibility() == View.VISIBLE) {
                         tvError.setVisibility(View.INVISIBLE);

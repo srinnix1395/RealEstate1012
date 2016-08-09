@@ -46,4 +46,9 @@ public class ApiConstant {
     public static final String API_PLACE_DATA = "data";
     public static final String API_PLACE_KEY_TYPE = "type";
     public static final String API_PLACE_TYPE_HOSPITAL = "hospital";
+    public static final String FALSE = "false";
+    public static final String TRUE = "true";
+    public static final String TYPE_LOGIN = "login";
+    public static final String TYPE_REGISTER = "register";
+    public static final String LAST_EMAIL_AT_LOGIN_ACTIVITY = "last_email";
 }
