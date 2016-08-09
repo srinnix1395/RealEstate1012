@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,7 +24,6 @@ import com.qtd.realestate1012.custom.PinnedSectionListView;
 import com.qtd.realestate1012.utils.ProcessJson;
 import com.qtd.realestate1012.utils.ServiceUtils;
 import com.qtd.realestate1012.utils.SnackbarUtils;
-import com.qtd.realestate1012.utils.StringUtils;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -69,16 +69,17 @@ public class HomeFragment extends Fragment {
 
     private void initData() {
         arrayList = new ArrayList<>();
-        adapter = new HouseNewsAdapter(view.getContext(), android.R.layout.simple_list_item_1, arrayList);
-
+        adapter = new HouseNewsAdapter(view.getContext(), 0, arrayList);
     }
 
     private void requestData() {
-        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, StringUtils.getURLHomeFragment(), new Response.Listener<JSONObject>() {
+        String url = "http://protectedcedar-31067.rhcloud.com/getNews";
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 try {
-                    if (response.getString(ApiConstant.RESULT).equals(ApiConstant.FAILED)) {
+                    Log.e(TAG, "onResponse: " + response.getString(ApiConstant.RESULT));
+                    if (!response.getString(ApiConstant.RESULT).equals(ApiConstant.SUCCESS)) {
                         tvError.setVisibility(View.VISIBLE);
                         tvError.setText(R.string.errorConnection);
                         progressBar.setEnabled(false);

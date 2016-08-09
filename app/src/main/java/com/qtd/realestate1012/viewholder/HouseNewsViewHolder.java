@@ -70,53 +70,49 @@ public class HouseNewsViewHolder {
     }
 
     public void setupViewHolder(BunchHouse bunchHouse) {
+        String url = "http://protectedcedar-31067.rhcloud.com/image/";
         Glide.with(view.getContext())
-                .load(bunchHouse.getCompactHouse1().getImage())
+                .load(url + bunchHouse.getCompactHouse(0).getImage())
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .placeholder(R.drawable.ic_apartment)
-                .fitCenter()
                 .crossFade()
                 .into(imvImage1);
         Glide.with(view.getContext())
-                .load(bunchHouse.getCompactHouse2().getImage())
+                .load(url + bunchHouse.getCompactHouse(1).getImage())
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .placeholder(R.drawable.ic_apartment)
-                .fitCenter()
                 .crossFade()
                 .into(imvImage2);
         Glide.with(view.getContext())
-                .load(bunchHouse.getCompactHouse3().getImage())
+                .load(url + bunchHouse.getCompactHouse(2).getImage())
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .placeholder(R.drawable.ic_apartment)
-                .fitCenter()
                 .crossFade()
                 .into(imvImage3);
         Glide.with(view.getContext())
-                .load(bunchHouse.getCompactHouse4().getImage())
+                .load(url + bunchHouse.getCompactHouse(3).getImage())
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .placeholder(R.drawable.ic_apartment)
-                .fitCenter()
                 .crossFade()
                 .into(imvImage4);
         Glide.with(view.getContext())
-                .load(bunchHouse.getCompactHouse5().getImage())
+                .load(url + bunchHouse.getCompactHouse(4).getImage())
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .placeholder(R.drawable.ic_apartment)
-                .fitCenter()
                 .crossFade()
                 .into(imvImage5);
 
-        tvAddress1.setText(bunchHouse.getCompactHouse1().getAddress());
-        tvAddress2.setText(bunchHouse.getCompactHouse2().getAddress());
-        tvAddress3.setText(bunchHouse.getCompactHouse3().getAddress());
-        tvAddress4.setText(bunchHouse.getCompactHouse4().getAddress());
-        tvAddress5.setText(bunchHouse.getCompactHouse5().getAddress());
+        tvAddress1.setText(bunchHouse.getCompactHouse(0).getAddress());
+        tvAddress2.setText(bunchHouse.getCompactHouse(1).getAddress());
+        tvAddress3.setText(bunchHouse.getCompactHouse(2).getAddress());
+        tvAddress4.setText(bunchHouse.getCompactHouse(3).getAddress());
+        tvAddress5.setText(bunchHouse.getCompactHouse(4).getAddress());
 
-        tvPrice1.setText(bunchHouse.getCompactHouse1().getPrice() + view.getContext().getString(R.string.currency));
-        tvPrice2.setText(bunchHouse.getCompactHouse2().getPrice() + view.getContext().getString(R.string.currency));
-        tvPrice3.setText(bunchHouse.getCompactHouse3().getPrice() + view.getContext().getString(R.string.currency));
-        tvPrice4.setText(bunchHouse.getCompactHouse4().getPrice() + view.getContext().getString(R.string.currency));
-        tvPrice5.setText(bunchHouse.getCompactHouse5().getPrice() + view.getContext().getString(R.string.currency));
+        tvPrice1.setText(bunchHouse.getCompactHouse(0).getPrice() + view.getContext().getString(R.string.currency));
+        tvPrice2.setText(bunchHouse.getCompactHouse(1).getPrice() + view.getContext().getString(R.string.currency));
+        tvPrice3.setText(bunchHouse.getCompactHouse(2).getPrice() + view.getContext().getString(R.string.currency));
+        tvPrice4.setText(bunchHouse.getCompactHouse(3).getPrice() + view.getContext().getString(R.string.currency));
+        tvPrice5.setText(bunchHouse.getCompactHouse(4).getPrice() + view.getContext().getString(R.string.currency));
     }
 
     @OnClick({R.id.imvHeart1, R.id.imvHeart2, R.id.imvHeart3, R.id.imvHeart4, R.id.imvHeart5, R.id.btnSeeAll})

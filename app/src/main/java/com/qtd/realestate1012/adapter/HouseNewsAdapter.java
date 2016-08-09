@@ -29,6 +29,7 @@ public class HouseNewsAdapter extends ArrayAdapter implements PinnedSectionListV
         arrayList = (ArrayList<Object>) objects;
     }
 
+
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         View view = convertView;

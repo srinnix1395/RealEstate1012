@@ -31,4 +31,5 @@
     <string name="noInternetConnection">Không có kết nối internet</string>
     <string name="currency">VNĐ</string>
     <string name="errorConnection">Đã có lỗi trong quá trình kêt nối, xin thử lại</string>
+    <string name="selectBoard">Chọn nhóm</string>
 </resources>
