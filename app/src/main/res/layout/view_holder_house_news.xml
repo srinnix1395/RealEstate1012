@@ -260,16 +260,18 @@
     </RelativeLayout>
 
     <TextView
-        android:id="@+id/btnSeeAll"
+        android:id="@+id/tvSeeAll"
         style="?android:attr/textAppearanceSmall"
         android:layout_width="match_parent"
-        android:layout_height="48dp"
+        android:layout_height="@dimen/defaultSizeButton"
         android:layout_marginBottom="@dimen/com_facebook_tooltip_horizontal_padding"
         android:layout_marginEnd="6dp"
         android:layout_marginStart="6dp"
         android:layout_marginTop="@dimen/com_facebook_tooltip_horizontal_padding"
         android:background="@drawable/background_button_see_all"
         android:foreground="?android:attr/selectableItemBackground"
+        android:gravity="center"
         android:textAllCaps="true"
+        android:textColor="@color/colorDarkGray"
         android:textSize="16sp" />
 </LinearLayout>

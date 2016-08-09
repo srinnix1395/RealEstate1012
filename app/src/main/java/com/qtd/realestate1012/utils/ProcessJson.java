@@ -30,14 +30,8 @@ public class ProcessJson {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-
         }
-        arrayList.add(bunchHouse);
-        arrayList.add("Nhà thường 1");
-        arrayList.add(bunchHouse);
-        arrayList.add("nhà thường 2");
-        arrayList.add(bunchHouse);
-
+        bunchHouse.setType("Nhà thường");
         return arrayList;
     }
 }

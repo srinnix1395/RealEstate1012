@@ -7,6 +7,7 @@ import java.util.ArrayList;
  */
 public class BunchHouse {
     private ArrayList<CompactHouse> arrayList;
+    private String type;
 
     public BunchHouse() {
         arrayList = new ArrayList<>();
@@ -16,8 +17,16 @@ public class BunchHouse {
         arrayList.add(compactHouse);
     }
 
-    public CompactHouse getCompactHouse(int position){
+    public CompactHouse getCompactHouse(int position) {
         return arrayList.get(position);
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 
     public int size(){
