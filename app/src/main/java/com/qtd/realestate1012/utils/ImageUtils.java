@@ -19,4 +19,5 @@ public class ImageUtils {
         DisplayMetrics metrics = resources.getDisplayMetrics();
         return px / ((float) metrics.densityDpi / DisplayMetrics.DENSITY_DEFAULT);
     }
+
 }
