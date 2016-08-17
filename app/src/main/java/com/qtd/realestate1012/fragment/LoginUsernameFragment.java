@@ -200,12 +200,23 @@ public class LoginUsernameFragment extends Fragment implements GoogleApiClient.O
 
         progressBar.setEnabled(true);
         progressBar.setVisibility(View.VISIBLE);
-        String url = "http://protectedcedar-31067.rhcloud.com/isEmailExisted/" + etUsername.getText().toString();
 
-        JsonObjectRequest request = new JsonObjectRequest(url, new Response.Listener<JSONObject>() {
+        String url = ApiConstant.URL_WEB_SERVICE_IS_EMAIL_EXISTED + etUsername.getText().toString();
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put(ApiConstant.EMAIL, etUsername.getText().toString());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        JsonObjectRequest request = new JsonObjectRequest(JsonRequest.Method.POST, url, jsonObject, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-                handleAccountSignInResult(response);
+                try {
+                    handleAccountSignInResult(response);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
                 progressBar.setEnabled(false);
                 progressBar.setVisibility(View.INVISIBLE);
             }
@@ -221,19 +232,42 @@ public class LoginUsernameFragment extends Fragment implements GoogleApiClient.O
         HousieApplication.getInstance().addToRequestQueue(request);
     }
 
-    private void handleAccountSignInResult(JSONObject response) {
+    private void handleAccountSignInResult(JSONObject response) throws JSONException {
         String result = "";
         try {
             result = response.getString(ApiConstant.RESULT);
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        if (result.equals(ApiConstant.FALSE)) {
-            ((LoginActivity) getActivity()).showFragmentPassword(etUsername.getText().toString(), ApiConstant.TYPE_REGISTER);
-            return;
+
+        switch (result) {
+            case ApiConstant.FAILED: {
+                Toast.makeText(getActivity(), R.string.login, Toast.LENGTH_SHORT).show();
+                break;
+            }
+            case ApiConstant.FALSE: {
+                ((LoginActivity) getActivity()).showFragmentPassword(etUsername.getText().toString(), ApiConstant.TYPE_REGISTER);
+                return;
+            }
+            case ApiConstant.TRUE: {
+                if (!response.has(ApiConstant.TYPE)) {
+                    ((LoginActivity) getActivity()).showFragmentPassword(etUsername.getText().toString(), ApiConstant.TYPE_LOGIN);
+                    return;
+                }
+
+                if (response.getString(ApiConstant.PROVIDER).equals(ApiConstant.FACEBOOK)) {
+                    btnFacebook.performClick();
+                    return;
+                }
+
+                if (response.getString(ApiConstant.PROVIDER).equals(ApiConstant.GOOGLE)) {
+                    signInGoogle();
+                }
+                break;
+            }
         }
 
-        ((LoginActivity) getActivity()).showFragmentPassword(etUsername.getText().toString(), ApiConstant.TYPE_LOGIN);
+
     }
 
     private void showErrorDialog() {
@@ -308,6 +342,7 @@ public class LoginUsernameFragment extends Fragment implements GoogleApiClient.O
                             HousieApplication.getInstance().getSharedPreUtils().putBoolean(AppConstant.USER_LOGGED_IN, true);
                             HousieApplication.getInstance().getSharedPreUtils().putString(ApiConstant._ID, response.getString(ApiConstant._ID));
                             HousieApplication.getInstance().getSharedPreUtils().putString(ApiConstant.EMAIL, response.getString(ApiConstant.EMAIL));
+                            getActivity().finish();
                             break;
                         }
                     }
@@ -322,6 +357,8 @@ public class LoginUsernameFragment extends Fragment implements GoogleApiClient.O
             @Override
             public void onErrorResponse(VolleyError error) {
                 error.printStackTrace();
+                progressBar.setEnabled(false);
+                progressBar.setVisibility(View.INVISIBLE);
                 Toast.makeText(view.getContext(), R.string.errorLogin, Toast.LENGTH_SHORT).show();
             }
         });

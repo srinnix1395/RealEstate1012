@@ -62,4 +62,6 @@ public class ApiConstant {
     public static final String URL_WEB_SERVICE_LOGIN_SOCIAL = "http://protectedcedar-31067.rhcloud.com/user/loginNetworkSocial";
     public static final String URL_WEB_SERVICE_LOGIN = "http://protectedcedar-31067.rhcloud.com/user/login";
     public static final String URL_WEB_SERVICE_REGISTER = "http://protectedcedar-31067.rhcloud.com/user/register";
+    public static final String URL_WEB_SERVICE_GET_NEWS = "http://protectedcedar-31067.rhcloud.com/house/getNews";
+    public static final String URL_WEB_SERVICE_IS_EMAIL_EXISTED = "http://protectedcedar-31067.rhcloud.com/isEmailExisted/";
 }

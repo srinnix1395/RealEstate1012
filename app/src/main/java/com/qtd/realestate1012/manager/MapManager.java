@@ -70,7 +70,6 @@ public class MapManager implements GoogleMap.OnCameraChangeListener {
     @Override
     public void onCameraChange(CameraPosition cameraPosition) {
         if (hasDisplayedLocalPlace) {
-            callback.onEnableProgressBar();
             showMarkerPlace(placeType);
         }
     }
@@ -108,6 +107,7 @@ public class MapManager implements GoogleMap.OnCameraChangeListener {
     public void showMarkerPlace(String placeType) {
         hasDisplayedLocalPlace = true;
         this.placeType = placeType;
+        callback.onEnableProgressBar();
         new LocalInfoAsyncTask(handler).execute(placeType,
                 String.valueOf(map.getCameraPosition().target.latitude), String.valueOf(map.getCameraPosition().target.longitude));
     }

@@ -68,7 +68,7 @@ public class LoginPasswordFragment extends Fragment {
 
     private void initViews() {
         progressBar.setIndeterminate(true);
-        progressBar.getIndeterminateDrawable().setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN);
+        progressBar.getIndeterminateDrawable().setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_ATOP);
         progressBar.setEnabled(false);
         progressBar.setVisibility(View.INVISIBLE);
     }

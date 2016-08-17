@@ -98,7 +98,7 @@ public class AllHouseActivity extends AppCompatActivity {
         });
 
         progressBar.setIndeterminate(true);
-        progressBar.getIndeterminateDrawable().setColorFilter(ContextCompat.getColor(this, R.color.colorPrimary), PorterDuff.Mode.SRC_IN);
+        progressBar.getIndeterminateDrawable().setColorFilter(ContextCompat.getColor(this, R.color.colorPrimary), PorterDuff.Mode.SRC_ATOP);
         progressBar.setEnabled(true);
     }
 

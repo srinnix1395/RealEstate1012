@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -73,12 +72,10 @@ public class HomeFragment extends Fragment {
     }
 
     private void requestData() {
-        String url = "http://protectedcedar-31067.rhcloud.com/getNews";
-        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, new Response.Listener<JSONObject>() {
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, ApiConstant.URL_WEB_SERVICE_GET_NEWS, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 try {
-                    Log.e(TAG, "onResponse: " + response.getString(ApiConstant.RESULT));
                     if (!response.getString(ApiConstant.RESULT).equals(ApiConstant.SUCCESS)) {
                         tvError.setVisibility(View.VISIBLE);
                         tvError.setText(R.string.errorConnection);
@@ -123,7 +120,6 @@ public class HomeFragment extends Fragment {
         } else {
             progressBar.setEnabled(true);
             tvError.setVisibility(View.VISIBLE);
-            requestData();
         }
     }
 
@@ -140,8 +136,13 @@ public class HomeFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        if (!ServiceUtils.isNetworkAvailable(view.getContext()) && this.isVisible()) {
-            SnackbarUtils.showSnackbar(view);
+        if (this.isVisible()) {
+            if (!ServiceUtils.isNetworkAvailable(view.getContext())) {
+                SnackbarUtils.showSnackbar(view);
+                return;
+            }
+
+            requestData();
         }
     }
 }
