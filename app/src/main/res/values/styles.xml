@@ -5,7 +5,8 @@
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorAccent">@color/colorPrimary</item>
+        <item name="android:spinnerItemStyle">@style/myCustomSpinner</item>
     </style>
 
 
@@ -47,4 +48,15 @@
         <item name="textAllCaps">true</item>
     </style>
     <!--style tab layout favorite fragment-->
+
+    <!--style spinner-->
+    <style name="myCustomSpinner" parent="Widget.AppCompat.DropDownItem.Spinner">
+        <item name="android:textAppearance">@style/textAppearanceSpinner</item>
+    </style>
+
+    <style name="textAppearanceSpinner">
+        <item name="android:textColor">@color/colorDarkGray</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+    <!--style spinner-->
 </resources>

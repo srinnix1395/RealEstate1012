@@ -9,10 +9,12 @@ import com.qtd.realestate1012.constant.ApiConstant;
 import com.qtd.realestate1012.constant.AppConstant;
 import com.qtd.realestate1012.manager.PlaceManager;
 
+import org.json.JSONArray;
+
 /**
  * Created by Dell on 8/4/2016.
  */
-public class LocalInfoAsyncTask extends AsyncTask<String, Void, String> {
+public class LocalInfoAsyncTask extends AsyncTask<String, Void, JSONArray> {
     private Handler handler;
     private String type;
 
@@ -21,38 +23,43 @@ public class LocalInfoAsyncTask extends AsyncTask<String, Void, String> {
     }
 
     @Override
-    protected String doInBackground(String... params) {
+    protected JSONArray doInBackground(String... params) {
         type = params[0];
         String latitude = params[1];
         String longitude = params[2];
-        String jsonResult = null;
+        JSONArray jsonArray = null;
 
         try {
             switch (type) {
                 case ApiConstant.API_PLACE_TYPE_SCHOOL: {
-                    jsonResult = PlaceManager.getPlace(ApiConstant.API_PLACE_TYPE_SCHOOL, latitude, longitude);
+                    jsonArray = PlaceManager.getPlace(ApiConstant.API_PLACE_TYPE_SCHOOL, latitude, longitude);
+                    break;
+                }
+                case ApiConstant.API_PLACE_TYPE_HOSPITAL: {
+                    jsonArray = PlaceManager.getPlace(ApiConstant.API_PLACE_TYPE_HOSPITAL, latitude, longitude);
                     break;
                 }
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return jsonResult;
+        return jsonArray;
     }
 
     @Override
-    protected void onPostExecute(String result) {
-        if (result == null) {
-
-            return;
-        }
-
+    protected void onPostExecute(JSONArray result) {
         Message message = new Message();
         message.what = AppConstant.WHAT_LOCAL_INFO_ASYNC_TASK;
-
         Bundle data = new Bundle();
-        data.putString(ApiConstant.API_PLACE_DATA, result);
-        data.putString(ApiConstant.API_PLACE_KEY_TYPE, type);
+
+        if (result == null) {
+            data.putString(ApiConstant.RESULT, ApiConstant.FAILED);
+            return;
+        } else {
+            data.putString(ApiConstant.RESULT, ApiConstant.SUCCESS);
+            data.putString(ApiConstant.API_PLACE_DATA, result.toString());
+            data.putString(ApiConstant.API_PLACE_KEY_TYPE, type);
+        }
 
         message.setData(data);
         handler.sendMessage(message);

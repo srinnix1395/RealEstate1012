@@ -34,4 +34,14 @@ public class SharedPreUtils {
     public String getString(String key, String defVal) {
         return sharedPreferences.getString(key, defVal);
     }
+
+    public void putBoolean(String key, boolean value) {
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putBoolean(key, value);
+        editor.apply();
+    }
+
+    public boolean getBoolean(String key, boolean defValue) {
+        return sharedPreferences.getBoolean(key, defValue);
+    }
 }

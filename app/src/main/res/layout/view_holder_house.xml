@@ -1,6 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="?attr/selectableItemBackground"
+    android:layout_width="match_parent"
+    android:layout_height="185dp"
+    android:layout_marginTop="@dimen/marginHouse"
+    android:clickable="true">
 
-</LinearLayout>
+    <ImageView
+        android:id="@+id/imvImage"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="fitXY" />
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/drawable_house_new" />
+
+    <TextView
+        android:id="@+id/tvAddress"
+        style="?android:attr/textAppearanceSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="@dimen/com_facebook_tooltip_horizontal_padding"
+        android:layout_marginStart="@dimen/com_facebook_tooltip_horizontal_padding"
+        android:textColor="@android:color/white" />
+
+    <TextView
+        android:id="@+id/tvPrice"
+        style="?android:attr/textAppearanceSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/tvAddress"
+        android:layout_marginStart="@dimen/com_facebook_tooltip_horizontal_padding"
+        android:textColor="@android:color/white"
+        android:textSize="16sp" />
+
+    <ImageView
+        android:id="@+id/imvHeart"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_margin="@dimen/com_facebook_tooltip_horizontal_padding"
+        android:background="?android:attr/selectableItemBackground"
+        android:src="@drawable/ic_heart_outline" />
+</RelativeLayout>

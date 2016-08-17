@@ -39,4 +39,18 @@ public class ProcessJson {
     public static Collection<? extends Board> getBoardFavorite(JSONObject response) {
         return null;
     }
+
+    public static JSONObject processDataToServer(JSONObject response) {
+        JSONObject object = new JSONObject();
+        try {
+            object.put(ApiConstant._ID_SOCIAL, response.getInt("id"));
+            object.put(ApiConstant.EMAIL, response.getString("email"));
+            object.put(ApiConstant.NAME, response.getString("first_name") + " " + object.getString("last_name"));
+            object.put(ApiConstant.AVATAR, response.getString("picture"));
+            object.put(ApiConstant.PROVIDER, ApiConstant.FACEBOOK);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return object;
+    }
 }

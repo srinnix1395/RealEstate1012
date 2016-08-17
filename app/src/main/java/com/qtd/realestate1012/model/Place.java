@@ -5,11 +5,15 @@ package com.qtd.realestate1012.model;
  */
 public class Place {
     private String placeID;
+    private String name;
+    private String address;
     private double latitude;
     private double longitude;
 
-    public Place(String placeID, double latitude, double longitude) {
+    public Place(String placeID, String name, String address, double latitude, double longitude) {
         this.placeID = placeID;
+        this.name = name;
+        this.address = address;
         this.latitude = latitude;
         this.longitude = longitude;
     }
@@ -24,5 +28,13 @@ public class Place {
 
     public double getLongitude() {
         return longitude;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getAddress() {
+        return address;
     }
 }

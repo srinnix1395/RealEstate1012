@@ -16,9 +16,9 @@
     <string name="emailCannotBeNull">Email không thể để trống</string>
     <string name="emailIsNotValid">Email không hợp lệ</string>
     <string name="setting">Cài đặt</string>
-    <string name="districtStreet">Quận/huyện, phố...</string>
+    <string name="districtStreet">Quận/huyện, phố…</string>
     <string name="filter">Lọc</string>
-    <string name="searchAddress">Tìm kiếm địa chỉ...</string>
+    <string name="searchAddress">Tìm kiếm địa chỉ…</string>
     <string name="listResult">Danh sách</string>
     <string name="localInfo">Thông tin</string>
     <string name="saveSearch">Lưu tìm kiếm</string>
@@ -41,5 +41,16 @@
     <string name="houses">" ngôi nhà"</string>
     <string name="loginOrRegister">Đăng nhập hoặc\n đăng ký một tài khoản</string>
     <string name="register">Đăng ký</string>
+    <string name="cancel">Hủy</string>
+    <string name="reset">Đặt lại</string>
+    <string name="search">Tìm kiếm</string>
+    <string name="priceRange">Tầm giá</string>
+    <string name="forSale">Bán</string>
+    <string name="forRent">Cho thuê</string>
+    <string name="numberOfRooms">Số phòng</string>
+    <string name="any">Bất kỳ</string>
+    <string name="area">Diện tích</string>
+    <string name="pleaseInputPassword">Hãy nhập mật khẩu của bạn</string>
+    <string name="passwordNotValid">Mật khẩu không hợp lệ</string>
 
 </resources>

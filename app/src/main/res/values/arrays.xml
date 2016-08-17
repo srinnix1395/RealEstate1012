@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--array price range sale-->
+    <string-array name="price_range_from_sale">
+        <item>200 triệu VNĐ</item>
+        <item>300 triệu VNĐ</item>
+        <item>400 triệu VNĐ</item>
+        <item>500 triệu VNĐ</item>
+        <item>600 triệu VNĐ</item>
+        <item>750 triệu VNĐ</item>
+        <item>1 tỷ VNĐ</item>
+        <item>1.1 tỷ VNĐ</item>
+        <item>1.2 tỷ VNĐ</item>
+        <item>1.3 tỷ VNĐ</item>
+        <item>1.4 tỷ VNĐ</item>
+        <item>1.5 tỷ VNĐ</item>
+    </string-array>
+
+    <string-array name="price_range_to_sale">
+
+        <item>1 tỷ VNĐ</item>
+        <item>1.1 tỷ VNĐ</item>
+        <item>1.2 tỷ VNĐ</item>
+        <item>1.3 tỷ VNĐ</item>
+        <item>1.4 tỷ VNĐ</item>
+        <item>1.5 tỷ VNĐ</item>
+        <item>2.5 tỷ VNĐ</item>
+        <item>3 tỷ VNĐ</item>
+        <item>3.5 tỷ VNĐ</item>
+        <item>4 tỷ VNĐ</item>
+        <item>5 tỷ VNĐ</item>
+        <item>6 tỷ VNĐ</item>
+        <item>7.5 tỷ VNĐ</item>
+        <item>10 tỷ VNĐ</item>
+        <item>11 tỷ VNĐ</item>
+        <item>12.5 tỷ VNĐ</item>
+        <item>15 tỷ VNĐ</item>
+        <item>20 tỷ VNĐ</item>
+        <item>20+ tỷ VNĐ</item>
+    </string-array>
+    <!--array price range sale-->
+
+
+    <!--array price range rent-->
+    <string-array name="price_range_from_rent">
+        <item>1.000.000 VND</item>
+        <item>1.500.000 VND</item>
+        <item>2.000.000 VND</item>
+        <item>2.500.000 VND</item>
+        <item>3.000.000 VND</item>
+        <item>3.500.000 VND</item>
+        <item>4.000.000 VND</item>
+        <item>5.000.000 VND</item>
+        <item>6.000.000 VND</item>
+        <item>7.500.000 VND</item>
+        <item>10.000.000 VND</item>
+        <item>12.000.000 VND</item>
+        <item>15.000.000 VND</item>
+    </string-array>
+
+    <string-array name="price_range_to_rent">
+        <item>4.000.000 VND</item>
+        <item>5.000.000 VND</item>
+        <item>6.000.000 VND</item>
+        <item>7.500.000 VND</item>
+        <item>10.000.000 VND</item>
+        <item>12.000.000 VND</item>
+        <item>15.000.000 VND</item>
+        <item>16.000.000 VND</item>
+        <item>17.500.000 VND</item>
+        <item>20.000.000 VND</item>
+        <item>22.500.000 VND</item>
+        <item>25.000.000 VND</item>
+        <item>30.000.000 VND</item>
+        <item>40.000.000 VND</item>
+        <item>50.000.000 VND</item>
+        <item>50.000.000+ VND</item>
+    </string-array>
+    <!--array price range rent-->
+
+
+    <!--array area from-->
+    <string-array name="area_from">
+        <item>10 m2</item>
+        <item>15 m2</item>
+        <item>20 m2</item>
+        <item>25 m2</item>
+        <item>30 m2</item>
+        <item>40 m2</item>
+        <item>50 m2</item>
+        <item>60 m2</item>
+        <item>75 m2</item>
+        <item>100 m2</item>
+    </string-array>
+
+    <string-array name="area_to">
+        <item>50 m2</item>
+        <item>60 m2</item>
+        <item>75 m2</item>
+        <item>100 m2</item>
+        <item>125 m2</item>
+        <item>150 m2</item>
+        <item>200 m2</item>
+        <item>250 m2</item>
+        <item>300 m2</item>
+        <item>400 m2</item>
+        <item>500 m2</item>
+        <item>600 m2</item>
+        <item>750 m2</item>
+        <item>1000 m2</item>
+        <item>1000+ m2</item>
+    </string-array>
+    <!--array area to-->
+</resources>

@@ -26,6 +26,9 @@ public class ApiConstant {
     public static final String PRICE = "price";
     public static final String IMAGE = "image";
     public static final String IMAGE_NO1 = "no1";
+    public static final String FACEBOOK = "facebook";
+    public static final String PROVIDER = "provider";
+    public static final String GOOGLE = "google";
 
 
     //    api place
@@ -33,7 +36,7 @@ public class ApiConstant {
     public static final String API_KEY = "AIzaSyAXKdlSDdIttYHwoyC2Ss_BqQa1HETpbBs";
     public static final String API_PLACE_TYPE_SCHOOL = "school";
     public static final String API_DIRECTION_URL = "http://maps.googleapis.com/maps/api/directions/xml?";
-    public static final int DEFAULT_RADIUS = 5000;
+    public static final int DEFAULT_RADIUS = 1000;
     public static final String API_PLACE_STATUS_SUCCESS = "OK";
     public static final String API_PLACE_STATUS_FAILED = "REQUEST_DENIED";
     public static final String API_PLACE_STATUS = "status";
@@ -51,4 +54,12 @@ public class ApiConstant {
     public static final String TYPE_LOGIN = "login";
     public static final String TYPE_REGISTER = "register";
     public static final String LAST_EMAIL_AT_LOGIN_ACTIVITY = "last_email";
+    public static final String NEXT_PAGE_TOKEN = "next_page_token";
+    public static final String VICINITY = "vicinity";
+
+
+    //webservice
+    public static final String URL_WEB_SERVICE_LOGIN_SOCIAL = "http://protectedcedar-31067.rhcloud.com/user/loginNetworkSocial";
+    public static final String URL_WEB_SERVICE_LOGIN = "http://protectedcedar-31067.rhcloud.com/user/login";
+    public static final String URL_WEB_SERVICE_REGISTER = "http://protectedcedar-31067.rhcloud.com/user/register";
 }

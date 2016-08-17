@@ -21,6 +21,7 @@ import android.widget.Toast;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.JsonRequest;
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
@@ -41,6 +42,7 @@ import com.qtd.realestate1012.R;
 import com.qtd.realestate1012.activity.LoginActivity;
 import com.qtd.realestate1012.constant.ApiConstant;
 import com.qtd.realestate1012.constant.AppConstant;
+import com.qtd.realestate1012.utils.ProcessJson;
 import com.qtd.realestate1012.utils.ServiceUtils;
 import com.qtd.realestate1012.utils.SnackbarUtils;
 
@@ -112,12 +114,11 @@ public class LoginUsernameFragment extends Fragment implements GoogleApiClient.O
 
                     @Override
                     public void onCompleted(JSONObject object, GraphResponse response) {
-                        Bundle bFacebookData = getFacebookData(object);
-                        sendLoginInfoToServer(bFacebookData);
+                        sendLoginInfoToServer(ProcessJson.processDataToServer(object));
                     }
                 });
                 Bundle parameters = new Bundle();
-                parameters.putString("fields", "id, first_name, last_name, picture, email, gender");
+                parameters.putString("fields", "id, first_name, last_name, picture, email");
                 request.setParameters(parameters);
                 request.executeAsync();
             }
@@ -138,20 +139,6 @@ public class LoginUsernameFragment extends Fragment implements GoogleApiClient.O
         progressBar.getIndeterminateDrawable().setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_ATOP);
         progressBar.setEnabled(false);
         progressBar.setVisibility(View.INVISIBLE);
-    }
-
-    private Bundle getFacebookData(JSONObject object) {
-        Bundle bundle = new Bundle();
-        try {
-            bundle.putInt(ApiConstant._ID_SOCIAL, object.getInt("id"));
-            bundle.putString(ApiConstant.NAME, object.getString("first_name") + " " + object.getString("last_name"));
-            bundle.putString(ApiConstant.AVATAR, object.getString("picture"));
-            bundle.putString(ApiConstant.EMAIL, object.getString("email"));
-            bundle.putString(ApiConstant.GENDER, object.getString("gender"));
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        return bundle;
     }
 
     @OnClick({R.id.btnSubmit, R.id.imbFacebook, R.id.imbGoogle, R.id.tvTerm, R.id.tvClose})
@@ -285,20 +272,60 @@ public class LoginUsernameFragment extends Fragment implements GoogleApiClient.O
         if (result.isSuccess()) {
             GoogleSignInAccount account = result.getSignInAccount();
 
-            Bundle bGoogleData = new Bundle();
-            bGoogleData.putInt(ApiConstant._ID_SOCIAL, Integer.parseInt(account.getId()));
-            bGoogleData.putString(ApiConstant.NAME, account.getDisplayName());
-            bGoogleData.putString(ApiConstant.EMAIL, account.getEmail());
-            bGoogleData.putString(ApiConstant.AVATAR, account.getPhotoUrl().toString());
+            JSONObject object = new JSONObject();
 
-            sendLoginInfoToServer(bGoogleData);
+            try {
+                object.put(ApiConstant._ID_SOCIAL, account.getId());
+                object.put(ApiConstant.EMAIL, account.getEmail());
+                object.put(ApiConstant.NAME, account.getDisplayName());
+                object.put(ApiConstant.AVATAR, account.getPhotoUrl().toString());
+                object.put(ApiConstant.PROVIDER, ApiConstant.GOOGLE);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            sendLoginInfoToServer(object);
         } else {
             showErrorDialog();
         }
     }
 
-    private void sendLoginInfoToServer(Bundle bundle) {
+    private void sendLoginInfoToServer(JSONObject jsonObject) {
+        progressBar.setEnabled(true);
+        progressBar.setVisibility(View.VISIBLE);
 
+        String url = ApiConstant.URL_WEB_SERVICE_LOGIN_SOCIAL;
+        JsonObjectRequest request = new JsonObjectRequest(JsonRequest.Method.POST, url, jsonObject, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                try {
+                    switch (response.getString(ApiConstant.RESULT)) {
+                        case ApiConstant.FAILED: {
+                            Toast.makeText(view.getContext(), R.string.errorLogin, Toast.LENGTH_SHORT).show();
+                            break;
+                        }
+                        case ApiConstant.SUCCESS: {
+                            HousieApplication.getInstance().getSharedPreUtils().putBoolean(AppConstant.USER_LOGGED_IN, true);
+                            HousieApplication.getInstance().getSharedPreUtils().putString(ApiConstant._ID, response.getString(ApiConstant._ID));
+                            HousieApplication.getInstance().getSharedPreUtils().putString(ApiConstant.EMAIL, response.getString(ApiConstant.EMAIL));
+                            break;
+                        }
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                } finally {
+                    progressBar.setEnabled(false);
+                    progressBar.setVisibility(View.INVISIBLE);
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                error.printStackTrace();
+                Toast.makeText(view.getContext(), R.string.errorLogin, Toast.LENGTH_SHORT).show();
+            }
+        });
+        HousieApplication.getInstance().addToRequestQueue(request);
     }
 
     public String getEmail() {

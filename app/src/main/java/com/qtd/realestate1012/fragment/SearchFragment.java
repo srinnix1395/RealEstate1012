@@ -25,7 +25,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.qtd.realestate1012.R;
-import com.qtd.realestate1012.asynctask.LocalInfoAsyncTask;
+import com.qtd.realestate1012.callback.SearchFragmentCallback;
 import com.qtd.realestate1012.constant.ApiConstant;
 import com.qtd.realestate1012.constant.AppConstant;
 import com.qtd.realestate1012.custom.LocalInfoDialog;
@@ -43,7 +43,7 @@ import butterknife.OnClick;
 /**
  * Created by Dell on 7/30/2016.
  */
-public class SearchFragment extends Fragment implements OnMapReadyCallback {
+public class SearchFragment extends Fragment implements OnMapReadyCallback, SearchFragmentCallback {
 
     private View view;
 
@@ -75,12 +75,26 @@ public class SearchFragment extends Fragment implements OnMapReadyCallback {
     private Handler handlerLocalInfo = new Handler() {
         @Override
         public void handleMessage(Message msg) {
-            if (msg.what == AppConstant.WHAT_LOCAL_INFO_ASYNC_TASK) {
-                ArrayList<Place> arrayLocationNearby = PlaceManager.getLocationNearBy(msg.getData().getString(ApiConstant.API_PLACE_DATA));
-                mapManager.showLocationNearByMarker(msg.getData().getString(ApiConstant.API_PLACE_KEY_TYPE), arrayLocationNearby);
-                tvInfoType.setText(msg.getData().getString(ApiConstant.API_PLACE_KEY_TYPE));
-                layoutLocalInfo.setVisibility(View.VISIBLE);
+//            if (msg.what == AppConstant.WHAT_LOCAL_INFO_ASYNC_TASK) {
+//
+//            }
+
+            Bundle bundle = msg.getData();
+            switch (bundle.getString(ApiConstant.RESULT)) {
+                case ApiConstant.SUCCESS: {
+                    ArrayList<Place> arrayLocationNearby = PlaceManager.getLocationNearBy(bundle.getString(ApiConstant.API_PLACE_DATA));
+                    mapManager.showLocationNearByMarker(bundle.getString(ApiConstant.API_PLACE_KEY_TYPE), arrayLocationNearby);
+                    tvInfoType.setText(bundle.getString(ApiConstant.API_PLACE_KEY_TYPE));
+                    layoutLocalInfo.setVisibility(View.VISIBLE);
+                    break;
+                }
+                case ApiConstant.FAILED: {
+                    Toast.makeText(view.getContext(), R.string.errorConnection, Toast.LENGTH_SHORT).show();
+                    break;
+                }
             }
+            progressBar.setEnabled(false);
+            progressBar.setVisibility(View.INVISIBLE);
         }
     };
 
@@ -112,7 +126,7 @@ public class SearchFragment extends Fragment implements OnMapReadyCallback {
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        mapManager = new MapManager(view.getContext(), googleMap);
+        mapManager = new MapManager(view.getContext(), googleMap, handlerLocalInfo, this);
         progressBar.setEnabled(false);
         progressBar.setVisibility(View.INVISIBLE);
 
@@ -187,11 +201,11 @@ public class SearchFragment extends Fragment implements OnMapReadyCallback {
                 //show local info
                 switch (((LocalInfoDialog) dialog).getRadioButtonIdChecked()) {
                     case R.id.radioSchools: {
-                        showSchoolsMarker();
+                        mapManager.showMarkerPlace(ApiConstant.API_PLACE_TYPE_SCHOOL);
                         break;
                     }
                     case R.id.radioHospital: {
-                        showHospitalMarker();
+                        mapManager.showMarkerPlace(ApiConstant.API_PLACE_TYPE_HOSPITAL);
                         break;
                     }
                 }
@@ -204,16 +218,6 @@ public class SearchFragment extends Fragment implements OnMapReadyCallback {
         localInfoDialog.getWindow().setLayout(width, WindowManager.LayoutParams.WRAP_CONTENT);
     }
 
-    private void showHospitalMarker() {
-        new LocalInfoAsyncTask(handlerLocalInfo).execute(ApiConstant.API_PLACE_TYPE_HOSPITAL,
-                String.valueOf(mapManager.getLatLng().latitude), String.valueOf(mapManager.getLatLng().longitude));
-    }
-
-    private void showSchoolsMarker() {
-        new LocalInfoAsyncTask(handlerLocalInfo).execute(ApiConstant.API_PLACE_TYPE_SCHOOL,
-                String.valueOf(mapManager.getLatLng().latitude), String.valueOf(mapManager.getLatLng().longitude));
-    }
-
     private void onClickFabEnableMarker() {
         if (fabEnableMarker.getDrawable().getLevel() == 1) {
             fabEnableMarker.getDrawable().setLevel(2);
@@ -223,6 +227,12 @@ public class SearchFragment extends Fragment implements OnMapReadyCallback {
 
         fabEnableMarker.getDrawable().setLevel(1);
         mapManager.drawRealEstateMarker();
+    }
+
+    @Override
+    public void onEnableProgressBar() {
+        progressBar.setEnabled(true);
+        progressBar.setVisibility(View.VISIBLE);
     }
 }
 

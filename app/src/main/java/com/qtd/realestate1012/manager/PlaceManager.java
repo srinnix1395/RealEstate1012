@@ -19,18 +19,19 @@ import java.util.ArrayList;
  * Created by Dell on 8/3/2016.
  */
 public class PlaceManager {
-    public static String getPlace(String type, String latitude, String longitude) throws IOException {
-        String jsonResult = null;
+    public static JSONArray getPlace(String type, String latitude, String longitude) throws IOException {
+        JSONArray jsonArray = new JSONArray();
+        String jsonResult;
 
         StringBuilder googlePlaceURL = new StringBuilder(ApiConstant.API_PLACE_URL);
         googlePlaceURL.append("location=" + latitude + "," + longitude);
         googlePlaceURL.append("&radius=" + ApiConstant.DEFAULT_RADIUS);
-        googlePlaceURL.append("&types=" + ApiConstant.API_PLACE_TYPE_SCHOOL);
+        googlePlaceURL.append("&types=" + type);
         googlePlaceURL.append("&sensor=true");
         googlePlaceURL.append("&key=" + ApiConstant.API_KEY);
 
-        InputStream inputStream = null;
-        HttpURLConnection connection = null;
+        InputStream inputStream;
+        HttpURLConnection connection;
 
         try {
             URL url = new URL(googlePlaceURL.toString());
@@ -39,44 +40,70 @@ public class PlaceManager {
             inputStream = connection.getInputStream();
 
             BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
-            StringBuffer buffer = new StringBuffer();
-            String line = "";
+            StringBuilder builder = new StringBuilder();
+            String line;
 
             while ((line = reader.readLine()) != null) {
-                buffer.append(line);
+                builder.append(line);
             }
             reader.close();
-            jsonResult = buffer.toString();
+            inputStream.close();
+            connection.disconnect();
+
+            jsonResult = builder.toString();
+
+            JSONObject jsonObject = new JSONObject(jsonResult);
+            jsonArray.put(jsonObject);
+
+            while (jsonObject.has(ApiConstant.NEXT_PAGE_TOKEN)) {
+                String urlNextPage = googlePlaceURL.toString() + "&pageToken=" + jsonObject.getString(ApiConstant.NEXT_PAGE_TOKEN);
+
+                url = new URL(urlNextPage);
+                connection = (HttpURLConnection) url.openConnection();
+                connection.connect();
+                inputStream = connection.getInputStream();
+
+                reader = new BufferedReader(new InputStreamReader(inputStream));
+                builder = new StringBuilder();
+
+                while ((line = reader.readLine()) != null) {
+                    builder.append(line);
+                }
+                reader.close();
+                inputStream.close();
+                connection.disconnect();
+
+                jsonResult = builder.toString();
+
+                jsonObject = new JSONObject(jsonResult);
+                jsonArray.put(jsonObject);
+            }
 
         } catch (Exception e) {
             e.printStackTrace();
-        } finally {
-            if (inputStream != null) {
-                inputStream.close();
-            }
-            if (connection != null) {
-                connection.disconnect();
-            }
         }
-        return jsonResult;
+        return jsonArray;
     }
 
     public static ArrayList<Place> getLocationNearBy(String json) {
         ArrayList<Place> arrayList = new ArrayList<>();
         try {
-            JSONObject object = new JSONObject(json);
-            if (!object.getString(ApiConstant.API_PLACE_STATUS).equals(ApiConstant.API_PLACE_STATUS_SUCCESS)) {
-                return null;
+            JSONArray jsonArray = new JSONArray(json);
+            for (int j = 0, length = jsonArray.length(); j < length; j++) {
+                JSONArray arrayResult = jsonArray.getJSONObject(j).getJSONArray("results");
+                for (int i = 0, size = arrayResult.length(); i < size; i++) {
+                    JSONObject place = arrayResult.getJSONObject(i);
+                    JSONObject location = place.getJSONObject(ApiConstant.API_PLACE_GEOMETRY).getJSONObject(ApiConstant.API_PLACE_LOCATION);
+
+                    String placeID = place.getString(ApiConstant.API_PLACE_PLACE_ID);
+                    String name = place.getString(ApiConstant.NAME);
+                    String address = place.getString(ApiConstant.VICINITY);
+                    double latitude = location.getDouble(ApiConstant.API_PLACE_LATITUDE);
+                    double longitude = location.getDouble(ApiConstant.API_PLACE_LONGITUDE);
+                    arrayList.add(new Place(placeID, name, address, latitude, longitude));
+                }
             }
-            JSONArray array = object.getJSONArray(ApiConstant.API_PLACE_KEY_RESULTS);
-            for (int i = 0, size = array.length(); i < size; i++) {
-                JSONObject place = array.getJSONObject(i);
-                JSONObject location = place.getJSONObject(ApiConstant.API_PLACE_GEOMETRY).getJSONObject(ApiConstant.API_PLACE_LOCATION);
-                double latitude = location.getDouble(ApiConstant.API_PLACE_LATITUDE);
-                double longitude = location.getDouble(ApiConstant.API_PLACE_LONGITUDE);
-                String placeID = place.getString(ApiConstant.API_PLACE_PLACE_ID);
-                arrayList.add(new Place(placeID, latitude, longitude));
-            }
+
         } catch (JSONException e) {
             e.printStackTrace();
         }
