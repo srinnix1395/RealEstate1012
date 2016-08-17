@@ -10,7 +10,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Collection;
 
 /**
  * Created by Dell on 8/8/2016.
@@ -36,8 +35,19 @@ public class ProcessJson {
         return arrayList;
     }
 
-    public static Collection<? extends Board> getBoardFavorite(JSONObject response) {
-        return null;
+    public static ArrayList<Board> getBoardFavorite(JSONObject response) {
+        ArrayList<Board> arrayList = new ArrayList<>();
+        try {
+            if (response.getBoolean(ApiConstant.HAS_BOARD)) {
+                JSONArray jsonArray = response.getJSONArray(ApiConstant.LIST_BOARD);
+                for (int i = 0, size = jsonArray.length(); i < size; i++) {
+
+                }
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return arrayList;
     }
 
     public static JSONObject processDataToServer(JSONObject response) {

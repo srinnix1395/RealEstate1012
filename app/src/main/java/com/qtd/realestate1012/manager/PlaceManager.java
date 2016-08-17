@@ -90,7 +90,7 @@ public class PlaceManager {
         try {
             JSONArray jsonArray = new JSONArray(json);
             for (int j = 0, length = jsonArray.length(); j < length; j++) {
-                JSONArray arrayResult = jsonArray.getJSONObject(j).getJSONArray("results");
+                JSONArray arrayResult = jsonArray.getJSONObject(j).getJSONArray(ApiConstant.API_PLACE_KEY_RESULTS);
                 for (int i = 0, size = arrayResult.length(); i < size; i++) {
                     JSONObject place = arrayResult.getJSONObject(i);
                     JSONObject location = place.getJSONObject(ApiConstant.API_PLACE_GEOMETRY).getJSONObject(ApiConstant.API_PLACE_LOCATION);

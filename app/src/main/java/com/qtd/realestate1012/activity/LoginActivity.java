@@ -9,6 +9,7 @@ import android.util.Patterns;
 import com.qtd.realestate1012.HousieApplication;
 import com.qtd.realestate1012.R;
 import com.qtd.realestate1012.constant.ApiConstant;
+import com.qtd.realestate1012.constant.AppConstant;
 import com.qtd.realestate1012.fragment.LoginPasswordFragment;
 import com.qtd.realestate1012.fragment.LoginUsernameFragment;
 
@@ -55,7 +56,7 @@ public class LoginActivity extends AppCompatActivity {
     protected void onDestroy() {
         String email = usernameFragment.getEmail();
         if (Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            HousieApplication.getInstance().getSharedPreUtils().putString(ApiConstant.LAST_EMAIL_AT_LOGIN_ACTIVITY, email);
+            HousieApplication.getInstance().getSharedPreUtils().putString(AppConstant.LAST_EMAIL_AT_LOGIN_ACTIVITY, email);
         }
         super.onDestroy();
     }

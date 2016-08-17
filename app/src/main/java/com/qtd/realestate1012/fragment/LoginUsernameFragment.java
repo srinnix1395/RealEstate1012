@@ -99,7 +99,7 @@ public class LoginUsernameFragment extends Fragment implements GoogleApiClient.O
 
 
     private void initView() {
-        etUsername.setText(HousieApplication.getInstance().getSharedPreUtils().getString(ApiConstant.LAST_EMAIL_AT_LOGIN_ACTIVITY, ""));
+        etUsername.setText(HousieApplication.getInstance().getSharedPreUtils().getString(AppConstant.LAST_EMAIL_AT_LOGIN_ACTIVITY, ""));
 
         btnFacebook.setFragment(this);
         callback = CallbackManager.Factory.create();

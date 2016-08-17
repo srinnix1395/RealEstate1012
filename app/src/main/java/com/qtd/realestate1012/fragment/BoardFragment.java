@@ -10,6 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -18,10 +19,13 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.qtd.realestate1012.HousieApplication;
 import com.qtd.realestate1012.R;
 import com.qtd.realestate1012.adapter.BoardAdapter;
-import com.qtd.realestate1012.constant.AppConstant;
+import com.qtd.realestate1012.constant.ApiConstant;
 import com.qtd.realestate1012.model.Board;
 import com.qtd.realestate1012.utils.ProcessJson;
+import com.qtd.realestate1012.utils.ServiceUtils;
+import com.qtd.realestate1012.utils.SnackbarUtils;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -56,27 +60,29 @@ public class BoardFragment extends Fragment {
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        initView();
-        int id = HousieApplication.getInstance().getSharedPreUtils().getInt(AppConstant.USER_LOGGED_IN, -1);
-        if (id != -1) {
-            initRecyclerView(id);
-        }
+        initViews();
     }
 
-    private void initView() {
+    @Override
+    public void onStart() {
+        super.onStart();
+        requestBoard();
+    }
+
+    private void initViews() {
         refreshLayout.setColorSchemeResources(R.color.colorPrimary);
         refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                requestBoard(HousieApplication.getInstance().getSharedPreUtils().getInt(AppConstant.USER_LOGGED_IN, -1));
+                requestBoard();
             }
         });
+        initRecyclerView();
     }
 
-    private void initRecyclerView(int idUserLoggedIn) {
+    private void initRecyclerView() {
         arrayListBoards = new ArrayList<>();
         adapter = new BoardAdapter(arrayListBoards);
-
 
         recyclerView.setLayoutManager(new GridLayoutManager(view.getContext(), 2));
         RecyclerView.ItemAnimator itemAnimator = new DefaultItemAnimator();
@@ -84,41 +90,63 @@ public class BoardFragment extends Fragment {
         itemAnimator.setRemoveDuration(1000);
         recyclerView.setItemAnimator(itemAnimator);
         recyclerView.setAdapter(adapter);
-
-        requestBoard(idUserLoggedIn);
     }
 
-    private void requestBoard(int idUserLoggedIn) {
-        if (idUserLoggedIn != -1) {
-            String url = "";
-            JsonObjectRequest arrayRequest = new JsonObjectRequest(Request.Method.GET, url, new Response.Listener<JSONObject>() {
+    private void requestBoard() {
+        if (!ServiceUtils.isNetworkAvailable(view.getContext())) {
+            SnackbarUtils.showSnackbar(view);
+            refreshLayout.setRefreshing(false);
+            return;
+        }
+
+        String idUserLoggedIn = HousieApplication.getInstance().getSharedPreUtils().getString(ApiConstant._ID, "-1");
+        if (!idUserLoggedIn.equals("-1")) {
+            String url = ApiConstant.URL_WEB_SERVICE_GET_BOARDS;
+
+            JSONObject jsonObject = new JSONObject();
+            try {
+                jsonObject.put(ApiConstant._ID, idUserLoggedIn);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, url, jsonObject, new Response.Listener<JSONObject>() {
                 @Override
                 public void onResponse(JSONObject response) {
-                    arrayListBoards.clear();
-                    arrayListBoards.addAll(ProcessJson.getBoardFavorite(response));
-                    adapter.notifyDataSetChanged();
-
-                    if (refreshLayout.isRefreshing()) {
+                    try {
+                        switch (response.getString(ApiConstant.RESULT)) {
+                            case ApiConstant.FAILED:{
+                                Toast.makeText(getActivity(), R.string.errorConnection, Toast.LENGTH_SHORT).show();
+                                break;
+                            }
+                            case ApiConstant.SUCCESS:{
+                                arrayListBoards.clear();
+                                arrayListBoards.addAll(ProcessJson.getBoardFavorite(response));
+                                adapter.notifyDataSetChanged();
+                                break;
+                            }
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    } finally {
                         refreshLayout.setRefreshing(false);
                     }
+
                 }
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
-
-                    if (refreshLayout.isRefreshing()) {
-                        refreshLayout.setRefreshing(false);
-                    }
+                    error.printStackTrace();
+                    Toast.makeText(getActivity(), R.string.errorConnection, Toast.LENGTH_SHORT).show();
+                    refreshLayout.setRefreshing(false);
                 }
             });
-            HousieApplication.getInstance().addToRequestQueue(arrayRequest);
+            HousieApplication.getInstance().addToRequestQueue(request);
         }
-
-
     }
 
     @OnClick(R.id.fabAddBoard)
-    void onClick(){
+    void onClick() {
 
     }
 }
