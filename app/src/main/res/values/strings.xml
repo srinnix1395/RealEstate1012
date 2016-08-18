@@ -58,5 +58,8 @@
     <string name="pleaseInputNameBoard">Hãy nhập tên nhóm bạn muốn tạo</string>
     <string name="nameBoardAtLeast3">Tên nhóm phải dài hơn 3 ký tự</string>
     <string name="boardHasExisted">Nhóm đã tồn tại</string>
+    <string name="boardCreated">Nhóm đã được tạo</string>
+    <string name="loginSuccess">Đăng nhập thành công</string>
+    <string name="registerSuccess">Đăng ký thành công</string>
 
 </resources>

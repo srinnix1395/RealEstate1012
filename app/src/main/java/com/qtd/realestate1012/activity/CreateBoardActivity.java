@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -12,6 +13,7 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Response;
@@ -22,6 +24,7 @@ import com.qtd.realestate1012.HousieApplication;
 import com.qtd.realestate1012.R;
 import com.qtd.realestate1012.constant.ApiConstant;
 import com.qtd.realestate1012.utils.ServiceUtils;
+import com.qtd.realestate1012.utils.AlertUtils;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -41,6 +44,9 @@ public class CreateBoardActivity extends AppCompatActivity {
 
     @BindView(R.id.etNameBoard)
     EditText etNameBoard;
+
+    @BindView(R.id.tvNext)
+    TextView tvNext;
 
     private ArrayList<String> listBoard;
 
@@ -87,7 +93,6 @@ public class CreateBoardActivity extends AppCompatActivity {
                 onClickNext();
                 break;
             }
-
         }
     }
 
@@ -116,6 +121,10 @@ public class CreateBoardActivity extends AppCompatActivity {
             return;
         }
 
+        tvNext.setVisibility(View.INVISIBLE);
+        progressBar.setEnabled(true);
+        progressBar.setVisibility(View.VISIBLE);
+
         JSONObject jsonRequest = new JSONObject();
         try {
             jsonRequest.put(ApiConstant._ID, HousieApplication.getInstance().getSharedPreUtils().getString(ApiConstant._ID, "-1"));
@@ -127,12 +136,33 @@ public class CreateBoardActivity extends AppCompatActivity {
         JsonObjectRequest request = new JsonObjectRequest(JsonRequest.Method.POST, ApiConstant.URL_WEB_SERVICE_CREATE_BOARD, jsonRequest, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
+                try {
+                    if (response.getString(ApiConstant.RESULT).equals(ApiConstant.FAILED)) {
+                        Toast.makeText(CreateBoardActivity.this, R.string.errorConnection, Toast.LENGTH_SHORT).show();
+                        tvNext.setVisibility(View.VISIBLE);
+                    } else {
+                        AlertUtils.showToastSuccess(CreateBoardActivity.this, R.drawable.ic_check_ok, R.string.createBoard);
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                CreateBoardActivity.this.finish();
+                            }
+                        }, 2000);
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
 
+                progressBar.setEnabled(false);
+                progressBar.setVisibility(View.INVISIBLE);
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-
+                progressBar.setEnabled(false);
+                progressBar.setVisibility(View.INVISIBLE);
+                error.printStackTrace();
+                Toast.makeText(CreateBoardActivity.this, R.string.errorConnection, Toast.LENGTH_SHORT).show();
             }
         });
         HousieApplication.getInstance().addToRequestQueue(request);

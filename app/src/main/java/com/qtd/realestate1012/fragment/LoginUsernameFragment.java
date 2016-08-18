@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
@@ -44,7 +45,7 @@ import com.qtd.realestate1012.constant.ApiConstant;
 import com.qtd.realestate1012.constant.AppConstant;
 import com.qtd.realestate1012.utils.ProcessJson;
 import com.qtd.realestate1012.utils.ServiceUtils;
-import com.qtd.realestate1012.utils.SnackbarUtils;
+import com.qtd.realestate1012.utils.AlertUtils;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -178,7 +179,7 @@ public class LoginUsernameFragment extends Fragment implements GoogleApiClient.O
 
     private void onClickSubmit() {
         if (!ServiceUtils.isNetworkAvailable(view.getContext())) {
-            SnackbarUtils.showSnackbar(view);
+            AlertUtils.showSnackBarNoInternet(view);
             return;
         }
 
@@ -342,7 +343,14 @@ public class LoginUsernameFragment extends Fragment implements GoogleApiClient.O
                             HousieApplication.getInstance().getSharedPreUtils().putBoolean(AppConstant.USER_LOGGED_IN, true);
                             HousieApplication.getInstance().getSharedPreUtils().putString(ApiConstant._ID, response.getString(ApiConstant._ID));
                             HousieApplication.getInstance().getSharedPreUtils().putString(ApiConstant.EMAIL, response.getString(ApiConstant.EMAIL));
-                            getActivity().finish();
+
+                            AlertUtils.showToastSuccess(view.getContext(), R.drawable.ic_account_checked, R.string.loginSuccess);
+                            new Handler().postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    getActivity().finish();
+                                }
+                            }, 2000);
                             break;
                         }
                     }

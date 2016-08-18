@@ -3,6 +3,7 @@ package com.qtd.realestate1012.fragment;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -22,6 +23,7 @@ import com.qtd.realestate1012.HousieApplication;
 import com.qtd.realestate1012.R;
 import com.qtd.realestate1012.constant.ApiConstant;
 import com.qtd.realestate1012.constant.AppConstant;
+import com.qtd.realestate1012.utils.AlertUtils;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -117,17 +119,17 @@ public class LoginPasswordFragment extends Fragment {
 
         switch (type) {
             case ApiConstant.TYPE_LOGIN: {
-                sendRequestToServer(ApiConstant.URL_WEB_SERVICE_LOGIN);
+                sendRequestToServer(ApiConstant.URL_WEB_SERVICE_LOGIN, ApiConstant.TYPE_LOGIN);
                 break;
             }
             case ApiConstant.TYPE_REGISTER: {
-                sendRequestToServer(ApiConstant.URL_WEB_SERVICE_REGISTER);
+                sendRequestToServer(ApiConstant.URL_WEB_SERVICE_REGISTER, ApiConstant.TYPE_REGISTER);
                 break;
             }
         }
     }
 
-    private void sendRequestToServer(String url) {
+    private void sendRequestToServer(String url, final String type) {
         progressBar.setEnabled(true);
         progressBar.setVisibility(View.VISIBLE);
 
@@ -152,7 +154,18 @@ public class LoginPasswordFragment extends Fragment {
                             HousieApplication.getInstance().getSharedPreUtils().putBoolean(AppConstant.USER_LOGGED_IN, true);
                             HousieApplication.getInstance().getSharedPreUtils().putString(ApiConstant._ID, response.getString(ApiConstant._ID));
                             HousieApplication.getInstance().getSharedPreUtils().putString(ApiConstant.EMAIL, response.getString(ApiConstant.EMAIL));
-                            getActivity().finish();
+
+                            if (type.equals(ApiConstant.TYPE_LOGIN)) {
+                                AlertUtils.showToastSuccess(view.getContext(), R.drawable.ic_account_checked, R.string.loginSuccess);
+                            } else {
+                                AlertUtils.showToastSuccess(view.getContext(), R.drawable.ic_account_checked, R.string.registerSuccess);
+                            }
+                            new Handler().postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    getActivity().finish();
+                                }
+                            }, 2000);
                             break;
                         }
                     }

@@ -22,7 +22,7 @@ import com.qtd.realestate1012.constant.ApiConstant;
 import com.qtd.realestate1012.custom.PinnedSectionListView;
 import com.qtd.realestate1012.utils.ProcessJson;
 import com.qtd.realestate1012.utils.ServiceUtils;
-import com.qtd.realestate1012.utils.SnackbarUtils;
+import com.qtd.realestate1012.utils.AlertUtils;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -128,7 +128,7 @@ public class HomeFragment extends Fragment {
         super.onHiddenChanged(hidden);
         if (!hidden) {
             if (!ServiceUtils.isNetworkAvailable(view.getContext()) && this.isVisible()) {
-                SnackbarUtils.showSnackbar(view);
+                AlertUtils.showSnackBarNoInternet(view);
             }
         }
     }
@@ -138,7 +138,7 @@ public class HomeFragment extends Fragment {
         super.onResume();
         if (this.isVisible()) {
             if (!ServiceUtils.isNetworkAvailable(view.getContext())) {
-                SnackbarUtils.showSnackbar(view);
+                AlertUtils.showSnackBarNoInternet(view);
                 return;
             }
 

@@ -28,7 +28,7 @@ import com.qtd.realestate1012.constant.AppConstant;
 import com.qtd.realestate1012.model.Board;
 import com.qtd.realestate1012.utils.ProcessJson;
 import com.qtd.realestate1012.utils.ServiceUtils;
-import com.qtd.realestate1012.utils.SnackbarUtils;
+import com.qtd.realestate1012.utils.AlertUtils;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -99,7 +99,7 @@ public class BoardFragment extends Fragment {
 
     private void requestBoard() {
         if (!ServiceUtils.isNetworkAvailable(view.getContext())) {
-            SnackbarUtils.showSnackbar(view);
+            AlertUtils.showSnackBarNoInternet(view);
             refreshLayout.setRefreshing(false);
             return;
         }
