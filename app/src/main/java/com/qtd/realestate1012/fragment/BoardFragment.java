@@ -1,5 +1,7 @@
 package com.qtd.realestate1012.fragment;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -18,8 +20,11 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.qtd.realestate1012.HousieApplication;
 import com.qtd.realestate1012.R;
+import com.qtd.realestate1012.activity.CreateBoardActivity;
+import com.qtd.realestate1012.activity.LoginActivity;
 import com.qtd.realestate1012.adapter.BoardAdapter;
 import com.qtd.realestate1012.constant.ApiConstant;
+import com.qtd.realestate1012.constant.AppConstant;
 import com.qtd.realestate1012.model.Board;
 import com.qtd.realestate1012.utils.ProcessJson;
 import com.qtd.realestate1012.utils.ServiceUtils;
@@ -115,11 +120,11 @@ public class BoardFragment extends Fragment {
                 public void onResponse(JSONObject response) {
                     try {
                         switch (response.getString(ApiConstant.RESULT)) {
-                            case ApiConstant.FAILED:{
+                            case ApiConstant.FAILED: {
                                 Toast.makeText(getActivity(), R.string.errorConnection, Toast.LENGTH_SHORT).show();
                                 break;
                             }
-                            case ApiConstant.SUCCESS:{
+                            case ApiConstant.SUCCESS: {
                                 arrayListBoards.clear();
                                 arrayListBoards.addAll(ProcessJson.getBoardFavorite(response));
                                 adapter.notifyDataSetChanged();
@@ -147,6 +152,27 @@ public class BoardFragment extends Fragment {
 
     @OnClick(R.id.fabAddBoard)
     void onClick() {
+        if (!HousieApplication.getInstance().getSharedPreUtils().getBoolean(AppConstant.USER_LOGGED_IN, false)) {
+            Intent intentLogin = new Intent(getActivity(), LoginActivity.class);
+            startActivityForResult(intentLogin, AppConstant.REQUEST_CODE_SIGN_IN);
+            return;
+        }
 
+        Intent intent = new Intent(getActivity(), CreateBoardActivity.class);
+
+        String listBoard = "";
+        for (Board board : arrayListBoards) {
+            listBoard += (board.getName() + "-");
+        }
+        intent.putExtra(ApiConstant.LIST_BOARD, listBoard);
+
+        startActivityForResult(intent, AppConstant.REQUEST_CODE_CREATE_BOARD);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == AppConstant.REQUEST_CODE_CREATE_BOARD && resultCode == Activity.RESULT_OK && data != null) {
+            requestBoard();
+        }
     }
 }

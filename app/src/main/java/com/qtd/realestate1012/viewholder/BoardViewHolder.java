@@ -35,8 +35,8 @@ public class BoardViewHolder extends RecyclerView.ViewHolder {
 
     public void setupViewHolder(Board board) {
         tvName.setText(board.getName());
-        tvCount.setText(board.getCount() + itemView.getContext().getString(R.string.houses));
-        if (board.getCount() == 0) {
+        tvCount.setText(board.getNumberOfHouse() + itemView.getContext().getString(R.string.houses));
+        if (board.getNumberOfHouse() == 0) {
             imvBoard.setImageBitmap(null);
             imvBoard.setBackgroundColor(ContextCompat.getColor(itemView.getContext(), R.color.colorDarkGray));
         } else {

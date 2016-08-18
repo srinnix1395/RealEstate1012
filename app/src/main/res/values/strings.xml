@@ -23,7 +23,7 @@
     <string name="localInfo">Thông tin</string>
     <string name="saveSearch">Lưu tìm kiếm</string>
     <string name="close">Đóng</string>
-    <string name="pleaseCheckYourConnection">Hãy kiểm tra lại kết nối mạng</string>
+    <string name="pleaseCheckYourConnection">Hãy kiểm tra lại kết nối Internet</string>
     <string name="pleaseEnableLocationService">Hãy kích hoạt dịch vụ vị trí.</string>
     <string name="localInfoDialog">Thông tin về khu vực</string>
     <string name="amenities">Các tiện ích</string>
@@ -52,5 +52,11 @@
     <string name="area">Diện tích</string>
     <string name="pleaseInputPassword">Hãy nhập mật khẩu của bạn</string>
     <string name="passwordNotValid">Mật khẩu không hợp lệ</string>
+    <string name="next">Tiếp theo</string>
+    <string name="createBoard">Tạo nhóm</string>
+    <string name="boardName">Tên nhóm</string>
+    <string name="pleaseInputNameBoard">Hãy nhập tên nhóm bạn muốn tạo</string>
+    <string name="nameBoardAtLeast3">Tên nhóm phải dài hơn 3 ký tự</string>
+    <string name="boardHasExisted">Nhóm đã tồn tại</string>
 
 </resources>

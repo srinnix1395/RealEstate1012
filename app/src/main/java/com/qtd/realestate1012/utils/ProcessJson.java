@@ -41,7 +41,14 @@ public class ProcessJson {
             if (response.getBoolean(ApiConstant.HAS_BOARD)) {
                 JSONArray jsonArray = response.getJSONArray(ApiConstant.LIST_BOARD);
                 for (int i = 0, size = jsonArray.length(); i < size; i++) {
+                    JSONObject jsonObject = jsonArray.getJSONObject(i);
 
+                    String id = jsonObject.getString(ApiConstant._ID);
+                    String name = jsonObject.getString(ApiConstant.NAME);
+                    int numberHouse = jsonObject.getJSONArray(ApiConstant.LIST_HOUSE).length();
+                    String image = jsonObject.has(ApiConstant.FIRST_IMAGE) ? jsonObject.getString(ApiConstant.FIRST_IMAGE) : "";
+
+                    arrayList.add(new Board(id, name, numberHouse, image));
                 }
             }
         } catch (JSONException e) {

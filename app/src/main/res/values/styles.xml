@@ -18,6 +18,14 @@
     </style>
     <!--edit text login activity style-->
 
+    <!--edit text login activity style-->
+    <style name="EditTextCreateBoard" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorControlNormal">@color/colorPrimary</item>
+        <item name="colorControlActivated">@color/colorPrimary</item>
+        <item name="colorControlHighlight">@color/colorPrimary</item>
+    </style>
+    <!--edit text login activity style-->
+
     <!--style facebook button-->
     <style name="FacebookLoginButton">
         <item name="android:textSize">14sp</item>

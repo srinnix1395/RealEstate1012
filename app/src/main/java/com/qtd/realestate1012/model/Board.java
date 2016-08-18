@@ -4,19 +4,19 @@ package com.qtd.realestate1012.model;
  * Created by Dell on 8/7/2016.
  */
 public class Board {
-    private int id;
+    private String id;
     private String name;
-    private int count;
+    private int numberOfHouse;
     private String image;
 
-    public Board(int id, String name, int count, String image) {
+    public Board(String id, String name, int numberOfHouse, String image) {
         this.id = id;
         this.name = name;
-        this.count = count;
+        this.numberOfHouse = numberOfHouse;
         this.image = image;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
@@ -24,8 +24,8 @@ public class Board {
         return name;
     }
 
-    public int getCount() {
-        return count;
+    public int getNumberOfHouse() {
+        return numberOfHouse;
     }
 
     public String getImage() {

@@ -25,6 +25,8 @@ public class ApiConstant {
     public static final String URL_WEB_SERVICE_GET_NEWS = "http://protectedcedar-31067.rhcloud.com/house/getNews";
     public static final String URL_WEB_SERVICE_IS_EMAIL_EXISTED = "http://protectedcedar-31067.rhcloud.com/user/isEmailExisted/";
     public static final String URL_WEB_SERVICE_GET_BOARDS = "http://protectedcedar-31067.rhcloud.com/board/getBoards";
+    public static final String URL_WEB_SERVICE_CREATE_BOARD = "http://protectedcedar-31067.rhcloud.com/board/createBoard";
+
 
     public static final String RESULT = "result";
     public static final String FAILED = "failed";
@@ -42,6 +44,8 @@ public class ApiConstant {
     public static final String TRUE = "true";
     public static final String TYPE_LOGIN = "login";
     public static final String TYPE_REGISTER = "register";
+    public static final String FIRST_IMAGE = "first_image";
+
 
     //    api place
     public static final String API_PLACE_URL = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?";
@@ -65,7 +69,6 @@ public class ApiConstant {
 
     public static final String NEXT_PAGE_TOKEN = "next_page_token";
     public static final String VICINITY = "vicinity";
-
 
 
 }
