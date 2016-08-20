@@ -17,5 +17,6 @@
 
     <color name="colorLightGreen">#8fdfb1</color>
     <color name="colorWhiteBackground">#f5f6f8</color>
->>>>>>> Temporary merge branch 2
+    <color name="colorGrayBorder">#cccccc</color>
+    >>>>>>> Temporary merge branch 2
 </resources>

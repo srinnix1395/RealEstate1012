@@ -14,9 +14,9 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
- * Created by DELL on 8/18/2016.
+ * Created by DELL on 8/17/2016.
  */
-public class HouseViewHolder extends RecyclerView.ViewHolder {
+public class HouseHasHeartViewHolder extends RecyclerView.ViewHolder {
     private View view;
 
     @BindView(R.id.imvImage)
@@ -28,7 +28,10 @@ public class HouseViewHolder extends RecyclerView.ViewHolder {
     @BindView(R.id.tvPrice)
     TextView tvPrice;
 
-    public HouseViewHolder(View itemView) {
+    @BindView(R.id.imvHeart)
+    ImageView imvHeart;
+
+    public HouseHasHeartViewHolder(View itemView) {
         super(itemView);
         view = itemView;
         ButterKnife.bind(this, view);

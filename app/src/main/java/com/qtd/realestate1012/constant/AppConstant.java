@@ -28,7 +28,7 @@ public class AppConstant {
     public static int ICON_TAB_SELECTED[] = {
             R.drawable.ic_home_white,
             R.drawable.ic_search_white,
-            R.drawable.ic_heart_white,
+            R.drawable.ic_heart_pink_small,
             R.drawable.ic_bell_white
     };
 

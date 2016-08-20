@@ -7,28 +7,28 @@ import android.view.ViewGroup;
 
 import com.qtd.realestate1012.R;
 import com.qtd.realestate1012.model.CompactHouse;
-import com.qtd.realestate1012.viewholder.HouseHasHeartViewHolder;
+import com.qtd.realestate1012.viewholder.HouseViewHolder;
 
 import java.util.ArrayList;
 
 /**
- * Created by DELL on 8/17/2016.
+ * Created by DELL on 8/18/2016.
  */
-public class HouseAdapter extends RecyclerView.Adapter<HouseHasHeartViewHolder> {
+public class HouseFavoriteAdapter extends RecyclerView.Adapter<HouseViewHolder> {
     private ArrayList<CompactHouse> arrayList;
 
-    public HouseAdapter(ArrayList<CompactHouse> arrayList) {
+    public HouseFavoriteAdapter(ArrayList<CompactHouse> arrayList) {
         this.arrayList = arrayList;
     }
 
     @Override
-    public HouseHasHeartViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.view_holder_house_has_heart, parent, false);
-        return new HouseHasHeartViewHolder(view);
+    public HouseViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.view_holder_house, parent, false);
+        return new HouseViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(HouseHasHeartViewHolder holder, int position) {
+    public void onBindViewHolder(HouseViewHolder holder, int position) {
         holder.setupDataViewHolder(arrayList.get(position));
     }
 

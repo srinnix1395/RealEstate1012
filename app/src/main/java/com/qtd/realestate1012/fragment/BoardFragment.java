@@ -71,7 +71,7 @@ public class BoardFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        requestBoard();
+        requestData();
     }
 
     private void initViews() {
@@ -79,9 +79,14 @@ public class BoardFragment extends Fragment {
         refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                requestBoard();
+                requestData();
             }
         });
+
+        if (!HousieApplication.getInstance().getSharedPreUtils().getBoolean(AppConstant.USER_LOGGED_IN, false)) {
+            refreshLayout.setEnabled(true);
+        }
+
         initRecyclerView();
     }
 
@@ -97,16 +102,17 @@ public class BoardFragment extends Fragment {
         recyclerView.setAdapter(adapter);
     }
 
-    private void requestBoard() {
+    private void requestData() {
         if (!ServiceUtils.isNetworkAvailable(view.getContext())) {
             AlertUtils.showSnackBarNoInternet(view);
             refreshLayout.setRefreshing(false);
             return;
         }
 
-        String idUserLoggedIn = HousieApplication.getInstance().getSharedPreUtils().getString(ApiConstant._ID, "-1");
-        if (!idUserLoggedIn.equals("-1")) {
+        if (HousieApplication.getInstance().getSharedPreUtils().getBoolean(AppConstant.USER_LOGGED_IN, false)) {
             String url = ApiConstant.URL_WEB_SERVICE_GET_BOARDS;
+
+            String idUserLoggedIn = HousieApplication.getInstance().getSharedPreUtils().getString(ApiConstant._ID, "-1");
 
             JSONObject jsonObject = new JSONObject();
             try {
@@ -172,7 +178,7 @@ public class BoardFragment extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == AppConstant.REQUEST_CODE_CREATE_BOARD && resultCode == Activity.RESULT_OK && data != null) {
-            requestBoard();
+            requestData();
         }
     }
 }

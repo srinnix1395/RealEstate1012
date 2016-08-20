@@ -10,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.PopupMenu;
 import android.view.MenuItem;
 
+import com.qtd.realestate1012.HousieApplication;
 import com.qtd.realestate1012.R;
 import com.qtd.realestate1012.constant.AppConstant;
 import com.qtd.realestate1012.fragment.FavoriteFragment;
@@ -17,6 +18,7 @@ import com.qtd.realestate1012.fragment.HomeFragment;
 import com.qtd.realestate1012.fragment.NotificationFragment;
 import com.qtd.realestate1012.fragment.SearchFragment;
 import com.qtd.realestate1012.utils.ImageUtils;
+import com.qtd.realestate1012.utils.ServiceUtils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -76,12 +78,15 @@ public class MainActivity extends AppCompatActivity {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.add(R.id.layoutMain, homeFragment);
         transaction.commit();
+
+        if (ServiceUtils.isNetworkAvailable(this) && !HousieApplication.getInstance().getSharedPreUtils().getBoolean(AppConstant.USER_LOGGED_IN, false)) {
+            Intent intent = new Intent(this, LoginActivity.class);
+            startActivityForResult(intent, AppConstant.REQUEST_CODE_SIGN_IN);
+        }
     }
 
     private void showPopUpMenu() {
         if (popupMenu == null) {
-
-
             popupMenu = new PopupMenu(this, findViewById(R.id.viewAnchor));
             popupMenu.getMenuInflater().inflate(R.menu.menu_main, popupMenu.getMenu());
             popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
