@@ -46,7 +46,7 @@ public class BoardViewHolder extends RecyclerView.ViewHolder {
         ((AppCompatActivity) itemView.getContext()).getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
         int width = displaymetrics.widthPixels;
 
-        CardView.LayoutParams layoutParams = new CardView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, (int) ((width / 2)*0.85 ));
+        CardView.LayoutParams layoutParams = new CardView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, (int) ((width / 2) * 0.85));
 
         int margin = (int) ImageUtils.convertDpToPixel(itemView.getContext(), 16);
         layoutParams.topMargin = margin;
@@ -64,6 +64,7 @@ public class BoardViewHolder extends RecyclerView.ViewHolder {
                 .load(ApiConstant.URL_WEB_SERVICE_GET_IMAGE + board.getImage())
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .thumbnail(0.1f)
+                .bitmapTransform(new jp.wasabeef.glide.transformations.BlurTransformation(itemView.getContext(), 25))
                 .placeholder(R.color.colorFacebook)
                 .error(R.color.colorFacebook)
                 .into(imvBoard);
