@@ -1,12 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/layoutRefresh"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recyclerView"
+    <RelativeLayout
+        android:id="@+id/layoutNoHouses"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-</android.support.v4.widget.SwipeRefreshLayout>
+        android:layout_height="match_parent"
+        android:padding="@dimen/activity_horizontal_margin"
+        android:visibility="invisible">
+
+        <TextView
+            android:id="@+id/tvTitle"
+            style="?android:textAppearanceLarge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/activity_vertical_margin"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:text="@string/searchForHomes"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/tvTitle1"
+            style="?android:attr/textAppearanceSmall"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tvTitle"
+            android:layout_marginBottom="@dimen/activity_vertical_margin"
+            android:text="@string/contentNoHouses" />
+
+        <TextView
+            android:id="@+id/tvSearch"
+            style="?attr/selectableItemBackground"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/defaultSize"
+            android:layout_below="@id/tvTitle1"
+            android:layout_marginBottom="@dimen/activity_vertical_margin"
+            android:clickable="true"
+            android:gravity="center"
+            android:text="@string/search"
+            android:textAllCaps="true"
+            android:textColor="@color/colorPrimary"
+            android:textSize="16sp" />
+    </RelativeLayout>
+
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/layoutRefresh"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </android.support.v4.widget.SwipeRefreshLayout>
+</RelativeLayout>

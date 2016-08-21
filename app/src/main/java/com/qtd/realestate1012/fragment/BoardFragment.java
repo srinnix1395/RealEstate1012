@@ -12,6 +12,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -51,6 +52,9 @@ public class BoardFragment extends Fragment {
     @BindView(R.id.layoutRefresh)
     SwipeRefreshLayout refreshLayout;
 
+    @BindView(R.id.layoutNoBoard)
+    RelativeLayout layoutNoBoard;
+
     private ArrayList<Board> arrayListBoards;
     private BoardAdapter adapter;
 
@@ -75,7 +79,7 @@ public class BoardFragment extends Fragment {
     }
 
     private void initViews() {
-        refreshLayout.setColorSchemeResources(R.color.colorPrimary);
+        refreshLayout.setColorSchemeResources(R.color.colorPrimary, R.color.colorPrimaryDark);
         refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -83,14 +87,6 @@ public class BoardFragment extends Fragment {
             }
         });
 
-        if (!HousieApplication.getInstance().getSharedPreUtils().getBoolean(AppConstant.USER_LOGGED_IN, false)) {
-            refreshLayout.setEnabled(false);
-        }
-
-        initRecyclerView();
-    }
-
-    private void initRecyclerView() {
         arrayListBoards = new ArrayList<>();
         adapter = new BoardAdapter(arrayListBoards);
 
@@ -100,6 +96,12 @@ public class BoardFragment extends Fragment {
         itemAnimator.setRemoveDuration(1000);
         recyclerView.setItemAnimator(itemAnimator);
         recyclerView.setAdapter(adapter);
+
+        if (!HousieApplication.getInstance().getSharedPreUtils().getBoolean(AppConstant.USER_LOGGED_IN, false)) {
+            refreshLayout.setEnabled(false);
+            refreshLayout.setVisibility(View.INVISIBLE);
+            layoutNoBoard.setVisibility(View.VISIBLE);
+        }
     }
 
     private void requestData() {
@@ -134,6 +136,14 @@ public class BoardFragment extends Fragment {
                                 arrayListBoards.clear();
                                 arrayListBoards.addAll(ProcessJson.getFavoriteBoards(response));
                                 adapter.notifyDataSetChanged();
+
+                                if (arrayListBoards.size() == 0) {
+                                    refreshLayout.setVisibility(View.INVISIBLE);
+                                    layoutNoBoard.setVisibility(View.VISIBLE);
+                                } else {
+                                    refreshLayout.setVisibility(View.VISIBLE);
+                                    layoutNoBoard.setVisibility(View.INVISIBLE);
+                                }
                                 break;
                             }
                         }
@@ -178,6 +188,7 @@ public class BoardFragment extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == AppConstant.REQUEST_CODE_CREATE_BOARD && resultCode == Activity.RESULT_OK && data != null) {
+            refreshLayout.setEnabled(true);
             requestData();
         }
     }

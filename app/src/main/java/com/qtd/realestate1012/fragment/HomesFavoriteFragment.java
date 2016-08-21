@@ -10,6 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -46,6 +47,9 @@ public class HomesFavoriteFragment extends Fragment {
     @BindView(R.id.layoutRefresh)
     SwipeRefreshLayout refreshLayout;
 
+    @BindView(R.id.layoutNoHouses)
+    RelativeLayout layoutNoHouses;
+
     private ArrayList<CompactHouse> arrayListHouses;
     private HouseFavoriteAdapter adapter;
 
@@ -76,7 +80,7 @@ public class HomesFavoriteFragment extends Fragment {
         itemAnimator.setRemoveDuration(1000);
         recyclerView.setItemAnimator(itemAnimator);
 
-        refreshLayout.setColorSchemeResources(R.color.colorPrimary);
+        refreshLayout.setColorSchemeResources(R.color.colorPrimary, R.color.colorPrimaryDark);
         refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -85,7 +89,9 @@ public class HomesFavoriteFragment extends Fragment {
         });
 
         if (!HousieApplication.getInstance().getSharedPreUtils().getBoolean(AppConstant.USER_LOGGED_IN, false)) {
-            refreshLayout.setEnabled(true);
+            refreshLayout.setEnabled(false);
+            refreshLayout.setVisibility(View.INVISIBLE);
+            layoutNoHouses.setVisibility(View.VISIBLE);
         }
     }
 
@@ -128,6 +134,11 @@ public class HomesFavoriteFragment extends Fragment {
                                 adapter.notifyDataSetChanged();
                                 break;
                             }
+                        }
+
+                        if (arrayListHouses.size() == 0) {
+                            layoutNoHouses.setVisibility(View.INVISIBLE);
+                            refreshLayout.setVisibility(View.VISIBLE);
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();
