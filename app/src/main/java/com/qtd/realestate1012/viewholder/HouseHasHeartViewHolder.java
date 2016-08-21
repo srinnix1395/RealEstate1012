@@ -17,8 +17,6 @@ import butterknife.ButterKnife;
  * Created by DELL on 8/17/2016.
  */
 public class HouseHasHeartViewHolder extends RecyclerView.ViewHolder {
-    private View view;
-
     @BindView(R.id.imvImage)
     ImageView imvImage;
 
@@ -33,12 +31,11 @@ public class HouseHasHeartViewHolder extends RecyclerView.ViewHolder {
 
     public HouseHasHeartViewHolder(View itemView) {
         super(itemView);
-        view = itemView;
-        ButterKnife.bind(this, view);
+        ButterKnife.bind(this, itemView);
     }
 
     public void setupDataViewHolder(CompactHouse house) {
-        Glide.with(view.getContext())
+        Glide.with(itemView.getContext())
                 .load(house.getImage())
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .crossFade(1000)

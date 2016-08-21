@@ -4,14 +4,17 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
@@ -19,6 +22,8 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.qtd.realestate1012.HousieApplication;
 import com.qtd.realestate1012.R;
 import com.qtd.realestate1012.activity.CreateBoardActivity;
@@ -27,9 +32,9 @@ import com.qtd.realestate1012.adapter.BoardAdapter;
 import com.qtd.realestate1012.constant.ApiConstant;
 import com.qtd.realestate1012.constant.AppConstant;
 import com.qtd.realestate1012.model.Board;
+import com.qtd.realestate1012.utils.AlertUtils;
 import com.qtd.realestate1012.utils.ProcessJson;
 import com.qtd.realestate1012.utils.ServiceUtils;
-import com.qtd.realestate1012.utils.AlertUtils;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -55,6 +60,9 @@ public class BoardFragment extends Fragment {
     @BindView(R.id.layoutNoBoard)
     RelativeLayout layoutNoBoard;
 
+    @BindView(R.id.imvNoBoard)
+    ImageView imvNoBoard;
+
     private ArrayList<Board> arrayListBoards;
     private BoardAdapter adapter;
 
@@ -63,22 +71,29 @@ public class BoardFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_board, container, false);
-        ButterKnife.bind(this, view);
         return view;
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        ButterKnife.bind(this, view);
         initViews();
     }
 
     @Override
     public void onStart() {
         super.onStart();
+        refreshLayout.setRefreshing(true);
         requestData();
     }
 
     private void initViews() {
+        Glide.with(view.getContext())
+                .load(R.drawable.house_paint)
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .override(324, 324)
+                .into(imvNoBoard);
+
         refreshLayout.setColorSchemeResources(R.color.colorPrimary, R.color.colorPrimaryDark);
         refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -99,14 +114,25 @@ public class BoardFragment extends Fragment {
 
         if (!HousieApplication.getInstance().getSharedPreUtils().getBoolean(AppConstant.USER_LOGGED_IN, false)) {
             refreshLayout.setEnabled(false);
-            refreshLayout.setVisibility(View.INVISIBLE);
+        }
+
+        if (arrayListBoards.size() == 0) {
+            recyclerView.setVisibility(View.INVISIBLE);
             layoutNoBoard.setVisibility(View.VISIBLE);
+        } else {
+            recyclerView.setVisibility(View.VISIBLE);
+            layoutNoBoard.setVisibility(View.INVISIBLE);
         }
     }
 
     private void requestData() {
+        refreshLayout.setRefreshing(true);
         if (!ServiceUtils.isNetworkAvailable(view.getContext())) {
-            AlertUtils.showSnackBarNoInternet(view);
+            if (this.getUserVisibleHint()) {
+                Log.e("favorite", "requestData: board");
+                FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.fabAddBoard);
+                AlertUtils.showSnackBarNoInternet(fab);
+            }
             refreshLayout.setRefreshing(false);
             return;
         }
@@ -138,10 +164,10 @@ public class BoardFragment extends Fragment {
                                 adapter.notifyDataSetChanged();
 
                                 if (arrayListBoards.size() == 0) {
-                                    refreshLayout.setVisibility(View.INVISIBLE);
+                                    recyclerView.setVisibility(View.INVISIBLE);
                                     layoutNoBoard.setVisibility(View.VISIBLE);
                                 } else {
-                                    refreshLayout.setVisibility(View.VISIBLE);
+                                    recyclerView.setVisibility(View.VISIBLE);
                                     layoutNoBoard.setVisibility(View.INVISIBLE);
                                 }
                                 break;

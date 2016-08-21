@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="@dimen/activity_vertical_margin"
+    android:id="@+id/cardView"
     app:cardCornerRadius="@dimen/radius_board">
 
     <RelativeLayout
@@ -12,9 +13,9 @@
 
         <ImageView
             android:id="@+id/imvBoard"
+            android:scaleType="fitXY"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:src="@drawable/ic_bell_dark_green" />
+            android:layout_height="match_parent" />
 
         <ImageView
             android:layout_width="match_parent"
@@ -36,11 +37,9 @@
             style="?android:attr/textAppearanceSmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_above="@+id/tvCount"
+            android:layout_above="@id/tvCount"
             android:layout_marginStart="10dp"
             android:textColor="@android:color/white"
             android:textSize="16sp" />
-
-
     </RelativeLayout>
 </android.support.v7.widget.CardView>

@@ -30,38 +30,35 @@ public class FavoriteFragment extends Fragment {
     @BindView(R.id.viewpager)
     ViewPager viewPager;
 
-    private FavoritePagerAdapter adapter;
-    private BoardFragment boardFragment;
-    private HomesFavoriteFragment homesFavoriteFragment;
-    private SearchesFavoriteFragment searchFragment;
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_favorite, container, false);
-        ButterKnife.bind(this, view);
         return view;
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        ButterKnife.bind(this, view);
         initView();
     }
 
     private void initView() {
-        boardFragment = new BoardFragment();
-        homesFavoriteFragment = new HomesFavoriteFragment();
-        searchFragment = new SearchesFavoriteFragment();
+        BoardFragment boardFragment = new BoardFragment();
+        HomesFavoriteFragment homesFavoriteFragment = new HomesFavoriteFragment();
+        SearchesFavoriteFragment searchFragment = new SearchesFavoriteFragment();
+
         ArrayList<Fragment> fragments = new ArrayList<>();
         fragments.add(boardFragment);
         fragments.add(homesFavoriteFragment);
         fragments.add(searchFragment);
 
-        adapter = new FavoritePagerAdapter(view.getContext(), getChildFragmentManager(), fragments);
+        FavoritePagerAdapter adapter = new FavoritePagerAdapter(view.getContext(), getChildFragmentManager(), fragments);
         viewPager.setAdapter(adapter);
+        viewPager.setOffscreenPageLimit(3);
 
         tabLayout.setupWithViewPager(viewPager);
-        tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 viewPager.setCurrentItem(tab.getPosition(), true);

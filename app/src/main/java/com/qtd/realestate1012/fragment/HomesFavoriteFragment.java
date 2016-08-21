@@ -7,6 +7,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,6 +35,7 @@ import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * Created by Dell on 7/31/2016.
@@ -57,12 +59,12 @@ public class HomesFavoriteFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_favorite_homes, container, false);
-        ButterKnife.bind(this, view);
         return view;
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        ButterKnife.bind(this, view);
         initData();
         initViews();
     }
@@ -80,7 +82,9 @@ public class HomesFavoriteFragment extends Fragment {
         itemAnimator.setRemoveDuration(1000);
         recyclerView.setItemAnimator(itemAnimator);
 
-        refreshLayout.setColorSchemeResources(R.color.colorPrimary, R.color.colorPrimaryDark);
+        recyclerView.setAdapter(adapter);
+
+        refreshLayout.setColorSchemeResources(R.color.colorPrimary);
         refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -90,8 +94,14 @@ public class HomesFavoriteFragment extends Fragment {
 
         if (!HousieApplication.getInstance().getSharedPreUtils().getBoolean(AppConstant.USER_LOGGED_IN, false)) {
             refreshLayout.setEnabled(false);
-            refreshLayout.setVisibility(View.INVISIBLE);
+        }
+
+        if (arrayListHouses.size() == 0) {
+            recyclerView.setVisibility(View.INVISIBLE);
             layoutNoHouses.setVisibility(View.VISIBLE);
+        } else {
+            recyclerView.setVisibility(View.VISIBLE);
+            layoutNoHouses.setVisibility(View.INVISIBLE);
         }
     }
 
@@ -103,7 +113,10 @@ public class HomesFavoriteFragment extends Fragment {
 
     private void requestData() {
         if (!ServiceUtils.isNetworkAvailable(view.getContext())) {
-            AlertUtils.showSnackBarNoInternet(view);
+            if (this.getUserVisibleHint()) {
+                AlertUtils.showSnackBarNoInternet(view);
+                Log.e("favorite", "requestData: home");
+            }
             refreshLayout.setRefreshing(false);
             return;
         }
@@ -137,13 +150,15 @@ public class HomesFavoriteFragment extends Fragment {
                         }
 
                         if (arrayListHouses.size() == 0) {
+                            recyclerView.setVisibility(View.INVISIBLE);
+                            layoutNoHouses.setVisibility(View.VISIBLE);
+                        } else {
+                            recyclerView.setVisibility(View.VISIBLE);
                             layoutNoHouses.setVisibility(View.INVISIBLE);
-                            refreshLayout.setVisibility(View.VISIBLE);
                         }
+                        refreshLayout.setRefreshing(false);
                     } catch (JSONException e) {
                         e.printStackTrace();
-                    } finally {
-                        refreshLayout.setRefreshing(false);
                     }
 
                 }
@@ -157,5 +172,10 @@ public class HomesFavoriteFragment extends Fragment {
             });
             HousieApplication.getInstance().addToRequestQueue(request);
         }
+    }
+
+    @OnClick(R.id.tvSearch)
+    void onClick() {
+        Toast.makeText(view.getContext(), "hello", Toast.LENGTH_SHORT).show();
     }
 }

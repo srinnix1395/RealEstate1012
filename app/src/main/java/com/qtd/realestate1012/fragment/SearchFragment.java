@@ -105,12 +105,12 @@ public class SearchFragment extends Fragment implements OnMapReadyCallback, Sear
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_search, container, false);
-        ButterKnife.bind(this, view);
         return view;
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        ButterKnife.bind(this, view);
         initView();
     }
 

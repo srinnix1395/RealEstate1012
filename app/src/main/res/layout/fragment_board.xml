@@ -1,61 +1,81 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <RelativeLayout
-        android:id="@+id/layoutNoBoard"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:padding="@dimen/activity_horizontal_margin"
-        android:visibility="invisible">
-
-        <TextView
-            android:id="@+id/tvTitle"
-            style="?android:textAppearanceLarge"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/activity_vertical_margin"
-            android:layout_marginTop="@dimen/activity_vertical_margin"
-            android:text="@string/getOnBoard"
-            android:textSize="20sp" />
-
-        <TextView
-            style="?android:attr/textAppearanceSmall"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/tvTitle"
-            android:text="@string/contentNoBoards" />
-
-        <TextView
-            style="?android:attr/textAppearanceSmall"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_marginBottom="@dimen/activity_vertical_margin"
-            android:text="@string/startedByCreatingABoard" />
-    </RelativeLayout>
-
-    <android.support.v4.widget.SwipeRefreshLayout
-        android:id="@+id/layoutRefresh"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/recyclerView"
+        <android.support.v4.widget.SwipeRefreshLayout
+            android:id="@+id/layoutRefresh"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-    </android.support.v4.widget.SwipeRefreshLayout>
+            android:layout_height="match_parent">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </android.support.v4.widget.SwipeRefreshLayout>
+
+        <RelativeLayout
+            android:id="@+id/layoutNoBoard"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="@dimen/activity_horizontal_margin"
+            android:visibility="invisible">
+
+            <TextView
+                android:id="@+id/tvTitle"
+                style="?android:textAppearanceLarge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/activity_vertical_margin"
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:text="@string/getOnBoard"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/tvContent"
+                style="?android:attr/textAppearanceSmall"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tvTitle"
+                android:text="@string/contentNoBoards" />
+
+            <ImageView
+                android:id="@+id/imvNoBoard"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tvContent"
+                android:layout_centerInParent="true"
+                android:layout_marginBottom="@dimen/activity_horizontal_margin"
+                android:layout_marginTop="@dimen/activity_horizontal_margin"
+                android:minHeight="160dp"
+                android:minWidth="160dp"
+                android:padding="32dp" />
+
+            <TextView
+                style="?android:attr/textAppearanceSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_marginBottom="@dimen/activity_vertical_margin"
+                android:text="@string/startedByCreatingABoard" />
+        </RelativeLayout>
+
+
+    </RelativeLayout>
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fabAddBoard"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
+        android:layout_gravity="end|bottom"
         android:layout_margin="16dp"
-        android:background="?android:attr/selectableItemBackground"
+        android:background="?attr/selectableItemBackground"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark"
         app:backgroundTint="@color/colorPrimary"
         app:srcCompat="@drawable/ic_add" />
-</RelativeLayout>
+</android.support.design.widget.CoordinatorLayout>

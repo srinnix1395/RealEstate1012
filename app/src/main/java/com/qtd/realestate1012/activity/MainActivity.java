@@ -9,6 +9,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.PopupMenu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.qtd.realestate1012.HousieApplication;
 import com.qtd.realestate1012.R;
@@ -31,7 +32,6 @@ public class MainActivity extends AppCompatActivity {
     private SearchFragment searchFragment;
     private FavoriteFragment favoriteFragment;
     private NotificationFragment notificationFragment;
-    private PopupMenu popupMenu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
         tabLayout.addTab(tabLayout.newTab().setIcon(AppConstant.ICON_TAB_NORMAL[2]));
         tabLayout.addTab(tabLayout.newTab().setIcon(AppConstant.ICON_TAB_NORMAL[3]));
         tabLayout.addTab(tabLayout.newTab().setIcon(AppConstant.ICON_TAB_NORMAL[4]));
-        tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 switch (tab.getPosition()) {
@@ -86,9 +86,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void showPopUpMenu() {
-        if (popupMenu == null) {
-            popupMenu = new PopupMenu(this, findViewById(R.id.viewAnchor));
-            popupMenu.getMenuInflater().inflate(R.menu.menu_main, popupMenu.getMenu());
+        PopupMenu popupMenu = new PopupMenu(this, findViewById(R.id.viewAnchor));
+
+        if (!HousieApplication.getInstance().getSharedPreUtils().getBoolean(AppConstant.USER_LOGGED_IN, false)) {
+            popupMenu.getMenuInflater().inflate(R.menu.menu_not_signed_in, popupMenu.getMenu());
             popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                 @Override
                 public boolean onMenuItemClick(MenuItem item) {
@@ -96,6 +97,24 @@ public class MainActivity extends AppCompatActivity {
                         case R.id.miLogin: {
                             Intent intent = new Intent(MainActivity.this, LoginActivity.class);
                             startActivity(intent);
+                            break;
+                        }
+                        case R.id.miSetting: {
+
+                            break;
+                        }
+                    }
+                    return false;
+                }
+            });
+        } else {
+            popupMenu.getMenuInflater().inflate(R.menu.menu_signed_in, popupMenu.getMenu());
+            popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                @Override
+                public boolean onMenuItemClick(MenuItem item) {
+                    switch (item.getItemId()) {
+                        case R.id.miLogOut: {
+                            Toast.makeText(MainActivity.this, R.string.logout, Toast.LENGTH_SHORT).show();
                             break;
                         }
                         case R.id.miSetting: {

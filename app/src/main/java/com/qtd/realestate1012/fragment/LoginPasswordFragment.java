@@ -59,12 +59,12 @@ public class LoginPasswordFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_login_password, container, false);
-        ButterKnife.bind(this, view);
         return view;
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        ButterKnife.bind(this, view);
         Bundle bundle = getArguments();
         setupData(bundle.getString(ApiConstant.EMAIL), bundle.getString(ApiConstant.TYPE));
         initViews();

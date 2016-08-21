@@ -43,9 +43,9 @@ import com.qtd.realestate1012.R;
 import com.qtd.realestate1012.activity.LoginActivity;
 import com.qtd.realestate1012.constant.ApiConstant;
 import com.qtd.realestate1012.constant.AppConstant;
+import com.qtd.realestate1012.utils.AlertUtils;
 import com.qtd.realestate1012.utils.ProcessJson;
 import com.qtd.realestate1012.utils.ServiceUtils;
-import com.qtd.realestate1012.utils.AlertUtils;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -89,12 +89,12 @@ public class LoginUsernameFragment extends Fragment implements GoogleApiClient.O
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_login_username, container, false);
-        ButterKnife.bind(this, view);
         return view;
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        ButterKnife.bind(this, view);
         initView();
     }
 

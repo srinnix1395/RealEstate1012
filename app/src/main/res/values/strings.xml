@@ -62,9 +62,15 @@
     <string name="loginSuccess">Đăng nhập thành công</string>
     <string name="registerSuccess">Đăng ký thành công</string>
     <string name="getOnBoard">Tạo lập các nhóm</string>
-    <string name="contentNoBoards">Phân nhóm những ngôi nhà bạn thích vào các nhóm để có thể dễ theo dõi chúng</string>
+    <string name="contentNoBoards">Phân nhóm những ngôi nhà bạn thích vào các nhóm để có thể dễ dàng theo dõi chúng</string>
     <string name="startedByCreatingABoard">Hãy bắt đầu bằng việc tạo một nhóm!</string>
     <string name="searchForHomes">Tìm kiếm nhà</string>
     <string name="contentNoHouses">Bạn chưa thêm một ngôi nhà nào vào danh sách yêu thích. Bắt đầu tìm kiếm ngay!</string>
+    <string name="logout">Thoát</string>
+    <string name="line">-</string>
+    <string name="onePlus">1+</string>
+    <string name="twoPlus">2+</string>
+    <string name="threePlus">3+</string>
+    <string name="fourPlus">4+</string>
 
 </resources>
