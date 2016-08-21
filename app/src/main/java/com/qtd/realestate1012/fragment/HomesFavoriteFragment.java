@@ -23,6 +23,7 @@ import com.qtd.realestate1012.constant.ApiConstant;
 import com.qtd.realestate1012.constant.AppConstant;
 import com.qtd.realestate1012.model.CompactHouse;
 import com.qtd.realestate1012.utils.AlertUtils;
+import com.qtd.realestate1012.utils.ProcessJson;
 import com.qtd.realestate1012.utils.ServiceUtils;
 
 import org.json.JSONException;
@@ -122,9 +123,9 @@ public class HomesFavoriteFragment extends Fragment {
                                 break;
                             }
                             case ApiConstant.SUCCESS: {
-//                                arrayListHouses.clear();
-//                                arrayListHouses.addAll(ProcessJson.getBoardFavorite(response));
-//                                adapter.notifyDataSetChanged();
+                                arrayListHouses.clear();
+                                arrayListHouses.addAll(ProcessJson.getFavoriteHouses(response));
+                                adapter.notifyDataSetChanged();
                                 break;
                             }
                         }

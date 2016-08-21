@@ -5,13 +5,13 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
@@ -20,9 +20,9 @@ import com.qtd.realestate1012.R;
 import com.qtd.realestate1012.adapter.HouseNewsAdapter;
 import com.qtd.realestate1012.constant.ApiConstant;
 import com.qtd.realestate1012.custom.PinnedSectionListView;
+import com.qtd.realestate1012.utils.AlertUtils;
 import com.qtd.realestate1012.utils.ProcessJson;
 import com.qtd.realestate1012.utils.ServiceUtils;
-import com.qtd.realestate1012.utils.AlertUtils;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -72,13 +72,19 @@ public class HomeFragment extends Fragment {
     }
 
     private void requestData() {
-        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, ApiConstant.URL_WEB_SERVICE_GET_NEWS, new Response.Listener<JSONObject>() {
+        if (!ServiceUtils.isNetworkAvailable(view.getContext())) {
+            AlertUtils.showSnackBarNoInternet(view);
+            return;
+        }
+
+        JsonObjectRequest request = new JsonObjectRequest(ApiConstant.URL_WEB_SERVICE_GET_NEWS, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 try {
                     if (!response.getString(ApiConstant.RESULT).equals(ApiConstant.SUCCESS)) {
                         tvError.setVisibility(View.VISIBLE);
                         tvError.setText(R.string.errorConnection);
+
                         progressBar.setEnabled(false);
                         progressBar.setVisibility(View.INVISIBLE);
                         return;
@@ -87,9 +93,9 @@ public class HomeFragment extends Fragment {
                     arrayList.clear();
                     arrayList.addAll(ProcessJson.getArrayListHousesNew(response.getJSONArray(ApiConstant.LIST_HOUSE)));
                     adapter.notifyDataSetChanged();
-                    if (tvError.getVisibility() == View.VISIBLE) {
-                        tvError.setVisibility(View.INVISIBLE);
-                    }
+
+                    tvError.setVisibility(View.INVISIBLE);
+
                     progressBar.setEnabled(false);
                     progressBar.setVisibility(View.INVISIBLE);
                 } catch (JSONException e) {
@@ -119,7 +125,8 @@ public class HomeFragment extends Fragment {
             progressBar.setVisibility(View.INVISIBLE);
         } else {
             progressBar.setEnabled(true);
-            tvError.setVisibility(View.VISIBLE);
+            progressBar.setVisibility(View.VISIBLE);
+            tvError.setVisibility(View.INVISIBLE);
         }
     }
 
@@ -134,14 +141,10 @@ public class HomeFragment extends Fragment {
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
+    public void onStart() {
+        super.onStart();
         if (this.isVisible()) {
-            if (!ServiceUtils.isNetworkAvailable(view.getContext())) {
-                AlertUtils.showSnackBarNoInternet(view);
-                return;
-            }
-
+            Log.e(TAG, "onResume: update");
             requestData();
         }
     }

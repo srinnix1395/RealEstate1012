@@ -40,7 +40,8 @@
             android:paddingBottom="6dp"
             android:text="@string/filter"
             android:textAllCaps="true"
-            android:textColor="@android:color/white" />
+            android:textColor="@android:color/white"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark" />
     </LinearLayout>
 
     <RelativeLayout

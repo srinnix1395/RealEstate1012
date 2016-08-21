@@ -25,17 +25,18 @@ public class ProcessJson {
                 String id = object.getString(ApiConstant._ID);
                 String address = object.getString(ApiConstant.ADDRESS);
                 int price = object.getInt(ApiConstant.PRICE);
-                String image = object.getJSONArray(ApiConstant.IMAGE).getJSONObject(0).getString(ApiConstant.IMAGE_NO1);
+                String image = object.getJSONArray(ApiConstant.IMAGE).getString(0);
                 bunchHouse.addHouse(new CompactHouse(id, price, address, image));
             } catch (JSONException e) {
                 e.printStackTrace();
             }
         }
         bunchHouse.setType("Nhà thường");
+        arrayList.add(bunchHouse);
         return arrayList;
     }
 
-    public static ArrayList<Board> getBoardFavorite(JSONObject response) {
+    public static ArrayList<Board> getFavoriteBoards(JSONObject response) {
         ArrayList<Board> arrayList = new ArrayList<>();
         try {
             if (response.getBoolean(ApiConstant.HAS_BOARD)) {
@@ -70,4 +71,27 @@ public class ProcessJson {
         }
         return object;
     }
+
+    public static ArrayList<CompactHouse> getFavoriteHouses(JSONObject response) {
+        ArrayList<CompactHouse> arrayList = new ArrayList<>();
+
+        try {
+            JSONArray array = response.getJSONArray(ApiConstant.LIST_HOUSE);
+
+            for (int i = 0, size = array.length(); i < size; i++) {
+                JSONObject house = array.getJSONObject(i);
+
+                String id = house.getString(ApiConstant._ID);
+                String address = house.getString(ApiConstant.ADDRESS);
+                int price = house.getInt(ApiConstant.PRICE);
+                String firstImage = house.getJSONArray(ApiConstant.IMAGE).getString(0);
+
+                arrayList.add(new CompactHouse(id, price, address, firstImage));
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return arrayList;
+    }
+
 }

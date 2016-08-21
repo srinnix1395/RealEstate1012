@@ -16,6 +16,7 @@ public class AppConstant {
     public static final String LAST_EMAIL_AT_LOGIN_ACTIVITY = "last_email";
     public static final int REQUEST_CODE_CREATE_BOARD = 5;
     public static final int REQUEST_CODE_SIGN_IN = 6;
+    public static final int REQUEST_CODE_FILTER_ACTIVITY = 7;
 
     public static int ICON_TAB_NORMAL[] = {
             R.drawable.ic_home_dark_green,
@@ -28,7 +29,7 @@ public class AppConstant {
     public static int ICON_TAB_SELECTED[] = {
             R.drawable.ic_home_white,
             R.drawable.ic_search_white,
-            R.drawable.ic_heart_pink_small,
+            R.drawable.ic_heart_white_small,
             R.drawable.ic_bell_white
     };
 

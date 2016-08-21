@@ -202,15 +202,14 @@ public class LoginUsernameFragment extends Fragment implements GoogleApiClient.O
         progressBar.setEnabled(true);
         progressBar.setVisibility(View.VISIBLE);
 
-        String url = ApiConstant.URL_WEB_SERVICE_IS_EMAIL_EXISTED + etUsername.getText().toString();
-        JSONObject jsonObject = new JSONObject();
+        JSONObject jsonRequest = new JSONObject();
         try {
-            jsonObject.put(ApiConstant.EMAIL, etUsername.getText().toString());
+            jsonRequest.put(ApiConstant.EMAIL, etUsername.getText().toString());
         } catch (JSONException e) {
             e.printStackTrace();
         }
 
-        JsonObjectRequest request = new JsonObjectRequest(JsonRequest.Method.POST, url, jsonObject, new Response.Listener<JSONObject>() {
+        JsonObjectRequest request = new JsonObjectRequest(JsonRequest.Method.POST, ApiConstant.URL_WEB_SERVICE_IS_EMAIL_EXISTED, jsonRequest, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 try {
@@ -350,7 +349,7 @@ public class LoginUsernameFragment extends Fragment implements GoogleApiClient.O
                                 public void run() {
                                     getActivity().finish();
                                 }
-                            }, 2000);
+                            }, 2500);
                             break;
                         }
                     }

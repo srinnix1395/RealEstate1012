@@ -84,7 +84,7 @@ public class BoardFragment extends Fragment {
         });
 
         if (!HousieApplication.getInstance().getSharedPreUtils().getBoolean(AppConstant.USER_LOGGED_IN, false)) {
-            refreshLayout.setEnabled(true);
+            refreshLayout.setEnabled(false);
         }
 
         initRecyclerView();
@@ -132,7 +132,7 @@ public class BoardFragment extends Fragment {
                             }
                             case ApiConstant.SUCCESS: {
                                 arrayListBoards.clear();
-                                arrayListBoards.addAll(ProcessJson.getBoardFavorite(response));
+                                arrayListBoards.addAll(ProcessJson.getFavoriteBoards(response));
                                 adapter.notifyDataSetChanged();
                                 break;
                             }

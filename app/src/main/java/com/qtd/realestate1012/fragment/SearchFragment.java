@@ -1,6 +1,8 @@
 package com.qtd.realestate1012.fragment;
 
+import android.app.Activity;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
@@ -25,6 +27,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.qtd.realestate1012.R;
+import com.qtd.realestate1012.activity.FilterActivity;
 import com.qtd.realestate1012.callback.SearchFragmentCallback;
 import com.qtd.realestate1012.constant.ApiConstant;
 import com.qtd.realestate1012.constant.AppConstant;
@@ -144,7 +147,7 @@ public class SearchFragment extends Fragment implements OnMapReadyCallback, Sear
         }
     }
 
-    @OnClick({R.id.tvLocalInfo, R.id.tvSaveSearch, R.id.fabLocation, R.id.fabEnableMarker, R.id.imvClose})
+    @OnClick({R.id.tvLocalInfo, R.id.tvSaveSearch, R.id.fabLocation, R.id.fabEnableMarker, R.id.imvClose, R.id.tvFilter})
     void onClick(View view) {
         switch (view.getId()) {
             case R.id.tvLocalInfo: {
@@ -167,6 +170,22 @@ public class SearchFragment extends Fragment implements OnMapReadyCallback, Sear
                 onClickImvCloseLayoutLocalInfo();
                 break;
             }
+            case R.id.tvFilter:{
+                onClickTvFilter();
+                break;
+            }
+        }
+    }
+
+    private void onClickTvFilter() {
+        Intent intent = new Intent(getActivity(), FilterActivity.class);
+        startActivityForResult(intent, AppConstant.REQUEST_CODE_FILTER_ACTIVITY);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == AppConstant.REQUEST_CODE_FILTER_ACTIVITY && resultCode == Activity.RESULT_OK && data != null) {
+            //// TODO: 8/21/2016 filter
         }
     }
 

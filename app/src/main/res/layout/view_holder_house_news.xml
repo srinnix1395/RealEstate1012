@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_marginBottom="5dp"
     android:background="@color/colorWhiteBackground"
     android:orientation="vertical">
@@ -58,7 +59,7 @@
                 android:layout_alignParentEnd="true"
                 android:layout_margin="@dimen/com_facebook_tooltip_horizontal_padding"
                 android:background="?android:attr/selectableItemBackground"
-                android:src="@drawable/ic_heart_outline" />
+                app:srcCompat="@drawable/ic_heart_outline" />
         </RelativeLayout>
 
         <RelativeLayout
@@ -104,7 +105,7 @@
                 android:layout_alignParentEnd="true"
                 android:layout_margin="@dimen/com_facebook_tooltip_horizontal_padding"
                 android:background="?android:attr/selectableItemBackground"
-                android:src="@drawable/ic_heart_outline" />
+                app:srcCompat="@drawable/ic_heart_outline" />
         </RelativeLayout>
     </LinearLayout>
 
@@ -159,7 +160,7 @@
                 android:layout_alignParentEnd="true"
                 android:layout_margin="@dimen/com_facebook_tooltip_horizontal_padding"
                 android:background="?android:attr/selectableItemBackground"
-                android:src="@drawable/ic_heart_outline" />
+                app:srcCompat="@drawable/ic_heart_outline" />
         </RelativeLayout>
 
         <RelativeLayout
@@ -206,7 +207,7 @@
                 android:layout_alignParentEnd="true"
                 android:layout_margin="@dimen/com_facebook_tooltip_horizontal_padding"
                 android:background="?android:attr/selectableItemBackground"
-                android:src="@drawable/ic_heart_outline" />
+                app:srcCompat="@drawable/ic_heart_outline" />
         </RelativeLayout>
     </LinearLayout>
 
@@ -216,7 +217,7 @@
         android:layout_height="0dp"
         android:layout_marginTop="@dimen/marginHouse"
         android:layout_weight="3"
-        android:minHeight="170dp">
+        android:minHeight="160dp">
 
         <ImageView
             android:id="@+id/imvImage5"
@@ -256,7 +257,7 @@
             android:layout_alignParentEnd="true"
             android:layout_margin="@dimen/com_facebook_tooltip_horizontal_padding"
             android:background="?android:attr/selectableItemBackground"
-            android:src="@drawable/ic_heart_outline" />
+            app:srcCompat="@drawable/ic_heart_outline" />
     </RelativeLayout>
 
     <TextView
