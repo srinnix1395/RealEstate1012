@@ -13,6 +13,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.qtd.realestate1012.R;
 import com.qtd.realestate1012.constant.ApiConstant;
+import com.qtd.realestate1012.custom.BlurTransformation;
 import com.qtd.realestate1012.model.Board;
 import com.qtd.realestate1012.utils.ImageUtils;
 
@@ -64,7 +65,7 @@ public class BoardViewHolder extends RecyclerView.ViewHolder {
                 .load(ApiConstant.URL_WEB_SERVICE_GET_IMAGE + board.getImage())
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .thumbnail(0.1f)
-                .bitmapTransform(new jp.wasabeef.glide.transformations.BlurTransformation(itemView.getContext(), 25))
+                .bitmapTransform(new BlurTransformation(itemView.getContext()))
                 .placeholder(R.color.colorFacebook)
                 .error(R.color.colorFacebook)
                 .into(imvBoard);

@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     style="?attr/selectableItemBackground"
     android:layout_width="match_parent"
-    android:layout_height="190dp"
+    android:layout_height="wrap_content"
     android:layout_marginTop="@dimen/marginHouse"
     android:clickable="true">
 
@@ -23,8 +23,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="@dimen/com_facebook_tooltip_horizontal_padding"
-        android:layout_marginStart="@dimen/com_facebook_tooltip_horizontal_padding"
+        android:layout_marginStart="@dimen/activity_horizontal_margin"
+        android:paddingBottom="@dimen/com_facebook_tooltip_horizontal_padding"
         android:textColor="@android:color/white" />
 
     <TextView
@@ -33,7 +33,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@+id/tvAddress"
-        android:layout_marginStart="@dimen/com_facebook_tooltip_horizontal_padding"
+        android:layout_marginStart="@dimen/activity_horizontal_margin"
         android:textColor="@android:color/white"
         android:textSize="16sp" />
 </RelativeLayout>
