@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import com.qtd.realestate1012.HousieApplication;
 import com.qtd.realestate1012.R;
+import com.qtd.realestate1012.callback.FavoriteFragmentCallback;
 import com.qtd.realestate1012.constant.AppConstant;
 import com.qtd.realestate1012.fragment.FavoriteFragment;
 import com.qtd.realestate1012.fragment.HomeFragment;
@@ -24,7 +25,7 @@ import com.qtd.realestate1012.utils.ServiceUtils;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements FavoriteFragmentCallback{
     @BindView(R.id.tabLayout)
     TabLayout tabLayout;
 
@@ -185,5 +186,10 @@ public class MainActivity extends AppCompatActivity {
             }
         }
         tab.setIcon(AppConstant.ICON_TAB_SELECTED[tab.getPosition()]);
+    }
+
+    @Override
+    public void showSearchFragment() {
+        showFragment(tabLayout.getTabAt(AppConstant.SEARCH_FRAGMENT_TAB));
     }
 }

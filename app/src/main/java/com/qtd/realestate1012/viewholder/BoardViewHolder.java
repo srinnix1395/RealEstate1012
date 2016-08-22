@@ -64,7 +64,6 @@ public class BoardViewHolder extends RecyclerView.ViewHolder {
         Glide.with(itemView.getContext())
                 .load(ApiConstant.URL_WEB_SERVICE_GET_IMAGE + board.getImage())
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .thumbnail(0.1f)
                 .bitmapTransform(new BlurTransformation(itemView.getContext()))
                 .placeholder(R.color.colorFacebook)
                 .error(R.color.colorFacebook)

@@ -39,8 +39,9 @@ public class AppConstant {
             R.string.searches
     };
 
-
+    public static final int SEARCH_FRAGMENT_TAB = 1;
     public static final int LAST_TAB = 4;
+
     public static final double LATITUDE_HANOI = 21.027784;
     public static final double LONGITUDE_HANOI = 105.834217;
 

@@ -32,7 +32,6 @@ public class SearchesViewHolder extends RecyclerView.ViewHolder {
     public SearchesViewHolder(View itemView) {
         super(itemView);
         ButterKnife.bind(this, itemView);
-
     }
 
     public void setupDataViewHolder(ItemSearch itemSearch, int position) {

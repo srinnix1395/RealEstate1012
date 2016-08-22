@@ -14,7 +14,7 @@ import com.bumptech.glide.load.resource.bitmap.BitmapTransformation;
  * Created by DELL on 8/22/2016.
  */
 public class BlurTransformation extends BitmapTransformation {
-    private static final float BITMAP_SCALE = 0.1f;
+    private static final float BITMAP_SCALE = 0.01f;
     private static final float BLUR_RADIUS = 25f;
 
     private RenderScript rs;
@@ -30,8 +30,8 @@ public class BlurTransformation extends BitmapTransformation {
 
 
         Bitmap inputBitmap = Bitmap.createScaledBitmap(toTransform, width, height, false);
-        Bitmap outputBitmap = Bitmap.createBitmap(inputBitmap);
-//        Bitmap outputBitmap = inputBitmap.copy(Bitmap.Config.ARGB_8888, true);
+//        Bitmap outputBitmap = Bitmap.createBitmap(inputBitmap);
+        Bitmap outputBitmap = inputBitmap.copy(Bitmap.Config.ARGB_8888, true);
 
 
         ScriptIntrinsicBlur theIntrinsic = ScriptIntrinsicBlur.create(rs, Element.U8_4(rs));

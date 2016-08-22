@@ -7,7 +7,6 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +21,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.qtd.realestate1012.HousieApplication;
 import com.qtd.realestate1012.R;
 import com.qtd.realestate1012.adapter.HouseFavoriteAdapter;
+import com.qtd.realestate1012.callback.FavoriteFragmentCallback;
 import com.qtd.realestate1012.constant.ApiConstant;
 import com.qtd.realestate1012.constant.AppConstant;
 import com.qtd.realestate1012.model.CompactHouse;
@@ -41,7 +41,7 @@ import butterknife.OnClick;
 /**
  * Created by Dell on 7/31/2016.
  */
-public class HomesFavoriteFragment extends Fragment {
+public class HomesFavoriteFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
     private View view;
 
     @BindView(R.id.recyclerView)
@@ -56,6 +56,13 @@ public class HomesFavoriteFragment extends Fragment {
     private ArrayList<CompactHouse> arrayListHouses;
     private HouseFavoriteAdapter adapter;
     private ViewTreeObserver.OnScrollChangedListener mOnScrollChangedListener;
+    private FavoriteFragmentCallback callback;
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        callback = (FavoriteFragmentCallback) getActivity();
+    }
 
     @Nullable
     @Override
@@ -87,12 +94,7 @@ public class HomesFavoriteFragment extends Fragment {
         recyclerView.setAdapter(adapter);
 
         refreshLayout.setColorSchemeResources(R.color.colorPrimary);
-        refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                requestData();
-            }
-        });
+        refreshLayout.setOnRefreshListener(this);
 
         if (!HousieApplication.getInstance().getSharedPreUtils().getBoolean(AppConstant.USER_LOGGED_IN, false)) {
             refreshLayout.setEnabled(false);
@@ -105,6 +107,11 @@ public class HomesFavoriteFragment extends Fragment {
             recyclerView.setVisibility(View.VISIBLE);
             layoutNoHouses.setVisibility(View.INVISIBLE);
         }
+    }
+
+    @Override
+    public void onRefresh() {
+        requestData();
     }
 
     @Override
@@ -137,7 +144,6 @@ public class HomesFavoriteFragment extends Fragment {
         if (!ServiceUtils.isNetworkAvailable(view.getContext())) {
             if (this.getUserVisibleHint()) {
                 AlertUtils.showSnackBarNoInternet(view);
-                Log.e("favorite", "requestData: home");
             }
             refreshLayout.setRefreshing(false);
             return;
@@ -198,6 +204,10 @@ public class HomesFavoriteFragment extends Fragment {
 
     @OnClick(R.id.tvSearch)
     void onClick() {
-        Toast.makeText(view.getContext(), "hello", Toast.LENGTH_SHORT).show();
+        if (callback != null) {
+            callback.showSearchFragment();
+        }
     }
+
+
 }
