@@ -2,11 +2,65 @@
 <android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/layoutRefresh"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recyclerView"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:measureAllChildren="true">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fillViewport="true">
+
+            <RelativeLayout
+                android:id="@+id/layoutNoHouses"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/high_margin"
+                android:visibility="invisible">
+
+                <TextView
+                    android:id="@+id/tvTitle"
+                    style="?android:textAppearanceLarge"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/high_margin"
+                    android:layout_marginTop="@dimen/activity_vertical_margin"
+                    android:text="@string/savedSearches"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:id="@+id/tvTitle1"
+                    style="?android:attr/textAppearanceSmall"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/tvTitle"
+                    android:layout_marginBottom="@dimen/activity_vertical_margin"
+                    android:text="@string/contentNoSearch" />
+
+                <TextView
+                    android:id="@+id/tvSearch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/defaultSize"
+                    android:layout_below="@id/tvTitle1"
+                    android:layout_marginBottom="@dimen/activity_vertical_margin"
+                    android:background="@drawable/background_tv_search"
+                    android:clickable="true"
+                    android:gravity="center"
+                    android:paddingEnd="10dp"
+                    android:paddingStart="10dp"
+                    android:text="@string/search"
+                    android:textAllCaps="true"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="16sp" />
+            </RelativeLayout>
+        </ScrollView>
+    </FrameLayout>
 </android.support.v4.widget.SwipeRefreshLayout>

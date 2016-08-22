@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
@@ -54,6 +55,7 @@ public class HomesFavoriteFragment extends Fragment {
 
     private ArrayList<CompactHouse> arrayListHouses;
     private HouseFavoriteAdapter adapter;
+    private ViewTreeObserver.OnScrollChangedListener mOnScrollChangedListener;
 
     @Nullable
     @Override
@@ -108,7 +110,27 @@ public class HomesFavoriteFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
+
+        mOnScrollChangedListener = new ViewTreeObserver.OnScrollChangedListener() {
+            @Override
+            public void onScrollChanged() {
+                int scrollY = recyclerView.getScrollY();
+                if (scrollY == 0)
+                    refreshLayout.setEnabled(true);
+                else
+                    refreshLayout.setEnabled(false);
+
+            }
+        };
+        refreshLayout.getViewTreeObserver().addOnScrollChangedListener(mOnScrollChangedListener);
+
         requestData();
+    }
+
+    @Override
+    public void onStop() {
+        refreshLayout.getViewTreeObserver().removeOnScrollChangedListener(mOnScrollChangedListener);
+        super.onStop();
     }
 
     private void requestData() {

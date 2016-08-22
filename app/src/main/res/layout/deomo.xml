@@ -23,7 +23,7 @@
                 android:id="@+id/layoutNoHouses"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="@dimen/high_margin"
+                android:padding="@dimen/activity_horizontal_margin"
                 android:visibility="invisible">
 
                 <TextView
@@ -31,7 +31,7 @@
                     style="?android:textAppearanceLarge"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/high_margin"
+                    android:layout_marginBottom="@dimen/activity_vertical_margin"
                     android:layout_marginTop="@dimen/activity_vertical_margin"
                     android:text="@string/searchForHomes"
                     android:textSize="20sp" />

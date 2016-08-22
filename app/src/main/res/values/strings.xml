@@ -72,5 +72,7 @@
     <string name="twoPlus">2+</string>
     <string name="threePlus">3+</string>
     <string name="fourPlus">4+</string>
+    <string name="savedSearches">Nhũng tìm kiếm đã lưu</string>
+    <string name="contentNoSearch">Bạn chưa lưu bất kỳ tìm kiếm nào. Lưu tiêu chuẩn tìm kiếm của bạn để dễ dàng truy cập.</string>
 
 </resources>
