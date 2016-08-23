@@ -1,5 +1,6 @@
 package com.qtd.realestate1012.viewholder;
 
+import android.content.Intent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -7,6 +8,8 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.qtd.realestate1012.R;
+import com.qtd.realestate1012.activity.DetailHouseActivity;
+import com.qtd.realestate1012.callback.ViewHolderCallback;
 import com.qtd.realestate1012.constant.ApiConstant;
 import com.qtd.realestate1012.model.BunchHouse;
 
@@ -67,13 +70,17 @@ public class HouseNewsViewHolder {
     TextView tvSeeAll;
 
     private View view;
+    private BunchHouse bunchHouse;
+    private ViewHolderCallback callback;
 
     public HouseNewsViewHolder(View view) {
         this.view = view;
         ButterKnife.bind(this, view);
+        callback = (ViewHolderCallback) view.getContext();
     }
 
     public void setupViewHolder(BunchHouse bunchHouse) {
+        this.bunchHouse = bunchHouse;
         String url = ApiConstant.URL_WEB_SERVICE_GET_IMAGE;
 
         Glide.with(view.getContext())
@@ -137,8 +144,40 @@ public class HouseNewsViewHolder {
 
                 break;
             }
-            case R.id.layoutHouse1:{
-
+            case R.id.layoutHouse1: {
+                startDetailHouseActivity(0);
+                break;
+            }
+            case R.id.layoutHouse2: {
+                startDetailHouseActivity(1);
+                break;
+            }
+            case R.id.layoutHouse3: {
+                startDetailHouseActivity(2);
+                break;
+            }
+            case R.id.layoutHouse4: {
+                startDetailHouseActivity(3);
+                break;
+            }
+            case R.id.layoutHouse5: {
+                startDetailHouseActivity(4);
+                break;
+            }
+            case R.id.imvHeart1:{
+                addHouseToFavorite(0);
+                break;
+            }case R.id.imvHeart2:{
+                addHouseToFavorite(0);
+                break;
+            }case R.id.imvHeart3:{
+                addHouseToFavorite(0);
+                break;
+            }case R.id.imvHeart4:{
+                addHouseToFavorite(0);
+                break;
+            }case R.id.imvHeart5:{
+                addHouseToFavorite(0);
                 break;
             }
             default: {
@@ -146,5 +185,16 @@ public class HouseNewsViewHolder {
                 break;
             }
         }
+    }
+
+    private void addHouseToFavorite(int i) {
+        String id = bunchHouse.getCompactHouse(i).getId();
+        callback.onClickImvHeartHouseNewViewHolder(id);
+    }
+
+    private void startDetailHouseActivity(int i) {
+        Intent intent = new Intent(view.getContext(), DetailHouseActivity.class);
+        intent.putExtra(ApiConstant._ID, bunchHouse.getCompactHouse(i).getId());
+        view.getContext().startActivity(intent);
     }
 }

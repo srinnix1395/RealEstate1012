@@ -81,6 +81,12 @@ public class CreateBoardActivity extends AppCompatActivity {
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                View et = getCurrentFocus();
+                if (et != null) {
+                    InputMethodManager imm = (InputMethodManager) view.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(et.getWindowToken(), 0);
+                }
+
                 finish();
             }
         });

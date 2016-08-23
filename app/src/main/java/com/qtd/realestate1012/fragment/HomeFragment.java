@@ -19,7 +19,9 @@ import com.qtd.realestate1012.HousieApplication;
 import com.qtd.realestate1012.R;
 import com.qtd.realestate1012.adapter.HouseNewsAdapter;
 import com.qtd.realestate1012.constant.ApiConstant;
+import com.qtd.realestate1012.custom.ModalBottomSheetListBoard;
 import com.qtd.realestate1012.custom.PinnedSectionListView;
+import com.qtd.realestate1012.model.Board;
 import com.qtd.realestate1012.utils.AlertUtils;
 import com.qtd.realestate1012.utils.ProcessJson;
 import com.qtd.realestate1012.utils.ServiceUtils;
@@ -51,6 +53,7 @@ public class HomeFragment extends Fragment {
 
     private ArrayList<Object> arrayList;
     private HouseNewsAdapter adapter;
+    private ArrayList<Board> arrayListBoard;
 
     @Nullable
     @Override
@@ -71,6 +74,24 @@ public class HomeFragment extends Fragment {
         adapter = new HouseNewsAdapter(view.getContext(), 0, arrayList);
     }
 
+
+    private void initView() {
+        listView.setAdapter(adapter);
+
+        progressBar.setIndeterminate(true);
+        progressBar.getIndeterminateDrawable().setColorFilter(ContextCompat.getColor(view.getContext(), R.color.colorPrimary), PorterDuff.Mode.SRC_IN);
+
+        if (!ServiceUtils.isNetworkAvailable(view.getContext())) {
+            progressBar.setEnabled(false);
+            progressBar.setVisibility(View.INVISIBLE);
+        } else {
+            progressBar.setEnabled(true);
+            progressBar.setVisibility(View.VISIBLE);
+            tvError.setVisibility(View.INVISIBLE);
+        }
+
+    }
+
     private void requestData() {
         if (!ServiceUtils.isNetworkAvailable(view.getContext())) {
             AlertUtils.showSnackBarNoInternet(view);
@@ -81,6 +102,7 @@ public class HomeFragment extends Fragment {
             @Override
             public void onResponse(JSONObject response) {
                 try {
+                    Log.e(TAG, "onResponse: " + response );
                     if (!response.getString(ApiConstant.RESULT).equals(ApiConstant.SUCCESS)) {
                         tvError.setVisibility(View.VISIBLE);
                         tvError.setText(R.string.errorConnection);
@@ -105,6 +127,7 @@ public class HomeFragment extends Fragment {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                error.printStackTrace();
                 tvError.setText(R.string.errorConnection);
                 tvError.setVisibility(View.VISIBLE);
                 progressBar.setEnabled(false);
@@ -114,26 +137,12 @@ public class HomeFragment extends Fragment {
         HousieApplication.getInstance().addToRequestQueue(request);
     }
 
-    private void initView() {
-        listView.setAdapter(adapter);
-
-        progressBar.setIndeterminate(true);
-        progressBar.getIndeterminateDrawable().setColorFilter(ContextCompat.getColor(view.getContext(), R.color.colorPrimary), PorterDuff.Mode.SRC_IN);
-
-        if (!ServiceUtils.isNetworkAvailable(view.getContext())) {
-            progressBar.setEnabled(false);
-            progressBar.setVisibility(View.INVISIBLE);
-        } else {
-            progressBar.setEnabled(true);
-            progressBar.setVisibility(View.VISIBLE);
-            tvError.setVisibility(View.INVISIBLE);
-        }
-    }
 
     @Override
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
         if (!hidden) {
+            Log.e(TAG, "onHiddenChanged: onhidden");
             if (!ServiceUtils.isNetworkAvailable(view.getContext()) && this.isVisible()) {
                 AlertUtils.showSnackBarNoInternet(view);
             }
@@ -143,9 +152,17 @@ public class HomeFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
+        Log.e(TAG, "onStart: onStart");
+
         if (this.isVisible()) {
-            Log.e(TAG, "onResume: update");
             requestData();
         }
+    }
+
+    public void addHouseToFavorite(String id) {
+        ModalBottomSheetListBoard dialog = new ModalBottomSheetListBoard();
+
+
+        dialog.show(getFragmentManager(), "dialog");
     }
 }

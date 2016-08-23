@@ -1,72 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
 
-    <RelativeLayout
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.qtd.realestate1012.custom.PinnedSectionListView
+        android:id="@+id/listView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+        android:divider="@null"
+        android:dividerHeight="0dp" />
 
-        <com.qtd.realestate1012.custom.PinnedSectionListView
-            android:id="@+id/listView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:divider="@null"
-            android:dividerHeight="0dp" />
-
-        <TextView
-            android:id="@+id/tvNoInternet"
-            style="?android:attr/textAppearanceSmall"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:text="@string/noInternetConnection" />
-
-        <ProgressBar
-            android:id="@+id/progress_bar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true" />
-    </RelativeLayout>
-
-    <android.support.design.widget.CoordinatorLayout
-        android:id="@+id/bottomSheet"
-        android:layout_width="match_parent"
+    <TextView
+        android:id="@+id/tvNoInternet"
+        style="?android:attr/textAppearanceSmall"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_behavior="@string/bottom_sheet_behavior">
+        android:layout_centerInParent="true"
+        android:text="@string/noInternetConnection" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/com_facebook_tooltip_horizontal_padding"
-                android:text="@string/selectBoard" />
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/recyclerView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingEnd="@dimen/com_facebook_tooltip_horizontal_padding"
-                android:paddingStart="@dimen/com_facebook_tooltip_horizontal_padding" />
-
-        </LinearLayout>
-
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/fab"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="top|right|end"
-            android:layout_margin="16dp"
-            android:clickable="true"
-            android:src="@drawable/ic_heart_outline"
-            app:pressedTranslationZ="12dp" />
-    </android.support.design.widget.CoordinatorLayout>
-</android.support.design.widget.CoordinatorLayout>
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true" />
+</RelativeLayout>

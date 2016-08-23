@@ -26,6 +26,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.JsonRequest;
 import com.qtd.realestate1012.HousieApplication;
 import com.qtd.realestate1012.R;
+import com.qtd.realestate1012.callback.ViewHolderCallback;
 import com.qtd.realestate1012.constant.ApiConstant;
 import com.qtd.realestate1012.constant.AppConstant;
 import com.qtd.realestate1012.utils.ServiceUtils;
@@ -339,5 +340,4 @@ public class DetailHouseActivity extends AppCompatActivity {
     private void onClickTvDirection() {
 
     }
-
 }
