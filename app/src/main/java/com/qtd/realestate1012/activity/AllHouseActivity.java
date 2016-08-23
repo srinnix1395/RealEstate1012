@@ -67,16 +67,16 @@ public class AllHouseActivity extends AppCompatActivity {
         if (ServiceUtils.isNetworkAvailable(this)) {
             String url = ApiConstant.URL_WEB_SERVICE_GET_ALL_HOUSE_OF_A_KIND;
 
-            JSONObject jsonObject = new JSONObject();
+            JSONObject jsonRequest = new JSONObject();
             if (HousieApplication.getInstance().getSharedPreUtils().getBoolean(AppConstant.USER_LOGGED_IN, false)) {
                 try {
-                    jsonObject.put(ApiConstant._ID, HousieApplication.getInstance().getSharedPreUtils().getString(ApiConstant._ID, "-1"));
+                    jsonRequest.put(ApiConstant._ID, HousieApplication.getInstance().getSharedPreUtils().getString(ApiConstant._ID, "-1"));
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
             }
 
-            JsonObjectRequest request = new JsonObjectRequest(JsonRequest.Method.POST, url, jsonObject, new Response.Listener<JSONObject>() {
+            JsonObjectRequest request = new JsonObjectRequest(JsonRequest.Method.POST, url, jsonRequest, new Response.Listener<JSONObject>() {
                 @Override
                 public void onResponse(JSONObject response) {
                     progressBar.setEnabled(false);

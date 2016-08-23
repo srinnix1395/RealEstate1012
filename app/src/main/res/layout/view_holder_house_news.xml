@@ -20,7 +20,7 @@
             android:layout_height="match_parent"
             android:layout_marginEnd="@dimen/marginHouse"
             android:layout_weight="6"
-            android:background="?android:attr/selectableItemBackground">
+            android:background="?attr/selectableItemBackground">
 
             <ImageView
                 android:id="@+id/imvImage1"
@@ -30,7 +30,7 @@
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:src="@drawable/drawable_house_new" />
+                android:src="@drawable/background_house_fade" />
 
             <TextView
                 android:id="@+id/tvAddress1"
@@ -58,7 +58,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:layout_margin="@dimen/com_facebook_tooltip_horizontal_padding"
-                android:background="?android:attr/selectableItemBackground"
+                android:background="?attr/selectableItemBackground"
                 app:srcCompat="@drawable/ic_heart_outline" />
         </RelativeLayout>
 
@@ -66,9 +66,10 @@
             android:id="@+id/layoutHouse2"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="5">
+            android:layout_weight="5"
+            android:background="?attr/selectableItemBackground">
 
-            <ImageView
+        <ImageView
                 android:id="@+id/imvImage2"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
@@ -76,7 +77,7 @@
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:src="@drawable/drawable_house_new" />
+                android:src="@drawable/background_house_fade" />
 
             <TextView
                 android:id="@+id/tvAddress2"
@@ -104,7 +105,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:layout_margin="@dimen/com_facebook_tooltip_horizontal_padding"
-                android:background="?android:attr/selectableItemBackground"
+                android:background="?attr/selectableItemBackground"
                 app:srcCompat="@drawable/ic_heart_outline" />
         </RelativeLayout>
     </LinearLayout>
@@ -121,9 +122,10 @@
             android:id="@+id/layoutHouse3"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="5">
+            android:layout_weight="5"
+            android:background="?attr/selectableItemBackground">
 
-            <ImageView
+        <ImageView
                 android:id="@+id/imvImage3"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
@@ -131,7 +133,7 @@
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:src="@drawable/drawable_house_new" />
+                android:src="@drawable/background_house_fade" />
 
             <TextView
                 android:id="@+id/tvAddress3"
@@ -159,7 +161,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:layout_margin="@dimen/com_facebook_tooltip_horizontal_padding"
-                android:background="?android:attr/selectableItemBackground"
+                android:background="?attr/selectableItemBackground"
                 app:srcCompat="@drawable/ic_heart_outline" />
         </RelativeLayout>
 
@@ -168,9 +170,10 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_marginStart="@dimen/marginHouse"
-            android:layout_weight="5.5">
+            android:layout_weight="5.5"
+            android:background="?attr/selectableItemBackground">
 
-            <ImageView
+        <ImageView
                 android:id="@+id/imvImage4"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
@@ -178,7 +181,7 @@
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:src="@drawable/drawable_house_new" />
+                android:src="@drawable/background_house_fade" />
 
             <TextView
                 android:id="@+id/tvAddress4"
@@ -206,7 +209,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:layout_margin="@dimen/com_facebook_tooltip_horizontal_padding"
-                android:background="?android:attr/selectableItemBackground"
+                android:background="?attr/selectableItemBackground"
                 app:srcCompat="@drawable/ic_heart_outline" />
         </RelativeLayout>
     </LinearLayout>
@@ -216,9 +219,10 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="@dimen/marginHouse"
-        android:layout_weight="3">
+        android:layout_weight="3"
+        android:background="?attr/selectableItemBackground">
 
-        <ImageView
+    <ImageView
             android:id="@+id/imvImage5"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -227,7 +231,7 @@
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:src="@drawable/drawable_house_new" />
+            android:src="@drawable/background_house_fade" />
 
         <TextView
             android:id="@+id/tvAddress5"
@@ -255,7 +259,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_margin="@dimen/com_facebook_tooltip_horizontal_padding"
-            android:background="?android:attr/selectableItemBackground"
+            android:background="?attr/selectableItemBackground"
             app:srcCompat="@drawable/ic_heart_outline" />
     </RelativeLayout>
 

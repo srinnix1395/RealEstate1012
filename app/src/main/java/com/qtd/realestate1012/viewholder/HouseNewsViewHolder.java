@@ -7,6 +7,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.qtd.realestate1012.R;
+import com.qtd.realestate1012.constant.ApiConstant;
 import com.qtd.realestate1012.model.BunchHouse;
 
 import butterknife.BindView;
@@ -73,7 +74,7 @@ public class HouseNewsViewHolder {
     }
 
     public void setupViewHolder(BunchHouse bunchHouse) {
-        String url = "http://protectedcedar-31067.rhcloud.com/image/";
+        String url = ApiConstant.URL_WEB_SERVICE_GET_IMAGE;
 
         Glide.with(view.getContext())
                 .load(url + bunchHouse.getCompactHouse(0).getImage())
@@ -128,10 +129,15 @@ public class HouseNewsViewHolder {
         tvSeeAll.setText(view.getContext().getString(R.string.seeAll) + bunchHouse.getType());
     }
 
-    @OnClick({R.id.imvHeart1, R.id.imvHeart2, R.id.imvHeart3, R.id.imvHeart4, R.id.imvHeart5, R.id.tvSeeAll})
+    @OnClick({R.id.imvHeart1, R.id.imvHeart2, R.id.imvHeart3, R.id.imvHeart4, R.id.imvHeart5, R.id.tvSeeAll
+            , R.id.layoutHouse1, R.id.layoutHouse2, R.id.layoutHouse3, R.id.layoutHouse4, R.id.layoutHouse5})
     void onClick(View v) {
         switch (v.getId()) {
             case R.id.tvSeeAll: {
+
+                break;
+            }
+            case R.id.layoutHouse1:{
 
                 break;
             }

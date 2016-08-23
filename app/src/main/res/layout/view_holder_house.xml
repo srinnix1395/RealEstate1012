@@ -15,7 +15,7 @@
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:src="@drawable/drawable_house_new" />
+        android:src="@drawable/background_house_fade" />
 
     <TextView
         android:id="@+id/tvAddress"

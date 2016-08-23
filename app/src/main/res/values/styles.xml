@@ -9,6 +9,9 @@
         <item name="android:spinnerItemStyle">@style/myCustomSpinner</item>
     </style>
 
+    <style name="DetailHouseActivityStyle" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowIsTranslucent">true</item>
+    </style>
 
     <!--edit text login activity style-->
     <style name="MyCustomEditText" parent="Theme.AppCompat.Light.DarkActionBar">

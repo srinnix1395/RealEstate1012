@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
     <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:elevation="4dp"
@@ -16,24 +16,12 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <ImageView
-                android:id="@+id/imvBack"
-                style="?attr/selectableItemBackgroundBorderless"
-                android:layout_width="@dimen/defaultSize"
-                android:layout_height="@dimen/defaultSize"
-                android:layout_centerVertical="true"
-                android:layout_marginStart="-10dp"
-                android:clickable="true"
-                android:scaleType="center"
-                app:srcCompat="@drawable/ic_back_dark_gray" />
-
             <TextView
                 style="?android:attr/textAppearanceMedium"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginStart="10dp"
-                android:layout_toEndOf="@+id/imvBack"
                 android:text="@string/createBoard"
                 android:textColor="@android:color/black" />
 

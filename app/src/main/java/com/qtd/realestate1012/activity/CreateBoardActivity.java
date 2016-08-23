@@ -1,6 +1,5 @@
 package com.qtd.realestate1012.activity;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.PorterDuff;
@@ -9,6 +8,7 @@ import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
@@ -23,8 +23,8 @@ import com.android.volley.toolbox.JsonRequest;
 import com.qtd.realestate1012.HousieApplication;
 import com.qtd.realestate1012.R;
 import com.qtd.realestate1012.constant.ApiConstant;
-import com.qtd.realestate1012.utils.ServiceUtils;
 import com.qtd.realestate1012.utils.AlertUtils;
+import com.qtd.realestate1012.utils.ServiceUtils;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -47,6 +47,9 @@ public class CreateBoardActivity extends AppCompatActivity {
 
     @BindView(R.id.tvNext)
     TextView tvNext;
+
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
 
     private ArrayList<String> listBoard;
 
@@ -73,6 +76,15 @@ public class CreateBoardActivity extends AppCompatActivity {
     }
 
     private void initViews() {
+        setSupportActionBar(toolbar);
+        toolbar.setNavigationIcon(R.drawable.ic_back_dark_gray);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
+
         progressBar.setIndeterminate(true);
         progressBar.getIndeterminateDrawable().setColorFilter(ContextCompat.getColor(this, R.color.colorPrimary), PorterDuff.Mode.DST_ATOP);
         progressBar.setEnabled(false);
@@ -82,18 +94,9 @@ public class CreateBoardActivity extends AppCompatActivity {
         imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
     }
 
-    @OnClick({R.id.imvBack})
-    void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.imvBack: {
-                setResult(Activity.RESULT_CANCELED);
-                finish();
-            }
-            case R.id.tvNext: {
-                onClickNext();
-                break;
-            }
-        }
+    @OnClick({R.id.tvNext})
+    void onClick() {
+        onClickNext();
     }
 
     private void onClickNext() {

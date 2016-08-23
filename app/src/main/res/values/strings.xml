@@ -74,5 +74,27 @@
     <string name="fourPlus">4+</string>
     <string name="savedSearches">Nhũng tìm kiếm đã lưu</string>
     <string name="contentNoSearch">Bạn chưa lưu bất kỳ tìm kiếm nào. Lưu tiêu chuẩn tìm kiếm của bạn để dễ dàng truy cập.</string>
+    <string name="like">Thích</string>
+    <string name="share">Chia sẻ</string>
+    <string name="direction">Chỉ đường</string>
+    <string name="mapView">Map view</string>
+    <string name="earthView">Earth view</string>
+    <string name="intro">Giới thiệu</string>
+    <string name="seeMore">Đọc thêm</string>
+    <string name="info">Thông tin</string>
+    <string name="status">Tình trạng</string>
+    <string name="price">Giá</string>
+    <string name="numberOfRoom">Số phòng</string>
+    <string name="priceOverArea">Giá/diện tích</string>
+    <string name="propertyType">Hình thức bất động sản</string>
+    <string name="addedOnHousie">Đăng trên Housie</string>
+    <string name="address">Địa chỉ</string>
+    <string name="Contact">Thông tin liên hệ</string>
+    <string name="call">Gọi</string>
+    <string name="agent">Nhân viên môi giới</string>
+    <string name="owner">Người đăng tin</string>
+    <string name="seeLess">Ẩn bớt</string>
+    <string name="defaultNameAgent">Hoa Anh Tú</string>
+    <string name="defaultPhone">0942899531</string>
 
 </resources>

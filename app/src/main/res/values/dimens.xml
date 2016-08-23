@@ -8,6 +8,8 @@
     <dimen name="defaultSize">44dp</dimen>
     <dimen name="radius_board">6dp</dimen>
     <dimen name="high_margin">24dp</dimen>
-
+    <dimen name="miniDefaultSize">32dp</dimen>
+    <dimen name="defaultButtonHeight">36dp</dimen>
+    <dimen name="height_read_more">205dp</dimen>
 
 </resources>

@@ -1,5 +1,7 @@
 package com.qtd.realestate1012.constant;
 
+import android.widget.LinearLayout;
+
 import com.qtd.realestate1012.R;
 
 /**
@@ -17,6 +19,10 @@ public class AppConstant {
     public static final int REQUEST_CODE_CREATE_BOARD = 5;
     public static final int REQUEST_CODE_SIGN_IN = 6;
     public static final int REQUEST_CODE_FILTER_ACTIVITY = 7;
+    public static final int MAX_LINES_TV_INTRO_COLLAPSED = 3;
+    public static final int MAX_LINES_TV_INTRO_EXPANDED = 20;
+    public static final int REQUEST_CODE_CALL_PHONE_PERMISSION_AGENT = 8;
+    public static final int REQUEST_CODE_CALL_PHONE_PERMISSION_OWNER = 9;
 
     public static int ICON_TAB_NORMAL[] = {
             R.drawable.ic_home_dark_green,
@@ -45,4 +51,6 @@ public class AppConstant {
     public static final double LATITUDE_HANOI = 21.027784;
     public static final double LONGITUDE_HANOI = 105.834217;
 
+    public static final int HEIGHT_LAYOUT_INFO_COLLAPSED = 564;
+    public static final int HEIGHT_LAYOUT_INFO_EXPANDED = LinearLayout.LayoutParams.WRAP_CONTENT;
 }
