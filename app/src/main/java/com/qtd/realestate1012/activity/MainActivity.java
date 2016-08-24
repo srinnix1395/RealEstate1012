@@ -190,7 +190,6 @@ public class MainActivity extends AppCompatActivity implements FavoriteFragmentC
 
     @Override
     public void showSearchFragment() {
-//        showFragment(tabLayout.getTabAt(AppConstant.SEARCH_FRAGMENT_TAB));
         tabLayout.getTabAt(AppConstant.SEARCH_FRAGMENT_TAB).select();
     }
 

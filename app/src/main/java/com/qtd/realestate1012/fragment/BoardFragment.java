@@ -82,7 +82,7 @@ public class BoardFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        requestData();
+        //requestData();
     }
 
     private void initViews() {
@@ -101,6 +101,14 @@ public class BoardFragment extends Fragment {
         });
 
         arrayListBoards = new ArrayList<>();
+
+        arrayListBoards.add(new Board("sdalfkj", "lkasfj", 3, ""));
+        arrayListBoards.add(new Board("sdalfkj", "lkasfj", 3, ""));
+        arrayListBoards.add(new Board("sdalfkj", "lkasfj", 3, ""));
+        arrayListBoards.add(new Board("sdalfkj", "lkasfj", 3, ""));
+        arrayListBoards.add(new Board("sdalfkj", "lkasfj", 3, ""));
+        arrayListBoards.add(new Board("sdalfkj", "lkasfj", 3, ""));
+        arrayListBoards.add(new Board("sdalfkj", "lkasfj", 3, ""));
         adapter = new BoardAdapter(arrayListBoards);
 
         recyclerView.setLayoutManager(new GridLayoutManager(view.getContext(), 2));

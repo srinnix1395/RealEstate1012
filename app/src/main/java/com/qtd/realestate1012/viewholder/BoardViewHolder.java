@@ -39,26 +39,39 @@ public class BoardViewHolder extends RecyclerView.ViewHolder {
     public BoardViewHolder(View itemView) {
         super(itemView);
         ButterKnife.bind(this, itemView);
-        initSize();
     }
 
-    private void initSize() {
+    private void initSize(int position) {
         DisplayMetrics displaymetrics = new DisplayMetrics();
         ((AppCompatActivity) itemView.getContext()).getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
         int width = displaymetrics.widthPixels;
 
         CardView.LayoutParams layoutParams = new CardView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, (int) ((width / 2) * 0.85));
 
-        int margin = (int) ImageUtils.convertDpToPixel(itemView.getContext(), 16);
-        layoutParams.topMargin = margin;
-        layoutParams.bottomMargin = margin;
-        layoutParams.leftMargin = margin;
-        layoutParams.rightMargin = margin;
+        int marginLow = (int) ImageUtils.convertDpToPixel(itemView.getContext(), 8);
+        int marginHigh = (int) ImageUtils.convertDpToPixel(itemView.getContext(), 24);
+
+        if (position == 0 || position == 1) {
+            layoutParams.topMargin = (int) ImageUtils.convertDpToPixel(itemView.getContext(), 20);
+        } else {
+            layoutParams.topMargin = marginLow;
+        }
+
+        layoutParams.bottomMargin = marginLow;
+
+        if (position % 2 == 0) {
+            layoutParams.leftMargin = marginHigh;
+            layoutParams.rightMargin = marginLow;
+        } else {
+            layoutParams.leftMargin = marginLow;
+            layoutParams.rightMargin = marginHigh;
+        }
 
         cardView.setLayoutParams(layoutParams);
     }
 
-    public void setupViewHolder(Board board) {
+    public void setupViewHolder(Board board, int position) {
+        initSize(position);
         tvName.setText(board.getName());
         tvCount.setText(board.getNumberOfHouse() + itemView.getContext().getString(R.string.houses));
         Glide.with(itemView.getContext())

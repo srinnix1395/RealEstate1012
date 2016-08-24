@@ -29,7 +29,7 @@ public class BoardAdapter extends RecyclerView.Adapter<BoardViewHolder> {
 
     @Override
     public void onBindViewHolder(BoardViewHolder holder, int position) {
-        holder.setupViewHolder(arrayList.get(position));
+        holder.setupViewHolder(arrayList.get(position), position);
     }
 
     @Override
