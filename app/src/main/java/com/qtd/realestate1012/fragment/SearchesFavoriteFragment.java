@@ -12,10 +12,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
+import android.widget.RelativeLayout;
 
+import com.qtd.realestate1012.HousieApplication;
 import com.qtd.realestate1012.R;
 import com.qtd.realestate1012.adapter.SearchesAdapter;
 import com.qtd.realestate1012.callback.FavoriteFragmentCallback;
+import com.qtd.realestate1012.constant.AppConstant;
 import com.qtd.realestate1012.model.ItemSearch;
 
 import java.util.ArrayList;
@@ -35,6 +38,9 @@ public class SearchesFavoriteFragment extends Fragment implements SwipeRefreshLa
 
     @BindView(R.id.recyclerView)
     RecyclerView recyclerView;
+
+    @BindView(R.id.layoutNoSearches)
+    RelativeLayout layoutNoSearches;
 
     private ViewTreeObserver.OnScrollChangedListener mOnScrollChangedListener;
     private FavoriteFragmentCallback callback;
@@ -76,6 +82,18 @@ public class SearchesFavoriteFragment extends Fragment implements SwipeRefreshLa
         itemAnimator.setRemoveDuration(1000);
         recyclerView.setItemAnimator(itemAnimator);
         recyclerView.setAdapter(adapter);
+
+        if (!HousieApplication.getInstance().getSharedPreUtils().getBoolean(AppConstant.USER_LOGGED_IN, false)) {
+            refreshLayout.setEnabled(false);
+        }
+
+        if (arrayList.size() == 0) {
+            recyclerView.setVisibility(View.INVISIBLE);
+            layoutNoSearches.setVisibility(View.VISIBLE);
+        } else {
+            recyclerView.setVisibility(View.VISIBLE);
+            layoutNoSearches.setVisibility(View.INVISIBLE);
+        }
     }
 
     @Override
@@ -86,26 +104,7 @@ public class SearchesFavoriteFragment extends Fragment implements SwipeRefreshLa
     @Override
     public void onStart() {
         super.onStart();
-
-        mOnScrollChangedListener = new ViewTreeObserver.OnScrollChangedListener() {
-            @Override
-            public void onScrollChanged() {
-                int scrollY = recyclerView.getScrollY();
-                if (scrollY == 0)
-                    refreshLayout.setEnabled(true);
-                else
-                    refreshLayout.setEnabled(false);
-
-            }
-        };
-        refreshLayout.getViewTreeObserver().addOnScrollChangedListener(mOnScrollChangedListener);
         requestData();
-    }
-
-    @Override
-    public void onStop() {
-        refreshLayout.getViewTreeObserver().removeOnScrollChangedListener(mOnScrollChangedListener);
-        super.onStop();
     }
 
     private void requestData() {
@@ -117,12 +116,10 @@ public class SearchesFavoriteFragment extends Fragment implements SwipeRefreshLa
         }, 3000);
     }
 
-
-
     @OnClick(R.id.tvSearch)
-    void onClick(){
-        callback.showSearchFragment();
+    void onClick() {
+        if (callback != null) {
+            callback.showSearchFragment();
+        }
     }
-
-
 }

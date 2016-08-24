@@ -14,7 +14,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
@@ -66,8 +65,6 @@ public class BoardFragment extends Fragment {
 
     private ArrayList<Board> arrayListBoards;
     private BoardAdapter adapter;
-    private ViewTreeObserver.OnScrollChangedListener mOnScrollChangedListener;
-
 
     @Nullable
     @Override
@@ -85,27 +82,7 @@ public class BoardFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-
-        mOnScrollChangedListener = new ViewTreeObserver.OnScrollChangedListener() {
-            @Override
-            public void onScrollChanged() {
-                int scrollY = recyclerView.getScrollY();
-                if (scrollY == 0)
-                    refreshLayout.setEnabled(true);
-                else
-                    refreshLayout.setEnabled(false);
-
-            }
-        };
-        refreshLayout.getViewTreeObserver().addOnScrollChangedListener(mOnScrollChangedListener);
-
         requestData();
-    }
-
-    @Override
-    public void onStop() {
-        refreshLayout.getViewTreeObserver().removeOnScrollChangedListener(mOnScrollChangedListener);
-        super.onStop();
     }
 
     private void initViews() {

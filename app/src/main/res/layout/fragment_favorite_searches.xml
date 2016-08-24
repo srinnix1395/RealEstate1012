@@ -9,18 +9,13 @@
         android:layout_height="match_parent"
         android:measureAllChildren="true">
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/recyclerView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:fillViewport="true">
 
             <RelativeLayout
-                android:id="@+id/layoutNoHouses"
+                android:id="@+id/layoutNoSearches"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="@dimen/high_margin"
@@ -62,5 +57,10 @@
                     android:textSize="16sp" />
             </RelativeLayout>
         </ScrollView>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
     </FrameLayout>
 </android.support.v4.widget.SwipeRefreshLayout>

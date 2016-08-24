@@ -9,10 +9,6 @@
         android:layout_height="match_parent"
         android:measureAllChildren="true">
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/recyclerView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
 
         <ScrollView
             android:layout_width="match_parent"
@@ -62,5 +58,10 @@
                     android:textSize="16sp" />
             </RelativeLayout>
         </ScrollView>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
     </FrameLayout>
 </android.support.v4.widget.SwipeRefreshLayout>
