@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/activity_vertical_margin"
         android:layout_marginTop="8dp"
-        android:text="@string/Contact"
+        android:text="@string/contact"
         android:textColor="@android:color/black" />
 
     <RelativeLayout
@@ -39,17 +39,10 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/tvNameAgent"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Hoa Anh Tú"
                 android:textColor="@android:color/black" />
-
-            <TextView
-                android:id="@+id/tvPhoneAgent"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="0942899531" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -91,29 +84,12 @@
             android:layout_marginStart="8dp"
             app:srcCompat="@drawable/ic_account" />
 
-        <LinearLayout
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_toEndOf="@id/imvOwner"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/tvNameOwner"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@android:color/black" />
-
-            <TextView
-                android:id="@+id/tvPhoneOwner"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/owner" />
-        </LinearLayout>
+            android:text="@string/owner" />
 
 
         <TextView

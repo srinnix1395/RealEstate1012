@@ -84,7 +84,7 @@ public class HouseNewsViewHolder {
         String url = ApiConstant.URL_WEB_SERVICE_GET_IMAGE;
 
         Glide.with(view.getContext())
-                .load(url + bunchHouse.getCompactHouse(0).getImage())
+                .load(url + bunchHouse.getCompactHouse(0).getFirstImage())
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .placeholder(R.drawable.ic_apartment)
                 .crossFade()
@@ -94,7 +94,7 @@ public class HouseNewsViewHolder {
 
 
         Glide.with(view.getContext())
-                .load(url + bunchHouse.getCompactHouse(1).getImage())
+                .load(url + bunchHouse.getCompactHouse(1).getFirstImage())
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .placeholder(R.drawable.ic_apartment)
                 .crossFade()
@@ -104,7 +104,7 @@ public class HouseNewsViewHolder {
 
 
         Glide.with(view.getContext())
-                .load(url + bunchHouse.getCompactHouse(2).getImage())
+                .load(url + bunchHouse.getCompactHouse(2).getFirstImage())
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .placeholder(R.drawable.ic_apartment)
                 .crossFade()
@@ -114,7 +114,7 @@ public class HouseNewsViewHolder {
 
 
         Glide.with(view.getContext())
-                .load(url + bunchHouse.getCompactHouse(3).getImage())
+                .load(url + bunchHouse.getCompactHouse(3).getFirstImage())
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .placeholder(R.drawable.ic_apartment)
                 .crossFade()
@@ -124,7 +124,7 @@ public class HouseNewsViewHolder {
 
 
         Glide.with(view.getContext())
-                .load(url + bunchHouse.getCompactHouse(4).getImage())
+                .load(url + bunchHouse.getCompactHouse(4).getFirstImage())
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .placeholder(R.drawable.ic_apartment)
                 .crossFade()

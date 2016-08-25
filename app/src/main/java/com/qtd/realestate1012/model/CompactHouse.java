@@ -7,14 +7,14 @@ public class CompactHouse {
     protected String id;
     protected int price;
     protected String address;
-    protected String image;
+    protected String firstImage;
 
 
     public CompactHouse(String id, int price, String address, String image) {
         this.id = id;
         this.price = price;
         this.address = address;
-        this.image = image;
+        this.firstImage = image;
     }
 
     public String getId() {
@@ -29,7 +29,7 @@ public class CompactHouse {
         return address;
     }
 
-    public String getImage() {
-        return image;
+    public String getFirstImage() {
+        return firstImage;
     }
 }

@@ -44,14 +44,10 @@ public class FavoriteFragment extends Fragment {
     }
 
     private void initView() {
-        BoardFragment boardFragment = new BoardFragment();
-        HomesFavoriteFragment homesFavoriteFragment = new HomesFavoriteFragment();
-        SearchesFavoriteFragment searchFragment = new SearchesFavoriteFragment();
-
         ArrayList<Fragment> fragments = new ArrayList<>();
-        fragments.add(boardFragment);
-        fragments.add(homesFavoriteFragment);
-        fragments.add(searchFragment);
+        fragments.add(new BoardFragment());
+        fragments.add(new HomesFavoriteFragment());
+        fragments.add(new SearchesFavoriteFragment());
 
         FavoritePagerAdapter adapter = new FavoritePagerAdapter(view.getContext(), getChildFragmentManager(), fragments);
         viewPager.setAdapter(adapter);

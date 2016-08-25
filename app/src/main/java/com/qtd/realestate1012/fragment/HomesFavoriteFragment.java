@@ -40,7 +40,7 @@ import butterknife.OnClick;
 /**
  * Created by Dell on 7/31/2016.
  */
-public class HomesFavoriteFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
+public class HomesFavoriteFragment extends Fragment {
     private View view;
 
     @BindView(R.id.recyclerView)
@@ -92,7 +92,12 @@ public class HomesFavoriteFragment extends Fragment implements SwipeRefreshLayou
         recyclerView.setAdapter(adapter);
 
         refreshLayout.setColorSchemeResources(R.color.colorPrimary);
-        refreshLayout.setOnRefreshListener(this);
+        refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                requestData();
+            }
+        });
 
         if (!HousieApplication.getInstance().getSharedPreUtils().getBoolean(AppConstant.USER_LOGGED_IN, false)) {
             refreshLayout.setEnabled(false);
@@ -108,14 +113,9 @@ public class HomesFavoriteFragment extends Fragment implements SwipeRefreshLayou
     }
 
     @Override
-    public void onRefresh() {
-        requestData();
-    }
-
-    @Override
     public void onStart() {
         super.onStart();
-//        requestData();
+        requestData();
     }
 
     private void requestData() {

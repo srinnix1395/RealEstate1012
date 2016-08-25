@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="false">
+
 
     <!--scroll view-->
     <ScrollView
@@ -19,20 +22,42 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="200dp">
+                android:layout_height="240dp"
+                android:background="@drawable/image">
 
                 <ImageView
                     android:id="@+id/imvImage"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent" />
 
+                <TextView
+                    android:id="@+id/tvImages"
+                    style="?attr/selectableItemBackground"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_margin="@dimen/activity_horizontal_margin"
+                    android:background="@drawable/background_number_image"
+                    android:clickable="true"
+                    android:drawablePadding="5dp"
+                    android:drawableStart="@drawable/ic_images"
+                    android:gravity="center"
+                    android:paddingBottom="8dp"
+                    android:paddingEnd="@dimen/activity_horizontal_margin"
+                    android:paddingStart="@dimen/activity_horizontal_margin"
+                    android:paddingTop="8dp"
+                    android:textColor="@android:color/white" />
             </RelativeLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:padding="@dimen/activity_horizontal_margin">
+                android:paddingBottom="@dimen/activity_vertical_margin"
+                android:paddingEnd="@dimen/high_margin"
+                android:paddingStart="@dimen/high_margin"
+                android:paddingTop="@dimen/activity_vertical_margin">
 
                 <TextView
                     android:id="@+id/tvPrice"
@@ -56,7 +81,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/high_margin"
+                    android:layout_marginBottom="@dimen/activity_vertical_margin"
                     android:layout_marginTop="@dimen/high_margin">
 
                     <TextView
@@ -100,8 +125,10 @@
                     style="?android:attr/textAppearanceMedium"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-light"
                     android:text="@string/intro"
-                    android:textColor="@android:color/black" />
+                    android:textColor="@android:color/black"
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/tvIntro"
@@ -141,16 +168,19 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/height_read_more"
                 android:orientation="vertical"
-                android:padding="@dimen/activity_horizontal_margin">
+                android:paddingEnd="@dimen/high_margin"
+                android:paddingStart="@dimen/high_margin"
+                android:paddingTop="@dimen/activity_vertical_margin">
 
                 <TextView
                     style="?android:attr/textAppearanceMedium"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/activity_vertical_margin"
-                    android:layout_marginTop="8dp"
+                    android:fontFamily="sans-serif-light"
                     android:text="@string/info"
-                    android:textColor="@android:color/black" />
+                    android:textColor="@android:color/black"
+                    android:textStyle="bold" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -351,23 +381,25 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:padding="@dimen/activity_vertical_margin">
+                android:paddingBottom="@dimen/activity_vertical_margin"
+                android:paddingEnd="@dimen/high_margin"
+                android:paddingStart="@dimen/high_margin"
+                android:paddingTop="@dimen/activity_vertical_margin">
 
                 <TextView
                     style="?android:attr/textAppearanceMedium"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/activity_vertical_margin"
-                    android:layout_marginTop="8dp"
-                    android:text="@string/Contact"
-                    android:textColor="@android:color/black" />
+                    android:fontFamily="sans-serif-light"
+                    android:text="@string/contact"
+                    android:textColor="@android:color/black"
+                    android:textStyle="bold" />
 
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="8dp"
-                    android:background="?attr/selectableItemBackground"
-                    android:clickable="true">
+                    android:layout_marginBottom="8dp">
 
                     <ImageView
                         android:id="@+id/imvAgent"
@@ -375,7 +407,6 @@
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
                         android:layout_marginEnd="8dp"
-                        android:layout_marginStart="8dp"
                         app:srcCompat="@drawable/ic_account" />
 
                     <LinearLayout
@@ -406,11 +437,10 @@
                         android:layout_height="@dimen/defaultButtonHeight"
                         android:layout_alignParentEnd="true"
                         android:layout_centerVertical="true"
-                        android:layout_marginEnd="@dimen/activity_horizontal_margin"
                         android:background="@drawable/background_button_call"
                         android:gravity="center"
-                        android:paddingEnd="@dimen/activity_horizontal_margin"
-                        android:paddingStart="@dimen/activity_horizontal_margin"
+                        android:paddingEnd="@dimen/high_margin"
+                        android:paddingStart="@dimen/high_margin"
                         android:text="@string/call"
                         android:textAllCaps="true"
                         android:textColor="@color/colorPrimary"
@@ -419,9 +449,7 @@
 
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="?attr/selectableItemBackground"
-                    android:clickable="true">
+                    android:layout_height="wrap_content">
 
                     <ImageView
                         android:id="@+id/imvOwner"
@@ -429,7 +457,6 @@
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
                         android:layout_marginEnd="8dp"
-                        android:layout_marginStart="8dp"
                         app:srcCompat="@drawable/ic_account" />
 
                     <TextView
@@ -447,11 +474,10 @@
                         android:layout_height="@dimen/defaultButtonHeight"
                         android:layout_alignParentEnd="true"
                         android:layout_centerVertical="true"
-                        android:layout_marginEnd="@dimen/activity_horizontal_margin"
                         android:background="@drawable/background_button_call"
                         android:gravity="center"
-                        android:paddingEnd="@dimen/activity_horizontal_margin"
-                        android:paddingStart="@dimen/activity_horizontal_margin"
+                        android:paddingEnd="@dimen/high_margin"
+                        android:paddingStart="@dimen/high_margin"
                         android:text="@string/call"
                         android:textAllCaps="true"
                         android:textColor="@color/colorPrimary"
@@ -459,47 +485,39 @@
                 </RelativeLayout>
 
                 <EditText
-                    android:id="@+id/etEmail"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="textEmailAddress"
-                    android:theme="@style/EditTextCreateBoard" />
-
-                <EditText
-                    android:id="@+id/etPhone"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="phone"
-                    android:theme="@style/EditTextCreateBoard" />
-
-                <EditText
                     android:id="@+id/etContent"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:theme="@style/EditTextCreateBoard" />
+                    android:layout_marginTop="@dimen/high_margin"
+                    android:inputType="textEmailAddress"
+                    android:theme="@style/EditTextDetailActivity" />
 
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/activity_vertical_margin"
+                    android:text="@string/messageToTheOwner" />
 
                 <LinearLayout
                     android:id="@+id/btnSend"
-                    style="?attr/selectableItemBackground"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/defaultSize"
                     android:layout_marginBottom="@dimen/activity_vertical_margin"
                     android:layout_marginTop="@dimen/activity_vertical_margin"
                     android:background="@drawable/background_request_info"
                     android:clickable="true"
-                    android:gravity="center">
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="10dp"
-                        app:srcCompat="@drawable/ic_mail" />
+                    android:elevation="2dp"
+                    android:foreground="?attr/selectableItemBackground"
+                    android:gravity="center"
+                    tools:targetApi="lollipop">
 
                     <TextView
                         style="?android:attr/textAppearanceSmall"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:drawablePadding="8dp"
+                        android:drawableStart="@drawable/ic_mail"
+                        android:gravity="center"
                         android:text="@string/requestInfo"
                         android:textAllCaps="true"
                         android:textColor="@android:color/white"
@@ -510,11 +528,11 @@
 
 
         </LinearLayout>
-    </ScrollView>
-    <!--scroll view-->
+    </ScrollView><!--scroll view-->
 
     <!--toolbar-->
     <android.support.v7.widget.Toolbar
+
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -547,6 +565,5 @@
                 android:textSize="12sp" />
 
         </LinearLayout>
-    </android.support.v7.widget.Toolbar>
-    <!--toolbar-->
+    </android.support.v7.widget.Toolbar><!--toolbar-->
 </RelativeLayout>

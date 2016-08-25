@@ -26,12 +26,11 @@ import com.qtd.realestate1012.utils.ServiceUtils;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class MainActivity extends AppCompatActivity implements FavoriteFragmentCallback, ViewHolderCallback{
+public class MainActivity extends AppCompatActivity implements FavoriteFragmentCallback, ViewHolderCallback {
     @BindView(R.id.tabLayout)
     TabLayout tabLayout;
 
     private HomeFragment homeFragment;
-    private SearchFragment searchFragment;
     private FavoriteFragment favoriteFragment;
     private NotificationFragment notificationFragment;
 
@@ -136,7 +135,9 @@ public class MainActivity extends AppCompatActivity implements FavoriteFragmentC
         int tabPosition = tab.getPosition();
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         for (Fragment fragment : getSupportFragmentManager().getFragments()) {
-            transaction.hide(fragment);
+            if (fragment != null) {
+                transaction.hide(fragment);
+            }
         }
         switch (tabPosition) {
             case 0: {
@@ -150,10 +151,8 @@ public class MainActivity extends AppCompatActivity implements FavoriteFragmentC
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                     tabLayout.setElevation(0);
                 }
-                if (searchFragment == null) {
-                    searchFragment = new SearchFragment();
-                    transaction.add(R.id.layoutMain, searchFragment);
-                }
+                SearchFragment searchFragment = new SearchFragment();
+                transaction.add(R.id.layoutMain, searchFragment);
                 transaction.show(searchFragment);
                 break;
             }

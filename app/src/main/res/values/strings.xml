@@ -89,7 +89,7 @@
     <string name="propertyType">Hình thức bất động sản</string>
     <string name="addedOnHousie">Đăng trên Housie</string>
     <string name="address">Địa chỉ</string>
-    <string name="Contact">Thông tin liên hệ</string>
+    <string name="contact">Thông tin liên hệ</string>
     <string name="call">Gọi</string>
     <string name="agent">Nhân viên môi giới</string>
     <string name="owner">Người đăng tin</string>
@@ -98,5 +98,13 @@
     <string name="defaultPhone">0942899531</string>
     <string name="requestInfo">Yêu cầu thông tin</string>
     <string name="mapnNearBy">Bản đồ và thông tin địa phương</string>
+    <string name="photo">ảnh</string>
+    <string name="defaultPhoneAgent">0942899531</string>
+    <string name="selectAppToSend">Chọn ứng dụng để gửi</string>
+    <string name="noAppToSend">There are no email clients installed.</string>
+    <string name="messageToTheOwner">Email gửi đến người đăng tin</string>
+    <string name="pleaseInputEmailContent">Hãy nhập nội dung email bạn muốn gửi</string>
+    <string name="subject">Thư ngỏ</string>
+    <string name="iAmInterestingEmail">"Tôi rất muốn biết thêm thông tin về ngôi nhà "</string>
 
 </resources>

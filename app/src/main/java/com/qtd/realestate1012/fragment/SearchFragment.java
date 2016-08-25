@@ -253,5 +253,12 @@ public class SearchFragment extends Fragment implements OnMapReadyCallback, Sear
         progressBar.setEnabled(true);
         progressBar.setVisibility(View.VISIBLE);
     }
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        if (hidden) {
+            getActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
+        }
+    }
 }
 

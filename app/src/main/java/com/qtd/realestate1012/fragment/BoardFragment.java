@@ -10,7 +10,6 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -82,7 +81,7 @@ public class BoardFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        //requestData();
+        requestData();
     }
 
     private void initViews() {
@@ -101,14 +100,6 @@ public class BoardFragment extends Fragment {
         });
 
         arrayListBoards = new ArrayList<>();
-
-        arrayListBoards.add(new Board("sdalfkj", "lkasfj", 3, ""));
-        arrayListBoards.add(new Board("sdalfkj", "lkasfj", 3, ""));
-        arrayListBoards.add(new Board("sdalfkj", "lkasfj", 3, ""));
-        arrayListBoards.add(new Board("sdalfkj", "lkasfj", 3, ""));
-        arrayListBoards.add(new Board("sdalfkj", "lkasfj", 3, ""));
-        arrayListBoards.add(new Board("sdalfkj", "lkasfj", 3, ""));
-        arrayListBoards.add(new Board("sdalfkj", "lkasfj", 3, ""));
         adapter = new BoardAdapter(arrayListBoards);
 
         recyclerView.setLayoutManager(new GridLayoutManager(view.getContext(), 2));
@@ -135,7 +126,6 @@ public class BoardFragment extends Fragment {
         refreshLayout.setRefreshing(true);
         if (!ServiceUtils.isNetworkAvailable(view.getContext())) {
             if (this.getUserVisibleHint()) {
-                Log.e("favorite", "requestData: board");
                 FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.fabAddBoard);
                 AlertUtils.showSnackBarNoInternet(fab);
             }

@@ -36,7 +36,7 @@ public class HouseHasHeartViewHolder extends RecyclerView.ViewHolder {
 
     public void setupDataViewHolder(CompactHouse house) {
         Glide.with(itemView.getContext())
-                .load(house.getImage())
+                .load(house.getFirstImage())
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .crossFade(1000)
                 .placeholder(R.drawable.ic_apartment)
