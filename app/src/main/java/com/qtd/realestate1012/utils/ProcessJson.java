@@ -4,6 +4,7 @@ import com.qtd.realestate1012.constant.ApiConstant;
 import com.qtd.realestate1012.model.Board;
 import com.qtd.realestate1012.model.BunchHouse;
 import com.qtd.realestate1012.model.CompactHouse;
+import com.qtd.realestate1012.model.FullHouse;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -94,4 +95,8 @@ public class ProcessJson {
         return arrayList;
     }
 
+    public static FullHouse getDetailInfoHouse(JSONObject response) {
+
+        return null;
+    }
 }

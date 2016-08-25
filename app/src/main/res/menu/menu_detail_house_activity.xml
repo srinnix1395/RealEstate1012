@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/miHeart"
-        android:icon="@drawable/ic_heart_outline"
+        android:icon="@drawable/ic_heart_outline_24dp"
         android:title="@string/like"
         app:showAsAction="always" />
     <item

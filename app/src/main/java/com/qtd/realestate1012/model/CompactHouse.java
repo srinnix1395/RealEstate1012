@@ -4,10 +4,10 @@ package com.qtd.realestate1012.model;
  * Created by Dell on 8/7/2016.
  */
 public class CompactHouse {
-    private String id;
-    private int price;
-    private String address;
-    private String image;
+    protected String id;
+    protected int price;
+    protected String address;
+    protected String image;
 
 
     public CompactHouse(String id, int price, String address, String image) {

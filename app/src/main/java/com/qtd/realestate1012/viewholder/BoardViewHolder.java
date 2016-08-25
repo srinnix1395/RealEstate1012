@@ -78,8 +78,8 @@ public class BoardViewHolder extends RecyclerView.ViewHolder {
                 .load(ApiConstant.URL_WEB_SERVICE_GET_IMAGE + board.getImage())
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .bitmapTransform(new BlurTransformation(itemView.getContext()))
-                .placeholder(R.color.colorFacebook)
-                .error(R.color.colorFacebook)
+                .placeholder(R.color.colorFacebookGray)
+                .error(R.color.colorFacebookGray)
                 .into(imvBoard);
 
     }

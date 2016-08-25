@@ -1,23 +1,21 @@
 package com.qtd.realestate1012.activity;
 
-import android.Manifest;
 import android.animation.ObjectAnimator;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.android.volley.Response;
@@ -26,9 +24,10 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.JsonRequest;
 import com.qtd.realestate1012.HousieApplication;
 import com.qtd.realestate1012.R;
-import com.qtd.realestate1012.callback.ViewHolderCallback;
 import com.qtd.realestate1012.constant.ApiConstant;
 import com.qtd.realestate1012.constant.AppConstant;
+import com.qtd.realestate1012.model.FullHouse;
+import com.qtd.realestate1012.utils.ProcessJson;
 import com.qtd.realestate1012.utils.ServiceUtils;
 
 import org.json.JSONException;
@@ -41,7 +40,7 @@ import butterknife.OnClick;
 /**
  * Created by DELL on 8/22/2016.
  */
-public class DetailHouseActivity extends AppCompatActivity {
+public class DetailHouseActivity extends AppCompatActivity implements ViewTreeObserver.OnScrollChangedListener {
     @BindView(R.id.toolbar)
     Toolbar toolbar;
 
@@ -102,9 +101,13 @@ public class DetailHouseActivity extends AppCompatActivity {
     @BindView(R.id.tvPhoneOwner)
     TextView tvPhoneOwner;
 
+    @BindView(R.id.scrollView)
+    ScrollView scrollView;
+
     @BindView(R.id.layoutInfo)
     LinearLayout layoutInfo;
     private String id;
+    private FullHouse fullHouse;
 
 
     @Override
@@ -126,7 +129,16 @@ public class DetailHouseActivity extends AppCompatActivity {
         toolbar.setNavigationIcon(R.drawable.ic_back);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
+        scrollView.getViewTreeObserver().addOnScrollChangedListener(this);
+
         requestData();
+    }
+
+    @Override
+    public void onScrollChanged() {
+        int y = scrollView.getScrollY();
+        Log.e("scrool", "onScrollChanged: " + y);
+
     }
 
     private void requestData() {
@@ -141,6 +153,7 @@ public class DetailHouseActivity extends AppCompatActivity {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+
         JsonObjectRequest request = new JsonObjectRequest(JsonRequest.Method.POST, ApiConstant.URL_WEB_SERVICE_DETAIL_HOUSE, jsonRequest, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
@@ -170,7 +183,23 @@ public class DetailHouseActivity extends AppCompatActivity {
     }
 
     private void setData(JSONObject response) {
+        fullHouse = ProcessJson.getDetailInfoHouse(response);
 
+        tvAddressToolbar.setText(fullHouse.getAddress());
+
+        tvPrice.setText(fullHouse.getPrice());
+        tvInfo.setText(fullHouse.getNumberOfRoom() + ", " + fullHouse.getArea());
+        tvType.setText(fullHouse.getPropertyType());
+        tvIntro.setText(fullHouse.getDescription());
+
+        tvStatus.setText(fullHouse.getStatus());
+        tvArea.setText(String.valueOf(fullHouse.getArea()));
+        tvPriceInfo.setText(fullHouse.getPrice() + getString(R.string.currency));
+        tvPriceOverArea.setText(((int) (fullHouse.getPrice() / fullHouse.getArea())) + getString(R.string.currency));
+        tvNumberOfRoom.setText(String.valueOf(fullHouse.getNumberOfRoom()));
+        tvPropertyType.setText(fullHouse.getPropertyType());
+//        tvAddedOn
+        tvAddressInfo.setText(fullHouse.getAddress());
     }
 
     @Override
@@ -203,7 +232,7 @@ public class DetailHouseActivity extends AppCompatActivity {
     }
 
     @OnClick({R.id.tvDirection, R.id.tvMapView, R.id.tvEarthView, R.id.tvSeeMoreIntro, R.id.tvSeeMoreInfo
-            , R.id.tvCallAgent, R.id.tvCallOwner})
+            , R.id.tvCallAgent, R.id.tvCallOwner, R.id.btnSend})
     void onClick(View v) {
         switch (v.getId()) {
             case R.id.tvDirection: {
@@ -234,55 +263,74 @@ public class DetailHouseActivity extends AppCompatActivity {
                 onClickTvCallOwner();
                 break;
             }
+            case R.id.btnSend: {
+                onClickBtnSend();
+                break;
+            }
         }
+    }
+
+    private void onClickBtnSend() {
+
     }
 
     private void onClickTvCallOwner() {
-        Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + tvPhoneOwner.getText().toString()));
+        Intent intent = new Intent(Intent.ACTION_DIAL);
+        intent.setData(Uri.parse("tel:" + tvPhoneOwner.getText().toString()));
+        startActivity(intent);
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
-                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CALL_PHONE}, AppConstant.REQUEST_CODE_CALL_PHONE_PERMISSION_OWNER);
-            } else {
-                startActivity(intent);
-            }
-        } else {
-            startActivity(intent);
-        }
+
+//        Intent intent = new Intent(Intent.ACTION_DIAL);
+//        intent.setData(Uri.parse("tel:" + tvPhoneOwner.getText().toString()));
+//
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+//            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+//                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CALL_PHONE}, AppConstant.REQUEST_CODE_CALL_PHONE_PERMISSION_OWNER);
+//            } else {
+//                startActivity(intent);
+//            }
+//        } else {
+//            startActivity(intent);
+//        }
     }
 
     private void onClickTvCallAgent() {
-        Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + tvPhoneAgent.getText().toString()));
+        Intent intent = new Intent(Intent.ACTION_DIAL);
+        intent.setData(Uri.parse("tel:" + tvPhoneOwner.getText().toString()));
+        startActivity(intent);
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
-                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CALL_PHONE}, AppConstant.REQUEST_CODE_CALL_PHONE_PERMISSION_AGENT);
-            } else {
-                startActivity(intent);
-            }
-        } else {
-            startActivity(intent);
-        }
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+//            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+//                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CALL_PHONE}, AppConstant.REQUEST_CODE_CALL_PHONE_PERMISSION_AGENT);
+//            } else {
+//                startActivity(intent);
+//            }
+//        } else {
+//            startActivity(intent);
+//        }
     }
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        switch (requestCode) {
-            case AppConstant.REQUEST_CODE_CALL_PHONE_PERMISSION_AGENT: {
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + tvPhoneAgent.getText().toString()));
-                    startActivity(intent);
-                }
-                break;
-            }case AppConstant.REQUEST_CODE_CALL_PHONE_PERMISSION_OWNER: {
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + tvPhoneOwner.getText().toString()));
-                    startActivity(intent);
-                }
-                break;
-            }
-        }
-    }
+//    @Override
+//    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+//        switch (requestCode) {
+//            case AppConstant.REQUEST_CODE_CALL_PHONE_PERMISSION_AGENT: {
+//                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+//                    Intent intent = new Intent(Intent.ACTION_DIAL);
+//                    intent.setData(Uri.parse("tel:" + tvPhoneOwner.getText().toString()));
+//                    startActivity(intent);
+//                }
+//                break;
+//            }
+//            case AppConstant.REQUEST_CODE_CALL_PHONE_PERMISSION_OWNER: {
+//                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+//                    Intent intent = new Intent(Intent.ACTION_DIAL);
+//                    intent.setData(Uri.parse("tel:" + tvPhoneOwner.getText().toString()));
+//                    startActivity(intent);
+//                }
+//                break;
+//            }
+//        }
+//    }
 
     private void onClickTvMoreInfo() {
         if (layoutInfo.getLayoutParams().height == AppConstant.HEIGHT_LAYOUT_INFO_COLLAPSED) {
@@ -334,10 +382,13 @@ public class DetailHouseActivity extends AppCompatActivity {
     }
 
     private void onClickTvMapView() {
-
+        Intent intent = new Intent(this, MapViewActivity.class);
+        startActivity(intent);
     }
 
     private void onClickTvDirection() {
 
     }
+
+
 }

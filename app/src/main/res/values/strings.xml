@@ -73,7 +73,7 @@
     <string name="threePlus">3+</string>
     <string name="fourPlus">4+</string>
     <string name="savedSearches">Nhũng tìm kiếm đã lưu</string>
-    <string name="contentNoSearch">Bạn chưa lưu bất kỳ tìm kiếm nào. Lưu tiêu chuẩn tìm kiếm của bạn để dễ dàng truy cập.</string>
+    <string name="contentNoSearch">Bạn chưa lưu bất kỳ tìm kiếm nào. Lưu tiêu chuẩn tìm kiếm của bạn để dễ dàng truy cập sau này.</string>
     <string name="like">Thích</string>
     <string name="share">Chia sẻ</string>
     <string name="direction">Chỉ đường</string>
@@ -96,5 +96,7 @@
     <string name="seeLess">Ẩn bớt</string>
     <string name="defaultNameAgent">Hoa Anh Tú</string>
     <string name="defaultPhone">0942899531</string>
+    <string name="requestInfo">Yêu cầu thông tin</string>
+    <string name="mapnNearBy">Bản đồ và thông tin địa phương</string>
 
 </resources>

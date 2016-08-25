@@ -120,6 +120,8 @@ public class MainActivity extends AppCompatActivity implements FavoriteFragmentC
                             break;
                         }
                         case R.id.miSetting: {
+                            Intent intent = new Intent(MainActivity.this, DetailHouseActivity.class);
+                            startActivity(intent);
                             break;
                         }
                     }

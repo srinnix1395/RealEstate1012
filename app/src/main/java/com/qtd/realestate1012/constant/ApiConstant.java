@@ -79,4 +79,6 @@ public class ApiConstant {
     public static final String VICINITY = "vicinity";
 
 
+    public static final String LATITUDE = "lat";
+    public static final String LONGITUDE = "lng";
 }

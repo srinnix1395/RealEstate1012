@@ -6,6 +6,7 @@
 
     <!--scroll view-->
     <ScrollView
+        android:id="@+id/scrollView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fillViewport="true"
@@ -61,7 +62,7 @@
                     <TextView
                         android:id="@+id/tvDirection"
                         android:layout_width="0dp"
-                        android:layout_height="@dimen/miniDefaultSize"
+                        android:layout_height="@dimen/defaultButtonHeight"
                         android:layout_marginEnd="10dp"
                         android:layout_weight="1"
                         android:background="@drawable/background_tv_search"
@@ -73,7 +74,7 @@
                     <TextView
                         android:id="@+id/tvMapView"
                         android:layout_width="0dp"
-                        android:layout_height="@dimen/miniDefaultSize"
+                        android:layout_height="@dimen/defaultButtonHeight"
                         android:layout_marginEnd="10dp"
                         android:layout_weight="1"
                         android:background="@drawable/background_tv_search"
@@ -85,7 +86,7 @@
                     <TextView
                         android:id="@+id/tvEarthView"
                         android:layout_width="0dp"
-                        android:layout_height="@dimen/miniDefaultSize"
+                        android:layout_height="@dimen/defaultButtonHeight"
                         android:layout_marginEnd="10dp"
                         android:layout_weight="1"
                         android:background="@drawable/background_tv_search"
@@ -392,12 +393,6 @@
                             android:textColor="@android:color/black" />
 
                         <TextView
-                            android:id="@+id/tvPhoneAgent"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/defaultPhone" />
-
-                        <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/agent" />
@@ -437,29 +432,12 @@
                         android:layout_marginStart="8dp"
                         app:srcCompat="@drawable/ic_account" />
 
-                    <LinearLayout
+                    <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
                         android:layout_toEndOf="@id/imvOwner"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:id="@+id/tvNameOwner"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textColor="@android:color/black" />
-
-                        <TextView
-                            android:id="@+id/tvPhoneOwner"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/owner" />
-                    </LinearLayout>
+                        android:text="@string/owner" />
 
 
                     <TextView
@@ -479,8 +457,57 @@
                         android:textColor="@color/colorPrimary"
                         android:textSize="16sp" />
                 </RelativeLayout>
+
+                <EditText
+                    android:id="@+id/etEmail"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textEmailAddress"
+                    android:theme="@style/EditTextCreateBoard" />
+
+                <EditText
+                    android:id="@+id/etPhone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="phone"
+                    android:theme="@style/EditTextCreateBoard" />
+
+                <EditText
+                    android:id="@+id/etContent"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:theme="@style/EditTextCreateBoard" />
+
+
+                <LinearLayout
+                    android:id="@+id/btnSend"
+                    style="?attr/selectableItemBackground"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/defaultSize"
+                    android:layout_marginBottom="@dimen/activity_vertical_margin"
+                    android:layout_marginTop="@dimen/activity_vertical_margin"
+                    android:background="@drawable/background_request_info"
+                    android:clickable="true"
+                    android:gravity="center">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="10dp"
+                        app:srcCompat="@drawable/ic_mail" />
+
+                    <TextView
+                        style="?android:attr/textAppearanceSmall"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/requestInfo"
+                        android:textAllCaps="true"
+                        android:textColor="@android:color/white"
+                        android:textSize="16sp" />
+                </LinearLayout>
             </LinearLayout>
             <!--layout request info-->
+
 
         </LinearLayout>
     </ScrollView>
