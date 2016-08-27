@@ -6,13 +6,21 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorPrimary</item>
-        <item name="android:spinnerItemStyle">@style/myCustomSpinner</item>
     </style>
 
     <style name="DetailHouseActivityStyle" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:windowTranslucentStatus" tools:targetApi="kitkat">true</item>
     </style>
 
+    <!--style filter activity-->
+    <style name="StyleFilterActivity" parent="AppTheme">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorPrimary</item>
+        <item name="android:spinnerItemStyle">@style/myCustomSpinner</item>
+    </style>
+    <!--style filter activity-->
 
     <!--edit text login activity style-->
     <style name="MyCustomEditText" parent="Theme.AppCompat.Light.DarkActionBar">
@@ -71,6 +79,6 @@
 
     <style name="textAppearanceSpinner">
         <item name="android:textColor">@color/colorDarkGray</item>
-        <item name="android:textSize">16sp</item>
+        <item name="android:textSize">14sp</item>
     </style><!--style spinner-->
 </resources>

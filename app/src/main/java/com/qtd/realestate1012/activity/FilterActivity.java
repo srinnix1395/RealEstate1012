@@ -9,6 +9,7 @@ import android.support.v7.widget.AppCompatSpinner;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.qtd.realestate1012.R;
@@ -27,10 +28,16 @@ public class FilterActivity extends AppCompatActivity {
     Toolbar toolbar;
 
     @BindView(R.id.spinnerPriceFrom)
-    AppCompatSpinner spinnerFrom;
+    AppCompatSpinner spinnerPriceFrom;
 
     @BindView(R.id.spinnerPriceTo)
-    AppCompatSpinner spinnerTo;
+    AppCompatSpinner spinnerPriceTo;
+
+    @BindView(R.id.spinnerAreaFrom)
+    AppCompatSpinner spinnerAreaFrom;
+
+    @BindView(R.id.spinnerAreaTo)
+    AppCompatSpinner spinnerAreaTo;
 
     @BindView(R.id.tvRoomAny)
     TextView tvRoomAny;
@@ -47,6 +54,8 @@ public class FilterActivity extends AppCompatActivity {
     @BindView(R.id.tvRoom4)
     TextView tvRoom4;
 
+    @BindView(R.id.radioGroup)
+    RadioGroup radioGroup;
 
     private ArrayList<TextView> arrayListText;
 
@@ -83,11 +92,15 @@ public class FilterActivity extends AppCompatActivity {
     void onClick(View view) {
         switch (view.getId()) {
             case R.id.radioSale: {
-                changeDataSpinnerPriceRange(R.id.radioSale);
+                if (radioGroup.getCheckedRadioButtonId() != R.id.radioSale) {
+                    changeDataSpinnerPriceRange(R.id.radioSale);
+                }
                 break;
             }
             case R.id.radioRent: {
-                changeDataSpinnerPriceRange(R.id.radioRent);
+                if (radioGroup.getCheckedRadioButtonId() != R.id.radioRent) {
+                    changeDataSpinnerPriceRange(R.id.radioRent);
+                }
                 break;
             }
             case R.id.tvRoomAny: {
@@ -129,7 +142,11 @@ public class FilterActivity extends AppCompatActivity {
     }
 
     private void resetForm() {
-
+        radioGroup.check(R.id.radioSale);
+        changeDataSpinnerPriceRange(R.id.radioSale);
+        tvRoomAny.performClick();
+        spinnerAreaFrom.setSelection(0, true);
+        spinnerAreaTo.setSelection(0, true);
     }
 
     private void changeSelectedRoom(TextView textViewSelected) {
@@ -150,17 +167,17 @@ public class FilterActivity extends AppCompatActivity {
         ArrayAdapter<CharSequence> adapterTo = null;
         switch (resID) {
             case R.id.radioSale: {
-                adapterFrom = ArrayAdapter.createFromResource(this, R.array.price_range_from_sale, android.R.layout.simple_dropdown_item_1line);
-                adapterTo = ArrayAdapter.createFromResource(this, R.array.price_range_to_sale, android.R.layout.simple_dropdown_item_1line);
+                adapterFrom = ArrayAdapter.createFromResource(this, R.array.price_range_from_sale, android.R.layout.simple_spinner_item);
+                adapterTo = ArrayAdapter.createFromResource(this, R.array.price_range_to_sale, android.R.layout.simple_spinner_item);
                 break;
             }
             case R.id.radioRent: {
-                adapterFrom = ArrayAdapter.createFromResource(this, R.array.price_range_from_rent, android.R.layout.simple_dropdown_item_1line);
-                adapterTo = ArrayAdapter.createFromResource(this, R.array.price_range_to_rent, android.R.layout.simple_dropdown_item_1line);
+                adapterFrom = ArrayAdapter.createFromResource(this, R.array.price_range_from_rent, android.R.layout.simple_spinner_item);
+                adapterTo = ArrayAdapter.createFromResource(this, R.array.price_range_to_rent, android.R.layout.simple_spinner_item);
                 break;
             }
         }
-        spinnerFrom.setAdapter(adapterFrom);
-        spinnerTo.setAdapter(adapterTo);
+        spinnerPriceFrom.setAdapter(adapterFrom);
+        spinnerPriceTo.setAdapter(adapterTo);
     }
 }

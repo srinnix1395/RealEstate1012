@@ -28,14 +28,17 @@
 
         <activity android:name=".activity.LoginActivity" />
 
-        <activity android:name=".activity.AllHouseActivity"/>
+        <activity android:name=".activity.AllHouseActivity" />
 
-        <activity android:name=".activity.FilterActivity"/>
+        <activity
+            android:name=".activity.FilterActivity"
+            android:theme="@style/StyleFilterActivity" />
 
-        <activity android:name=".activity.CreateBoardActivity"/>
+        <activity android:name=".activity.CreateBoardActivity" />
 
-        <activity android:name=".activity.DetailHouseActivity"
-            android:theme="@style/DetailHouseActivityStyle"/>
+        <activity
+            android:name=".activity.DetailHouseActivity"
+            android:theme="@style/DetailHouseActivityStyle" />
 
         <activity android:name=".activity.MapViewActivity" />
 
@@ -56,7 +59,7 @@
             android:value="@integer/google_play_services_version" />
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyAXKdlSDdIttYHwoyC2Ss_BqQa1HETpbBs"/>
+            android:value="AIzaSyAXKdlSDdIttYHwoyC2Ss_BqQa1HETpbBs" />
         <!--metadata google map-->
     </application>
 

@@ -150,7 +150,7 @@ public class HomesFavoriteFragment extends Fragment {
                             case ApiConstant.SUCCESS: {
                                 arrayListHouses.clear();
                                 arrayListHouses.addAll(ProcessJson.getFavoriteHouses(response));
-                                adapter.notifyDataSetChanged();
+                                adapter.notifyItemRangeInserted(0, arrayListHouses.size());
                                 break;
                             }
                         }

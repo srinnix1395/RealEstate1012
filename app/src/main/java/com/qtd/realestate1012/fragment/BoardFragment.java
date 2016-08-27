@@ -173,7 +173,7 @@ public class BoardFragment extends Fragment {
                             case ApiConstant.SUCCESS: {
                                 arrayListBoards.clear();
                                 arrayListBoards.addAll(ProcessJson.getFavoriteBoards(response));
-                                adapter.notifyDataSetChanged();
+                                adapter.notifyItemRangeInserted(0, arrayListBoards.size());
 
                                 if (arrayListBoards.size() == 0) {
                                     recyclerView.setVisibility(View.INVISIBLE);
@@ -187,9 +187,8 @@ public class BoardFragment extends Fragment {
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();
-                    } finally {
-                        refreshLayout.setRefreshing(false);
                     }
+                    refreshLayout.setRefreshing(false);
 
                 }
             }, new Response.ErrorListener() {
@@ -227,6 +226,7 @@ public class BoardFragment extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == AppConstant.REQUEST_CODE_CREATE_BOARD && resultCode == Activity.RESULT_OK && data != null) {
             refreshLayout.setEnabled(true);
+            refreshLayout.setRefreshing(true);
             requestData();
         }
     }
