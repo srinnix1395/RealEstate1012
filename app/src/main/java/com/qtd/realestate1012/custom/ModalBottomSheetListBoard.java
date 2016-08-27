@@ -38,7 +38,6 @@ public class ModalBottomSheetListBoard extends BottomSheetDialogFragment {
     @BindView(R.id.recyclerView)
     RecyclerView recyclerView;
 
-    private ArrayList<Board> arrayList;
     private BoardAdapter adapter;
     private ArrayList<Board> arrayListBoards;
 
@@ -64,19 +63,22 @@ public class ModalBottomSheetListBoard extends BottomSheetDialogFragment {
         CoordinatorLayout.LayoutParams layoutParams = new CoordinatorLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ((width / 2)));
         view.setLayoutParams(layoutParams);
 
-
         recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext(), LinearLayoutManager.HORIZONTAL, false));
-        recyclerView.setHasFixedSize(true);
-
+        recyclerView.setAdapter(adapter);
     }
 
     private void initData() {
         Bundle bundle = getArguments();
 
-        arrayList = new ArrayList<>();
-        adapter = new BoardAdapter(arrayList);
-
         arrayListBoards = new ArrayList<>();
+
+        arrayListBoards.add(new Board("ladkjf", "homes", 3, "aldkfj"));
+        arrayListBoards.add(new Board("ladkjf", "homes", 3, "aldkfj"));
+        arrayListBoards.add(new Board("ladkjf", "homes", 3, "aldkfj"));
+        arrayListBoards.add(new Board("ladkjf", "homes", 3, "aldkfj"));
+
+        adapter = new BoardAdapter(arrayListBoards);
+
     }
 
     @OnClick(R.id.fabAddBoard)

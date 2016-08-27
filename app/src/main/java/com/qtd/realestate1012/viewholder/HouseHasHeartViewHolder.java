@@ -23,6 +23,9 @@ public class HouseHasHeartViewHolder extends RecyclerView.ViewHolder {
     @BindView(R.id.tvAddress)
     TextView tvAddress;
 
+    @BindView(R.id.tvAddress1)
+    TextView tvAddress1;
+
     @BindView(R.id.tvPrice)
     TextView tvPrice;
 
@@ -42,7 +45,8 @@ public class HouseHasHeartViewHolder extends RecyclerView.ViewHolder {
                 .placeholder(R.drawable.ic_apartment)
                 .into(imvImage);
 
-        tvAddress.setText(house.getAddress());
+        tvAddress.setText(house.getSmallAddress());
+        tvAddress1.setText(house.getLargeAddress());
         tvPrice.setTextColor(house.getPrice() + R.string.currency);
     }
 }

@@ -6,19 +6,22 @@ import java.util.ArrayList;
  * Created by DELL on 8/25/2016.
  */
 public class FullHouse extends CompactHouse {
-    private float area;
+    private int area;
     private int numberOfRoom;
     private String status;
     private String propertyType;
     private String description;
     private String lat;
     private String lng;
+    private String address;
     private String emailOwner;
     private String phoneOwner;
     private ArrayList<String> images;
 
-    public FullHouse(String id, int price, String address, float area, int numberOfRoom, String status, String propertyType, String description, String lat, String lng, String emailOwner, String phoneOwner, ArrayList<String> images) {
-        super(id, price, address, images.get(0));
+    public FullHouse(String id, int price, String detailAddress, String street, String ward, String district
+            , String city, int area, int numberOfRoom, String status, String propertyType, String description
+            , String lat, String lng, String address, String emailOwner, String phoneOwner, ArrayList<String> images) {
+        super(id, price, detailAddress, street, ward, district, city, images.get(0));
         this.area = area;
         this.numberOfRoom = numberOfRoom;
         this.status = status;
@@ -26,12 +29,13 @@ public class FullHouse extends CompactHouse {
         this.description = description;
         this.lat = lat;
         this.lng = lng;
+        this.address = address;
         this.emailOwner = emailOwner;
         this.phoneOwner = phoneOwner;
         this.images = images;
     }
 
-    public float getArea() {
+    public int getArea() {
         return area;
     }
 
@@ -65,6 +69,10 @@ public class FullHouse extends CompactHouse {
 
     public String getPhoneOwner() {
         return phoneOwner;
+    }
+
+    public String getAddress() {
+        return address;
     }
 
     public ArrayList<String> getImages() {

@@ -11,7 +11,6 @@ public class ApiConstant {
     public static final String NAME = "name";
     public static final String DOB = "DOB";
     public static final String TELEPHONE = "telephone";
-    public static final String ADDRESS = "address";
     public static final String GENDER = "gender";
     public static final String AVATAR = "avatar";
     public static final String TYPE = "type";
@@ -40,9 +39,6 @@ public class ApiConstant {
     public static final String FAILED = "failed";
     public static final String LIST_HOUSE = "list_house";
     public static final String SUCCESS = "success";
-    public static final String PRICE = "price";
-    public static final String IMAGE = "image";
-    public static final String IMAGE_NO1 = "no1";
     public static final String FACEBOOK = "facebook";
     public static final String PROVIDER = "provider";
     public static final String GOOGLE = "google";
@@ -52,12 +48,28 @@ public class ApiConstant {
     public static final String TRUE = "true";
     public static final String TYPE_LOGIN = "login";
     public static final String TYPE_REGISTER = "register";
-    public static final String FIRST_IMAGE = "first_image";
 
+    public static final String IMAGE = "image";
+    public static final String ADDRESS = "address";
+    public static final String PRICE = "price";
+    public static final String FIRST_IMAGE = "first_image";
+    public static final String STREET = "street";
+    public static final String WARD = "ward";
+    public static final String DISTRICT = "district";
+    public static final String CITY = "city";
+    public static final String STATUS = "status";
+    public static final String PROPERTY_TYPE = "property_type";
+    public static final String DESCRIPTION = "description";
+    public static final String NUMBER_OF_ROOMS = "number_of_rooms";
+    public static final String LATITUDE = "lat";
+    public static final String LONGITUDE = "lng";
+    public static final String AREA = "area";
+    public static final String DETAIL_ADDRESS = "detail_address";
 
     //    api place
-    public static final String API_PLACE_URL = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?";
+    public static final String API_PLACE_NEAR_BY_URL = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?";
     public static final String API_DIRECTION_URL = "http://maps.googleapis.com/maps/api/directions/xml?";
+    public static final String API_PLACE_GET_LAT_LONG = "http://maps.google.com/maps/api/geocode/json?address=%s&sensor=false";
 
     public static final String API_KEY = "AIzaSyAXKdlSDdIttYHwoyC2Ss_BqQa1HETpbBs";
     public static final String API_PLACE_TYPE_SCHOOL = "school";
@@ -79,6 +91,4 @@ public class ApiConstant {
     public static final String VICINITY = "vicinity";
 
 
-    public static final String LATITUDE = "lat";
-    public static final String LONGITUDE = "lng";
 }

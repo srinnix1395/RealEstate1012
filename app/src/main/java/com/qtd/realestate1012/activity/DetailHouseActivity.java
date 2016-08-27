@@ -2,11 +2,13 @@ package com.qtd.realestate1012.activity;
 
 import android.animation.ObjectAnimator;
 import android.content.Intent;
+import android.graphics.PorterDuff;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -18,6 +20,7 @@ import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -38,6 +41,8 @@ import com.qtd.realestate1012.utils.ServiceUtils;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -113,6 +118,13 @@ public class DetailHouseActivity extends AppCompatActivity implements ViewTreeOb
     @BindView(R.id.imvImage)
     ImageView imvImage;
 
+    @BindView(R.id.progress_bar)
+    ProgressBar progressBar;
+
+    @BindView(R.id.layoutTotalInfo)
+    LinearLayout layoutTotalInfo;
+
+
     private String id;
     private FullHouse fullHouse;
 
@@ -140,6 +152,11 @@ public class DetailHouseActivity extends AppCompatActivity implements ViewTreeOb
 
         scrollView.getViewTreeObserver().addOnScrollChangedListener(this);
 
+        layoutTotalInfo.setVisibility(View.INVISIBLE);
+
+        progressBar.setIndeterminate(true);
+        progressBar.getIndeterminateDrawable().setColorFilter(ContextCompat.getColor(this, R.color.colorPrimary), PorterDuff.Mode.SRC_ATOP);
+
         requestData();
     }
 
@@ -153,6 +170,8 @@ public class DetailHouseActivity extends AppCompatActivity implements ViewTreeOb
     private void requestData() {
         if (!ServiceUtils.isNetworkAvailable(this)) {
 
+            progressBar.setEnabled(false);
+            progressBar.setVisibility(View.INVISIBLE);
             return;
         }
 
@@ -169,7 +188,7 @@ public class DetailHouseActivity extends AppCompatActivity implements ViewTreeOb
                 try {
                     switch (response.getString(ApiConstant.RESULT)) {
                         case ApiConstant.FAILED: {
-
+                            Toast.makeText(DetailHouseActivity.this, R.string.errorProcessing, Toast.LENGTH_SHORT).show();
                             break;
                         }
                         case ApiConstant.SUCCESS: {
@@ -180,6 +199,11 @@ public class DetailHouseActivity extends AppCompatActivity implements ViewTreeOb
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
+
+                progressBar.setEnabled(false);
+                progressBar.setVisibility(View.INVISIBLE);
+
+                layoutTotalInfo.setVisibility(View.VISIBLE);
             }
         }, new Response.ErrorListener() {
             @Override
@@ -193,31 +217,33 @@ public class DetailHouseActivity extends AppCompatActivity implements ViewTreeOb
 
     private void setData(JSONObject response) {
         fullHouse = ProcessJson.getDetailInfoHouse(response);
+        if (fullHouse != null) {
+            Glide.with(this)
+                    .load(ApiConstant.URL_WEB_SERVICE_GET_IMAGE + fullHouse.getFirstImage())
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .crossFade(1000)
+                    .into(imvImage);
 
-        Glide.with(this)
-                .load(ApiConstant.URL_WEB_SERVICE_GET_IMAGE + fullHouse.getFirstImage())
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .crossFade(1000)
-                .into(imvImage);
+            tvAddressToolbar.setText(String.format("%s %s, %s", fullHouse.getDetailAddress(), fullHouse.getStreet(), fullHouse.getWard()));
+            tvAddressCityToolbar.setText(String.format("%s, %s", fullHouse.getDistrict(), fullHouse.getCity()));
 
-        tvAddressToolbar.setText(fullHouse.getAddress());
+            tvImages.setText(String.format("%s %s", fullHouse.getImages().size(), getString(R.string.photo)));
+            tvPrice.setText(String.format(Locale.getDefault(), "%,d %s", fullHouse.getPrice(), getString(R.string.currency)));
+            tvInfo.setText(String.format(Locale.getDefault(), "%d %s, %s m2", fullHouse.getNumberOfRoom(), getString(R.string.room), fullHouse.getArea()));
+            tvType.setText(fullHouse.getPropertyType());
+            tvIntro.setText(fullHouse.getDescription());
 
-        tvImages.setText(fullHouse.getImages().size() + getString(R.string.photo));
-        tvPrice.setText(fullHouse.getPrice());
-        tvInfo.setText(fullHouse.getNumberOfRoom() + ", " + fullHouse.getArea());
-        tvType.setText(fullHouse.getPropertyType());
-        tvIntro.setText(fullHouse.getDescription());
-
-        tvStatus.setText(fullHouse.getStatus());
-        tvArea.setText(String.valueOf(fullHouse.getArea()));
-        tvPriceInfo.setText(fullHouse.getPrice() + getString(R.string.currency));
-        tvPriceOverArea.setText(((int) (fullHouse.getPrice() / fullHouse.getArea())) + getString(R.string.currency));
-        tvNumberOfRoom.setText(String.valueOf(fullHouse.getNumberOfRoom()));
-        tvPropertyType.setText(fullHouse.getPropertyType());
+            tvStatus.setText(fullHouse.getStatus());
+            tvArea.setText(String.format(Locale.getDefault(), "%,d m2", fullHouse.getArea()));
+            tvPriceInfo.setText(String.format("%s %s", fullHouse.getPrice(), getString(R.string.currency)));
+            tvPriceOverArea.setText(String.format(Locale.getDefault(), "%,d %s", (fullHouse.getPrice() / fullHouse.getArea()), getString(R.string.currency)));
+            tvNumberOfRoom.setText(String.format(Locale.getDefault(), "%d %s", fullHouse.getNumberOfRoom(), getString(R.string.room)));
+            tvPropertyType.setText(fullHouse.getPropertyType());
 //        tvAddedOn
-        tvAddressInfo.setText(fullHouse.getAddress());
+            tvAddressInfo.setText(fullHouse.getAddress());
 
-        etContentEmail.setText(getString(R.string.iAmInterestingEmail) + fullHouse.getAddress());
+            etContentEmail.setText(String.format("%s %s", getString(R.string.iAmInterestingEmail), fullHouse.getAddress()));
+        }
     }
 
     @Override

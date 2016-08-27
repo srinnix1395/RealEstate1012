@@ -1,34 +1,31 @@
 package com.qtd.realestate1012.adapter;
 
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
 
 import com.qtd.realestate1012.R;
-import com.qtd.realestate1012.custom.PinnedSectionListView;
 import com.qtd.realestate1012.model.BunchHouse;
 import com.qtd.realestate1012.viewholder.HeaderViewHolder;
 import com.qtd.realestate1012.viewholder.HouseNewsViewHolder;
 
 import java.util.ArrayList;
-import java.util.List;
+
+import de.hamm.pinnedsectionlistview.PinnedSectionListView;
 
 /**
  * Created by Dell on 8/7/2016.
  */
-public class HouseNewsAdapter extends ArrayAdapter implements PinnedSectionListView.PinnedSectionListAdapter {
+public class HouseNewsAdapter extends BaseAdapter implements PinnedSectionListView.PinnedSectionListAdapter {
     private static final int VIEW_TYPE_HEADER = 0;
     private static final int VIEW_TYPE_HOUSES = 1;
 
     private ArrayList<Object> arrayList;
 
-    public HouseNewsAdapter(Context context, int resource, List objects) {
-        super(context, resource, objects);
-        arrayList = (ArrayList<Object>) objects;
+    public HouseNewsAdapter(ArrayList<Object> arrayList) {
+        this.arrayList = arrayList;
     }
-
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
@@ -43,7 +40,7 @@ public class HouseNewsAdapter extends ArrayAdapter implements PinnedSectionListV
                 viewHolder = (HouseNewsViewHolder) view.getTag();
             }
             viewHolder.setupViewHolder((BunchHouse) arrayList.get(position));
-        } else {
+        } else if (getItemViewType(position) == VIEW_TYPE_HEADER) {
             HeaderViewHolder viewHolder;
             if (view == null) {
                 view = LayoutInflater.from(parent.getContext()).inflate(R.layout.view_holder_header, parent, false);
@@ -63,8 +60,18 @@ public class HouseNewsAdapter extends ArrayAdapter implements PinnedSectionListV
     }
 
     @Override
+    public Object getItem(int i) {
+        return arrayList.get(i);
+    }
+
+    @Override
+    public long getItemId(int i) {
+        return i;
+    }
+
+    @Override
     public int getItemViewType(int position) {
-        if (arrayList.get(position) instanceof String) {
+        if (position % 2 == 0) {
             return VIEW_TYPE_HEADER;
         }
 

@@ -23,7 +23,7 @@ public class PlaceManager {
         JSONArray jsonArray = new JSONArray();
         String jsonResult;
 
-        StringBuilder googlePlaceURL = new StringBuilder(ApiConstant.API_PLACE_URL);
+        StringBuilder googlePlaceURL = new StringBuilder(ApiConstant.API_PLACE_NEAR_BY_URL);
         googlePlaceURL.append("location=" + latitude + "," + longitude);
         googlePlaceURL.append("&radius=" + ApiConstant.DEFAULT_RADIUS);
         googlePlaceURL.append("&types=" + type);

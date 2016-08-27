@@ -22,17 +22,26 @@ public class ProcessJson {
         BunchHouse bunchHouse = new BunchHouse();
         for (int i = 0, length = jsonArray.length(); i < length; i++) {
             try {
-                JSONObject object = jsonArray.getJSONObject(i);
-                String id = object.getString(ApiConstant._ID);
-                String address = object.getString(ApiConstant.ADDRESS);
-                int price = object.getInt(ApiConstant.PRICE);
-                String image = object.getJSONArray(ApiConstant.IMAGE).getString(0);
-                bunchHouse.addHouse(new CompactHouse(id, price, address, image));
+                JSONObject house = jsonArray.getJSONObject(i);
+
+                String id = house.getString(ApiConstant._ID);
+                int price = house.getInt(ApiConstant.PRICE);
+                String firstImage = house.getJSONArray(ApiConstant.IMAGE).getString(0);
+                String detailAddress= house.getString(ApiConstant.DETAIL_ADDRESS);
+                String street = house.getString(ApiConstant.STREET);
+                String ward = house.getString(ApiConstant.WARD);
+                String district = house.getString(ApiConstant.DISTRICT);
+                String city = house.getString(ApiConstant.CITY);
+
+                bunchHouse.addHouse(new CompactHouse(id, price, detailAddress, street, ward, district, city, firstImage));
+
             } catch (JSONException e) {
                 e.printStackTrace();
             }
         }
         bunchHouse.setType("Nhà thường");
+        arrayList.add(bunchHouse);
+        arrayList.add("Nhà thường");
         arrayList.add(bunchHouse);
         return arrayList;
     }
@@ -83,11 +92,15 @@ public class ProcessJson {
                 JSONObject house = array.getJSONObject(i);
 
                 String id = house.getString(ApiConstant._ID);
-                String address = house.getString(ApiConstant.ADDRESS);
                 int price = house.getInt(ApiConstant.PRICE);
                 String firstImage = house.getJSONArray(ApiConstant.IMAGE).getString(0);
+                String detailAddress= house.getString(ApiConstant.DETAIL_ADDRESS);
+                String street = house.getString(ApiConstant.STREET);
+                String ward = house.getString(ApiConstant.WARD);
+                String district = house.getString(ApiConstant.DISTRICT);
+                String city = house.getString(ApiConstant.CITY);
 
-                arrayList.add(new CompactHouse(id, price, address, firstImage));
+                arrayList.add(new CompactHouse(id, price, detailAddress, street, ward, district, city, firstImage));
             }
         } catch (JSONException e) {
             e.printStackTrace();
@@ -96,7 +109,35 @@ public class ProcessJson {
     }
 
     public static FullHouse getDetailInfoHouse(JSONObject response) {
+        try {
+            String id = response.getString(ApiConstant._ID);
+            String address = response.getString(ApiConstant.ADDRESS);
+            String city = response.getString(ApiConstant.CITY);
+            String description = response.getString(ApiConstant.DESCRIPTION);
+            String district = response.getString(ApiConstant.DISTRICT);
+            String lat = response.getString(ApiConstant.LATITUDE);
+            String lng = response.getString(ApiConstant.LONGITUDE);
+            int numberOfRoom = response.getInt(ApiConstant.NUMBER_OF_ROOMS);
+            int price = response.getInt(ApiConstant.PRICE);
+            String propertyType = response.getString(ApiConstant.PROPERTY_TYPE);
+            String status = response.getString(ApiConstant.STATUS);
+            String street = response.getString(ApiConstant.STREET);
+            String type = response.getString(ApiConstant.TYPE);
+            String ward = response.getString(ApiConstant.WARD);
+            int area = response.getInt(ApiConstant.AREA);
+            String detailAdd = response.getString(ApiConstant.DETAIL_ADDRESS);
 
+            ArrayList<String> images = new ArrayList<>();
+            JSONArray arrayImage = response.getJSONArray(ApiConstant.IMAGE);
+            for (int i = 0, size = arrayImage.length(); i < size; i++) {
+                images.add(arrayImage.getString(i));
+            }
+
+            return new FullHouse(id, price, detailAdd, street, ward, district, city, area, numberOfRoom, status, propertyType,
+                    description, lat, lng, address, "hello", "0123", images);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
         return null;
     }
 }

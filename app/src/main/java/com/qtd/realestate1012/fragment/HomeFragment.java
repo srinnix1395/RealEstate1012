@@ -20,7 +20,6 @@ import com.qtd.realestate1012.R;
 import com.qtd.realestate1012.adapter.HouseNewsAdapter;
 import com.qtd.realestate1012.constant.ApiConstant;
 import com.qtd.realestate1012.custom.ModalBottomSheetListBoard;
-import com.qtd.realestate1012.custom.PinnedSectionListView;
 import com.qtd.realestate1012.model.Board;
 import com.qtd.realestate1012.utils.AlertUtils;
 import com.qtd.realestate1012.utils.ProcessJson;
@@ -33,6 +32,7 @@ import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import de.hamm.pinnedsectionlistview.PinnedSectionListView;
 
 /**
  * Created by Dell on 7/30/2016.
@@ -54,6 +54,7 @@ public class HomeFragment extends Fragment {
     private ArrayList<Object> arrayList;
     private HouseNewsAdapter adapter;
     private ArrayList<Board> arrayListBoard;
+    private boolean isInit;
 
     @Nullable
     @Override
@@ -71,7 +72,7 @@ public class HomeFragment extends Fragment {
 
     private void initData() {
         arrayList = new ArrayList<>();
-        adapter = new HouseNewsAdapter(view.getContext(), 0, arrayList);
+        adapter = new HouseNewsAdapter(arrayList);
     }
 
 
@@ -102,7 +103,7 @@ public class HomeFragment extends Fragment {
             @Override
             public void onResponse(JSONObject response) {
                 try {
-                    Log.e(TAG, "onResponse: " + response );
+                    Log.e(TAG, "onResponse: " + response);
                     if (!response.getString(ApiConstant.RESULT).equals(ApiConstant.SUCCESS)) {
                         tvError.setVisibility(View.VISIBLE);
                         tvError.setText(R.string.errorConnection);
@@ -141,18 +142,26 @@ public class HomeFragment extends Fragment {
     @Override
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
-        if (!hidden) {
-            Log.e(TAG, "onHiddenChanged: onhidden");
-            if (!ServiceUtils.isNetworkAvailable(view.getContext()) && this.isVisible()) {
-                AlertUtils.showSnackBarNoInternet(view);
-            }
+        if (!hidden && ServiceUtils.isNetworkAvailable(view.getContext())) {
+            arrayList.clear();
+            adapter.notifyDataSetChanged();
+
+            progressBar.setEnabled(true);
+            progressBar.setVisibility(View.VISIBLE);
+            tvError.setVisibility(View.INVISIBLE);
+
+            requestData();
         }
     }
 
     @Override
     public void onStart() {
         super.onStart();
-        Log.e(TAG, "onStart: onStart");
+        if (!isInit) {
+            requestData();
+            isInit = true;
+            return;
+        }
 
         if (this.isVisible()) {
             requestData();

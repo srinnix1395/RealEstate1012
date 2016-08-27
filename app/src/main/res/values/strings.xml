@@ -106,5 +106,7 @@
     <string name="pleaseInputEmailContent">Hãy nhập nội dung email bạn muốn gửi</string>
     <string name="subject">Thư ngỏ</string>
     <string name="iAmInterestingEmail">"Tôi rất muốn biết thêm thông tin về ngôi nhà "</string>
+    <string name="room">phòng</string>
+    <string name="errorProcessing">Đã có lỗi trong quá trình xử lý, xin thử lại.</string>
 
 </resources>

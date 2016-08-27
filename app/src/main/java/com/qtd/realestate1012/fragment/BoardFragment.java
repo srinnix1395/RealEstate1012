@@ -100,6 +100,8 @@ public class BoardFragment extends Fragment {
         });
 
         arrayListBoards = new ArrayList<>();
+
+
         adapter = new BoardAdapter(arrayListBoards);
 
         recyclerView.setLayoutManager(new GridLayoutManager(view.getContext(), 2));
@@ -116,10 +118,24 @@ public class BoardFragment extends Fragment {
         if (arrayListBoards.size() == 0) {
             recyclerView.setVisibility(View.INVISIBLE);
             layoutNoBoard.setVisibility(View.VISIBLE);
+
+
         } else {
             recyclerView.setVisibility(View.VISIBLE);
             layoutNoBoard.setVisibility(View.INVISIBLE);
         }
+
+//        AppBarLayout.LayoutParams params = (AppBarLayout.LayoutParams) mToolbar.getLayoutParams();
+//        CoordinatorLayout.LayoutParams appBarLayoutParams = (CoordinatorLayout.LayoutParams) mAppBarLayout.getLayoutParams();
+//        if(isMapIndex) {
+//            params.setScrollFlags(0);
+//            appBarLayoutParams.setBehavior(null);
+//            mAppBarLayout.setLayoutParams(appBarLayoutParams);
+//        } else {
+//            params.setScrollFlags(AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL | AppBarLayout.LayoutParams.SCROLL_FLAG_ENTER_ALWAYS);
+//            appBarLayoutParams.setBehavior(new AppBarLayout.Behavior());
+//            mAppBarLayout.setLayoutParams(appBarLayoutParams);
+//        }
     }
 
     private void requestData() {

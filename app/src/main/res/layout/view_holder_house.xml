@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     style="?attr/selectableItemBackground"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="180dp"
     android:layout_marginTop="@dimen/marginHouse"
     android:clickable="true">
 
@@ -19,22 +19,41 @@
         android:src="@drawable/background_house_fade" />
 
     <TextView
-        android:id="@+id/tvAddress"
-        style="?android:attr/textAppearanceSmall"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_marginStart="@dimen/activity_horizontal_margin"
-        android:paddingBottom="@dimen/com_facebook_tooltip_horizontal_padding"
-        android:textColor="@android:color/white" />
-
-    <TextView
         android:id="@+id/tvPrice"
         style="?android:attr/textAppearanceSmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@+id/tvAddress"
-        android:layout_marginStart="@dimen/activity_horizontal_margin"
+        android:layout_marginStart="@dimen/com_facebook_tooltip_horizontal_padding"
+        android:fontFamily="sans-serif-light"
         android:textColor="@android:color/white"
-        android:textSize="16sp" />
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/tvAddress"
+        style="?android:attr/textAppearanceSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/tvAddress1"
+        android:layout_marginStart="@dimen/com_facebook_tooltip_horizontal_padding"
+        android:ellipsize="end"
+        android:fontFamily="sans-serif-light"
+        android:lines="1"
+        android:textColor="@android:color/white"
+        android:textSize="12sp" />
+
+    <TextView
+        android:id="@+id/tvAddress1"
+        style="?android:attr/textAppearanceSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="@dimen/com_facebook_tooltip_horizontal_padding"
+        android:layout_marginEnd="@dimen/activity_horizontal_margin"
+        android:layout_marginStart="@dimen/com_facebook_tooltip_horizontal_padding"
+        android:ellipsize="end"
+        android:fontFamily="sans-serif-light"
+        android:lines="1"
+        android:textColor="@android:color/white"
+        android:textSize="12sp" />
 </RelativeLayout>
