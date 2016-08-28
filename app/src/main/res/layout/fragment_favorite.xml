@@ -9,24 +9,22 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <android.support.design.widget.CollapsingToolbarLayout
+        <android.support.design.widget.TabLayout
+            android:id="@+id/tabLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/colorPrimary"
+            android:elevation="4dp"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark"
             app:layout_collapseMode="parallax"
-            app:layout_scrollFlags="scroll|enterAlways">
-
-            <android.support.design.widget.TabLayout
-                android:id="@+id/tabLayout"
-                style="@style/CustomTabLayoutFavoriteFragment"
-                android:layout_width="match_parent"
-                android:layout_height="?android:attr/actionBarSize"
-                android:background="@color/colorPrimary"
-                android:elevation="4dp"
-                android:theme="@style/ThemeOverlay.AppCompat.Dark"
-                app:tabGravity="center"
-                app:tabMode="fixed"
-                tools:targetApi="lollipop" />
-        </android.support.design.widget.CollapsingToolbarLayout>
+            app:layout_scrollFlags="scroll|enterAlways"
+            app:tabGravity="center"
+            app:tabIndicatorColor="@android:color/white"
+            app:tabIndicatorHeight="2dp"
+            app:tabMode="fixed"
+            app:tabSelectedTextColor="@android:color/white"
+            app:tabTextColor="@color/colorLightGreen"
+            tools:targetApi="lollipop" />
 
     </android.support.design.widget.AppBarLayout>
 

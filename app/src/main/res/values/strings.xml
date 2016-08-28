@@ -64,7 +64,7 @@
     <string name="getOnBoard">Tạo lập các nhóm</string>
     <string name="contentNoBoards">Phân nhóm những ngôi nhà bạn thích vào các nhóm để có thể dễ dàng theo dõi chúng</string>
     <string name="startedByCreatingABoard">Hãy bắt đầu bằng việc tạo một nhóm!</string>
-    <string name="searchForHomes">Tìm kiếm nhà</string>
+    <string name="searchForHomes">Danh sách nhà quan tâm</string>
     <string name="contentNoHouses">Bạn chưa thêm một ngôi nhà nào vào danh sách yêu thích. Bắt đầu tìm kiếm ngay!</string>
     <string name="logout">Thoát</string>
     <string name="line">-</string>

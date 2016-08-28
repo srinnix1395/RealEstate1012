@@ -31,6 +31,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.JsonRequest;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.google.android.gms.maps.GoogleMap;
 import com.qtd.realestate1012.HousieApplication;
 import com.qtd.realestate1012.R;
 import com.qtd.realestate1012.constant.ApiConstant;
@@ -284,11 +285,11 @@ public class DetailHouseActivity extends AppCompatActivity implements ViewTreeOb
                 break;
             }
             case R.id.tvMapView: {
-                onClickTvMapView();
+                openMapActivity(GoogleMap.MAP_TYPE_NORMAL);
                 break;
             }
             case R.id.tvEarthView: {
-                onClickTvEarthView();
+                openMapActivity(GoogleMap.MAP_TYPE_HYBRID);
                 break;
             }
             case R.id.tvSeeMoreIntro: {
@@ -399,14 +400,15 @@ public class DetailHouseActivity extends AppCompatActivity implements ViewTreeOb
         }
     }
 
-    private void onClickTvEarthView() {
-
-    }
-
-    private void onClickTvMapView() {
+    private void openMapActivity(int mapType) {
         Intent intent = new Intent(this, MapViewActivity.class);
+        intent.putExtra(ApiConstant.LATITUDE, Double.parseDouble(fullHouse.getLat()));
+        intent.putExtra(ApiConstant.LONGITUDE, Double.parseDouble(fullHouse.getLng()));
+        intent.putExtra(ApiConstant.PRICE, fullHouse.getPrice());
+        intent.putExtra(ApiConstant.MAP_TYPE, mapType);
         startActivity(intent);
     }
+
 
     private void onClickTvDirection() {
 

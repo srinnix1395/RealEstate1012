@@ -8,11 +8,12 @@
 
     <android.support.design.widget.TabLayout
         android:id="@+id/tabLayout"
-        style="@style/MyCustomTabLayout"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="@color/colorPrimary"
         android:elevation="4dp"
+        app:tabIndicatorColor="@android:color/transparent"
+        app:tabIndicatorHeight="0dp"
         android:theme="@style/ThemeOverlay.AppCompat.Dark"
         app:tabMode="fixed"
         tools:targetApi="lollipop" />

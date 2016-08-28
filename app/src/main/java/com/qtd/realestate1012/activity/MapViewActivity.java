@@ -12,9 +12,14 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.qtd.realestate1012.R;
 import com.qtd.realestate1012.constant.ApiConstant;
+import com.qtd.realestate1012.custom.MarkerInfoHouse;
+import com.qtd.realestate1012.utils.ImageUtils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -29,6 +34,9 @@ public class MapViewActivity extends AppCompatActivity implements OnMapReadyCall
     private SupportMapFragment mapFragment;
     private GoogleMap map;
     private LatLng latLng;
+    private Marker myPosition;
+    private int price;
+    private int mapType;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -44,6 +52,8 @@ public class MapViewActivity extends AppCompatActivity implements OnMapReadyCall
 
         if (intent != null) {
             latLng = new LatLng(intent.getDoubleExtra(ApiConstant.LATITUDE, 0), intent.getDoubleExtra(ApiConstant.LONGITUDE, 0));
+            price = intent.getIntExtra(ApiConstant.PRICE, 0);
+            mapType = intent.getIntExtra(ApiConstant.MAP_TYPE, GoogleMap.MAP_TYPE_NORMAL);
         }
     }
 
@@ -72,9 +82,17 @@ public class MapViewActivity extends AppCompatActivity implements OnMapReadyCall
     private void setupMap(GoogleMap googleMap) {
         map = googleMap;
 
+        map.setMapType(mapType);
         if (latLng != null) {
             map.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 14));
         }
+
+        MarkerOptions markerOptions = new MarkerOptions();
+        markerOptions.position(latLng);
+        View view = new MarkerInfoHouse(this, price);
+        markerOptions.icon(BitmapDescriptorFactory.fromBitmap(ImageUtils.getBitmapFromView(view)));
+
+        myPosition = map.addMarker(markerOptions);
     }
 
 

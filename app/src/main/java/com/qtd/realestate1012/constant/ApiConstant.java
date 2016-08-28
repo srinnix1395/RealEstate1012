@@ -89,6 +89,5 @@ public class ApiConstant {
 
     public static final String NEXT_PAGE_TOKEN = "next_page_token";
     public static final String VICINITY = "vicinity";
-
-
+    public static final String MAP_TYPE = "map_type";
 }
