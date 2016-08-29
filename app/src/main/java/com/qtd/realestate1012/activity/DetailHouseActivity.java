@@ -39,6 +39,7 @@ import com.qtd.realestate1012.constant.AppConstant;
 import com.qtd.realestate1012.model.FullHouse;
 import com.qtd.realestate1012.utils.ProcessJson;
 import com.qtd.realestate1012.utils.ServiceUtils;
+import com.qtd.realestate1012.utils.UiUtils;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -148,7 +149,7 @@ public class DetailHouseActivity extends AppCompatActivity implements ViewTreeOb
         toolbar.setNavigationIcon(R.drawable.ic_back);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         if (Build.VERSION.SDK_INT >= 17) {
-            toolbar.setPadding(0, getStatusBarHeight(), 0, 0);
+            toolbar.setPadding(0, UiUtils.getStatusBarHeight(this), 0, 0);
         }
 
         scrollView.getViewTreeObserver().addOnScrollChangedListener(this);
@@ -276,54 +277,13 @@ public class DetailHouseActivity extends AppCompatActivity implements ViewTreeOb
 
     }
 
-    @OnClick({R.id.tvDirection, R.id.tvMapView, R.id.tvEarthView, R.id.tvSeeMoreIntro, R.id.tvSeeMoreInfo
-            , R.id.tvCallAgent, R.id.tvCallOwner, R.id.btnSend, R.id.tvImages})
-    void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.tvDirection: {
-                onClickTvDirection();
-                break;
-            }
-            case R.id.tvMapView: {
-                openMapActivity(GoogleMap.MAP_TYPE_NORMAL);
-                break;
-            }
-            case R.id.tvEarthView: {
-                openMapActivity(GoogleMap.MAP_TYPE_HYBRID);
-                break;
-            }
-            case R.id.tvSeeMoreIntro: {
-                onClickTvSeeMoreIntro();
-                break;
-            }
-            case R.id.tvSeeMoreInfo: {
-                onClickTvMoreInfo();
-                break;
-            }
-            case R.id.tvCallAgent: {
-                onClickTvCallAgent();
-                break;
-            }
-            case R.id.tvCallOwner: {
-                onClickTvCallOwner();
-                break;
-            }
-            case R.id.btnSend: {
-                onClickBtnSend();
-                break;
-            }
-            case R.id.tvImages: {
-                onClickTvImages();
-                break;
-            }
-        }
-    }
-
-    private void onClickTvImages() {
+    @OnClick(R.id.tvImages)
+    void onClickTvImages() {
 
     }
 
-    private void onClickBtnSend() {
+    @OnClick(R.id.btnSend)
+    void onClickBtnSend() {
         if (!etContentEmail.getText().toString().isEmpty()) {
             Intent i = new Intent(Intent.ACTION_SEND);
             i.setType("message/rfc822");
@@ -340,14 +300,16 @@ public class DetailHouseActivity extends AppCompatActivity implements ViewTreeOb
         }
     }
 
-    private void onClickTvCallOwner() {
+    @OnClick(R.id.tvCallOwner)
+    void onClickTvCallOwner() {
         Intent intent = new Intent(Intent.ACTION_DIAL);
 //        intent.setData(Uri.parse("tel:" + tvPhoneOwner.getText().toString()));
         startActivity(intent);
 
     }
 
-    private void onClickTvCallAgent() {
+    @OnClick(R.id.tvCallAgent)
+    void onClickTvCallAgent() {
         Intent intent = new Intent(Intent.ACTION_DIAL);
 //        intent.setData(Uri.parse("tel:" + tvPhoneOwner.getText().toString()));
         intent.setData(Uri.parse("tel:0942899531"));
@@ -355,7 +317,8 @@ public class DetailHouseActivity extends AppCompatActivity implements ViewTreeOb
 
     }
 
-    private void onClickTvMoreInfo() {
+    @OnClick(R.id.tvSeeMoreInfo)
+    void onClickTvMoreInfo() {
         if (layoutInfo.getLayoutParams().height == AppConstant.HEIGHT_LAYOUT_INFO_COLLAPSED) {
             ObjectAnimator animator = ObjectAnimator.ofInt(layoutInfo, "layout_height", AppConstant.HEIGHT_LAYOUT_INFO_EXPANDED);
             animator.setDuration(2000).start();
@@ -365,8 +328,8 @@ public class DetailHouseActivity extends AppCompatActivity implements ViewTreeOb
         }
     }
 
-    private void onClickTvSeeMoreIntro() {
-
+    @OnClick(R.id.tvSeeMoreIntro)
+    void onClickTvSeeMoreIntro() {
         if (tvIntro.getMaxLines() == AppConstant.MAX_LINES_TV_INTRO_COLLAPSED) {
             ObjectAnimator animator = ObjectAnimator.ofInt(tvIntro, "maxLines", AppConstant.MAX_LINES_TV_INTRO_EXPANDED);
             animator.setDuration(1000);
@@ -400,6 +363,24 @@ public class DetailHouseActivity extends AppCompatActivity implements ViewTreeOb
         }
     }
 
+    @OnClick(R.id.tvDirection)
+    void onClickTvDirection() {
+        Uri gmmIntentUri = Uri.parse("google.navigation:q=" + fullHouse.getLat() + "," + fullHouse.getLng() + "&mode=d");
+        Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
+        mapIntent.setPackage("com.google.android.apps.maps");
+        startActivity(mapIntent);
+    }
+
+    @OnClick(R.id.tvMapView)
+    void onClickMapView(){
+        openMapActivity(GoogleMap.MAP_TYPE_NORMAL);
+    }
+
+    @OnClick(R.id.tvEarthView)
+    void onClickEarthView(){
+        openMapActivity(GoogleMap.MAP_TYPE_HYBRID);
+    }
+
     private void openMapActivity(int mapType) {
         Intent intent = new Intent(this, MapViewActivity.class);
         intent.putExtra(ApiConstant.LATITUDE, Double.parseDouble(fullHouse.getLat()));
@@ -410,16 +391,4 @@ public class DetailHouseActivity extends AppCompatActivity implements ViewTreeOb
     }
 
 
-    private void onClickTvDirection() {
-
-    }
-
-    public int getStatusBarHeight() {
-        int result = 0;
-        int resourceId = getResources().getIdentifier("status_bar_height", "dimen", "android");
-        if (resourceId > 0) {
-            result = getResources().getDimensionPixelSize(resourceId);
-        }
-        return result;
-    }
 }

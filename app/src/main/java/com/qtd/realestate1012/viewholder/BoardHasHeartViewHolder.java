@@ -1,11 +1,10 @@
 package com.qtd.realestate1012.viewholder;
 
-import android.support.v7.app.AppCompatActivity;
+import android.content.res.Resources;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -14,16 +13,16 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.qtd.realestate1012.R;
 import com.qtd.realestate1012.constant.ApiConstant;
 import com.qtd.realestate1012.custom.BlurTransformation;
-import com.qtd.realestate1012.model.Board;
+import com.qtd.realestate1012.model.BoardHasHeart;
 import com.qtd.realestate1012.utils.UiUtils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
- * Created by Dell on 8/7/2016.
+ * Created by DELL on 8/29/2016.
  */
-public class BoardViewHolder extends RecyclerView.ViewHolder {
+public class BoardHasHeartViewHolder extends RecyclerView.ViewHolder {
     @BindView(R.id.imvBoard)
     ImageView imvBoard;
 
@@ -36,43 +35,32 @@ public class BoardViewHolder extends RecyclerView.ViewHolder {
     @BindView(R.id.cardView)
     CardView cardView;
 
-    public BoardViewHolder(View itemView) {
+    @BindView(R.id.imvHeart)
+    ImageView imvHeart;
+
+    public BoardHasHeartViewHolder(View itemView) {
         super(itemView);
         ButterKnife.bind(this, itemView);
     }
 
-    private void initSize(int position) {
-        DisplayMetrics displaymetrics = new DisplayMetrics();
-        ((AppCompatActivity) itemView.getContext()).getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
+    protected void initSize() {
+        DisplayMetrics displaymetrics = Resources.getSystem().getDisplayMetrics();
         int width = displaymetrics.widthPixels;
 
-        CardView.LayoutParams layoutParams = new CardView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, (int) ((width / 2) * 0.85));
+        CardView.LayoutParams layoutParams = new CardView.LayoutParams((int) ((width / 2) * 0.8), (int) ((width / 2) * 0.8));
 
         int marginLow = (int) UiUtils.convertDpToPixel(itemView.getContext(), 8);
-        int marginHigh = (int) UiUtils.convertDpToPixel(itemView.getContext(), 24);
 
-        if (position == 0 || position == 1) {
-            layoutParams.topMargin = (int) UiUtils.convertDpToPixel(itemView.getContext(), 20);
-        } else {
-            layoutParams.topMargin = marginLow;
-        }
-
+        layoutParams.topMargin = marginLow;
         layoutParams.bottomMargin = marginLow;
-
-        if (position % 2 == 0) {
-            layoutParams.leftMargin = marginHigh;
-            layoutParams.rightMargin = marginLow;
-        } else {
-            layoutParams.leftMargin = marginLow;
-            layoutParams.rightMargin = marginHigh;
-        }
+        layoutParams.leftMargin = marginLow;
+        layoutParams.rightMargin = marginLow;
 
         cardView.setLayoutParams(layoutParams);
     }
 
-    public void setupViewHolder(Board board, int position) {
-        initSize(position);
-
+    public void setupViewHolder(BoardHasHeart board) {
+        initSize();
         tvName.setText(board.getName());
         tvCount.setText(board.getNumberOfHouse() + itemView.getContext().getString(R.string.houses));
         Glide.with(itemView.getContext())
@@ -82,5 +70,10 @@ public class BoardViewHolder extends RecyclerView.ViewHolder {
                 .placeholder(R.color.colorFacebookGray)
                 .error(R.color.colorFacebookGray)
                 .into(imvBoard);
+        if (!board.isLiked()) {
+            imvHeart.setImageResource(R.drawable.ic_heart_outline_24dp);
+        } else {
+            imvHeart.setImageResource(R.drawable.ic_heart_pink_small);
+        }
     }
 }

@@ -14,7 +14,7 @@ import android.widget.RelativeLayout;
 /**
  * Created by Dell on 7/31/2016.
  */
-public class ImageUtils {
+public class UiUtils {
     public static float convertDpToPixel(Context context, float dp) {
         Resources resources = context.getResources();
         DisplayMetrics metrics = resources.getDisplayMetrics();
@@ -51,5 +51,14 @@ public class ImageUtils {
         Canvas canvas = new Canvas(bitmap);
         view.draw(canvas);
         return bitmap;
+    }
+
+    public static int getStatusBarHeight(Context context) {
+        int result = 0;
+        int resourceId = context.getResources().getIdentifier("status_bar_height", "dimen", "android");
+        if (resourceId > 0) {
+            result = context.getResources().getDimensionPixelSize(resourceId);
+        }
+        return result;
     }
 }

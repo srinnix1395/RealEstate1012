@@ -1,7 +1,7 @@
 package com.qtd.realestate1012.custom;
 
-import android.app.Activity;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomSheetDialogFragment;
@@ -21,6 +21,7 @@ import com.qtd.realestate1012.adapter.BoardAdapter;
 import com.qtd.realestate1012.constant.ApiConstant;
 import com.qtd.realestate1012.constant.AppConstant;
 import com.qtd.realestate1012.model.Board;
+import com.qtd.realestate1012.model.BoardHasHeart;
 
 import java.util.ArrayList;
 
@@ -56,11 +57,10 @@ public class ModalBottomSheetListBoard extends BottomSheetDialogFragment {
     }
 
     private void initView() {
-        DisplayMetrics displaymetrics = new DisplayMetrics();
-        ((Activity) getContext()).getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
+        DisplayMetrics displaymetrics = Resources.getSystem().getDisplayMetrics();
         int width = displaymetrics.widthPixels;
 
-        CoordinatorLayout.LayoutParams layoutParams = new CoordinatorLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ((width / 2)));
+        CoordinatorLayout.LayoutParams layoutParams = new CoordinatorLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         view.setLayoutParams(layoutParams);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext(), LinearLayoutManager.HORIZONTAL, false));
@@ -72,12 +72,12 @@ public class ModalBottomSheetListBoard extends BottomSheetDialogFragment {
 
         arrayListBoards = new ArrayList<>();
 
-        arrayListBoards.add(new Board("ladkjf", "homes", 3, "aldkfj"));
-        arrayListBoards.add(new Board("ladkjf", "homes", 3, "aldkfj"));
-        arrayListBoards.add(new Board("ladkjf", "homes", 3, "aldkfj"));
-        arrayListBoards.add(new Board("ladkjf", "homes", 3, "aldkfj"));
+        arrayListBoards.add(new BoardHasHeart("ladkjf", "homes", 3, "aldkfj", true));
+        arrayListBoards.add(new BoardHasHeart("ladkjf", "homes", 3, "aldkfj", false));
+        arrayListBoards.add(new BoardHasHeart("ladkjf", "homes", 3, "aldkfj", false));
+        arrayListBoards.add(new BoardHasHeart("ladkjf", "homes", 3, "aldkfj", true));
 
-        adapter = new BoardAdapter(arrayListBoards);
+        adapter = new BoardAdapter(arrayListBoards, true);
 
     }
 

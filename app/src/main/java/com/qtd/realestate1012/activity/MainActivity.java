@@ -20,7 +20,7 @@ import com.qtd.realestate1012.fragment.FavoriteFragment;
 import com.qtd.realestate1012.fragment.HomeFragment;
 import com.qtd.realestate1012.fragment.NotificationFragment;
 import com.qtd.realestate1012.fragment.SearchFragment;
-import com.qtd.realestate1012.utils.ImageUtils;
+import com.qtd.realestate1012.utils.UiUtils;
 import com.qtd.realestate1012.utils.ServiceUtils;
 
 import butterknife.BindView;
@@ -142,7 +142,7 @@ public class MainActivity extends AppCompatActivity implements FavoriteFragmentC
         switch (tabPosition) {
             case 0: {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    tabLayout.setElevation(ImageUtils.convertDpToPixel(this, 4));
+                    tabLayout.setElevation(UiUtils.convertDpToPixel(this, 4));
                 }
                 transaction.show(homeFragment);
                 break;
@@ -169,7 +169,7 @@ public class MainActivity extends AppCompatActivity implements FavoriteFragmentC
             }
             case 3: {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    tabLayout.setElevation(ImageUtils.convertDpToPixel(this, 4));
+                    tabLayout.setElevation(UiUtils.convertDpToPixel(this, 4));
                 }
                 if (notificationFragment == null) {
                     notificationFragment = new NotificationFragment();

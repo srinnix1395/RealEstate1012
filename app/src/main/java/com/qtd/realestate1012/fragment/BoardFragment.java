@@ -102,7 +102,7 @@ public class BoardFragment extends Fragment {
         arrayListBoards = new ArrayList<>();
 
 
-        adapter = new BoardAdapter(arrayListBoards);
+        adapter = new BoardAdapter(arrayListBoards, false);
 
         recyclerView.setLayoutManager(new GridLayoutManager(view.getContext(), 2));
         RecyclerView.ItemAnimator itemAnimator = new DefaultItemAnimator();

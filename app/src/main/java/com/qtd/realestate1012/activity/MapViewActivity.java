@@ -19,7 +19,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.qtd.realestate1012.R;
 import com.qtd.realestate1012.constant.ApiConstant;
 import com.qtd.realestate1012.custom.MarkerInfoHouse;
-import com.qtd.realestate1012.utils.ImageUtils;
+import com.qtd.realestate1012.utils.UiUtils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -90,7 +90,7 @@ public class MapViewActivity extends AppCompatActivity implements OnMapReadyCall
         MarkerOptions markerOptions = new MarkerOptions();
         markerOptions.position(latLng);
         View view = new MarkerInfoHouse(this, price);
-        markerOptions.icon(BitmapDescriptorFactory.fromBitmap(ImageUtils.getBitmapFromView(view)));
+        markerOptions.icon(BitmapDescriptorFactory.fromBitmap(UiUtils.getBitmapFromView(view)));
 
         myPosition = map.addMarker(markerOptions);
     }

@@ -22,7 +22,7 @@ import com.qtd.realestate1012.callback.SearchFragmentCallback;
 import com.qtd.realestate1012.constant.ApiConstant;
 import com.qtd.realestate1012.constant.AppConstant;
 import com.qtd.realestate1012.model.Place;
-import com.qtd.realestate1012.utils.ImageUtils;
+import com.qtd.realestate1012.utils.UiUtils;
 
 import java.util.ArrayList;
 
@@ -117,7 +117,7 @@ public class MapManager implements GoogleMap.OnCameraChangeListener {
         markerOptions.title(place.getName());
         markerOptions.snippet(place.getAddress());
         markerOptions.position(new LatLng(place.getLatitude(), place.getLongitude()));
-        markerOptions.icon(BitmapDescriptorFactory.fromBitmap(ImageUtils.getBitmapFromDrawable(context, icon)));
+        markerOptions.icon(BitmapDescriptorFactory.fromBitmap(UiUtils.getBitmapFromDrawable(context, icon)));
         return map.addMarker(markerOptions);
     }
 

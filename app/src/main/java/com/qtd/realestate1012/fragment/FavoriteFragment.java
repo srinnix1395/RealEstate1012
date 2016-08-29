@@ -67,7 +67,7 @@ public class FavoriteFragment extends Fragment {
 
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
-                viewPager.setCurrentItem(tab.getPosition(), true);
+
             }
         });
     }
