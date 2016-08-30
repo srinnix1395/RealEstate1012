@@ -20,11 +20,15 @@ import com.qtd.realestate1012.R;
 import com.qtd.realestate1012.adapter.HouseNewsAdapter;
 import com.qtd.realestate1012.constant.ApiConstant;
 import com.qtd.realestate1012.custom.ModalBottomSheetListBoard;
+import com.qtd.realestate1012.messageevent.MessageClickImvHeartOnHouse;
 import com.qtd.realestate1012.model.Board;
+import com.qtd.realestate1012.model.BunchHouse;
 import com.qtd.realestate1012.utils.AlertUtils;
 import com.qtd.realestate1012.utils.ProcessJson;
 import com.qtd.realestate1012.utils.ServiceUtils;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -157,6 +161,8 @@ public class HomeFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
+        EventBus.getDefault().register(this);
+
         if (!isInit) {
             requestData();
             isInit = true;
@@ -168,10 +174,43 @@ public class HomeFragment extends Fragment {
         }
     }
 
-    public void addHouseToFavorite(String id) {
+    @Override
+    public void onStop() {
+        EventBus.getDefault().unregister(this);
+        super.onStop();
+    }
+
+    @Subscribe
+    public void handleEventClickImvHeartOnHouseNew(MessageClickImvHeartOnHouse event) {
+        AlertUtils.showToastSuccess(getContext(), R.drawable.ic_heart_white_large, R.string.homeSaved);
+//        openDialogBoard(event.id);
+    }
+
+    public void openDialogBoard(String id) {
         ModalBottomSheetListBoard dialog = new ModalBottomSheetListBoard();
-
-
+        Bundle bundle = new Bundle();
+        bundle.putString(ApiConstant._ID, id);
+        dialog.setArguments(bundle);
         dialog.show(getFragmentManager(), "dialog");
+    }
+
+    @Subscribe
+    public void handleEventSuccessFavoriteHouse(JSONObject response) {
+        String id = null;
+        boolean action = false;
+        try {
+            id = response.getString(ApiConstant._ID_HOUSE);
+            action = response.getString(ApiConstant.ACTION).equals(ApiConstant.ACTION_ADD);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        for (Object object : arrayList) {
+            if (object instanceof BunchHouse) {
+                ((BunchHouse) object).resetImvHeart(id, action);
+                break;
+            }
+        }
+
+        AlertUtils.showToastSuccess(getContext(), R.drawable.ic_heart_white_large, R.string.homeSaved);
     }
 }

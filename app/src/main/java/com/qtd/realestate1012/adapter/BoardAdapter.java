@@ -41,9 +41,15 @@ public class BoardAdapter extends RecyclerView.Adapter {
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (!hasHeart) {
             ((BoardViewHolder) holder).setupViewHolder(arrayList.get(position), position);
-        } else {
-            ((BoardHasHeartViewHolder) holder).setupViewHolder((BoardHasHeart) arrayList.get(position));
+            return;
         }
+
+        if (position == arrayList.size() - 1) {
+            ((BoardHasHeartViewHolder) holder).setupViewHolder((BoardHasHeart) arrayList.get(position), true);
+        } else {
+            ((BoardHasHeartViewHolder) holder).setupViewHolder((BoardHasHeart) arrayList.get(position), false);
+        }
+
     }
 
 

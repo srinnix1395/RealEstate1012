@@ -13,11 +13,15 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.qtd.realestate1012.R;
 import com.qtd.realestate1012.constant.ApiConstant;
 import com.qtd.realestate1012.custom.BlurTransformation;
+import com.qtd.realestate1012.messageevent.MessageClickImvHeartOnBoard;
 import com.qtd.realestate1012.model.BoardHasHeart;
 import com.qtd.realestate1012.utils.UiUtils;
 
+import org.greenrobot.eventbus.EventBus;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * Created by DELL on 8/29/2016.
@@ -37,30 +41,42 @@ public class BoardHasHeartViewHolder extends RecyclerView.ViewHolder {
 
     @BindView(R.id.imvHeart)
     ImageView imvHeart;
+    private String id;
+    private boolean isLiked;
 
     public BoardHasHeartViewHolder(View itemView) {
         super(itemView);
         ButterKnife.bind(this, itemView);
+//        callback = (ViewHolderCallback) ((ContextThemeWrapper) itemView.getContext()).getBaseContext();
     }
 
-    protected void initSize() {
+
+    protected void initSize(boolean lastItem) {
         DisplayMetrics displaymetrics = Resources.getSystem().getDisplayMetrics();
         int width = displaymetrics.widthPixels;
 
         CardView.LayoutParams layoutParams = new CardView.LayoutParams((int) ((width / 2) * 0.8), (int) ((width / 2) * 0.8));
 
         int marginLow = (int) UiUtils.convertDpToPixel(itemView.getContext(), 8);
+        int marginHigh = (int) UiUtils.convertDpToPixel(itemView.getContext(), 16);
 
         layoutParams.topMargin = marginLow;
         layoutParams.bottomMargin = marginLow;
         layoutParams.leftMargin = marginLow;
-        layoutParams.rightMargin = marginLow;
 
+        if (lastItem) {
+            layoutParams.rightMargin = marginHigh;
+        } else {
+            layoutParams.rightMargin = marginLow;
+        }
         cardView.setLayoutParams(layoutParams);
     }
 
-    public void setupViewHolder(BoardHasHeart board) {
-        initSize();
+    public void setupViewHolder(BoardHasHeart board, boolean lastItem) {
+        id = board.getId();
+        isLiked = board.isLiked();
+
+        initSize(lastItem);
         tvName.setText(board.getName());
         tvCount.setText(board.getNumberOfHouse() + itemView.getContext().getString(R.string.houses));
         Glide.with(itemView.getContext())
@@ -74,6 +90,15 @@ public class BoardHasHeartViewHolder extends RecyclerView.ViewHolder {
             imvHeart.setImageResource(R.drawable.ic_heart_outline_24dp);
         } else {
             imvHeart.setImageResource(R.drawable.ic_heart_pink_small);
+        }
+    }
+
+    @OnClick(R.id.imvHeart)
+    void onClickImvHeart(){
+        if (isLiked) {
+            EventBus.getDefault().post(new MessageClickImvHeartOnBoard(id, ApiConstant.ACTION_DELETE));
+        } else {
+            EventBus.getDefault().post(new MessageClickImvHeartOnBoard(id, ApiConstant.ACTION_ADD));
         }
     }
 }

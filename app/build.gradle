@@ -36,13 +36,12 @@ dependencies {
     compile 'com.jakewharton:butterknife:8.2.1'
     apt 'com.jakewharton:butterknife-compiler:8.2.1'
     compile 'com.github.bumptech.glide:glide:3.7.0'
-    compile 'jp.wasabeef:glide-transformations:2.0.0'
     compile 'com.facebook.android:facebook-android-sdk:[4,5)'
     compile 'com.mcxiaoke.volley:library:1.0.19'
     compile 'com.google.android.gms:play-services-auth:8.3.0'
     compile 'com.google.android.gms:play-services-maps:8.3.0'
     compile 'de.hamm:pinned-section-listview:1.7.0'
-//    compile 'com.google.android.gms:play-services-places:9.2.0'
+    compile 'org.greenrobot:eventbus:3.0.0'
 }
 
 

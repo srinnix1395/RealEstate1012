@@ -11,7 +11,10 @@ import com.qtd.realestate1012.R;
 import com.qtd.realestate1012.activity.DetailHouseActivity;
 import com.qtd.realestate1012.callback.ViewHolderCallback;
 import com.qtd.realestate1012.constant.ApiConstant;
+import com.qtd.realestate1012.messageevent.MessageClickImvHeartOnHouse;
 import com.qtd.realestate1012.model.BunchHouse;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.Locale;
 
@@ -215,7 +218,7 @@ public class HouseNewsViewHolder {
 
     private void addHouseToFavorite(int i) {
         String id = bunchHouse.getCompactHouse(i).getId();
-        callback.onClickImvHeartHouseNewViewHolder(id);
+        EventBus.getDefault().post(new MessageClickImvHeartOnHouse(id));
     }
 
     private void startDetailHouseActivity(int i) {

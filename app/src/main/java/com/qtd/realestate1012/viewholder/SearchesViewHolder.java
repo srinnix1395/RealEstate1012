@@ -40,6 +40,6 @@ public class SearchesViewHolder extends RecyclerView.ViewHolder {
 
     @OnClick(R.id.imvHeart)
     void onClick() {
-        callback.onClickImvHeartSearchesViewHolder(position);
+        callback.onClickImvHeartSearches(position);
     }
 }

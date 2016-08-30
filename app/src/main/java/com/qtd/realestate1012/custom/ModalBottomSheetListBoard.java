@@ -1,18 +1,20 @@
 package com.qtd.realestate1012.custom;
 
 import android.content.Intent;
-import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomSheetDialogFragment;
-import android.support.design.widget.CoordinatorLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.JsonRequest;
 import com.qtd.realestate1012.HousieApplication;
 import com.qtd.realestate1012.R;
 import com.qtd.realestate1012.activity.CreateBoardActivity;
@@ -20,8 +22,15 @@ import com.qtd.realestate1012.activity.LoginActivity;
 import com.qtd.realestate1012.adapter.BoardAdapter;
 import com.qtd.realestate1012.constant.ApiConstant;
 import com.qtd.realestate1012.constant.AppConstant;
+import com.qtd.realestate1012.messageevent.MessageClickImvHeartOnBoard;
 import com.qtd.realestate1012.model.Board;
 import com.qtd.realestate1012.model.BoardHasHeart;
+import com.qtd.realestate1012.utils.ServiceUtils;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
@@ -41,6 +50,7 @@ public class ModalBottomSheetListBoard extends BottomSheetDialogFragment {
 
     private BoardAdapter adapter;
     private ArrayList<Board> arrayListBoards;
+    private String idHouse;
 
     @Nullable
     @Override
@@ -57,18 +67,13 @@ public class ModalBottomSheetListBoard extends BottomSheetDialogFragment {
     }
 
     private void initView() {
-        DisplayMetrics displaymetrics = Resources.getSystem().getDisplayMetrics();
-        int width = displaymetrics.widthPixels;
-
-        CoordinatorLayout.LayoutParams layoutParams = new CoordinatorLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        view.setLayoutParams(layoutParams);
-
         recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext(), LinearLayoutManager.HORIZONTAL, false));
         recyclerView.setAdapter(adapter);
     }
 
     private void initData() {
         Bundle bundle = getArguments();
+        idHouse = bundle.getString(ApiConstant._ID);
 
         arrayListBoards = new ArrayList<>();
 
@@ -98,5 +103,67 @@ public class ModalBottomSheetListBoard extends BottomSheetDialogFragment {
         intent.putExtra(ApiConstant.LIST_BOARD, listBoard);
 
         startActivityForResult(intent, AppConstant.REQUEST_CODE_CREATE_BOARD);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public void onStop() {
+        EventBus.getDefault().unregister(this);
+        super.onStop();
+    }
+
+    @Subscribe
+    public void handleEventClickImvHeartOnBoard(MessageClickImvHeartOnBoard event) {
+        if (!ServiceUtils.isNetworkAvailable(getContext())) {
+            Toast.makeText(getContext(), R.string.noInternetConnection, Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        final JSONObject jsonRequest = new JSONObject();
+        try {
+            jsonRequest.put(ApiConstant._ID_BOARD, event.id);
+            jsonRequest.put(ApiConstant._ID_HOUSE, idHouse);
+            jsonRequest.put(ApiConstant.ACTION, event.action);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        JsonObjectRequest request = new JsonObjectRequest(JsonRequest.Method.POST, ApiConstant.URL_WEB_SERVICE_HANDLE_FAVORITE_HOUSES, jsonRequest
+                , new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                try {
+                    switch (response.getString(ApiConstant.RESULT)) {
+                        case ApiConstant.FAILED:{
+                            Toast.makeText(getContext(), R.string.errorProcessing, Toast.LENGTH_SHORT).show();
+                            break;
+                        }
+                        case ApiConstant.SUCCESS:{
+                            handleResponseSuccess(jsonRequest);
+                            break;
+                        }
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                error.printStackTrace();
+                Toast.makeText(getContext(), R.string.errorProcessing, Toast.LENGTH_SHORT).show();
+            }
+        });
+        HousieApplication.getInstance().addToRequestQueue(request);
+    }
+
+    private void handleResponseSuccess(JSONObject jsonRequest) {
+        EventBus.getDefault().post(jsonRequest);
+        dismiss();
     }
 }

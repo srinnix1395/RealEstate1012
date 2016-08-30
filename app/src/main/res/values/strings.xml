@@ -108,5 +108,7 @@
     <string name="iAmInterestingEmail">"Tôi rất muốn biết thêm thông tin về ngôi nhà "</string>
     <string name="room">phòng</string>
     <string name="errorProcessing">Đã có lỗi trong quá trình xử lý, xin thử lại.</string>
+    <string name="homeSaved">Nhà đã được lưu</string>
+    <string name="contentEmail">Nội dung email</string>
 
 </resources>

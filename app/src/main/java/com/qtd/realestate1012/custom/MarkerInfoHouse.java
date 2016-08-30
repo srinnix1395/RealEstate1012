@@ -1,7 +1,7 @@
 package com.qtd.realestate1012.custom;
 
 import android.content.Context;
-import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.qtd.realestate1012.R;
@@ -14,7 +14,7 @@ import butterknife.ButterKnife;
 /**
  * Created by DELL on 8/27/2016.
  */
-public class MarkerInfoHouse extends LinearLayout {
+public class MarkerInfoHouse extends RelativeLayout {
     @BindView(R.id.tvPrice)
     TextView tvPrice;
 

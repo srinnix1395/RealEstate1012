@@ -11,7 +11,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -21,6 +20,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -147,9 +147,18 @@ public class DetailHouseActivity extends AppCompatActivity implements ViewTreeOb
     private void initViews() {
         setSupportActionBar(toolbar);
         toolbar.setNavigationIcon(R.drawable.ic_back);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
+
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         if (Build.VERSION.SDK_INT >= 17) {
-            toolbar.setPadding(0, UiUtils.getStatusBarHeight(this), 0, 0);
+            RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) toolbar.getLayoutParams();
+            layoutParams.topMargin = UiUtils.getStatusBarHeight(this);
+            toolbar.requestLayout();
         }
 
         scrollView.getViewTreeObserver().addOnScrollChangedListener(this);
@@ -165,7 +174,6 @@ public class DetailHouseActivity extends AppCompatActivity implements ViewTreeOb
     @Override
     public void onScrollChanged() {
         int y = scrollView.getScrollY();
-        Log.e("scrool", "onScrollChanged: " + y);
 
     }
 
@@ -191,21 +199,24 @@ public class DetailHouseActivity extends AppCompatActivity implements ViewTreeOb
                     switch (response.getString(ApiConstant.RESULT)) {
                         case ApiConstant.FAILED: {
                             Toast.makeText(DetailHouseActivity.this, R.string.errorProcessing, Toast.LENGTH_SHORT).show();
+
+                            progressBar.setEnabled(false);
+                            progressBar.setVisibility(View.INVISIBLE);
                             break;
                         }
                         case ApiConstant.SUCCESS: {
                             setData(response);
+
+                            progressBar.setEnabled(false);
+                            progressBar.setVisibility(View.INVISIBLE);
+
+                            layoutTotalInfo.setVisibility(View.VISIBLE);
                             break;
                         }
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-
-                progressBar.setEnabled(false);
-                progressBar.setVisibility(View.INVISIBLE);
-
-                layoutTotalInfo.setVisibility(View.VISIBLE);
             }
         }, new Response.ErrorListener() {
             @Override
@@ -372,12 +383,12 @@ public class DetailHouseActivity extends AppCompatActivity implements ViewTreeOb
     }
 
     @OnClick(R.id.tvMapView)
-    void onClickMapView(){
+    void onClickMapView() {
         openMapActivity(GoogleMap.MAP_TYPE_NORMAL);
     }
 
     @OnClick(R.id.tvEarthView)
-    void onClickEarthView(){
+    void onClickEarthView() {
         openMapActivity(GoogleMap.MAP_TYPE_HYBRID);
     }
 

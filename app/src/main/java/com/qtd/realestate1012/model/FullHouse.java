@@ -19,9 +19,9 @@ public class FullHouse extends CompactHouse {
     private ArrayList<String> images;
 
     public FullHouse(String id, int price, String detailAddress, String street, String ward, String district
-            , String city, int area, int numberOfRoom, String status, String propertyType, String description
+            , String city, boolean isLiked, int area, int numberOfRoom, String status, String propertyType, String description
             , String lat, String lng, String address, String emailOwner, String phoneOwner, ArrayList<String> images) {
-        super(id, price, detailAddress, street, ward, district, city, images.get(0));
+        super(id, price, detailAddress, street, ward, district, city, images.get(0), isLiked);
         this.area = area;
         this.numberOfRoom = numberOfRoom;
         this.status = status;

@@ -29,7 +29,8 @@ public class ApiConstant {
 
     public static final String URL_WEB_SERVICE_GET_ALL_HOUSE_OF_A_KIND = "http://protectedcedar-31067.rhcloud.com/house/getAllHouses";
     public static final String URL_WEB_SERVICE_GET_FAVORITE_HOUSES = "http://protectedcedar-31067.rhcloud.com/house/getFavoriteHouses";
-    public static final String URL_WEB_SERVICE_DETAIL_HOUSE = "http://protectedcedar-31067.rhcloud.com/house/detail";
+    public static final String URL_WEB_SERVICE_HANDLE_FAVORITE_HOUSES = "http://protectedcedar-31067.rhcloud.com/house/handleFavoriteHouse";
+    public static final String URL_WEB_SERVICE_DETAIL_HOUSE = "http://protectedcedar-31067.rhcloud.com/house/detailInfo";
     public static final String URL_WEB_SERVICE_GET_NEWS = "http://protectedcedar-31067.rhcloud.com/house/getNews";
 
     public static final String URL_WEB_SERVICE_GET_IMAGE = "http://protectedcedar-31067.rhcloud.com/image/";
@@ -65,6 +66,12 @@ public class ApiConstant {
     public static final String LONGITUDE = "lng";
     public static final String AREA = "area";
     public static final String DETAIL_ADDRESS = "detail_address";
+    public static final String HOUSE = "house";
+    public static final String ACTION = "action";
+    public static final String ACTION_DELETE = "delete";
+    public static final String ACTION_ADD = "add";
+    public static String _ID_BOARD = "_id_board";
+    public static String _ID_HOUSE = "_id_house";
 
     //    api place
     public static final String API_PLACE_NEAR_BY_URL = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?";

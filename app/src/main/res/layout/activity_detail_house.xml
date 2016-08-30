@@ -3,7 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:descendantFocusability="beforeDescendants"
+    android:focusableInTouchMode="true">
 
     <!--scroll view-->
     <ScrollView
@@ -20,17 +22,17 @@
             <RelativeLayout
                 android:id="@+id/layoutImage"
                 android:layout_width="match_parent"
-                android:layout_height="240dp"
-                android:background="@drawable/image">
+                android:layout_height="250dp">
 
                 <ImageView
                     android:id="@+id/imvImage"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
+                    android:layout_height="match_parent"
+                    android:scaleType="fitXY" />
 
                 <TextView
                     android:id="@+id/tvImages"
-                    style="?attr/selectableItemBackground"
+                    style="?android:attr/textAppearanceSmall"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
@@ -45,7 +47,8 @@
                     android:paddingEnd="@dimen/activity_horizontal_margin"
                     android:paddingStart="@dimen/activity_horizontal_margin"
                     android:paddingTop="8dp"
-                    android:textColor="@android:color/white" />
+                    android:textColor="@android:color/white"
+                    android:textSize="12sp" />
             </RelativeLayout>
 
             <LinearLayout
@@ -87,7 +90,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="@dimen/activity_vertical_margin"
-                        android:layout_marginTop="@dimen/high_margin">
+                        android:layout_marginTop="@dimen/activity_vertical_margin">
 
                         <TextView
                             android:id="@+id/tvDirection"
@@ -489,19 +492,20 @@
                             android:textSize="16sp" />
                     </RelativeLayout>
 
-                    <EditText
-                        android:id="@+id/etContent"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/high_margin"
-                        android:inputType="textEmailAddress"
-                        android:theme="@style/EditTextDetailActivity" />
-
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="@dimen/activity_vertical_margin"
+                        android:layout_marginTop="@dimen/high_margin"
                         android:text="@string/messageToTheOwner" />
+
+                    <EditText
+                        android:id="@+id/etContent"
+                        style="?android:attr/textAppearanceSmall"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/activity_vertical_margin"
+                        android:hint="@string/contentEmail"
+                        android:theme="@style/EditTextDetailActivity" />
 
                     <LinearLayout
                         android:id="@+id/btnSend"
@@ -548,12 +552,13 @@
 
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="?attr/actionBarSize"
         android:background="@drawable/background_toolbar_detail_fade">
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="-8dp"
             android:orientation="vertical">
 
             <TextView
@@ -562,10 +567,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
-                android:fontFamily="sans-serif-light"
                 android:lines="1"
-                android:textColor="@android:color/white"
-                android:textStyle="bold" />
+                android:textColor="@android:color/white" />
 
             <TextView
                 android:id="@+id/tvAddressCityToolbar"

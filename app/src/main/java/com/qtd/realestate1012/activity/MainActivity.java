@@ -195,12 +195,7 @@ public class MainActivity extends AppCompatActivity implements FavoriteFragmentC
     }
 
     @Override
-    public void onClickImvHeartSearchesViewHolder(int position) {
+    public void onClickImvHeartSearches(int position) {
 
-    }
-
-    @Override
-    public void onClickImvHeartHouseNewViewHolder(String id) {
-        homeFragment.addHouseToFavorite(id);
     }
 }

@@ -29,7 +29,16 @@ public class BunchHouse {
         this.type = type;
     }
 
-    public int size(){
+    public int size() {
         return arrayList.size();
+    }
+
+    public void resetImvHeart(String id, boolean isLiked) {
+        for (CompactHouse house : arrayList) {
+            if (house.getId().equals(id)) {
+                house.setLiked(isLiked);
+                break;
+            }
+        }
     }
 }
