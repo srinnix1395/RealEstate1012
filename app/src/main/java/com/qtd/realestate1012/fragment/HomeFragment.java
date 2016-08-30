@@ -15,10 +15,12 @@ import android.widget.TextView;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.JsonRequest;
 import com.qtd.realestate1012.HousieApplication;
 import com.qtd.realestate1012.R;
 import com.qtd.realestate1012.adapter.HouseNewsAdapter;
 import com.qtd.realestate1012.constant.ApiConstant;
+import com.qtd.realestate1012.constant.AppConstant;
 import com.qtd.realestate1012.custom.ModalBottomSheetListBoard;
 import com.qtd.realestate1012.messageevent.MessageClickImvHeartOnHouse;
 import com.qtd.realestate1012.model.Board;
@@ -55,10 +57,11 @@ public class HomeFragment extends Fragment {
     @BindView(R.id.tvNoInternet)
     TextView tvError;
 
-    private ArrayList<Object> arrayList;
+    private ArrayList<Object> arrayListHouseNews;
     private HouseNewsAdapter adapter;
     private ArrayList<Board> arrayListBoard;
     private boolean isInit;
+    private JSONObject jsonBoard;
 
     @Nullable
     @Override
@@ -75,8 +78,9 @@ public class HomeFragment extends Fragment {
     }
 
     private void initData() {
-        arrayList = new ArrayList<>();
-        adapter = new HouseNewsAdapter(arrayList);
+        arrayListBoard = new ArrayList<>();
+        arrayListHouseNews = new ArrayList<>();
+        adapter = new HouseNewsAdapter(arrayListHouseNews);
     }
 
 
@@ -103,7 +107,16 @@ public class HomeFragment extends Fragment {
             return;
         }
 
-        JsonObjectRequest request = new JsonObjectRequest(ApiConstant.URL_WEB_SERVICE_GET_NEWS, new Response.Listener<JSONObject>() {
+        JSONObject jsonRequest = new JSONObject();
+        try {
+            jsonRequest.put(AppConstant.USER_LOGGED_IN, HousieApplication.getInstance().getSharedPreUtils().getBoolean(AppConstant.USER_LOGGED_IN, false));
+//            jsonRequest.put(ApiConstant._ID, HousieApplication.getInstance().getSharedPreUtils().getString(ApiConstant._ID, "-1"));
+            jsonRequest.put(ApiConstant._ID, "57ac3429f71b399577118c72");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        JsonObjectRequest request = new JsonObjectRequest(JsonRequest.Method.POST, ApiConstant.URL_WEB_SERVICE_GET_NEWS, jsonRequest, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 try {
@@ -117,8 +130,13 @@ public class HomeFragment extends Fragment {
                         return;
                     }
 
-                    arrayList.clear();
-                    arrayList.addAll(ProcessJson.getArrayListHousesNew(response.getJSONArray(ApiConstant.LIST_HOUSE)));
+                    jsonBoard = response.getJSONObject(ApiConstant.BOARD);
+                    arrayListBoard.clear();
+                    arrayListBoard.addAll(ProcessJson.getFavoriteBoards(jsonBoard));
+
+                    arrayListHouseNews.clear();
+                    arrayListHouseNews.addAll(ProcessJson.getArrayListHousesNew(arrayListBoard, response.getJSONArray(ApiConstant.LIST_HOUSE)));
+
                     adapter.notifyDataSetChanged();
 
                     tvError.setVisibility(View.INVISIBLE);
@@ -147,7 +165,7 @@ public class HomeFragment extends Fragment {
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
         if (!hidden && ServiceUtils.isNetworkAvailable(view.getContext())) {
-            arrayList.clear();
+            arrayListHouseNews.clear();
             adapter.notifyDataSetChanged();
 
             progressBar.setEnabled(true);
@@ -182,14 +200,14 @@ public class HomeFragment extends Fragment {
 
     @Subscribe
     public void handleEventClickImvHeartOnHouseNew(MessageClickImvHeartOnHouse event) {
-        AlertUtils.showToastSuccess(getContext(), R.drawable.ic_heart_white_large, R.string.homeSaved);
-//        openDialogBoard(event.id);
+        openDialogBoard(event.id);
     }
 
     public void openDialogBoard(String id) {
         ModalBottomSheetListBoard dialog = new ModalBottomSheetListBoard();
         Bundle bundle = new Bundle();
         bundle.putString(ApiConstant._ID, id);
+        bundle.putString(ApiConstant.BOARD, jsonBoard.toString());
         dialog.setArguments(bundle);
         dialog.show(getFragmentManager(), "dialog");
     }
@@ -204,7 +222,7 @@ public class HomeFragment extends Fragment {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        for (Object object : arrayList) {
+        for (Object object : arrayListHouseNews) {
             if (object instanceof BunchHouse) {
                 ((BunchHouse) object).resetImvHeart(id, action);
                 break;

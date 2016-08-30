@@ -1,21 +1,22 @@
 package com.qtd.realestate1012.model;
 
+import java.util.ArrayList;
+
 /**
  * Created by Dell on 8/7/2016.
  */
 public class Board {
     protected String id;
     protected String name;
-    protected int numberOfHouse;
+    protected ArrayList<String> listHouse;
     protected String image;
 
-    public Board(String id, String name, int numberOfHouse, String image) {
+    public Board(String id, String name, ArrayList<String> listHouse, String image) {
         this.id = id;
         this.name = name;
-        this.numberOfHouse = numberOfHouse;
+        this.listHouse = listHouse;
         this.image = image;
     }
-
 
     public String getId() {
         return id;
@@ -25,8 +26,8 @@ public class Board {
         return name;
     }
 
-    public int getNumberOfHouse() {
-        return numberOfHouse;
+    public ArrayList<String> getListHouse() {
+        return listHouse;
     }
 
     public String getImage() {

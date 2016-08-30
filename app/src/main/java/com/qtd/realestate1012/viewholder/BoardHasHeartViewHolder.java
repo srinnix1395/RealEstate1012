@@ -19,6 +19,8 @@ import com.qtd.realestate1012.utils.UiUtils;
 
 import org.greenrobot.eventbus.EventBus;
 
+import java.util.Locale;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -78,7 +80,7 @@ public class BoardHasHeartViewHolder extends RecyclerView.ViewHolder {
 
         initSize(lastItem);
         tvName.setText(board.getName());
-        tvCount.setText(board.getNumberOfHouse() + itemView.getContext().getString(R.string.houses));
+        tvCount.setText(String.format(Locale.getDefault(), "%d %s", board.getListHouse().size(), itemView.getContext().getString(R.string.houses)));
         Glide.with(itemView.getContext())
                 .load(ApiConstant.URL_WEB_SERVICE_GET_IMAGE + board.getImage())
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
@@ -86,15 +88,15 @@ public class BoardHasHeartViewHolder extends RecyclerView.ViewHolder {
                 .placeholder(R.color.colorFacebookGray)
                 .error(R.color.colorFacebookGray)
                 .into(imvBoard);
-        if (!board.isLiked()) {
-            imvHeart.setImageResource(R.drawable.ic_heart_outline_24dp);
-        } else {
+        if (board.isLiked()) {
             imvHeart.setImageResource(R.drawable.ic_heart_pink_small);
+        } else {
+            imvHeart.setImageResource(R.drawable.ic_heart_outline_24dp);
         }
     }
 
     @OnClick(R.id.imvHeart)
-    void onClickImvHeart(){
+    void onClickImvHeart() {
         if (isLiked) {
             EventBus.getDefault().post(new MessageClickImvHeartOnBoard(id, ApiConstant.ACTION_DELETE));
         } else {

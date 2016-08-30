@@ -70,6 +70,7 @@ public class ApiConstant {
     public static final String ACTION = "action";
     public static final String ACTION_DELETE = "delete";
     public static final String ACTION_ADD = "add";
+    public static final String BOARD = "board";
     public static String _ID_BOARD = "_id_board";
     public static String _ID_HOUSE = "_id_house";
 

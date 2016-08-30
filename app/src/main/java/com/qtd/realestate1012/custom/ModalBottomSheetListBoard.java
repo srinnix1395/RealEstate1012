@@ -24,7 +24,7 @@ import com.qtd.realestate1012.constant.ApiConstant;
 import com.qtd.realestate1012.constant.AppConstant;
 import com.qtd.realestate1012.messageevent.MessageClickImvHeartOnBoard;
 import com.qtd.realestate1012.model.Board;
-import com.qtd.realestate1012.model.BoardHasHeart;
+import com.qtd.realestate1012.utils.ProcessJson;
 import com.qtd.realestate1012.utils.ServiceUtils;
 
 import org.greenrobot.eventbus.EventBus;
@@ -75,13 +75,7 @@ public class ModalBottomSheetListBoard extends BottomSheetDialogFragment {
         Bundle bundle = getArguments();
         idHouse = bundle.getString(ApiConstant._ID);
 
-        arrayListBoards = new ArrayList<>();
-
-        arrayListBoards.add(new BoardHasHeart("ladkjf", "homes", 3, "aldkfj", true));
-        arrayListBoards.add(new BoardHasHeart("ladkjf", "homes", 3, "aldkfj", false));
-        arrayListBoards.add(new BoardHasHeart("ladkjf", "homes", 3, "aldkfj", false));
-        arrayListBoards.add(new BoardHasHeart("ladkjf", "homes", 3, "aldkfj", true));
-
+        arrayListBoards = ProcessJson.getFavoriteBoardsHasHeart(bundle.getString(ApiConstant.BOARD), idHouse);
         adapter = new BoardAdapter(arrayListBoards, true);
 
     }

@@ -17,6 +17,8 @@ import com.qtd.realestate1012.custom.BlurTransformation;
 import com.qtd.realestate1012.model.Board;
 import com.qtd.realestate1012.utils.UiUtils;
 
+import java.util.Locale;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -74,7 +76,7 @@ public class BoardViewHolder extends RecyclerView.ViewHolder {
         initSize(position);
 
         tvName.setText(board.getName());
-        tvCount.setText(board.getNumberOfHouse() + itemView.getContext().getString(R.string.houses));
+        tvCount.setText(String.format(Locale.getDefault(), "%d %s", board.getListHouse().size(), itemView.getContext().getString(R.string.houses)));
         Glide.with(itemView.getContext())
                 .load(ApiConstant.URL_WEB_SERVICE_GET_IMAGE + board.getImage())
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
