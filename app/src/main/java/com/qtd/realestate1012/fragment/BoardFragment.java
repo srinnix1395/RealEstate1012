@@ -107,7 +107,6 @@ public class BoardFragment extends Fragment {
         recyclerView.setLayoutManager(new GridLayoutManager(view.getContext(), 2));
         RecyclerView.ItemAnimator itemAnimator = new DefaultItemAnimator();
         itemAnimator.setAddDuration(1000);
-        itemAnimator.setRemoveDuration(1000);
         recyclerView.setItemAnimator(itemAnimator);
         recyclerView.setAdapter(adapter);
 
@@ -171,7 +170,9 @@ public class BoardFragment extends Fragment {
                                 break;
                             }
                             case ApiConstant.SUCCESS: {
+                                int size = arrayListBoards.size();
                                 arrayListBoards.clear();
+                                adapter.notifyItemRangeRemoved(0, size);
                                 arrayListBoards.addAll(ProcessJson.getFavoriteBoards(response));
                                 adapter.notifyItemRangeInserted(0, arrayListBoards.size());
 

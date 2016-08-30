@@ -86,7 +86,6 @@ public class HomesFavoriteFragment extends Fragment {
 
         RecyclerView.ItemAnimator itemAnimator = new DefaultItemAnimator();
         itemAnimator.setAddDuration(1000);
-        itemAnimator.setRemoveDuration(1000);
         recyclerView.setItemAnimator(itemAnimator);
 
         recyclerView.setAdapter(adapter);
@@ -148,7 +147,9 @@ public class HomesFavoriteFragment extends Fragment {
                                 break;
                             }
                             case ApiConstant.SUCCESS: {
+                                int size = arrayListHouses.size();
                                 arrayListHouses.clear();
+                                adapter.notifyItemRangeRemoved(0, size);
                                 arrayListHouses.addAll(ProcessJson.getFavoriteHouses(response));
                                 adapter.notifyItemRangeInserted(0, arrayListHouses.size());
                                 break;
