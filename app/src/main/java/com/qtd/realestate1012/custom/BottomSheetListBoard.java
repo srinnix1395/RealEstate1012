@@ -23,6 +23,7 @@ import com.qtd.realestate1012.adapter.BoardAdapter;
 import com.qtd.realestate1012.constant.ApiConstant;
 import com.qtd.realestate1012.constant.AppConstant;
 import com.qtd.realestate1012.messageevent.MessageClickImvHeartOnBoard;
+import com.qtd.realestate1012.messageevent.MessageLikeBoardSuccess;
 import com.qtd.realestate1012.model.Board;
 import com.qtd.realestate1012.utils.ProcessJson;
 import com.qtd.realestate1012.utils.ServiceUtils;
@@ -41,7 +42,7 @@ import butterknife.OnClick;
 /**
  * Created by DELL on 8/23/2016.
  */
-public class ModalBottomSheetListBoard extends BottomSheetDialogFragment {
+public class BottomSheetListBoard extends BottomSheetDialogFragment {
 
     private View view;
 
@@ -55,7 +56,7 @@ public class ModalBottomSheetListBoard extends BottomSheetDialogFragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.bottom_sheet_dialog_fragment_list_board, container, false);
+        view = inflater.inflate(R.layout.bottom_sheet_dialog_list_board, container, false);
         return view;
     }
 
@@ -157,7 +158,7 @@ public class ModalBottomSheetListBoard extends BottomSheetDialogFragment {
     }
 
     private void handleResponseSuccess(JSONObject jsonRequest) {
-        EventBus.getDefault().post(jsonRequest);
+        EventBus.getDefault().post(new MessageLikeBoardSuccess(jsonRequest));
         dismiss();
     }
 }

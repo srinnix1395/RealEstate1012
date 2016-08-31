@@ -34,7 +34,7 @@ public class ProcessJson {
                 String district = house.getString(ApiConstant.DISTRICT);
                 String city = house.getString(ApiConstant.CITY);
 
-                bunchHouse.addHouse(new CompactHouse(id, price, detailAddress, street, ward, district, city, firstImage, false));
+                bunchHouse.addHouse(new CompactHouse(id, price, detailAddress, street, ward, district, city, firstImage, null, null, false));
 
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -106,7 +106,7 @@ public class ProcessJson {
                 String district = house.getString(ApiConstant.DISTRICT);
                 String city = house.getString(ApiConstant.CITY);
 
-                arrayList.add(new CompactHouse(id, price, detailAddress, street, ward, district, city, firstImage, false));
+                arrayList.add(new CompactHouse(id, price, detailAddress, street, ward, district, city, firstImage, null, null, false));
             }
         } catch (JSONException e) {
             e.printStackTrace();
@@ -174,5 +174,30 @@ public class ProcessJson {
             e.printStackTrace();
         }
         return arrayList;
+    }
+
+    public static ArrayList<CompactHouse> getAllHouses(JSONObject response) {
+        return getFavoriteHouses(response);
+    }
+
+    public static CompactHouse getInfoHouse(String data) {
+        try {
+            JSONObject jsonObject = new JSONObject(data);
+            String id = jsonObject.getString(ApiConstant._ID);
+            String city = jsonObject.getString(ApiConstant.CITY);
+            String detailAddress = jsonObject.getString(ApiConstant.DETAIL_ADDRESS);
+            String district = jsonObject.getString(ApiConstant.DISTRICT);
+            String lat = jsonObject.getString(ApiConstant.LATITUDE);
+            String lng = jsonObject.getString(ApiConstant.LONGITUDE);
+            int price = jsonObject.getInt(ApiConstant.PRICE);
+            String street = jsonObject.getString(ApiConstant.STREET);
+            String ward = jsonObject.getString(ApiConstant.WARD);
+            String firstImage = jsonObject.getJSONArray(ApiConstant.IMAGE).getString(0);
+
+            return new CompactHouse(id, price, detailAddress, street, ward, district, city, firstImage, lat, lng, false);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

@@ -11,8 +11,6 @@ public class FullHouse extends CompactHouse {
     private String status;
     private String propertyType;
     private String description;
-    private String lat;
-    private String lng;
     private String address;
     private String emailOwner;
     private String phoneOwner;
@@ -21,7 +19,7 @@ public class FullHouse extends CompactHouse {
     public FullHouse(String id, int price, String detailAddress, String street, String ward, String district
             , String city, boolean isLiked, int area, int numberOfRoom, String status, String propertyType, String description
             , String lat, String lng, String address, String emailOwner, String phoneOwner, ArrayList<String> images) {
-        super(id, price, detailAddress, street, ward, district, city, images.get(0), isLiked);
+        super(id, price, detailAddress, street, ward, district, city, images.get(0), lat, lng, isLiked);
         this.area = area;
         this.numberOfRoom = numberOfRoom;
         this.status = status;
@@ -53,14 +51,6 @@ public class FullHouse extends CompactHouse {
 
     public String getDescription() {
         return description;
-    }
-
-    public String getLat() {
-        return lat;
-    }
-
-    public String getLng() {
-        return lng;
     }
 
     public String getEmailOwner() {

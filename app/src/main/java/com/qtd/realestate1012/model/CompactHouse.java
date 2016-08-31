@@ -12,9 +12,11 @@ public class CompactHouse {
     protected String district;
     protected String city;
     protected String firstImage;
+    protected String lat;
+    protected String lng;
     protected boolean isLiked;
 
-    public CompactHouse(String id, int price, String detailAddress, String street, String ward, String district, String city, String firstImage, boolean isLiked) {
+    public CompactHouse(String id, int price, String detailAddress, String street, String ward, String district, String city, String firstImage, String lat, String lng, boolean isLiked) {
         this.id = id;
         this.price = price;
         this.detailAddress = detailAddress;
@@ -23,6 +25,8 @@ public class CompactHouse {
         this.district = district;
         this.city = city;
         this.firstImage = firstImage;
+        this.lat = lat;
+        this.lng = lng;
         this.isLiked = isLiked;
     }
 
@@ -64,6 +68,14 @@ public class CompactHouse {
 
     public String getLargeAddress() {
         return ward + ", " + district + ", " + city;
+    }
+
+    public String getLat() {
+        return lat;
+    }
+
+    public String getLng() {
+        return lng;
     }
 
     public boolean isLiked() {

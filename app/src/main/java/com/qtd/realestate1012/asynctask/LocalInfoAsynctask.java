@@ -1,26 +1,19 @@
 package com.qtd.realestate1012.asynctask;
 
 import android.os.AsyncTask;
-import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 
 import com.qtd.realestate1012.constant.ApiConstant;
-import com.qtd.realestate1012.constant.AppConstant;
 import com.qtd.realestate1012.manager.PlaceManager;
+import com.qtd.realestate1012.messageevent.MessageDataLocationNearBy;
 
+import org.greenrobot.eventbus.EventBus;
 import org.json.JSONArray;
 
 /**
  * Created by Dell on 8/4/2016.
  */
 public class LocalInfoAsyncTask extends AsyncTask<String, Void, JSONArray> {
-    private Handler handler;
     private String type;
-
-    public LocalInfoAsyncTask(Handler handler) {
-        this.handler = handler;
-    }
 
     @Override
     protected JSONArray doInBackground(String... params) {
@@ -47,21 +40,15 @@ public class LocalInfoAsyncTask extends AsyncTask<String, Void, JSONArray> {
     }
 
     @Override
-    protected void onPostExecute(JSONArray result) {
-        Message message = new Message();
-        message.what = AppConstant.WHAT_LOCAL_INFO_ASYNC_TASK;
-        Bundle data = new Bundle();
+    protected void onPostExecute(JSONArray jsonArray) {
+        String result;
 
-        if (result == null) {
-            data.putString(ApiConstant.RESULT, ApiConstant.FAILED);
-            return;
+        if (jsonArray == null) {
+            result = ApiConstant.FAILED;
         } else {
-            data.putString(ApiConstant.RESULT, ApiConstant.SUCCESS);
-            data.putString(ApiConstant.API_PLACE_DATA, result.toString());
-            data.putString(ApiConstant.API_PLACE_KEY_TYPE, type);
+            result = ApiConstant.SUCCESS;
         }
 
-        message.setData(data);
-        handler.sendMessage(message);
+        EventBus.getDefault().post(new MessageDataLocationNearBy(result, jsonArray, type));
     }
 }

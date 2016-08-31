@@ -37,7 +37,7 @@
         <activity android:name=".activity.CreateBoardActivity" />
 
         <activity
-            android:name=".activity.DetailHouseActivity"
+            android:name=".activity.HouseDetailActivity"
             android:theme="@style/DetailHouseActivityStyle" />
 
         <activity android:name=".activity.MapViewActivity" />

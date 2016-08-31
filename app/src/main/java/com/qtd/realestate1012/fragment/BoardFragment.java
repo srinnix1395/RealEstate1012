@@ -84,6 +84,11 @@ public class BoardFragment extends Fragment {
         requestData();
     }
 
+    //// TODO: 8/31/2016 post and subscribe to send boards data from home fragment when no internet connection
+    public void handleMessageDataBoard() {
+
+    }
+
     private void initViews() {
         Glide.with(view.getContext())
                 .load(R.drawable.house_paint)

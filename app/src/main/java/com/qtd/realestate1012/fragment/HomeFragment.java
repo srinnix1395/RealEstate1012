@@ -21,8 +21,10 @@ import com.qtd.realestate1012.R;
 import com.qtd.realestate1012.adapter.HouseNewsAdapter;
 import com.qtd.realestate1012.constant.ApiConstant;
 import com.qtd.realestate1012.constant.AppConstant;
-import com.qtd.realestate1012.custom.ModalBottomSheetListBoard;
+import com.qtd.realestate1012.custom.BottomSheetListBoard;
 import com.qtd.realestate1012.messageevent.MessageClickImvHeartOnHouse;
+import com.qtd.realestate1012.messageevent.MessageDataBoard;
+import com.qtd.realestate1012.messageevent.MessageLikeBoardSuccess;
 import com.qtd.realestate1012.model.Board;
 import com.qtd.realestate1012.model.BunchHouse;
 import com.qtd.realestate1012.utils.AlertUtils;
@@ -204,7 +206,7 @@ public class HomeFragment extends Fragment {
     }
 
     public void openDialogBoard(String id) {
-        ModalBottomSheetListBoard dialog = new ModalBottomSheetListBoard();
+        BottomSheetListBoard dialog = new BottomSheetListBoard();
         Bundle bundle = new Bundle();
         bundle.putString(ApiConstant._ID, id);
         bundle.putString(ApiConstant.BOARD, jsonBoard.toString());
@@ -213,7 +215,8 @@ public class HomeFragment extends Fragment {
     }
 
     @Subscribe
-    public void handleEventSuccessFavoriteHouse(JSONObject response) {
+    public void handleEventSuccessFavoriteHouse(MessageLikeBoardSuccess messageEvent) {
+        JSONObject response = messageEvent.message;
         String id = null;
         boolean action = false;
         try {
@@ -230,5 +233,9 @@ public class HomeFragment extends Fragment {
         }
 
         AlertUtils.showToastSuccess(getContext(), R.drawable.ic_heart_white_large, R.string.homeSaved);
+    }
+
+    public void sendDataBoard() {
+        EventBus.getDefault().post(new MessageDataBoard(jsonBoard));
     }
 }

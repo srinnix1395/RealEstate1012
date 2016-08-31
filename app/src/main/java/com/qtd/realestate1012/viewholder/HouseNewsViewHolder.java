@@ -8,7 +8,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.qtd.realestate1012.R;
-import com.qtd.realestate1012.activity.DetailHouseActivity;
+import com.qtd.realestate1012.activity.HouseDetailActivity;
 import com.qtd.realestate1012.callback.ViewHolderCallback;
 import com.qtd.realestate1012.constant.ApiConstant;
 import com.qtd.realestate1012.messageevent.MessageClickImvHeartOnHouse;
@@ -222,7 +222,7 @@ public class HouseNewsViewHolder {
     }
 
     private void startDetailHouseActivity(int i) {
-        Intent intent = new Intent(view.getContext(), DetailHouseActivity.class);
+        Intent intent = new Intent(view.getContext(), HouseDetailActivity.class);
         intent.putExtra(ApiConstant._ID, bunchHouse.getCompactHouse(i).getId());
         view.getContext().startActivity(intent);
     }

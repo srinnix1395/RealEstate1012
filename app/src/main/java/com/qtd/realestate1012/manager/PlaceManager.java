@@ -56,7 +56,7 @@ public class PlaceManager {
             jsonArray.put(jsonObject);
 
             while (jsonObject.has(ApiConstant.NEXT_PAGE_TOKEN)) {
-                String urlNextPage = googlePlaceURL.toString() + "&pageToken=" + jsonObject.getString(ApiConstant.NEXT_PAGE_TOKEN);
+                String urlNextPage = googlePlaceURL.toString() + "&pagetoken=" + jsonObject.getString(ApiConstant.NEXT_PAGE_TOKEN);
 
                 url = new URL(urlNextPage);
                 connection = (HttpURLConnection) url.openConnection();
@@ -85,22 +85,23 @@ public class PlaceManager {
         return jsonArray;
     }
 
-    public static ArrayList<Place> getLocationNearBy(String json) {
+    public static ArrayList<Place> getLocationNearBy(JSONArray jsonArray) {
         ArrayList<Place> arrayList = new ArrayList<>();
         try {
-            JSONArray jsonArray = new JSONArray(json);
             for (int j = 0, length = jsonArray.length(); j < length; j++) {
                 JSONArray arrayResult = jsonArray.getJSONObject(j).getJSONArray(ApiConstant.API_PLACE_KEY_RESULTS);
                 for (int i = 0, size = arrayResult.length(); i < size; i++) {
                     JSONObject place = arrayResult.getJSONObject(i);
-                    JSONObject location = place.getJSONObject(ApiConstant.API_PLACE_GEOMETRY).getJSONObject(ApiConstant.API_PLACE_LOCATION);
+                    if (place.getJSONArray(ApiConstant.API_PLACES_TYPES).length() == 3) {
+                        JSONObject location = place.getJSONObject(ApiConstant.API_PLACE_GEOMETRY).getJSONObject(ApiConstant.API_PLACE_LOCATION);
 
-                    String placeID = place.getString(ApiConstant.API_PLACE_PLACE_ID);
-                    String name = place.getString(ApiConstant.NAME);
-                    String address = place.getString(ApiConstant.VICINITY);
-                    double latitude = location.getDouble(ApiConstant.API_PLACE_LATITUDE);
-                    double longitude = location.getDouble(ApiConstant.API_PLACE_LONGITUDE);
-                    arrayList.add(new Place(placeID, name, address, latitude, longitude));
+                        String placeID = place.getString(ApiConstant.API_PLACE_PLACE_ID);
+                        String name = place.getString(ApiConstant.NAME);
+                        String address = place.getString(ApiConstant.VICINITY);
+                        double latitude = location.getDouble(ApiConstant.API_PLACE_LATITUDE);
+                        double longitude = location.getDouble(ApiConstant.API_PLACE_LONGITUDE);
+                        arrayList.add(new Place(placeID, name, address, latitude, longitude));
+                    }
                 }
             }
 

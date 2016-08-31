@@ -29,7 +29,7 @@ public class AlertUtils {
     }
 
     public static void showToastSuccess(Context context, int resIcon, int resString) {
-        View view = LayoutInflater.from(context).inflate(R.layout.toast_board_created, null);
+        View view = LayoutInflater.from(context).inflate(R.layout.toast, null);
 
         ImageView imvIcon = (ImageView) view.findViewById(R.id.imvIcon);
         imvIcon.setImageResource(resIcon);

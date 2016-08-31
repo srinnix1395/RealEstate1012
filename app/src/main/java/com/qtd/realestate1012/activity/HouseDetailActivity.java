@@ -53,7 +53,7 @@ import butterknife.OnClick;
 /**
  * Created by DELL on 8/22/2016.
  */
-public class DetailHouseActivity extends AppCompatActivity implements ViewTreeObserver.OnScrollChangedListener {
+public class HouseDetailActivity extends AppCompatActivity implements ViewTreeObserver.OnScrollChangedListener {
     @BindView(R.id.toolbar)
     Toolbar toolbar;
 
@@ -198,7 +198,7 @@ public class DetailHouseActivity extends AppCompatActivity implements ViewTreeOb
                 try {
                     switch (response.getString(ApiConstant.RESULT)) {
                         case ApiConstant.FAILED: {
-                            Toast.makeText(DetailHouseActivity.this, R.string.errorProcessing, Toast.LENGTH_SHORT).show();
+                            Toast.makeText(HouseDetailActivity.this, R.string.errorProcessing, Toast.LENGTH_SHORT).show();
 
                             progressBar.setEnabled(false);
                             progressBar.setVisibility(View.INVISIBLE);

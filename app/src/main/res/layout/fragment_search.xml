@@ -152,7 +152,8 @@
                 android:layout_width="@dimen/defaultSize"
                 android:layout_height="@dimen/defaultSize"
                 android:layout_marginStart="10dp"
-                android:src="@drawable/ic_home_dark_green" />
+                android:scaleType="center"
+                android:src="@drawable/ic_close" />
 
             <TextView
                 android:id="@+id/tvInfoType"

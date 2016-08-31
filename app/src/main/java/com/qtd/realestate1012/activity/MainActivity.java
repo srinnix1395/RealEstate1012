@@ -119,7 +119,7 @@ public class MainActivity extends AppCompatActivity implements FavoriteFragmentC
                             break;
                         }
                         case R.id.miSetting: {
-                            Intent intent = new Intent(MainActivity.this, DetailHouseActivity.class);
+                            Intent intent = new Intent(MainActivity.this, HouseDetailActivity.class);
                             startActivity(intent);
                             break;
                         }
@@ -163,6 +163,7 @@ public class MainActivity extends AppCompatActivity implements FavoriteFragmentC
                 if (favoriteFragment == null) {
                     favoriteFragment = new FavoriteFragment();
                     transaction.add(R.id.layoutMain, favoriteFragment);
+                    homeFragment.sendDataBoard();
                 }
                 transaction.show(favoriteFragment);
                 break;

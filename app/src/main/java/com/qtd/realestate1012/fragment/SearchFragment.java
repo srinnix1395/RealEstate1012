@@ -6,8 +6,6 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -23,19 +21,31 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.qtd.realestate1012.HousieApplication;
 import com.qtd.realestate1012.R;
 import com.qtd.realestate1012.activity.FilterActivity;
 import com.qtd.realestate1012.callback.SearchFragmentCallback;
 import com.qtd.realestate1012.constant.ApiConstant;
 import com.qtd.realestate1012.constant.AppConstant;
+import com.qtd.realestate1012.custom.BottomSheetHouse;
 import com.qtd.realestate1012.custom.LocalInfoDialog;
 import com.qtd.realestate1012.manager.MapManager;
 import com.qtd.realestate1012.manager.PlaceManager;
+import com.qtd.realestate1012.messageevent.MessageDataLocationNearBy;
+import com.qtd.realestate1012.messageevent.MessageEventClickHouseMarker;
 import com.qtd.realestate1012.model.Place;
 import com.qtd.realestate1012.utils.ServiceUtils;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
@@ -72,34 +82,33 @@ public class SearchFragment extends Fragment implements OnMapReadyCallback, Sear
     TextView tvInfoType;
 
     private View locationButton;
-
     private SupportMapFragment supportMapFragment;
     private MapManager mapManager;
-    private Handler handlerLocalInfo = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-//            if (msg.what == AppConstant.WHAT_LOCAL_INFO_ASYNC_TASK) {
+//    private Handler handlerLocalInfo = new Handler() {
+//        @Override
+//        public void handleMessage(Message msg) {
+////            if (msg.what == AppConstant.WHAT_LOCAL_INFO_ASYNC_TASK) {
+////
+////            }
 //
+//            Bundle bundle = msg.getData();
+//            switch (bundle.getString(ApiConstant.RESULT)) {
+//                case ApiConstant.SUCCESS: {
+//                    ArrayList<Place> arrayLocationNearby = PlaceManager.getLocationNearBy(bundle.getString(ApiConstant.API_PLACE_DATA));
+//                    mapManager.showLocationNearByMarker(bundle.getString(ApiConstant.API_PLACE_KEY_TYPE), arrayLocationNearby);
+//                    tvInfoType.setText(bundle.getString(ApiConstant.API_PLACE_KEY_TYPE));
+//                    layoutLocalInfo.setVisibility(View.VISIBLE);
+//                    break;
+//                }
+//                case ApiConstant.FAILED: {
+//                    Toast.makeText(view.getContext(), R.string.errorConnection, Toast.LENGTH_SHORT).show();
+//                    break;
+//                }
 //            }
-
-            Bundle bundle = msg.getData();
-            switch (bundle.getString(ApiConstant.RESULT)) {
-                case ApiConstant.SUCCESS: {
-                    ArrayList<Place> arrayLocationNearby = PlaceManager.getLocationNearBy(bundle.getString(ApiConstant.API_PLACE_DATA));
-                    mapManager.showLocationNearByMarker(bundle.getString(ApiConstant.API_PLACE_KEY_TYPE), arrayLocationNearby);
-                    tvInfoType.setText(bundle.getString(ApiConstant.API_PLACE_KEY_TYPE));
-                    layoutLocalInfo.setVisibility(View.VISIBLE);
-                    break;
-                }
-                case ApiConstant.FAILED: {
-                    Toast.makeText(view.getContext(), R.string.errorConnection, Toast.LENGTH_SHORT).show();
-                    break;
-                }
-            }
-            progressBar.setEnabled(false);
-            progressBar.setVisibility(View.INVISIBLE);
-        }
-    };
+//            progressBar.setEnabled(false);
+//            progressBar.setVisibility(View.INVISIBLE);
+//        }
+//    };
 
     @Nullable
     @Override
@@ -114,6 +123,51 @@ public class SearchFragment extends Fragment implements OnMapReadyCallback, Sear
         initView();
     }
 
+    private void requestData() {
+        if (!ServiceUtils.isNetworkAvailable(getContext())) {
+            Toast.makeText(getContext(), R.string.noInternetConnection, Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        progressBar.setEnabled(true);
+        progressBar.setVisibility(View.VISIBLE);
+
+        JsonObjectRequest request = new JsonObjectRequest(ApiConstant.URL_WEB_SERVICE_GET_ALL_HOUSE, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                try {
+                    switch (response.getString(ApiConstant.RESULT)) {
+                        case ApiConstant.FAILED: {
+                            Toast.makeText(getContext(), R.string.errorProcessing, Toast.LENGTH_SHORT).show();
+                            break;
+                        }
+                        case ApiConstant.SUCCESS: {
+                            handleResponseSuccess(response);
+                            break;
+                        }
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                progressBar.setEnabled(false);
+                progressBar.setVisibility(View.INVISIBLE);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                error.printStackTrace();
+                progressBar.setEnabled(false);
+                progressBar.setVisibility(View.INVISIBLE);
+            }
+        });
+        HousieApplication.getInstance().addToRequestQueue(request);
+    }
+
+    private void handleResponseSuccess(JSONObject response) throws JSONException {
+        mapManager.displayHousesMarker(response.getJSONArray(ApiConstant.LIST_HOUSE));
+    }
+
     private void initView() {
         fabEnableMarker.getDrawable().setLevel(1);
 
@@ -124,12 +178,11 @@ public class SearchFragment extends Fragment implements OnMapReadyCallback, Sear
         supportMapFragment = new SupportMapFragment();
         getChildFragmentManager().beginTransaction().add(R.id.layoutSearch, supportMapFragment).commit();
         supportMapFragment.getMapAsync(this);
-
     }
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        mapManager = new MapManager(view.getContext(), googleMap, handlerLocalInfo, this);
+        mapManager = new MapManager(view.getContext(), googleMap, this);
         progressBar.setEnabled(false);
         progressBar.setVisibility(View.INVISIBLE);
 
@@ -138,6 +191,7 @@ public class SearchFragment extends Fragment implements OnMapReadyCallback, Sear
             locationButton = ((View) supportMapFragment.getView().findViewById(Integer.parseInt("1")).getParent()).findViewById(Integer.parseInt("2"));
             locationButton.setVisibility(View.INVISIBLE);
         }
+        requestData();
     }
 
     @Override
@@ -170,7 +224,7 @@ public class SearchFragment extends Fragment implements OnMapReadyCallback, Sear
                 onClickImvCloseLayoutLocalInfo();
                 break;
             }
-            case R.id.tvFilter:{
+            case R.id.tvFilter: {
                 onClickTvFilter();
                 break;
             }
@@ -191,7 +245,7 @@ public class SearchFragment extends Fragment implements OnMapReadyCallback, Sear
 
     private void onClickImvCloseLayoutLocalInfo() {
         layoutLocalInfo.setVisibility(View.INVISIBLE);
-        mapManager.clearMarkerPlace();
+        mapManager.clearLocationNearByMarker();
     }
 
     private void onClickFabLocation() {
@@ -220,11 +274,11 @@ public class SearchFragment extends Fragment implements OnMapReadyCallback, Sear
                 //show local info
                 switch (((LocalInfoDialog) dialog).getRadioButtonIdChecked()) {
                     case R.id.radioSchools: {
-                        mapManager.showMarkerPlace(ApiConstant.API_PLACE_TYPE_SCHOOL);
+                        mapManager.requestLocationNearbyPlace(ApiConstant.API_PLACE_TYPE_SCHOOL);
                         break;
                     }
                     case R.id.radioHospital: {
-                        mapManager.showMarkerPlace(ApiConstant.API_PLACE_TYPE_HOSPITAL);
+                        mapManager.requestLocationNearbyPlace(ApiConstant.API_PLACE_TYPE_HOSPITAL);
                         break;
                     }
                 }
@@ -240,12 +294,12 @@ public class SearchFragment extends Fragment implements OnMapReadyCallback, Sear
     private void onClickFabEnableMarker() {
         if (fabEnableMarker.getDrawable().getLevel() == 1) {
             fabEnableMarker.getDrawable().setLevel(2);
-            mapManager.clearMarker();
+            mapManager.setVisibleHousesMarker(false);
             return;
         }
 
         fabEnableMarker.getDrawable().setLevel(1);
-        mapManager.drawRealEstateMarker();
+        mapManager.setVisibleHousesMarker(true);
     }
 
     @Override
@@ -259,6 +313,48 @@ public class SearchFragment extends Fragment implements OnMapReadyCallback, Sear
         if (hidden) {
             getActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
         }
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public void onStop() {
+        EventBus.getDefault().unregister(this);
+        super.onStop();
+    }
+
+    @Subscribe
+    public void handleRequestLocationNearBy(MessageDataLocationNearBy message) {
+        if (message.result != null) {
+            switch (message.result) {
+                case ApiConstant.SUCCESS: {
+                    ArrayList<Place> arrayLocationNearby = PlaceManager.getLocationNearBy(message.data);
+                    mapManager.showLocationNearByMarker(message.placeType, arrayLocationNearby);
+                    tvInfoType.setText(message.placeType);
+                    layoutLocalInfo.setVisibility(View.VISIBLE);
+                    break;
+                }
+                case ApiConstant.FAILED: {
+                    Toast.makeText(view.getContext(), R.string.errorConnection, Toast.LENGTH_SHORT).show();
+                    break;
+                }
+            }
+        }
+        progressBar.setEnabled(false);
+        progressBar.setVisibility(View.INVISIBLE);
+    }
+
+    @Subscribe
+    public void handleEventClickMarker(MessageEventClickHouseMarker message) {
+        BottomSheetHouse dialog = new BottomSheetHouse();
+        Bundle bundle = new Bundle();
+        bundle.putString(ApiConstant.HOUSE, message.houseInfo);
+        dialog.setArguments(bundle);
+        dialog.show(getFragmentManager(), "dialog");
     }
 }
 

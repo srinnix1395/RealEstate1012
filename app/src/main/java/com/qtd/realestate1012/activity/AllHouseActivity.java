@@ -65,7 +65,7 @@ public class AllHouseActivity extends AppCompatActivity {
 
     private void requestData() {
         if (ServiceUtils.isNetworkAvailable(this)) {
-            String url = ApiConstant.URL_WEB_SERVICE_GET_ALL_HOUSE_OF_A_KIND;
+            String url = ApiConstant.URL_WEB_SERVICE_GET_ALL_HOUSE;
 
             JSONObject jsonRequest = new JSONObject();
             if (HousieApplication.getInstance().getSharedPreUtils().getBoolean(AppConstant.USER_LOGGED_IN, false)) {
