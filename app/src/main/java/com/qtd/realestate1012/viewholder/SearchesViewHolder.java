@@ -6,7 +6,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.qtd.realestate1012.R;
-import com.qtd.realestate1012.callback.ViewHolderCallback;
 import com.qtd.realestate1012.model.ItemSearch;
 
 import butterknife.BindView;
@@ -26,7 +25,6 @@ public class SearchesViewHolder extends RecyclerView.ViewHolder {
     @BindView(R.id.imvHeart)
     ImageView imvHeart;
 
-    private ViewHolderCallback callback;
     private int position;
 
     public SearchesViewHolder(View itemView) {
@@ -40,6 +38,6 @@ public class SearchesViewHolder extends RecyclerView.ViewHolder {
 
     @OnClick(R.id.imvHeart)
     void onClick() {
-        callback.onClickImvHeartSearches(position);
+
     }
 }

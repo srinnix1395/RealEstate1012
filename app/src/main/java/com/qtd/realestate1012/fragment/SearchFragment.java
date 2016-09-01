@@ -10,6 +10,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -58,7 +59,8 @@ import butterknife.OnClick;
  */
 public class SearchFragment extends Fragment implements OnMapReadyCallback, SearchFragmentCallback {
 
-    private View view;
+    private static final String MAP_RESULT = "Bản đồ";
+    private static final String LIST_RESULT = "Danh sách";
 
     @BindView(R.id.etSearch)
     EditText etSearch;
@@ -66,8 +68,11 @@ public class SearchFragment extends Fragment implements OnMapReadyCallback, Sear
     @BindView(R.id.tvFilter)
     TextView tvFilter;
 
-    @BindView(R.id.tvListResult)
+    @BindView(R.id.tvResult)
     TextView tvListResult;
+
+    @BindView(R.id.fabLocation)
+    FloatingActionButton fabLocation;
 
     @BindView(R.id.fabEnableMarker)
     FloatingActionButton fabEnableMarker;
@@ -84,43 +89,27 @@ public class SearchFragment extends Fragment implements OnMapReadyCallback, Sear
     private View locationButton;
     private SupportMapFragment supportMapFragment;
     private MapManager mapManager;
-//    private Handler handlerLocalInfo = new Handler() {
-//        @Override
-//        public void handleMessage(Message msg) {
-////            if (msg.what == AppConstant.WHAT_LOCAL_INFO_ASYNC_TASK) {
-////
-////            }
-//
-//            Bundle bundle = msg.getData();
-//            switch (bundle.getString(ApiConstant.RESULT)) {
-//                case ApiConstant.SUCCESS: {
-//                    ArrayList<Place> arrayLocationNearby = PlaceManager.getLocationNearBy(bundle.getString(ApiConstant.API_PLACE_DATA));
-//                    mapManager.showLocationNearByMarker(bundle.getString(ApiConstant.API_PLACE_KEY_TYPE), arrayLocationNearby);
-//                    tvInfoType.setText(bundle.getString(ApiConstant.API_PLACE_KEY_TYPE));
-//                    layoutLocalInfo.setVisibility(View.VISIBLE);
-//                    break;
-//                }
-//                case ApiConstant.FAILED: {
-//                    Toast.makeText(view.getContext(), R.string.errorConnection, Toast.LENGTH_SHORT).show();
-//                    break;
-//                }
-//            }
-//            progressBar.setEnabled(false);
-//            progressBar.setVisibility(View.INVISIBLE);
-//        }
-//    };
+    private String jsonBoard;
+    private ListHouseFragment listHouseFragment;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_search, container, false);
-        return view;
+        return inflater.inflate(R.layout.fragment_search, container, false);
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         ButterKnife.bind(this, view);
+        initData();
         initView();
+    }
+
+    private void initData() {
+        Bundle arguments = getArguments();
+        if (arguments != null) {
+            jsonBoard = arguments.getString(ApiConstant.LIST_BOARD);
+        }
     }
 
     private void requestData() {
@@ -172,7 +161,7 @@ public class SearchFragment extends Fragment implements OnMapReadyCallback, Sear
         fabEnableMarker.getDrawable().setLevel(1);
 
         progressBar.setIndeterminate(true);
-        progressBar.getIndeterminateDrawable().setColorFilter(ContextCompat.getColor(view.getContext(), R.color.colorPrimary), PorterDuff.Mode.SRC_ATOP);
+        progressBar.getIndeterminateDrawable().setColorFilter(ContextCompat.getColor(getContext(), R.color.colorPrimary), PorterDuff.Mode.SRC_ATOP);
         progressBar.setEnabled(true);
 
         supportMapFragment = new SupportMapFragment();
@@ -182,7 +171,7 @@ public class SearchFragment extends Fragment implements OnMapReadyCallback, Sear
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        mapManager = new MapManager(view.getContext(), googleMap, this);
+        mapManager = new MapManager(getContext(), googleMap, this);
         progressBar.setEnabled(false);
         progressBar.setVisibility(View.INVISIBLE);
 
@@ -201,7 +190,8 @@ public class SearchFragment extends Fragment implements OnMapReadyCallback, Sear
         }
     }
 
-    @OnClick({R.id.tvLocalInfo, R.id.tvSaveSearch, R.id.fabLocation, R.id.fabEnableMarker, R.id.imvClose, R.id.tvFilter})
+    @OnClick({R.id.tvLocalInfo, R.id.tvSaveSearch, R.id.fabLocation, R.id.fabEnableMarker, R.id.imvClose
+            , R.id.tvFilter, R.id.tvResult})
     void onClick(View view) {
         switch (view.getId()) {
             case R.id.tvLocalInfo: {
@@ -228,7 +218,47 @@ public class SearchFragment extends Fragment implements OnMapReadyCallback, Sear
                 onClickTvFilter();
                 break;
             }
+            case R.id.tvResult: {
+                onClickTvResult();
+                break;
+            }
         }
+    }
+
+    private void onClickTvResult() {
+        FragmentTransaction transaction = getFragmentManager().beginTransaction();
+
+        switch (tvListResult.getText().toString()) {
+            case LIST_RESULT: {
+                fabLocation.setVisibility(View.GONE);
+                fabEnableMarker.setVisibility(View.GONE);
+                progressBar.setVisibility(View.GONE);
+
+                listHouseFragment = new ListHouseFragment();
+                Bundle bundle = new Bundle();
+                bundle.putString(ApiConstant.URL_WEB_SERVICE, ApiConstant.URL_WEB_SERVICE_GET_ALL_HOUSE);
+                bundle.putString(ApiConstant.LIST_BOARD, jsonBoard);
+                listHouseFragment.setArguments(bundle);
+
+                transaction.hide(supportMapFragment);
+                transaction.add(R.id.layoutSearch, listHouseFragment);
+
+                tvListResult.setText(MAP_RESULT);
+                break;
+            }
+            case MAP_RESULT: {
+                fabLocation.setVisibility(View.VISIBLE);
+                fabEnableMarker.setVisibility(View.VISIBLE);
+
+                transaction.remove(listHouseFragment);
+                transaction.show(supportMapFragment);
+
+                tvListResult.setText(LIST_RESULT);
+                break;
+            }
+        }
+
+        transaction.commit();
     }
 
     private void onClickTvFilter() {
@@ -249,8 +279,8 @@ public class SearchFragment extends Fragment implements OnMapReadyCallback, Sear
     }
 
     private void onClickFabLocation() {
-        if (!ServiceUtils.isLocationServiceEnabled(view.getContext())) {
-            Toast.makeText(view.getContext(), R.string.pleaseEnableLocationService, Toast.LENGTH_SHORT).show();
+        if (!ServiceUtils.isLocationServiceEnabled(getContext())) {
+            Toast.makeText(getContext(), R.string.pleaseEnableLocationService, Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -261,7 +291,7 @@ public class SearchFragment extends Fragment implements OnMapReadyCallback, Sear
 
     private void showDialogLocalInfo() {
         String placeType = layoutLocalInfo.getVisibility() == View.INVISIBLE ? "" : tvInfoType.getText().toString();
-        LocalInfoDialog localInfoDialog = new LocalInfoDialog(view.getContext(), mapManager.getMapType(), placeType);
+        LocalInfoDialog localInfoDialog = new LocalInfoDialog(getContext(), mapManager.getMapType(), placeType);
         localInfoDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
             @Override
             public void onDismiss(DialogInterface dialog) {
@@ -287,7 +317,7 @@ public class SearchFragment extends Fragment implements OnMapReadyCallback, Sear
         localInfoDialog.show();
 
         //change size local dialog info
-        int width = (int) (view.getContext().getResources().getDisplayMetrics().widthPixels * 0.90);
+        int width = (int) (getContext().getResources().getDisplayMetrics().widthPixels * 0.90);
         localInfoDialog.getWindow().setLayout(width, WindowManager.LayoutParams.WRAP_CONTENT);
     }
 
@@ -339,7 +369,7 @@ public class SearchFragment extends Fragment implements OnMapReadyCallback, Sear
                     break;
                 }
                 case ApiConstant.FAILED: {
-                    Toast.makeText(view.getContext(), R.string.errorConnection, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), R.string.errorConnection, Toast.LENGTH_SHORT).show();
                     break;
                 }
             }

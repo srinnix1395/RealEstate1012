@@ -64,6 +64,7 @@ public class BoardFragment extends Fragment {
 
     private ArrayList<Board> arrayListBoards;
     private BoardAdapter adapter;
+    private String jsonBoard;
 
     @Nullable
     @Override
@@ -82,11 +83,6 @@ public class BoardFragment extends Fragment {
     public void onStart() {
         super.onStart();
         requestData();
-    }
-
-    //// TODO: 8/31/2016 post and subscribe to send boards data from home fragment when no internet connection
-    public void handleMessageDataBoard() {
-
     }
 
     private void initViews() {

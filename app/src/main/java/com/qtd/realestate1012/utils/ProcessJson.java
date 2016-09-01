@@ -88,7 +88,7 @@ public class ProcessJson {
         return object;
     }
 
-    public static ArrayList<CompactHouse> getFavoriteHouses(JSONObject response) {
+    public static ArrayList<CompactHouse> getListCompactHouse(JSONObject response) {
         ArrayList<CompactHouse> arrayList = new ArrayList<>();
 
         try {
@@ -174,10 +174,6 @@ public class ProcessJson {
             e.printStackTrace();
         }
         return arrayList;
-    }
-
-    public static ArrayList<CompactHouse> getAllHouses(JSONObject response) {
-        return getFavoriteHouses(response);
     }
 
     public static CompactHouse getInfoHouse(String data) {

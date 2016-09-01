@@ -56,7 +56,7 @@ public class BottomSheetListBoard extends BottomSheetDialogFragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.bottom_sheet_dialog_list_board, container, false);
+        view = inflater.inflate(R.layout.bottom_sheet_dialog_house, container, false);
         return view;
     }
 

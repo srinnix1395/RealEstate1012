@@ -150,7 +150,7 @@ public class HomesFavoriteFragment extends Fragment {
                                 int size = arrayListHouses.size();
                                 arrayListHouses.clear();
                                 adapter.notifyItemRangeRemoved(0, size);
-                                arrayListHouses.addAll(ProcessJson.getFavoriteHouses(response));
+                                arrayListHouses.addAll(ProcessJson.getListCompactHouse(response));
                                 adapter.notifyItemRangeInserted(0, arrayListHouses.size());
                                 break;
                             }

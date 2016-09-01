@@ -49,7 +49,6 @@ public class BoardHasHeartViewHolder extends RecyclerView.ViewHolder {
     public BoardHasHeartViewHolder(View itemView) {
         super(itemView);
         ButterKnife.bind(this, itemView);
-//        callback = (ViewHolderCallback) ((ContextThemeWrapper) itemView.getContext()).getBaseContext();
     }
 
 
@@ -91,7 +90,7 @@ public class BoardHasHeartViewHolder extends RecyclerView.ViewHolder {
         if (board.isLiked()) {
             imvHeart.setImageResource(R.drawable.ic_heart_pink_small);
         } else {
-            imvHeart.setImageResource(R.drawable.ic_heart_outline_24dp);
+            imvHeart.setImageResource(R.drawable.ic_heart_outline);
         }
     }
 

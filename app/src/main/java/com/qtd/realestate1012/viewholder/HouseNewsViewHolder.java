@@ -9,9 +9,9 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.qtd.realestate1012.R;
 import com.qtd.realestate1012.activity.HouseDetailActivity;
-import com.qtd.realestate1012.callback.ViewHolderCallback;
 import com.qtd.realestate1012.constant.ApiConstant;
 import com.qtd.realestate1012.messageevent.MessageClickImvHeartOnHouse;
+import com.qtd.realestate1012.messageevent.MessageEventClickSeeAllViewHolder;
 import com.qtd.realestate1012.model.BunchHouse;
 
 import org.greenrobot.eventbus.EventBus;
@@ -91,12 +91,10 @@ public class HouseNewsViewHolder {
 
     private View view;
     private BunchHouse bunchHouse;
-    private ViewHolderCallback callback;
 
     public HouseNewsViewHolder(View view) {
         this.view = view;
         ButterKnife.bind(this, view);
-        callback = (ViewHolderCallback) view.getContext();
     }
 
     public void setupViewHolder(BunchHouse bunchHouse) {
@@ -166,7 +164,7 @@ public class HouseNewsViewHolder {
     void onClick(View v) {
         switch (v.getId()) {
             case R.id.tvSeeAll: {
-
+                onClickDetail();
                 break;
             }
             case R.id.layoutHouse1: {
@@ -214,6 +212,10 @@ public class HouseNewsViewHolder {
                 break;
             }
         }
+    }
+
+    private void onClickDetail() {
+        EventBus.getDefault().post(new MessageEventClickSeeAllViewHolder(bunchHouse.getType()));
     }
 
     private void addHouseToFavorite(int i) {

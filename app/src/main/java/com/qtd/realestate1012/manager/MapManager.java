@@ -132,7 +132,7 @@ public class MapManager implements GoogleMap.OnCameraChangeListener, GoogleMap.O
                 break;
             }
             case ApiConstant.API_PLACE_TYPE_HOSPITAL: {
-
+                markerType = R.drawable.drawable_marker_hospital;
                 break;
             }
         }

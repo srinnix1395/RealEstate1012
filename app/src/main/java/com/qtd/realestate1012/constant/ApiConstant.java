@@ -28,6 +28,7 @@ public class ApiConstant {
     public static final String URL_WEB_SERVICE_DELETE_BOARD = "http://protectedcedar-31067.rhcloud.com/board/deleteBoard";
 
     public static final String URL_WEB_SERVICE_GET_ALL_HOUSE = "http://protectedcedar-31067.rhcloud.com/house/getAllHouses";
+    public static final String URL_WEB_SERVICE_GET_ALL_HOUSE_OF_KIND = "http://protectedcedar-31067.rhcloud.com/house/getAllHousesOfKind";
     public static final String URL_WEB_SERVICE_GET_FAVORITE_HOUSES = "http://protectedcedar-31067.rhcloud.com/house/getFavoriteHouses";
     public static final String URL_WEB_SERVICE_HANDLE_FAVORITE_HOUSES = "http://protectedcedar-31067.rhcloud.com/house/handleFavoriteHouse";
     public static final String URL_WEB_SERVICE_DETAIL_HOUSE = "http://protectedcedar-31067.rhcloud.com/house/detailInfo";
@@ -71,6 +72,8 @@ public class ApiConstant {
     public static final String ACTION_DELETE = "delete";
     public static final String ACTION_ADD = "add";
     public static final String BOARD = "board";
+    public static final String URL_WEB_SERVICE = "URL";
+    public static final String JSON_REQUEST = "json_request";
     public static String _ID_BOARD = "_id_board";
     public static String _ID_HOUSE = "_id_house";
 

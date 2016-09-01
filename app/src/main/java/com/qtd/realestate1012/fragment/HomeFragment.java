@@ -1,5 +1,6 @@
 package com.qtd.realestate1012.fragment;
 
+import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -18,12 +19,13 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.JsonRequest;
 import com.qtd.realestate1012.HousieApplication;
 import com.qtd.realestate1012.R;
+import com.qtd.realestate1012.activity.AllHouseActivity;
 import com.qtd.realestate1012.adapter.HouseNewsAdapter;
 import com.qtd.realestate1012.constant.ApiConstant;
 import com.qtd.realestate1012.constant.AppConstant;
 import com.qtd.realestate1012.custom.BottomSheetListBoard;
 import com.qtd.realestate1012.messageevent.MessageClickImvHeartOnHouse;
-import com.qtd.realestate1012.messageevent.MessageDataBoard;
+import com.qtd.realestate1012.messageevent.MessageEventClickSeeAllViewHolder;
 import com.qtd.realestate1012.messageevent.MessageLikeBoardSuccess;
 import com.qtd.realestate1012.model.Board;
 import com.qtd.realestate1012.model.BunchHouse;
@@ -96,16 +98,19 @@ public class HomeFragment extends Fragment {
             progressBar.setEnabled(false);
             progressBar.setVisibility(View.INVISIBLE);
         } else {
-            progressBar.setEnabled(true);
-            progressBar.setVisibility(View.VISIBLE);
             tvError.setVisibility(View.INVISIBLE);
         }
 
     }
 
     private void requestData() {
+        progressBar.setEnabled(true);
+        progressBar.setVisibility(View.VISIBLE);
+
         if (!ServiceUtils.isNetworkAvailable(view.getContext())) {
             AlertUtils.showSnackBarNoInternet(view);
+            progressBar.setEnabled(false);
+            progressBar.setVisibility(View.INVISIBLE);
             return;
         }
 
@@ -235,7 +240,15 @@ public class HomeFragment extends Fragment {
         AlertUtils.showToastSuccess(getContext(), R.drawable.ic_heart_white_large, R.string.homeSaved);
     }
 
-    public void sendDataBoard() {
-        EventBus.getDefault().post(new MessageDataBoard(jsonBoard));
+    @Subscribe
+    public void handleEventClickSeeAllViewHolder(MessageEventClickSeeAllViewHolder message) {
+        Intent intent = new Intent(getContext(), AllHouseActivity.class);
+        intent.putExtra(ApiConstant.TYPE, message.type);
+        intent.putExtra(ApiConstant.LIST_BOARD, jsonBoard.toString());
+        getContext().startActivity(intent);
+    }
+
+    public String getJSONBoard() {
+        return jsonBoard.toString();
     }
 }

@@ -14,19 +14,19 @@ import android.widget.Toast;
 import com.qtd.realestate1012.HousieApplication;
 import com.qtd.realestate1012.R;
 import com.qtd.realestate1012.callback.FavoriteFragmentCallback;
-import com.qtd.realestate1012.callback.ViewHolderCallback;
+import com.qtd.realestate1012.constant.ApiConstant;
 import com.qtd.realestate1012.constant.AppConstant;
 import com.qtd.realestate1012.fragment.FavoriteFragment;
 import com.qtd.realestate1012.fragment.HomeFragment;
 import com.qtd.realestate1012.fragment.NotificationFragment;
 import com.qtd.realestate1012.fragment.SearchFragment;
-import com.qtd.realestate1012.utils.UiUtils;
 import com.qtd.realestate1012.utils.ServiceUtils;
+import com.qtd.realestate1012.utils.UiUtils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class MainActivity extends AppCompatActivity implements FavoriteFragmentCallback, ViewHolderCallback {
+public class MainActivity extends AppCompatActivity implements FavoriteFragmentCallback {
     @BindView(R.id.tabLayout)
     TabLayout tabLayout;
 
@@ -152,6 +152,10 @@ public class MainActivity extends AppCompatActivity implements FavoriteFragmentC
                     tabLayout.setElevation(0);
                 }
                 SearchFragment searchFragment = new SearchFragment();
+                Bundle bundle = new Bundle();
+                bundle.putString(ApiConstant.LIST_BOARD, homeFragment.getJSONBoard());
+                searchFragment.setArguments(bundle);
+
                 transaction.add(R.id.layoutMain, searchFragment);
                 transaction.show(searchFragment);
                 break;
@@ -163,7 +167,6 @@ public class MainActivity extends AppCompatActivity implements FavoriteFragmentC
                 if (favoriteFragment == null) {
                     favoriteFragment = new FavoriteFragment();
                     transaction.add(R.id.layoutMain, favoriteFragment);
-                    homeFragment.sendDataBoard();
                 }
                 transaction.show(favoriteFragment);
                 break;
@@ -193,10 +196,5 @@ public class MainActivity extends AppCompatActivity implements FavoriteFragmentC
     @Override
     public void showSearchFragment() {
         tabLayout.getTabAt(AppConstant.SEARCH_FRAGMENT_TAB).select();
-    }
-
-    @Override
-    public void onClickImvHeartSearches(int position) {
-
     }
 }
