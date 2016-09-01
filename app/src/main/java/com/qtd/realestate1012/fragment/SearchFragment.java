@@ -8,6 +8,7 @@ import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -85,6 +86,9 @@ public class SearchFragment extends Fragment implements OnMapReadyCallback, Sear
 
     @BindView(R.id.tvInfoType)
     TextView tvInfoType;
+
+    @BindView(R.id.toolbar_1)
+    LinearLayout layoutSearch;
 
     private View locationButton;
     private SupportMapFragment supportMapFragment;
@@ -226,39 +230,47 @@ public class SearchFragment extends Fragment implements OnMapReadyCallback, Sear
     }
 
     private void onClickTvResult() {
-        FragmentTransaction transaction = getFragmentManager().beginTransaction();
-
         switch (tvListResult.getText().toString()) {
             case LIST_RESULT: {
-                fabLocation.setVisibility(View.GONE);
-                fabEnableMarker.setVisibility(View.GONE);
-                progressBar.setVisibility(View.GONE);
-
                 listHouseFragment = new ListHouseFragment();
                 Bundle bundle = new Bundle();
                 bundle.putString(ApiConstant.URL_WEB_SERVICE, ApiConstant.URL_WEB_SERVICE_GET_ALL_HOUSE);
                 bundle.putString(ApiConstant.LIST_BOARD, jsonBoard);
                 listHouseFragment.setArguments(bundle);
 
+                FragmentTransaction transaction = getFragmentManager().beginTransaction();
                 transaction.hide(supportMapFragment);
                 transaction.add(R.id.layoutSearch, listHouseFragment);
+                transaction.commit();
+
+                fabLocation.setVisibility(View.GONE);
+                fabEnableMarker.setVisibility(View.GONE);
+
+                AppBarLayout.LayoutParams params = (AppBarLayout.LayoutParams) layoutSearch.getLayoutParams();
+                params.setScrollFlags(AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL | AppBarLayout.LayoutParams.SCROLL_FLAG_ENTER_ALWAYS);
+                layoutSearch.requestLayout();
 
                 tvListResult.setText(MAP_RESULT);
                 break;
             }
             case MAP_RESULT: {
+                AppBarLayout.LayoutParams params = (AppBarLayout.LayoutParams) layoutSearch.getLayoutParams();
+                params.setScrollFlags(0);
+                layoutSearch.requestLayout();
+
                 fabLocation.setVisibility(View.VISIBLE);
                 fabEnableMarker.setVisibility(View.VISIBLE);
 
+                FragmentTransaction transaction = getFragmentManager().beginTransaction();
                 transaction.remove(listHouseFragment);
+                listHouseFragment.onDestroyView();
                 transaction.show(supportMapFragment);
+                transaction.commit();
 
                 tvListResult.setText(LIST_RESULT);
                 break;
             }
         }
-
-        transaction.commit();
     }
 
     private void onClickTvFilter() {

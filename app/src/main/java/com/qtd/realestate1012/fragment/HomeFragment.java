@@ -82,6 +82,7 @@ public class HomeFragment extends Fragment {
     }
 
     private void initData() {
+        jsonBoard = new JSONObject();
         arrayListBoard = new ArrayList<>();
         arrayListHouseNews = new ArrayList<>();
         adapter = new HouseNewsAdapter(arrayListHouseNews);

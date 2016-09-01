@@ -111,10 +111,12 @@ public class ProcessJson {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+
         return arrayList;
     }
 
     public static FullHouse getDetailInfoHouse(JSONObject response) {
+
         try {
             JSONObject house = response.getJSONObject(ApiConstant.HOUSE);
             String id = house.getString(ApiConstant._ID);
