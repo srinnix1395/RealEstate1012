@@ -48,8 +48,6 @@ import butterknife.OnClick;
  * Created by Dell on 7/31/2016.
  */
 public class BoardFragment extends Fragment {
-    private View view;
-
     @BindView(R.id.recyclerView)
     RecyclerView recyclerView;
 
@@ -62,14 +60,16 @@ public class BoardFragment extends Fragment {
     @BindView(R.id.imvNoBoard)
     ImageView imvNoBoard;
 
+    @BindView(R.id.fabAddBoard)
+    FloatingActionButton fabAddBoard;
+
     private ArrayList<Board> arrayListBoards;
     private BoardAdapter adapter;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_board, container, false);
-        return view;
+        return inflater.inflate(R.layout.fragment_board, container, false);
     }
 
     @Override
@@ -102,7 +102,7 @@ public class BoardFragment extends Fragment {
     }
 
     private void initViews() {
-        Glide.with(view.getContext())
+        Glide.with(this)
                 .load(R.drawable.house_paint)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .override(324, 324)
@@ -116,7 +116,7 @@ public class BoardFragment extends Fragment {
             }
         });
 
-        recyclerView.setLayoutManager(new GridLayoutManager(view.getContext(), 2));
+        recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
         RecyclerView.ItemAnimator itemAnimator = new DefaultItemAnimator();
         itemAnimator.setAddDuration(1000);
         recyclerView.setItemAnimator(itemAnimator);
@@ -137,10 +137,9 @@ public class BoardFragment extends Fragment {
 
     private void requestData() {
         refreshLayout.setRefreshing(true);
-        if (!ServiceUtils.isNetworkAvailable(view.getContext())) {
+        if (!ServiceUtils.isNetworkAvailable(getContext())) {
             if (this.getUserVisibleHint()) {
-                FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.fabAddBoard);
-                AlertUtils.showSnackBarNoInternet(fab);
+                AlertUtils.showSnackBarNoInternet(fabAddBoard);
             }
             refreshLayout.setRefreshing(false);
             return;

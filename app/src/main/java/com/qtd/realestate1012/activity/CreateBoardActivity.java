@@ -146,24 +146,26 @@ public class CreateBoardActivity extends AppCompatActivity {
             @Override
             public void onResponse(JSONObject response) {
                 try {
-                    if (response.getString(ApiConstant.RESULT).equals(ApiConstant.FAILED)) {
-                        Toast.makeText(CreateBoardActivity.this, R.string.errorConnection, Toast.LENGTH_SHORT).show();
-                        tvNext.setVisibility(View.VISIBLE);
-                    } else {
-                        AlertUtils.showToastSuccess(CreateBoardActivity.this, R.drawable.ic_check_ok, R.string.createBoard);
-                        new Handler().postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                CreateBoardActivity.this.finish();
-                            }
-                        }, 2000);
+                    switch (response.getString(ApiConstant.RESULT)) {
+                        case ApiConstant.FAILED: {
+                            Toast.makeText(CreateBoardActivity.this, R.string.errorConnection, Toast.LENGTH_SHORT).show();
+                            progressBar.setEnabled(false);
+                            progressBar.setVisibility(View.INVISIBLE);
+                            tvNext.setVisibility(View.VISIBLE);
+                            break;
+                        }
+                        case ApiConstant.SUCCESS: {
+                            handleResponseSuccess(response);
+                            progressBar.setEnabled(false);
+                            progressBar.setVisibility(View.INVISIBLE);
+                            break;
+                        }
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
 
-                progressBar.setEnabled(false);
-                progressBar.setVisibility(View.INVISIBLE);
+
             }
         }, new Response.ErrorListener() {
             @Override
@@ -175,5 +177,15 @@ public class CreateBoardActivity extends AppCompatActivity {
             }
         });
         HousieApplication.getInstance().addToRequestQueue(request);
+    }
+
+    private void handleResponseSuccess(JSONObject response) {
+        AlertUtils.showToastSuccess(CreateBoardActivity.this, R.drawable.ic_check_ok, R.string.createBoard);
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                CreateBoardActivity.this.finish();
+            }
+        }, 2000);
     }
 }
