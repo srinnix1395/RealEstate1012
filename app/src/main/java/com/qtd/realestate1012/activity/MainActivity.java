@@ -152,10 +152,6 @@ public class MainActivity extends AppCompatActivity implements FavoriteFragmentC
                     tabLayout.setElevation(0);
                 }
                 SearchFragment searchFragment = new SearchFragment();
-                Bundle bundle = new Bundle();
-                bundle.putString(ApiConstant.LIST_BOARD, homeFragment.getJSONBoard());
-                searchFragment.setArguments(bundle);
-
                 transaction.add(R.id.layoutMain, searchFragment);
                 transaction.show(searchFragment);
                 break;

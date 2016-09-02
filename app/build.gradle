@@ -42,6 +42,7 @@ dependencies {
     compile 'com.google.android.gms:play-services-maps:8.3.0'
     compile 'de.hamm:pinned-section-listview:1.7.0'
     compile 'org.greenrobot:eventbus:3.0.0'
+    compile group: 'com.google.code.gson', name: 'gson', version: '2.7'
 }
 
 

@@ -64,7 +64,6 @@ public class BoardFragment extends Fragment {
 
     private ArrayList<Board> arrayListBoards;
     private BoardAdapter adapter;
-    private String jsonBoard;
 
     @Nullable
     @Override
@@ -76,7 +75,24 @@ public class BoardFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         ButterKnife.bind(this, view);
+        initData();
         initViews();
+    }
+
+    private void initData() {
+        String jsonBoard = HousieApplication.getInstance().getSharedPreUtils().getString(ApiConstant.LIST_BOARD, null);
+        if (!ServiceUtils.isNetworkAvailable(getContext()) && jsonBoard != null) {
+            JSONObject jsonObject = null;
+            try {
+                jsonObject = new JSONObject(jsonBoard);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            arrayListBoards = ProcessJson.getFavoriteBoards(jsonObject);
+        } else {
+            arrayListBoards = new ArrayList<>();
+        }
+        adapter = new BoardAdapter(arrayListBoards, false);
     }
 
     @Override
@@ -100,11 +116,6 @@ public class BoardFragment extends Fragment {
             }
         });
 
-        arrayListBoards = new ArrayList<>();
-
-
-        adapter = new BoardAdapter(arrayListBoards, false);
-
         recyclerView.setLayoutManager(new GridLayoutManager(view.getContext(), 2));
         RecyclerView.ItemAnimator itemAnimator = new DefaultItemAnimator();
         itemAnimator.setAddDuration(1000);
@@ -118,24 +129,10 @@ public class BoardFragment extends Fragment {
         if (arrayListBoards.size() == 0) {
             recyclerView.setVisibility(View.INVISIBLE);
             layoutNoBoard.setVisibility(View.VISIBLE);
-
-
         } else {
             recyclerView.setVisibility(View.VISIBLE);
             layoutNoBoard.setVisibility(View.INVISIBLE);
         }
-
-//        AppBarLayout.LayoutParams params = (AppBarLayout.LayoutParams) mToolbar.getLayoutParams();
-//        CoordinatorLayout.LayoutParams appBarLayoutParams = (CoordinatorLayout.LayoutParams) mAppBarLayout.getLayoutParams();
-//        if(isMapIndex) {
-//            params.setScrollFlags(0);
-//            appBarLayoutParams.setBehavior(null);
-//            mAppBarLayout.setLayoutParams(appBarLayoutParams);
-//        } else {
-//            params.setScrollFlags(AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL | AppBarLayout.LayoutParams.SCROLL_FLAG_ENTER_ALWAYS);
-//            appBarLayoutParams.setBehavior(new AppBarLayout.Behavior());
-//            mAppBarLayout.setLayoutParams(appBarLayoutParams);
-//        }
     }
 
     private void requestData() {
@@ -184,6 +181,8 @@ public class BoardFragment extends Fragment {
                                     recyclerView.setVisibility(View.VISIBLE);
                                     layoutNoBoard.setVisibility(View.INVISIBLE);
                                 }
+
+                                HousieApplication.getInstance().getSharedPreUtils().putString(ApiConstant.LIST_BOARD, response.toString());
                                 break;
                             }
                         }

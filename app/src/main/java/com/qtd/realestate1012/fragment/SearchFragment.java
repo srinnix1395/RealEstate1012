@@ -110,10 +110,7 @@ public class SearchFragment extends Fragment implements OnMapReadyCallback {
     }
 
     private void initData() {
-        Bundle arguments = getArguments();
-        if (arguments != null) {
-            jsonBoard = arguments.getString(ApiConstant.LIST_BOARD);
-        }
+        jsonBoard = HousieApplication.getInstance().getSharedPreUtils().getString(ApiConstant.LIST_BOARD, "{}");
     }
 
     private void requestData() {
@@ -278,7 +275,7 @@ public class SearchFragment extends Fragment implements OnMapReadyCallback {
 
                 FragmentTransaction transaction = getFragmentManager().beginTransaction();
                 transaction.remove(listHouseFragment);
-                listHouseFragment.onDestroyView();
+                listHouseFragment.onDestroy();
                 transaction.show(supportMapFragment);
                 transaction.commit();
 

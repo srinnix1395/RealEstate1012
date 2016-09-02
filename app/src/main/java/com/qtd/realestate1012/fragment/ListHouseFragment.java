@@ -69,8 +69,9 @@ public class ListHouseFragment extends Fragment {
         Bundle arguments = getArguments();
         if (arguments != null) {
             url = arguments.getString(ApiConstant.URL_WEB_SERVICE);
-            jsonBoard = arguments.getString(ApiConstant.LIST_BOARD);
         }
+
+        jsonBoard = HousieApplication.getInstance().getSharedPreUtils().getString(ApiConstant.LIST_BOARD, "{}");
 
         arrayList = new ArrayList<>();
         adapter = new HouseCardViewAdapter(arrayList);

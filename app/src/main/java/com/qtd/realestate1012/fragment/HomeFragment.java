@@ -139,6 +139,7 @@ public class HomeFragment extends Fragment {
                     }
 
                     jsonBoard = response.getJSONObject(ApiConstant.BOARD);
+                    HousieApplication.getInstance().getSharedPreUtils().putString(ApiConstant.LIST_BOARD, jsonBoard.toString());
                     arrayListBoard.clear();
                     arrayListBoard.addAll(ProcessJson.getFavoriteBoards(jsonBoard));
 
@@ -245,11 +246,6 @@ public class HomeFragment extends Fragment {
     public void handleEventClickSeeAllViewHolder(MessageEventClickSeeAllViewHolder message) {
         Intent intent = new Intent(getContext(), AllHouseActivity.class);
         intent.putExtra(ApiConstant.TYPE, message.type);
-        intent.putExtra(ApiConstant.LIST_BOARD, jsonBoard.toString());
         getContext().startActivity(intent);
-    }
-
-    public String getJSONBoard() {
-        return jsonBoard.toString();
     }
 }
