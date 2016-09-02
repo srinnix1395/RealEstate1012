@@ -28,19 +28,21 @@
                 android:layout_height="@dimen/defaultSize"
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
-                android:layout_marginEnd="24dp" />
+                android:layout_marginEnd="@dimen/high_margin" />
 
             <TextView
                 android:id="@+id/tvNext"
-                style="?attr/selectableItemBackground"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_alignParentEnd="true"
                 android:layout_marginBottom="6dp"
                 android:layout_marginEnd="16dp"
                 android:layout_marginTop="6dp"
+                android:background="@drawable/background_tv_search"
                 android:clickable="true"
                 android:gravity="center"
+                android:paddingEnd="8dp"
+                android:paddingStart="8dp"
                 android:text="@string/next"
                 android:textAllCaps="true"
                 android:textColor="@color/colorPrimary" />
