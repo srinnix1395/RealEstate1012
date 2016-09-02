@@ -27,13 +27,13 @@
                 tools:targetApi="lollipop">
 
                 <EditText
+                    android:text="@string/searchAddress"
                     android:id="@+id/etSearch"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="8"
-                    android:hint="@string/searchAddress"
-                    android:textColor="@android:color/white"
-                    android:textColorHint="@color/colorGray"
+                    android:focusable="false"
+                    android:textColor="@color/colorGray"
                     android:theme="@style/MyCustomEditText" />
 
                 <TextView

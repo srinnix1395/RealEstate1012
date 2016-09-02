@@ -16,6 +16,7 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.qtd.realestate1012.R;
 import com.qtd.realestate1012.activity.MainActivity;
+import com.qtd.realestate1012.asynctask.GeoCoderAsyncTask;
 import com.qtd.realestate1012.asynctask.LocalInfoAsyncTask;
 import com.qtd.realestate1012.callback.SearchFragmentCallback;
 import com.qtd.realestate1012.constant.ApiConstant;
@@ -23,6 +24,7 @@ import com.qtd.realestate1012.constant.AppConstant;
 import com.qtd.realestate1012.custom.MarkerInfoHouse;
 import com.qtd.realestate1012.messageevent.MessageEventClickHouseMarker;
 import com.qtd.realestate1012.model.Place;
+import com.qtd.realestate1012.utils.ServiceUtils;
 import com.qtd.realestate1012.utils.UiUtils;
 
 import org.greenrobot.eventbus.EventBus;
@@ -74,6 +76,10 @@ public class MapManager implements GoogleMap.OnCameraChangeListener, GoogleMap.O
         } else {
             map.setMyLocationEnabled(true);
         }
+
+        if (ServiceUtils.isNetworkAvailable(context)) {
+            getCurrentLocationName(latLngHaNoi);
+        }
     }
 
     @Override
@@ -81,6 +87,10 @@ public class MapManager implements GoogleMap.OnCameraChangeListener, GoogleMap.O
         if (hasDisplayedLocalPlace) {
             clearLocationNearByMarker();
             requestLocationNearbyPlace(placeType);
+        }
+
+        if (ServiceUtils.isNetworkAvailable(context)) {
+            getCurrentLocationName(map.getCameraPosition().target);
         }
     }
 
@@ -174,5 +184,9 @@ public class MapManager implements GoogleMap.OnCameraChangeListener, GoogleMap.O
             return false;
         }
         return false;
+    }
+
+    private void getCurrentLocationName(final LatLng target) {
+        new GeoCoderAsyncTask(context, callback).execute(target);
     }
 }

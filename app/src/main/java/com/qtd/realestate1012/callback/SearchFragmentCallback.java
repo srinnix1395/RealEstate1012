@@ -5,4 +5,6 @@ package com.qtd.realestate1012.callback;
  */
 public interface SearchFragmentCallback {
     void onEnableProgressBar();
+
+    void resetAddressEtSearch(String address);
 }

@@ -58,7 +58,7 @@ import butterknife.OnClick;
 /**
  * Created by Dell on 7/30/2016.
  */
-public class SearchFragment extends Fragment implements OnMapReadyCallback, SearchFragmentCallback {
+public class SearchFragment extends Fragment implements OnMapReadyCallback {
 
     private static final String MAP_RESULT = "Bản đồ";
     private static final String LIST_RESULT = "Danh sách";
@@ -173,9 +173,24 @@ public class SearchFragment extends Fragment implements OnMapReadyCallback, Sear
         supportMapFragment.getMapAsync(this);
     }
 
+
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        mapManager = new MapManager(getContext(), googleMap, this);
+        mapManager = new MapManager(getContext(), googleMap, new SearchFragmentCallback() {
+            @Override
+            public void onEnableProgressBar() {
+                progressBar.setEnabled(true);
+                progressBar.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void resetAddressEtSearch(String address) {
+                if (address != null) {
+                    etSearch.setText(address);
+                }
+            }
+        });
+
         progressBar.setEnabled(false);
         progressBar.setVisibility(View.INVISIBLE);
 
@@ -342,12 +357,6 @@ public class SearchFragment extends Fragment implements OnMapReadyCallback, Sear
 
         fabEnableMarker.getDrawable().setLevel(1);
         mapManager.setVisibleHousesMarker(true);
-    }
-
-    @Override
-    public void onEnableProgressBar() {
-        progressBar.setEnabled(true);
-        progressBar.setVisibility(View.VISIBLE);
     }
 
     @Override

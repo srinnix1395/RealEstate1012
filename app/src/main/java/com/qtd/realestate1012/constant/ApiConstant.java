@@ -81,6 +81,7 @@ public class ApiConstant {
     public static final String API_PLACE_NEAR_BY_URL = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?";
     public static final String API_DIRECTION_URL = "http://maps.googleapis.com/maps/api/directions/xml?";
     public static final String API_PLACE_GET_LAT_LONG = "http://maps.google.com/maps/api/geocode/json?address=%s&sensor=false";
+    public static final String API_MAP_GEO_CODE = "https://maps.googleapis.com/maps/api/geocode/json?lat&key=";
 
     public static final String API_KEY = "AIzaSyAXKdlSDdIttYHwoyC2Ss_BqQa1HETpbBs";
     public static final String API_PLACE_TYPE_SCHOOL = "school";
