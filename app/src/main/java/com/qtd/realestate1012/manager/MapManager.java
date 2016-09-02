@@ -51,9 +51,13 @@ public class MapManager implements GoogleMap.OnCameraChangeListener, GoogleMap.O
         this.context = context;
         this.map = map;
         this.callback = callback;
+        initData();
+        initMap();
+    }
+
+    private void initData() {
         arrayLocationNearByMarker = new ArrayList<>();
         arrayHousesMarker = new ArrayList<>();
-        initMap();
     }
 
     private void initMap() {
@@ -181,9 +185,11 @@ public class MapManager implements GoogleMap.OnCameraChangeListener, GoogleMap.O
     public boolean onMarkerClick(Marker marker) {
         if (marker.getTitle().equals(ApiConstant.HOUSE)) {
             EventBus.getDefault().post(new MessageEventClickHouseMarker(marker.getSnippet()));
-            return false;
+            return true;
         }
-        return false;
+
+        marker.showInfoWindow();
+        return true;
     }
 
     private void getCurrentLocationName(final LatLng target) {
