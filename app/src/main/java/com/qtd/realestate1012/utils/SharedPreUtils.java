@@ -44,4 +44,10 @@ public class SharedPreUtils {
     public boolean getBoolean(String key, boolean defValue) {
         return sharedPreferences.getBoolean(key, defValue);
     }
+
+    public void remove(String key) {
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.remove(key);
+        editor.apply();
+    }
 }

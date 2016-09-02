@@ -18,8 +18,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_marginEnd="@dimen/marginHouse"
-            android:layout_weight="6"
-            android:background="?attr/selectableItemBackground">
+            android:layout_weight="6">
 
             <ImageView
                 android:id="@+id/imvImage1"
@@ -27,10 +26,18 @@
                 android:layout_height="match_parent"
                 android:scaleType="fitXY" />
 
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:src="@drawable/background_house_fade" />
+            <com.qtd.realestate1012.custom.RippleView
+                android:id="@+id/rippleView1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:rv_color="@color/colorRipple"
+                app:rv_rippleDuration="250">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/background_house_fade" />
+            </com.qtd.realestate1012.custom.RippleView>
 
             <TextView
                 android:id="@+id/tvPrice1"
@@ -77,7 +84,6 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:layout_margin="@dimen/com_facebook_tooltip_horizontal_padding"
-                android:background="?attr/selectableItemBackground"
                 app:srcCompat="@drawable/ic_heart_outline" />
         </RelativeLayout>
 
@@ -85,8 +91,7 @@
             android:id="@+id/layoutHouse2"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="5"
-            android:background="?attr/selectableItemBackground">
+            android:layout_weight="5">
 
             <ImageView
                 android:id="@+id/imvImage2"
@@ -94,10 +99,19 @@
                 android:layout_height="match_parent"
                 android:scaleType="fitXY" />
 
-            <ImageView
+            <com.qtd.realestate1012.custom.RippleView
+                android:id="@+id/rippleView2"
                 android:layout_width="match_parent"
+
                 android:layout_height="match_parent"
-                android:src="@drawable/background_house_fade" />
+                app:rv_color="@color/colorRipple"
+                app:rv_rippleDuration="250">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/background_house_fade" />
+            </com.qtd.realestate1012.custom.RippleView>
 
             <TextView
                 android:id="@+id/tvPrice2"
@@ -144,7 +158,6 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:layout_margin="@dimen/com_facebook_tooltip_horizontal_padding"
-                android:background="?attr/selectableItemBackground"
                 app:srcCompat="@drawable/ic_heart_outline" />
         </RelativeLayout>
     </LinearLayout>
@@ -159,8 +172,7 @@
             android:id="@+id/layoutHouse3"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="5"
-            android:background="?attr/selectableItemBackground">
+            android:layout_weight="5">
 
             <ImageView
                 android:id="@+id/imvImage3"
@@ -168,10 +180,18 @@
                 android:layout_height="match_parent"
                 android:scaleType="fitXY" />
 
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:src="@drawable/background_house_fade" />
+            <com.qtd.realestate1012.custom.RippleView
+                android:id="@+id/rippleView3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:rv_color="@color/colorRipple"
+                app:rv_rippleDuration="250">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/background_house_fade" />
+            </com.qtd.realestate1012.custom.RippleView>
 
             <TextView
                 android:id="@+id/tvPrice3"
@@ -218,7 +238,6 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:layout_margin="@dimen/com_facebook_tooltip_horizontal_padding"
-                android:background="?attr/selectableItemBackground"
                 app:srcCompat="@drawable/ic_heart_outline" />
         </RelativeLayout>
 
@@ -227,8 +246,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_marginStart="@dimen/marginHouse"
-            android:layout_weight="5.5"
-            android:background="?attr/selectableItemBackground">
+            android:layout_weight="5.5">
 
             <ImageView
                 android:id="@+id/imvImage4"
@@ -236,11 +254,18 @@
                 android:layout_height="match_parent"
                 android:scaleType="fitXY" />
 
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:src="@drawable/background_house_fade" />
+            <com.qtd.realestate1012.custom.RippleView
+                android:id="@+id/rippleView4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:rv_color="@color/colorRipple"
+                app:rv_rippleDuration="250">
 
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/background_house_fade" />
+            </com.qtd.realestate1012.custom.RippleView>
 
             <TextView
                 android:id="@+id/tvPrice4"
@@ -287,7 +312,6 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:layout_margin="@dimen/com_facebook_tooltip_horizontal_padding"
-                android:background="?attr/selectableItemBackground"
                 app:srcCompat="@drawable/ic_heart_outline" />
         </RelativeLayout>
     </LinearLayout>
@@ -296,8 +320,7 @@
         android:id="@+id/layoutHouse5"
         android:layout_width="match_parent"
         android:layout_height="180dp"
-        android:layout_marginTop="@dimen/marginHouse"
-        android:background="?attr/selectableItemBackground">
+        android:layout_marginTop="@dimen/marginHouse">
 
         <ImageView
             android:id="@+id/imvImage5"
@@ -305,10 +328,18 @@
             android:layout_height="match_parent"
             android:scaleType="fitXY" />
 
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:src="@drawable/background_house_fade" />
+        <com.qtd.realestate1012.custom.RippleView
+            android:id="@+id/rippleView5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:rv_color="@color/colorRipple"
+            app:rv_rippleDuration="250">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/background_house_fade" />
+        </com.qtd.realestate1012.custom.RippleView>
 
         <TextView
             android:id="@+id/tvPrice5"
@@ -355,7 +386,6 @@
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_margin="@dimen/com_facebook_tooltip_horizontal_padding"
-            android:background="?attr/selectableItemBackground"
             app:srcCompat="@drawable/ic_heart_outline" />
     </RelativeLayout>
 

@@ -19,7 +19,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.qtd.realestate1012.HousieApplication;
 import com.qtd.realestate1012.R;
-import com.qtd.realestate1012.adapter.HouseFavoriteAdapter;
+import com.qtd.realestate1012.adapter.HouseAdapter;
 import com.qtd.realestate1012.callback.FavoriteFragmentCallback;
 import com.qtd.realestate1012.constant.ApiConstant;
 import com.qtd.realestate1012.constant.AppConstant;
@@ -41,8 +41,6 @@ import butterknife.OnClick;
  * Created by Dell on 7/31/2016.
  */
 public class HomesFavoriteFragment extends Fragment {
-    private View view;
-
     @BindView(R.id.recyclerView)
     RecyclerView recyclerView;
 
@@ -53,7 +51,7 @@ public class HomesFavoriteFragment extends Fragment {
     RelativeLayout layoutNoHouses;
 
     private ArrayList<CompactHouse> arrayListHouses;
-    private HouseFavoriteAdapter adapter;
+    private HouseAdapter adapter;
     private FavoriteFragmentCallback callback;
 
     @Override
@@ -65,8 +63,7 @@ public class HomesFavoriteFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_favorite_homes, container, false);
-        return view;
+        return inflater.inflate(R.layout.fragment_favorite_homes, container, false);
     }
 
     @Override
@@ -77,12 +74,24 @@ public class HomesFavoriteFragment extends Fragment {
     }
 
     private void initData() {
-        arrayListHouses = new ArrayList<>();
-        adapter = new HouseFavoriteAdapter(arrayListHouses);
+        String jsonHouse = HousieApplication.getInstance().getSharedPreUtils().getString(ApiConstant.LIST_HOUSE, null);
+        if (!ServiceUtils.isNetworkAvailable(getContext()) && jsonHouse != null) {
+            JSONObject jsonObject = null;
+            try {
+                jsonObject = new JSONObject(jsonHouse);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            arrayListHouses = ProcessJson.getListCompactHouse(jsonObject);
+        } else {
+            arrayListHouses = new ArrayList<>();
+        }
+
+        adapter = new HouseAdapter(arrayListHouses);
     }
 
     private void initViews() {
-        recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
         RecyclerView.ItemAnimator itemAnimator = new DefaultItemAnimator();
         itemAnimator.setAddDuration(1000);
@@ -118,16 +127,17 @@ public class HomesFavoriteFragment extends Fragment {
     }
 
     private void requestData() {
-        if (!ServiceUtils.isNetworkAvailable(view.getContext())) {
+        if (!ServiceUtils.isNetworkAvailable(getContext())) {
             if (this.getUserVisibleHint()) {
-                AlertUtils.showSnackBarNoInternet(view);
+                AlertUtils.showSnackBarNoInternet(getView());
             }
             refreshLayout.setRefreshing(false);
             return;
         }
 
         if (HousieApplication.getInstance().getSharedPreUtils().getBoolean(AppConstant.USER_LOGGED_IN, false)) {
-            String idUserLoggedIn = HousieApplication.getInstance().getSharedPreUtils().getString(ApiConstant._ID, "-1");
+//            String idUserLoggedIn = HousieApplication.getInstance().getSharedPreUtils().getString(ApiConstant._ID, "-1");
+            String idUserLoggedIn = "57ac3429f71b399577118c72";
             String url = ApiConstant.URL_WEB_SERVICE_GET_FAVORITE_HOUSES;
 
             JSONObject jsonRequest = new JSONObject();
@@ -152,6 +162,8 @@ public class HomesFavoriteFragment extends Fragment {
                                 adapter.notifyItemRangeRemoved(0, size);
                                 arrayListHouses.addAll(ProcessJson.getListCompactHouse(response));
                                 adapter.notifyItemRangeInserted(0, arrayListHouses.size());
+
+                                HousieApplication.getInstance().getSharedPreUtils().putString(ApiConstant.LIST_HOUSE, response.toString());
                                 break;
                             }
                         }

@@ -8,6 +8,7 @@
     app:cardCornerRadius="@dimen/radius_board">
 
     <RelativeLayout
+        android:id="@+id/layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -17,10 +18,18 @@
             android:layout_height="match_parent"
             android:scaleType="fitXY" />
 
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:src="@drawable/drawable_board_fade" />
+        <com.qtd.realestate1012.custom.RippleView
+            android:id="@+id/rippleView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:rv_color="@color/colorRipple"
+            app:rv_rippleDuration="250">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/drawable_board_fade" />
+        </com.qtd.realestate1012.custom.RippleView>
 
         <TextView
             android:id="@+id/tvCount"

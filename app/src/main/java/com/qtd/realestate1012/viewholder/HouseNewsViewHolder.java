@@ -10,9 +10,10 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.qtd.realestate1012.R;
 import com.qtd.realestate1012.activity.HouseDetailActivity;
 import com.qtd.realestate1012.constant.ApiConstant;
-import com.qtd.realestate1012.messageevent.MessageClickImvHeartOnHouse;
+import com.qtd.realestate1012.custom.RippleView;
 import com.qtd.realestate1012.messageevent.MessageEventClickSeeAllViewHolder;
 import com.qtd.realestate1012.model.BunchHouse;
+import com.qtd.realestate1012.utils.UiUtils;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -88,6 +89,21 @@ public class HouseNewsViewHolder {
 
     @BindView(R.id.tvSeeAll)
     TextView tvSeeAll;
+
+    @BindView(R.id.rippleView1)
+    RippleView rippleView1;
+
+    @BindView(R.id.rippleView2)
+    RippleView rippleView2;
+
+    @BindView(R.id.rippleView3)
+    RippleView rippleView3;
+
+    @BindView(R.id.rippleView4)
+    RippleView rippleView4;
+
+    @BindView(R.id.rippleView5)
+    RippleView rippleView5;
 
     private View view;
     private BunchHouse bunchHouse;
@@ -188,27 +204,23 @@ public class HouseNewsViewHolder {
                 break;
             }
             case R.id.imvHeart1: {
-                addHouseToFavorite(0);
+                addHouseToFavorite(0, v);
                 break;
             }
             case R.id.imvHeart2: {
-                addHouseToFavorite(0);
+                addHouseToFavorite(1, v);
                 break;
             }
             case R.id.imvHeart3: {
-                addHouseToFavorite(0);
+                addHouseToFavorite(2, v);
                 break;
             }
             case R.id.imvHeart4: {
-                addHouseToFavorite(0);
+                addHouseToFavorite(3, v);
                 break;
             }
             case R.id.imvHeart5: {
-                addHouseToFavorite(0);
-                break;
-            }
-            default: {
-
+                addHouseToFavorite(4, v);
                 break;
             }
         }
@@ -218,9 +230,34 @@ public class HouseNewsViewHolder {
         EventBus.getDefault().post(new MessageEventClickSeeAllViewHolder(bunchHouse.getType()));
     }
 
-    private void addHouseToFavorite(int i) {
-        String id = bunchHouse.getCompactHouse(i).getId();
-        EventBus.getDefault().post(new MessageClickImvHeartOnHouse(id));
+
+    private void addHouseToFavorite(int i, View v) {
+        //ripple effect
+        switch (i) {
+            case 0: {
+                rippleView1.animateRipple(v.getLeft() + v.getWidth() / 2, v.getTop() + UiUtils.convertPixelsToDp(view.getContext(), 10) + v.getHeight() / 2);
+                break;
+            }
+            case 1: {
+                rippleView2.animateRipple(v.getLeft() + v.getWidth() / 2, v.getTop() + UiUtils.convertPixelsToDp(view.getContext(), 10) + v.getHeight() / 2);
+                break;
+            }
+            case 2: {
+                rippleView3.animateRipple(v.getLeft() + v.getWidth() / 2, v.getTop() + UiUtils.convertPixelsToDp(view.getContext(), 10) + v.getHeight() / 2);
+                break;
+            }
+            case 3: {
+                rippleView4.animateRipple(v.getLeft() + v.getWidth() / 2, v.getTop() + UiUtils.convertPixelsToDp(view.getContext(), 10) + v.getHeight() / 2);
+                break;
+            }
+            case 4: {
+                rippleView5.animateRipple(v.getLeft() + v.getWidth() / 2, v.getTop() + UiUtils.convertPixelsToDp(view.getContext(), 10) + v.getHeight() / 2);
+                break;
+            }
+        }
+
+//        String id = bunchHouse.getCompactHouse(i).getId();
+//        EventBus.getDefault().post(new MessageClickImvHeartOnHouse(id));
     }
 
     private void startDetailHouseActivity(int i) {
@@ -228,4 +265,6 @@ public class HouseNewsViewHolder {
         intent.putExtra(ApiConstant._ID, bunchHouse.getCompactHouse(i).getId());
         view.getContext().startActivity(intent);
     }
+
+
 }

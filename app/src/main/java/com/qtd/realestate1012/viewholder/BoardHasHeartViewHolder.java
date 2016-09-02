@@ -13,6 +13,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.qtd.realestate1012.R;
 import com.qtd.realestate1012.constant.ApiConstant;
 import com.qtd.realestate1012.custom.BlurTransformation;
+import com.qtd.realestate1012.custom.RippleView;
 import com.qtd.realestate1012.messageevent.MessageClickImvHeartOnBoard;
 import com.qtd.realestate1012.model.BoardHasHeart;
 import com.qtd.realestate1012.utils.UiUtils;
@@ -43,6 +44,10 @@ public class BoardHasHeartViewHolder extends RecyclerView.ViewHolder {
 
     @BindView(R.id.imvHeart)
     ImageView imvHeart;
+
+    @BindView(R.id.rippleView)
+    RippleView rippleView;
+
     private String id;
     private boolean isLiked;
 
@@ -95,7 +100,10 @@ public class BoardHasHeartViewHolder extends RecyclerView.ViewHolder {
     }
 
     @OnClick(R.id.imvHeart)
-    void onClickImvHeart() {
+    void onClickImvHeart(View v) {
+        //ripple effect
+        rippleView.animateRipple(v.getLeft() + v.getWidth() / 2, v.getTop() + UiUtils.convertPixelsToDp(itemView.getContext(), 10) + v.getHeight() / 2);
+
         if (isLiked) {
             EventBus.getDefault().post(new MessageClickImvHeartOnBoard(id, ApiConstant.ACTION_DELETE));
         } else {

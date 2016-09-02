@@ -105,16 +105,13 @@ public class HomeFragment extends Fragment {
     }
 
     private void requestData() {
-        progressBar.setEnabled(true);
-        progressBar.setVisibility(View.VISIBLE);
-
         if (!ServiceUtils.isNetworkAvailable(view.getContext())) {
             AlertUtils.showSnackBarNoInternet(view);
-            progressBar.setEnabled(false);
-            progressBar.setVisibility(View.INVISIBLE);
             return;
         }
 
+        progressBar.setEnabled(true);
+        progressBar.setVisibility(View.VISIBLE);
         JSONObject jsonRequest = new JSONObject();
         try {
             jsonRequest.put(AppConstant.USER_LOGGED_IN, HousieApplication.getInstance().getSharedPreUtils().getBoolean(AppConstant.USER_LOGGED_IN, false));

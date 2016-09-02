@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     style="?attr/selectableItemBackground"
     android:layout_width="match_parent"
     android:layout_height="180dp"
@@ -12,11 +13,18 @@
         android:layout_height="match_parent"
         android:scaleType="fitXY" />
 
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scaleType="fitXY"
-        android:src="@drawable/background_house_fade" />
+    <com.qtd.realestate1012.custom.RippleView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:rv_color="@color/colorRipple"
+        app:rv_rippleDuration="250">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="fitXY"
+            android:src="@drawable/background_house_fade" />
+    </com.qtd.realestate1012.custom.RippleView>
 
     <TextView
         android:id="@+id/tvPrice"

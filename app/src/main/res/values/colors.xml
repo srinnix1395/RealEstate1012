@@ -20,4 +20,5 @@
     <color name="colorLightGreen">#8fdfb1</color>
     <color name="colorWhiteBackground">#f5f6f8</color>
     <color name="colorGrayBorder">#cccccc</color>
+    <color name="colorRipple">#ffffff</color>
 </resources>

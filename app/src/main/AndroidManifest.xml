@@ -61,6 +61,12 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyAXKdlSDdIttYHwoyC2Ss_BqQa1HETpbBs" />
         <!--metadata google map-->
+
+        <!--metadata glide-->
+        <meta-data
+            android:name="com.qtd.realestate1012.custom.GlideConfiguration"
+            android:value="GlideModule" />
+        <!--metadata glide-->
     </application>
 
 </manifest>
