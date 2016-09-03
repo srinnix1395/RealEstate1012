@@ -26,6 +26,9 @@ import android.widget.Toast;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
+import com.google.android.gms.common.GooglePlayServicesRepairableException;
+import com.google.android.gms.location.places.ui.PlaceAutocomplete;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
@@ -95,7 +98,7 @@ public class SearchFragment extends Fragment implements OnMapReadyCallback {
     private SupportMapFragment supportMapFragment;
     private MapManager mapManager;
     private ListHouseFragment listHouseFragment;
-    private String jsonHouse;
+    private String jsonHouse = "";
     private String lat;
     private String lng;
 
@@ -222,7 +225,7 @@ public class SearchFragment extends Fragment implements OnMapReadyCallback {
     }
 
     @OnClick({R.id.tvLocalInfo, R.id.tvSaveSearch, R.id.fabLocation, R.id.fabEnableMarker, R.id.imvClose
-            , R.id.tvFilter, R.id.tvResult})
+            , R.id.tvFilter, R.id.tvResult, R.id.etSearch})
     void onClick(View view) {
         switch (view.getId()) {
             case R.id.tvLocalInfo: {
@@ -253,7 +256,22 @@ public class SearchFragment extends Fragment implements OnMapReadyCallback {
                 onClickTvResult();
                 break;
             }
+            case R.id.etSearch: {
+                onClickEtSearch();
+                break;
+            }
         }
+    }
+
+    private void onClickEtSearch() {
+        try {
+            Intent intent = new PlaceAutocomplete.IntentBuilder(PlaceAutocomplete.MODE_FULLSCREEN).build(getActivity());
+            startActivityForResult(intent, AppConstant.PLACE_AUTOCOMPLETE_REQUEST_CODE);
+
+        } catch (GooglePlayServicesRepairableException | GooglePlayServicesNotAvailableException e) {
+            e.printStackTrace();
+        }
+
     }
 
     private void onClickTvResult() {
@@ -307,8 +325,25 @@ public class SearchFragment extends Fragment implements OnMapReadyCallback {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == AppConstant.REQUEST_CODE_FILTER_ACTIVITY && resultCode == Activity.RESULT_OK && data != null) {
-            //// TODO: 8/21/2016 filter
+        switch (requestCode) {
+            case AppConstant.REQUEST_CODE_FILTER_ACTIVITY: {
+                if (resultCode == Activity.RESULT_OK && data != null) {
+                    //// TODO: 8/21/2016 filter
+                }
+                break;
+            }
+            case AppConstant.PLACE_AUTOCOMPLETE_REQUEST_CODE: {
+                if (resultCode == PlaceAutocomplete.RESULT_ERROR) {
+                    Toast.makeText(getContext(), R.string.errorProcessing, Toast.LENGTH_SHORT).show();
+                    break;
+                }
+
+                if (resultCode == Activity.RESULT_OK) {
+                    com.google.android.gms.location.places.Place place = PlaceAutocomplete.getPlace(getContext(), data);
+                    mapManager.moveCameraTo(place.getLatLng());
+                    break;
+                }
+            }
         }
     }
 

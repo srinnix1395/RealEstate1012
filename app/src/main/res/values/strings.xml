@@ -110,5 +110,6 @@
     <string name="errorProcessing">Đã có lỗi trong quá trình xử lý, xin thử lại.</string>
     <string name="homeSaved">Nhà đã được lưu</string>
     <string name="contentEmail">Nội dung email</string>
+    <string name="noHouses">Không có nhà nào trong khu vực này</string>
 
 </resources>

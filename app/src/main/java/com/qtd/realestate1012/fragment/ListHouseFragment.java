@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Response;
@@ -46,10 +47,14 @@ public class ListHouseFragment extends Fragment {
     @BindView(R.id.progress_bar)
     ProgressBar progressBar;
 
+    @BindView(R.id.tvError)
+    TextView tvError;
+
     private HouseCardViewAdapter adapter;
     private ArrayList<CompactHouse> arrayList;
     private String url;
     private String jsonBoard;
+    private boolean listHouseNull;
 
     @Nullable
     @Override
@@ -68,6 +73,13 @@ public class ListHouseFragment extends Fragment {
         } else {
             progressBar.setEnabled(false);
             progressBar.setVisibility(View.INVISIBLE);
+            if (listHouseNull) {
+                tvError.setText(R.string.noInternetConnection);
+                tvError.setVisibility(View.VISIBLE);
+            } else if (arrayList.size() == 0) {
+                tvError.setText(R.string.noHouses);
+                tvError.setVisibility(View.VISIBLE);
+            }
         }
     }
 
@@ -76,22 +88,21 @@ public class ListHouseFragment extends Fragment {
 
         Bundle arguments = getArguments();
         url = arguments.getString(ApiConstant.URL_WEB_SERVICE);
-        if (url != null) {
-            switch (url) {
-                case ApiConstant.URL_WEB_SERVICE_GET_ALL_HOUSE_OF_KIND: {
-                    arrayList = new ArrayList<>();
-                    break;
-                }
-                case ApiConstant.URL_WEB_SERVICE_GET_ALL_HOUSE: {
-                    JSONObject listHouse = null;
-                    try {
-                        listHouse = new JSONObject(arguments.getString(ApiConstant.LIST_HOUSE));
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
+        switch (url) {
+            case ApiConstant.URL_WEB_SERVICE_GET_ALL_HOUSE_OF_KIND: {
+                arrayList = new ArrayList<>();
+                break;
+            }
+            case ApiConstant.URL_WEB_SERVICE_GET_ALL_HOUSE: {
+                JSONObject listHouse;
+                try {
+                    listHouse = new JSONObject(arguments.getString(ApiConstant.LIST_HOUSE));
                     arrayList = ProcessJson.getListCompactHouse(listHouse);
-                    break;
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    listHouseNull = true;
                 }
+                break;
             }
         }
 
@@ -123,7 +134,8 @@ public class ListHouseFragment extends Fragment {
                 try {
                     switch (response.getString(ApiConstant.RESULT)) {
                         case ApiConstant.FAILED: {
-                            Toast.makeText(getContext(), R.string.errorProcessing, Toast.LENGTH_SHORT).show();
+                            tvError.setText(R.string.errorProcessing);
+                            tvError.setVisibility(View.VISIBLE);
                             break;
                         }
                         case ApiConstant.SUCCESS: {

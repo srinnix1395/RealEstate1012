@@ -23,6 +23,7 @@ public class AppConstant {
     public static final int MAX_LINES_TV_INTRO_EXPANDED = 20;
     public static final int REQUEST_CODE_CALL_PHONE_PERMISSION_AGENT = 8;
     public static final int REQUEST_CODE_CALL_PHONE_PERMISSION_OWNER = 9;
+    public static final int PLACE_AUTOCOMPLETE_REQUEST_CODE = 10;
 
     public static int ICON_TAB_NORMAL[] = {
             R.drawable.ic_home_dark_green,

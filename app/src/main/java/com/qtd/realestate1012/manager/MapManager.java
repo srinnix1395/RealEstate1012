@@ -6,6 +6,7 @@ import android.content.pm.PackageManager;
 import android.os.Build;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.util.Log;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -37,7 +38,7 @@ import java.util.ArrayList;
 /**
  * Created by Dell on 7/31/2016.
  */
-public class MapManager implements GoogleMap.OnCameraChangeListener, GoogleMap.OnMarkerClickListener {
+public class MapManager implements GoogleMap.OnMarkerClickListener, GoogleMap.OnCameraIdleListener {
     private Context context;
     private SearchFragmentCallback callback;
     private GoogleMap map;
@@ -66,7 +67,7 @@ public class MapManager implements GoogleMap.OnCameraChangeListener, GoogleMap.O
 
         map.getUiSettings().setCompassEnabled(true);
         map.setMapType(GoogleMap.MAP_TYPE_NORMAL);
-        map.setOnCameraChangeListener(this);
+        map.setOnCameraIdleListener(this);
         map.setOnMarkerClickListener(this);
         map.setTrafficEnabled(true);
 
@@ -87,8 +88,8 @@ public class MapManager implements GoogleMap.OnCameraChangeListener, GoogleMap.O
     }
 
     @Override
-    public void onCameraChange(CameraPosition cameraPosition) {
-        callback.requestData(cameraPosition.target);
+    public void onCameraIdle() {
+        callback.requestData(map.getCameraPosition().target);
 
         if (ServiceUtils.isNetworkAvailable(context)) {
             getCurrentLocationName(map.getCameraPosition().target);
@@ -202,5 +203,9 @@ public class MapManager implements GoogleMap.OnCameraChangeListener, GoogleMap.O
 
     private void getCurrentLocationName(final LatLng target) {
         new GeoCoderAsyncTask(context, callback).execute(target);
+    }
+
+    public void moveCameraTo(LatLng latLng) {
+        map.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 14));
     }
 }
