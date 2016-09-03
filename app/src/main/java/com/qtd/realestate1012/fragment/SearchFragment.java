@@ -29,6 +29,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
 import com.qtd.realestate1012.HousieApplication;
 import com.qtd.realestate1012.R;
 import com.qtd.realestate1012.activity.FilterActivity;
@@ -93,8 +94,10 @@ public class SearchFragment extends Fragment implements OnMapReadyCallback {
     private View locationButton;
     private SupportMapFragment supportMapFragment;
     private MapManager mapManager;
-    private String jsonBoard;
     private ListHouseFragment listHouseFragment;
+    private String jsonHouse;
+    private String lat;
+    private String lng;
 
     @Nullable
     @Override
@@ -110,7 +113,8 @@ public class SearchFragment extends Fragment implements OnMapReadyCallback {
     }
 
     private void initData() {
-        jsonBoard = HousieApplication.getInstance().getSharedPreUtils().getString(ApiConstant.LIST_BOARD, "{}");
+        lat = AppConstant.LATITUDE_HANOI + "";
+        lng = AppConstant.LONGITUDE_HANOI + "";
     }
 
     private void requestData() {
@@ -122,7 +126,9 @@ public class SearchFragment extends Fragment implements OnMapReadyCallback {
         progressBar.setEnabled(true);
         progressBar.setVisibility(View.VISIBLE);
 
-        JsonObjectRequest request = new JsonObjectRequest(ApiConstant.URL_WEB_SERVICE_GET_ALL_HOUSE, new Response.Listener<JSONObject>() {
+        String url = String.format(ApiConstant.URL_WEB_SERVICE_GET_ALL_HOUSE, lat, lng);
+
+        JsonObjectRequest request = new JsonObjectRequest(url, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 try {
@@ -155,6 +161,8 @@ public class SearchFragment extends Fragment implements OnMapReadyCallback {
     }
 
     private void handleResponseSuccess(JSONObject response) throws JSONException {
+        jsonHouse = response.toString();
+        mapManager.clearHouseMarker();
         mapManager.displayHousesMarker(response.getJSONArray(ApiConstant.LIST_HOUSE));
     }
 
@@ -185,6 +193,13 @@ public class SearchFragment extends Fragment implements OnMapReadyCallback {
                 if (address != null) {
                     etSearch.setText(address);
                 }
+            }
+
+            @Override
+            public void requestData(LatLng target) {
+                lat = target.latitude + "";
+                lng = target.longitude + "";
+                SearchFragment.this.requestData();
             }
         });
 
@@ -247,7 +262,7 @@ public class SearchFragment extends Fragment implements OnMapReadyCallback {
                 listHouseFragment = new ListHouseFragment();
                 Bundle bundle = new Bundle();
                 bundle.putString(ApiConstant.URL_WEB_SERVICE, ApiConstant.URL_WEB_SERVICE_GET_ALL_HOUSE);
-                bundle.putString(ApiConstant.LIST_BOARD, jsonBoard);
+                bundle.putString(ApiConstant.LIST_HOUSE, jsonHouse);
                 listHouseFragment.setArguments(bundle);
 
                 FragmentTransaction transaction = getFragmentManager().beginTransaction();

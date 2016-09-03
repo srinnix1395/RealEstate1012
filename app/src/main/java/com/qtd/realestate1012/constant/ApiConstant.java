@@ -27,7 +27,7 @@ public class ApiConstant {
     public static final String URL_WEB_SERVICE_CREATE_BOARD = "http://protectedcedar-31067.rhcloud.com/board/createBoard";
     public static final String URL_WEB_SERVICE_DELETE_BOARD = "http://protectedcedar-31067.rhcloud.com/board/deleteBoard";
 
-    public static final String URL_WEB_SERVICE_GET_ALL_HOUSE = "http://protectedcedar-31067.rhcloud.com/house/getAllHouses";
+    public static final String URL_WEB_SERVICE_GET_ALL_HOUSE = "http://protectedcedar-31067.rhcloud.com/house/getAllHouses?lat=%s&lng=%s";
     public static final String URL_WEB_SERVICE_GET_ALL_HOUSE_OF_KIND = "http://protectedcedar-31067.rhcloud.com/house/getAllHousesOfKind";
     public static final String URL_WEB_SERVICE_GET_FAVORITE_HOUSES = "http://protectedcedar-31067.rhcloud.com/house/getFavoriteHouses";
     public static final String URL_WEB_SERVICE_HANDLE_FAVORITE_HOUSES = "http://protectedcedar-31067.rhcloud.com/house/handleFavoriteHouse";

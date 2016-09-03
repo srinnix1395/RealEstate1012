@@ -62,19 +62,42 @@ public class ListHouseFragment extends Fragment {
         ButterKnife.bind(this, view);
         initData();
         initViews();
-        requestData();
+
+        if (url.equals(ApiConstant.URL_WEB_SERVICE_GET_ALL_HOUSE_OF_KIND)) {
+            requestData();
+        } else {
+            progressBar.setEnabled(false);
+            progressBar.setVisibility(View.INVISIBLE);
+        }
     }
 
     private void initData() {
+        arrayList = new ArrayList<>();
+
         Bundle arguments = getArguments();
-        if (arguments != null) {
-            url = arguments.getString(ApiConstant.URL_WEB_SERVICE);
+        url = arguments.getString(ApiConstant.URL_WEB_SERVICE);
+        if (url != null) {
+            switch (url) {
+                case ApiConstant.URL_WEB_SERVICE_GET_ALL_HOUSE_OF_KIND: {
+                    arrayList = new ArrayList<>();
+                    break;
+                }
+                case ApiConstant.URL_WEB_SERVICE_GET_ALL_HOUSE: {
+                    JSONObject listHouse = null;
+                    try {
+                        listHouse = new JSONObject(arguments.getString(ApiConstant.LIST_HOUSE));
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    arrayList = ProcessJson.getListCompactHouse(listHouse);
+                    break;
+                }
+            }
         }
 
-        jsonBoard = HousieApplication.getInstance().getSharedPreUtils().getString(ApiConstant.LIST_BOARD, "{}");
-
-        arrayList = new ArrayList<>();
         adapter = new HouseCardViewAdapter(arrayList);
+
+        jsonBoard = HousieApplication.getInstance().getSharedPreUtils().getString(ApiConstant.LIST_BOARD, "{}");
     }
 
     private void initViews() {

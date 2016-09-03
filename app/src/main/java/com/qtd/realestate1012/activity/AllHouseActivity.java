@@ -23,8 +23,6 @@ public class AllHouseActivity extends AppCompatActivity {
     Toolbar toolbar;
 
     private String type;
-    private ListHouseFragment listHouseFragment;
-    private String jsonBoard;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -39,7 +37,6 @@ public class AllHouseActivity extends AppCompatActivity {
         Intent intent = getIntent();
         if (intent != null) {
             type = intent.getStringExtra(ApiConstant.TYPE);
-            jsonBoard = intent.getStringExtra(ApiConstant.LIST_BOARD);
         }
     }
 
@@ -55,10 +52,9 @@ public class AllHouseActivity extends AppCompatActivity {
             }
         });
 
-        listHouseFragment = new ListHouseFragment();
+        ListHouseFragment listHouseFragment = new ListHouseFragment();
         Bundle bundle = new Bundle();
         bundle.putString(ApiConstant.URL_WEB_SERVICE, ApiConstant.URL_WEB_SERVICE_GET_ALL_HOUSE_OF_KIND);
-        bundle.putString(ApiConstant.LIST_BOARD, jsonBoard);
         listHouseFragment.setArguments(bundle);
 
         getSupportFragmentManager().beginTransaction().add(R.id.layout, listHouseFragment).commit();

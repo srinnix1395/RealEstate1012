@@ -88,13 +88,15 @@ public class MapManager implements GoogleMap.OnCameraChangeListener, GoogleMap.O
 
     @Override
     public void onCameraChange(CameraPosition cameraPosition) {
-        if (hasDisplayedLocalPlace) {
-            clearLocationNearByMarker();
-            requestLocationNearbyPlace(placeType);
-        }
+        callback.requestData(cameraPosition.target);
 
         if (ServiceUtils.isNetworkAvailable(context)) {
             getCurrentLocationName(map.getCameraPosition().target);
+        }
+
+        if (hasDisplayedLocalPlace) {
+            clearLocationNearByMarker();
+            requestLocationNearbyPlace(placeType);
         }
     }
 
@@ -102,6 +104,12 @@ public class MapManager implements GoogleMap.OnCameraChangeListener, GoogleMap.O
         map.setMyLocationEnabled(true);
     }
 
+    public void clearHouseMarker() {
+        for (Marker marker : arrayHousesMarker) {
+            marker.remove();
+        }
+        arrayHousesMarker.clear();
+    }
 
     public void displayHousesMarker(JSONArray jsonArrayHouse) {
         for (int i = 0, size = jsonArrayHouse.length(); i < size; i++) {
