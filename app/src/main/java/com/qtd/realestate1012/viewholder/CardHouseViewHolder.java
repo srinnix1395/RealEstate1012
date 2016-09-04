@@ -11,6 +11,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.qtd.realestate1012.R;
 import com.qtd.realestate1012.activity.HouseDetailActivity;
 import com.qtd.realestate1012.constant.ApiConstant;
+import com.qtd.realestate1012.custom.RippleView;
 import com.qtd.realestate1012.messageevent.MessageClickImvHeartOnCardHouseViewHolder;
 import com.qtd.realestate1012.model.CompactHouse;
 
@@ -25,7 +26,7 @@ import butterknife.OnClick;
 /**
  * Created by DELL on 9/1/2016.
  */
-public class CardHouseViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+public class CardHouseViewHolder extends RecyclerView.ViewHolder implements RippleView.OnRippleCompleteListener {
     @BindView(R.id.imvImage)
     ImageView imvImage;
 
@@ -41,12 +42,19 @@ public class CardHouseViewHolder extends RecyclerView.ViewHolder implements View
     @BindView(R.id.imvHeart)
     ImageView imvHeart;
 
+    @BindView(R.id.rippleView)
+    RippleView rippleView;
+
     private String id;
 
     public CardHouseViewHolder(View itemView) {
         super(itemView);
         ButterKnife.bind(this, itemView);
-        itemView.setOnClickListener(this);
+        initViews();
+    }
+
+    private void initViews() {
+        rippleView.setOnRippleCompleteListener(this);
     }
 
     public void setupDataViewHolder(CompactHouse house) {
@@ -76,7 +84,7 @@ public class CardHouseViewHolder extends RecyclerView.ViewHolder implements View
     }
 
     @Override
-    public void onClick(View view) {
+    public void onComplete(RippleView rippleView) {
         Intent intent = new Intent(itemView.getContext(), HouseDetailActivity.class);
         intent.putExtra(ApiConstant._ID, id);
         itemView.getContext().startActivity(intent);

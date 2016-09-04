@@ -85,7 +85,7 @@ public class ApiConstant {
 
     public static final String API_KEY = "AIzaSyAXKdlSDdIttYHwoyC2Ss_BqQa1HETpbBs";
     public static final String API_PLACE_TYPE_SCHOOL = "school";
-    public static final int DEFAULT_RADIUS = 1000;
+    public static final int DEFAULT_RADIUS = 1750;
     public static final String API_PLACE_STATUS_SUCCESS = "OK";
     public static final String API_PLACE_STATUS_FAILED = "REQUEST_DENIED";
     public static final String API_PLACE_STATUS = "status";

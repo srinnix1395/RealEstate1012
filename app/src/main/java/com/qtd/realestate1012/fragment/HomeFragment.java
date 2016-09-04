@@ -64,7 +64,6 @@ public class HomeFragment extends Fragment {
     private ArrayList<Object> arrayListHouseNews;
     private HouseNewsAdapter adapter;
     private ArrayList<Board> arrayListBoard;
-    private boolean isInit;
     private JSONObject jsonBoard;
 
     @Nullable
@@ -79,6 +78,7 @@ public class HomeFragment extends Fragment {
         ButterKnife.bind(this, view);
         initData();
         initView();
+        requestData();
     }
 
     private void initData() {
@@ -101,12 +101,6 @@ public class HomeFragment extends Fragment {
         } else {
             tvError.setVisibility(View.INVISIBLE);
         }
-
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        Log.e(TAG, "onActivityResult: helo");
     }
 
     private void requestData() {
@@ -183,22 +177,6 @@ public class HomeFragment extends Fragment {
             progressBar.setVisibility(View.VISIBLE);
             tvError.setVisibility(View.INVISIBLE);
 
-            requestData();
-        }
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        EventBus.getDefault().register(this);
-
-        if (!isInit) {
-            requestData();
-            isInit = true;
-            return;
-        }
-
-        if (this.isVisible()) {
             requestData();
         }
     }

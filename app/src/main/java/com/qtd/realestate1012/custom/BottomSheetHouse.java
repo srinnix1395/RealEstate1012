@@ -2,6 +2,7 @@ package com.qtd.realestate1012.custom;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomSheetDialogFragment;
 import android.view.LayoutInflater;
@@ -26,7 +27,7 @@ import butterknife.ButterKnife;
 /**
  * Created by DELL on 9/1/2016.
  */
-public class BottomSheetHouse extends BottomSheetDialogFragment implements View.OnClickListener {
+public class BottomSheetHouse extends BottomSheetDialogFragment implements RippleView.OnRippleCompleteListener {
     private CompactHouse house;
 
     @BindView(R.id.imvImage)
@@ -41,6 +42,9 @@ public class BottomSheetHouse extends BottomSheetDialogFragment implements View.
     @BindView(R.id.tvAddress1)
     TextView tvAddress1;
 
+    @BindView(R.id.rippleView)
+    RippleView rippleView;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -51,7 +55,11 @@ public class BottomSheetHouse extends BottomSheetDialogFragment implements View.
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         ButterKnife.bind(this, view);
         initData();
-        view.setOnClickListener(this);
+        initViews();
+    }
+
+    private void initViews() {
+        rippleView.setOnRippleCompleteListener(this);
     }
 
     private void initData() {
@@ -74,10 +82,16 @@ public class BottomSheetHouse extends BottomSheetDialogFragment implements View.
     }
 
     @Override
-    public void onClick(View view) {
-        Intent intent = new Intent(getContext(), HouseDetailActivity.class);
+    public void onComplete(RippleView rippleView) {
+        Intent intent = new Intent(getActivity(), HouseDetailActivity.class);
         intent.putExtra(ApiConstant._ID, house.getId());
         startActivity(intent);
-        dismiss();
+
+        new Handler().post(new Runnable() {
+            @Override
+            public void run() {
+                BottomSheetHouse.this.dismiss();
+            }
+        });
     }
 }

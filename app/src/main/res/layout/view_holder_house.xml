@@ -1,67 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.qtd.realestate1012.custom.RippleView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    style="?attr/selectableItemBackground"
-    android:layout_width="match_parent"
-    android:layout_height="180dp"
-    android:layout_marginTop="@dimen/marginHouse"
-    android:clickable="true">
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    app:rv_color="@color/colorRipple"
+    app:rv_rippleDuration="250">
 
-    <ImageView
-        android:id="@+id/imvImage"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scaleType="fitXY" />
+        android:layout_height="180dp"
+        android:layout_marginTop="@dimen/marginHouse"
+        android:clickable="true">
 
-    <com.qtd.realestate1012.custom.RippleView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:rv_color="@color/colorRipple"
-        app:rv_rippleDuration="250">
+        <ImageView
+            android:id="@+id/imvImage"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="fitXY" />
+
 
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scaleType="fitXY"
             android:src="@drawable/background_house_fade" />
-    </com.qtd.realestate1012.custom.RippleView>
 
-    <TextView
-        android:id="@+id/tvPrice"
-        style="?android:attr/textAppearanceSmall"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/tvAddress"
-        android:layout_marginStart="@dimen/com_facebook_tooltip_horizontal_padding"
-        android:fontFamily="sans-serif-light"
-        android:textColor="@android:color/white"
-        android:textStyle="bold" />
+        <TextView
+            android:id="@+id/tvPrice"
+            style="?android:attr/textAppearanceSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/tvAddress"
+            android:layout_marginStart="@dimen/com_facebook_tooltip_horizontal_padding"
+            android:fontFamily="sans-serif-light"
+            android:textColor="@android:color/white"
+            android:textStyle="bold" />
 
-    <TextView
-        android:id="@+id/tvAddress"
-        style="?android:attr/textAppearanceSmall"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/tvAddress1"
-        android:layout_marginStart="@dimen/com_facebook_tooltip_horizontal_padding"
-        android:ellipsize="end"
-        android:fontFamily="sans-serif-light"
-        android:lines="1"
-        android:textColor="@android:color/white"
-        android:textSize="12sp" />
+        <TextView
+            android:id="@+id/tvAddress"
+            style="?android:attr/textAppearanceSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/tvAddress1"
+            android:layout_marginStart="@dimen/com_facebook_tooltip_horizontal_padding"
+            android:ellipsize="end"
+            android:fontFamily="sans-serif-light"
+            android:lines="1"
+            android:textColor="@android:color/white"
+            android:textSize="12sp" />
 
-    <TextView
-        android:id="@+id/tvAddress1"
-        style="?android:attr/textAppearanceSmall"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="@dimen/com_facebook_tooltip_horizontal_padding"
-        android:layout_marginEnd="@dimen/activity_horizontal_margin"
-        android:layout_marginStart="@dimen/com_facebook_tooltip_horizontal_padding"
-        android:ellipsize="end"
-        android:fontFamily="sans-serif-light"
-        android:lines="1"
-        android:textColor="@android:color/white"
-        android:textSize="12sp" />
-</RelativeLayout>
+        <TextView
+            android:id="@+id/tvAddress1"
+            style="?android:attr/textAppearanceSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="@dimen/com_facebook_tooltip_horizontal_padding"
+            android:layout_marginEnd="@dimen/activity_horizontal_margin"
+            android:layout_marginStart="@dimen/com_facebook_tooltip_horizontal_padding"
+            android:ellipsize="end"
+            android:fontFamily="sans-serif-light"
+            android:lines="1"
+            android:textColor="@android:color/white"
+            android:textSize="12sp" />
+    </RelativeLayout>
+</com.qtd.realestate1012.custom.RippleView>

@@ -1,187 +1,203 @@
+<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/exLayoutInfo"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/height_read_more"
-    android:orientation="vertical"
-    android:paddingEnd="@dimen/high_margin"
-    android:paddingStart="@dimen/high_margin"
-    android:paddingTop="@dimen/activity_vertical_margin">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-    <TextView
-        style="?android:attr/textAppearanceMedium"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/activity_vertical_margin"
-        android:fontFamily="sans-serif-light"
-        android:text="@string/info"
-        android:textColor="@android:color/black"
-        android:textStyle="bold" />
-
-    <LinearLayout
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar_newspaper"
+        android:background="@color/colorPrimary"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp">
+        android:elevation="5dp">
 
-        <TextView
-            style="?android:attr/textAppearanceSmall"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:text="@string/status" />
+    </android.support.v7.widget.Toolbar>
 
-        <TextView
-            android:id="@+id/tvStatus"
-            style="?android:attr/textAppearanceSmall"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:textColor="@android:color/black" />
-    </LinearLayout>
+    <!--<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"-->
+        <!--xmlns:tools="http://schemas.android.com/tools"-->
+        <!--android:id="@+id/scrollView"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:paddingLeft="10dp"-->
+        <!--android:paddingRight="10dp"-->
+        <!--android:scrollbars="none"-->
+        <!--tools:context=".activity.NewpaperActivity">-->
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp">
+        <!--<LinearLayout-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:orientation="vertical"-->
+            <!--android:weightSum="1">-->
 
-        <TextView
-            style="?android:attr/textAppearanceSmall"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:text="@string/area" />
+            <!--<Spinner-->
+                <!--android:id="@+id/spCity"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_marginTop="20dp"/>-->
 
-        <TextView
-            android:id="@+id/tvArea"
-            style="?android:attr/textAppearanceSmall"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:textColor="@android:color/black" />
-    </LinearLayout>
+            <!--<LinearLayout-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_marginTop="10dp"-->
+                <!--android:orientation="horizontal">-->
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp">
+                <!--<Spinner-->
+                    <!--android:id="@+id/spFrom"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_weight="1" />-->
 
-        <TextView
-            style="?android:attr/textAppearanceSmall"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:text="@string/price" />
+                <!--<Spinner-->
+                    <!--android:id="@+id/spKind"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_weight="1"-->
+                    <!--android:prompt="@string/kind_prompt" />-->
+            <!--</LinearLayout>-->
 
-        <TextView
-            android:id="@+id/tvPriceInfo"
-            style="?android:attr/textAppearanceSmall"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:textColor="@android:color/black" />
-    </LinearLayout>
+            <!--<LinearLayout-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_marginTop="10dp"-->
+                <!--android:orientation="horizontal">-->
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp">
+                <!--<Spinner-->
+                    <!--android:id="@+id/spStreet"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_weight="1"></Spinner>-->
 
-        <TextView
-            style="?android:attr/textAppearanceSmall"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:text="@string/priceOverArea" />
+                <!--<Spinner-->
+                    <!--android:id="@+id/spDistrict"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_weight="1"></Spinner>-->
+            <!--</LinearLayout>-->
 
-        <TextView
-            android:id="@+id/tvPriceOverArea"
-            style="?android:attr/textAppearanceSmall"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:textColor="@android:color/black" />
-    </LinearLayout>
+            <!--<RelativeLayout-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content">-->
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp">
+                <!--<EditText-->
+                    <!--android:id="@+id/edtAddress"-->
+                    <!--android:layout_width="120dp"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:hint="Địa chỉ"-->
+                    <!--android:maxLines="1"-->
+                    <!--android:textColor="@android:color/black"-->
+                    <!--android:theme="@style/EditTextStyle" />-->
 
-        <TextView
-            style="?android:attr/textAppearanceSmall"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:text="@string/numberOfRoom" />
+                <!--<TextView-->
+                    <!--android:id="@+id/tv_street"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_centerVertical="true"-->
+                    <!--android:layout_toRightOf="@id/edtAddress"-->
+                    <!--android:layout_weight="1"-->
+                    <!--android:ellipsize="end"-->
+                    <!--android:maxLines="1"-->
+                    <!--android:text=", Thái Hà"-->
+                    <!--android:textColor="@android:color/black"-->
+                    <!--android:textSize="16sp" />-->
 
-        <TextView
-            android:id="@+id/tvNumberOfRoom"
-            style="?android:attr/textAppearanceSmall"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:textColor="@android:color/black" />
-    </LinearLayout>
+                <!--<TextView-->
+                    <!--android:id="@+id/tv_district"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_centerVertical="true"-->
+                    <!--android:layout_toRightOf="@id/tv_street"-->
+                    <!--android:layout_weight="1"-->
+                    <!--android:ellipsize="end"-->
+                    <!--android:maxLines="1"-->
+                    <!--android:text=", Đống Đa"-->
+                    <!--android:textColor="@android:color/black"-->
+                    <!--android:textSize="16sp" />-->
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp">
+                <!--<TextView-->
+                    <!--android:id="@+id/tv_city"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_centerVertical="true"-->
+                    <!--android:layout_toRightOf="@id/tv_district"-->
+                    <!--android:layout_weight="1"-->
+                    <!--android:ellipsize="end"-->
+                    <!--android:maxLines="1"-->
+                    <!--android:text=", Hà Nội"-->
+                    <!--android:textColor="@android:color/black"-->
+                    <!--android:textSize="16sp" />-->
+            <!--</RelativeLayout>-->
 
-        <TextView
-            style="?android:attr/textAppearanceSmall"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:text="@string/propertyType" />
+            <!--<EditText-->
+                <!--android:id="@+id/edtAcrea"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:hint="Diện tích"-->
+                <!--android:inputType="number"-->
+                <!--android:textColor="@android:color/black"-->
+                <!--android:theme="@style/EditTextStyle" />-->
 
-        <TextView
-            android:id="@+id/tvPropertyType"
-            style="?android:attr/textAppearanceSmall"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:textColor="@android:color/black" />
-    </LinearLayout>
+            <!--<EditText-->
+                <!--android:id="@+id/edtCost"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:hint="Tổng tiền"-->
+                <!--android:inputType="number"-->
+                <!--android:textColor="@android:color/black"-->
+                <!--android:theme="@style/EditTextStyle" />-->
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp">
+            <!--<EditText-->
+                <!--android:id="@+id/edtRoom"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:hint="Số phòng"-->
+                <!--android:inputType="number"-->
+                <!--android:textColor="@android:color/black"-->
+                <!--android:theme="@style/EditTextStyle" />-->
 
-        <TextView
-            style="?android:attr/textAppearanceSmall"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:text="@string/addedOnHousie" />
+            <!--<EditText-->
+                <!--android:id="@+id/edtDescribe"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="150dp"-->
+                <!--android:gravity="top"-->
+                <!--android:hint="Mô tả"-->
+                <!--android:padding="10dp"-->
+                <!--android:textColor="@android:color/black"-->
+                <!--android:theme="@style/EditTextStyle" />-->
 
-        <TextView
-            android:id="@+id/tvAddedOn"
-            style="?android:attr/textAppearanceSmall"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:textColor="@android:color/black" />
-    </LinearLayout>
+            <!--<HorizontalScrollView-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_marginTop="10dp"-->
+                <!--android:padding="5dp"-->
+                <!--android:scrollbarStyle="insideOverlay">-->
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp">
+                <!--<LinearLayout-->
+                    <!--android:id="@+id/layout_images"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:orientation="horizontal">-->
 
-        <TextView
-            style="?android:attr/textAppearanceSmall"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:text="@string/address" />
+                    <!--<Button-->
+                        <!--android:id="@+id/btnSelect"-->
+                        <!--android:layout_width="100dp"-->
+                        <!--android:layout_height="100dp"-->
+                        <!--android:layout_marginLeft="5dp"-->
+                        <!--android:text="+"-->
+                        <!--android:textColor="@android:color/white"-->
+                        <!--android:textSize="40sp" />-->
+                <!--</LinearLayout>-->
+            <!--</HorizontalScrollView>-->
 
-        <TextView
-            android:id="@+id/tvAddressInfo"
-            style="?android:attr/textAppearanceSmall"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:textColor="@android:color/black" />
-    </LinearLayout>
+            <!--<Button-->
+                <!--android:id="@+id/btnPost"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_marginBottom="30dp"-->
+                <!--android:layout_marginTop="30dp"-->
+                <!--android:text="ĐĂNG TIN" />-->
+
+        <!--</LinearLayout>-->
+
+    <!--</ScrollView>-->
+
 </LinearLayout>
