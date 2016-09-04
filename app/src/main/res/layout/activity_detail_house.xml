@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     android:descendantFocusability="beforeDescendants"
     android:focusableInTouchMode="true">
+    <!--xmlns:panel="http://schemas.android.com/apk/res/com.digitalfootsteps.android"-->
 
     <!--scroll view-->
     <ScrollView
@@ -138,14 +139,13 @@
                         android:textColor="@android:color/black"
                         android:textStyle="bold" />
 
+
                     <TextView
                         android:id="@+id/tvIntro"
                         style="?android:attr/textAppearanceSmall"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp"
+                        android:layout_height="match_parent"
                         android:maxLines="3"
-                        android:text="asdlkasdfjl;asdkjf;lsadkjf;sldakfj;sdalkfjsld;akfjasl;dkfjsal;dfkjsald;kfjsda;lkfjsal;dkfjasdl;kfjsadl;kfjasld;kjfjl;sakdjfl;sadkfjasd;lkfjsda;lfkjsal;dfkjd;slakfj;sdalkfjs;lakfj;sdlkfjs;dlakfjasl;dkfjsl;dakfj;lsdkajfs;ldkfjsdla;kfjsdlkfjsd;lkjfslkfdjsldafkja;lskfjsal;dkfjsa;ldkfj;lsadkfjs;ldkjfsdl;kjflsdkajfl;sakdjfl;sdkajfl;sdkajfl;sdakjfl;sdakj"
                         android:textColor="@android:color/black" />
 
                     <TextView
@@ -273,7 +273,6 @@
                             android:layout_weight="1"
                             android:textColor="@android:color/black" />
                     </LinearLayout>
-
 
                     <LinearLayout
                         android:layout_width="match_parent"

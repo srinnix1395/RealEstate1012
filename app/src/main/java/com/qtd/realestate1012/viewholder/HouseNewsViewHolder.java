@@ -11,6 +11,7 @@ import com.qtd.realestate1012.R;
 import com.qtd.realestate1012.activity.HouseDetailActivity;
 import com.qtd.realestate1012.constant.ApiConstant;
 import com.qtd.realestate1012.custom.RippleView;
+import com.qtd.realestate1012.messageevent.MessageClickImvHeartOnHouse;
 import com.qtd.realestate1012.messageevent.MessageEventClickSeeAllViewHolder;
 import com.qtd.realestate1012.model.BunchHouse;
 import com.qtd.realestate1012.utils.UiUtils;
@@ -26,7 +27,7 @@ import butterknife.OnClick;
 /**
  * Created by Dell on 8/7/2016.
  */
-public class HouseNewsViewHolder {
+public class HouseNewsViewHolder implements RippleView.OnRippleCompleteListener {
     @BindView(R.id.imvImage1)
     ImageView imvImage1;
 
@@ -107,10 +108,20 @@ public class HouseNewsViewHolder {
 
     private View view;
     private BunchHouse bunchHouse;
+    private boolean flagStartDetail;
 
     public HouseNewsViewHolder(View view) {
         this.view = view;
         ButterKnife.bind(this, view);
+        initRippleViews();
+    }
+
+    private void initRippleViews() {
+        rippleView1.setOnRippleCompleteListener(this);
+        rippleView2.setOnRippleCompleteListener(this);
+        rippleView3.setOnRippleCompleteListener(this);
+        rippleView4.setOnRippleCompleteListener(this);
+        rippleView5.setOnRippleCompleteListener(this);
     }
 
     public void setupViewHolder(BunchHouse bunchHouse) {
@@ -175,32 +186,12 @@ public class HouseNewsViewHolder {
         tvSeeAll.setText(String.format("%s %s", view.getContext().getString(R.string.seeAll), bunchHouse.getType()));
     }
 
-    @OnClick({R.id.imvHeart1, R.id.imvHeart2, R.id.imvHeart3, R.id.imvHeart4, R.id.imvHeart5, R.id.tvSeeAll
-            , R.id.layoutHouse1, R.id.layoutHouse2, R.id.layoutHouse3, R.id.layoutHouse4, R.id.layoutHouse5})
+    @OnClick({R.id.imvHeart1, R.id.imvHeart2, R.id.imvHeart3, R.id.imvHeart4, R.id.imvHeart5, R.id.tvSeeAll,
+            R.id.imvImage1,R.id.imvImage2,R.id.imvImage3,R.id.imvImage4,R.id.imvImage5,})
     void onClick(View v) {
         switch (v.getId()) {
             case R.id.tvSeeAll: {
                 onClickDetail();
-                break;
-            }
-            case R.id.layoutHouse1: {
-                startDetailHouseActivity(0);
-                break;
-            }
-            case R.id.layoutHouse2: {
-                startDetailHouseActivity(1);
-                break;
-            }
-            case R.id.layoutHouse3: {
-                startDetailHouseActivity(2);
-                break;
-            }
-            case R.id.layoutHouse4: {
-                startDetailHouseActivity(3);
-                break;
-            }
-            case R.id.layoutHouse5: {
-                startDetailHouseActivity(4);
                 break;
             }
             case R.id.imvHeart1: {
@@ -223,6 +214,9 @@ public class HouseNewsViewHolder {
                 addHouseToFavorite(4, v);
                 break;
             }
+            default: {
+                flagStartDetail = true;
+            }
         }
     }
 
@@ -232,6 +226,7 @@ public class HouseNewsViewHolder {
 
 
     private void addHouseToFavorite(int i, View v) {
+        flagStartDetail = false;
         //ripple effect
         switch (i) {
             case 0: {
@@ -256,8 +251,8 @@ public class HouseNewsViewHolder {
             }
         }
 
-//        String id = bunchHouse.getCompactHouse(i).getId();
-//        EventBus.getDefault().post(new MessageClickImvHeartOnHouse(id));
+        String id = bunchHouse.getCompactHouse(i).getId();
+        EventBus.getDefault().post(new MessageClickImvHeartOnHouse(id));
     }
 
     private void startDetailHouseActivity(int i) {
@@ -267,4 +262,31 @@ public class HouseNewsViewHolder {
     }
 
 
+    @Override
+    public void onComplete(RippleView rippleView) {
+        if (flagStartDetail) {
+            switch (rippleView.getId()) {
+                case R.id.rippleView1: {
+                    startDetailHouseActivity(0);
+                    break;
+                }
+                case R.id.rippleView2: {
+                    startDetailHouseActivity(1);
+                    break;
+                }
+                case R.id.rippleView3: {
+                    startDetailHouseActivity(2);
+                    break;
+                }
+                case R.id.rippleView4: {
+                    startDetailHouseActivity(3);
+                    break;
+                }
+                case R.id.rippleView5: {
+                    startDetailHouseActivity(4);
+                    break;
+                }
+            }
+        }
+    }
 }

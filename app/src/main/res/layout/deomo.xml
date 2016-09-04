@@ -1,197 +1,187 @@
-<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/exLayoutInfo"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_height="@dimen/height_read_more"
+    android:orientation="vertical"
+    android:paddingEnd="@dimen/high_margin"
+    android:paddingStart="@dimen/high_margin"
+    android:paddingTop="@dimen/activity_vertical_margin">
 
-    <android.support.design.widget.CoordinatorLayout
+    <TextView
+        style="?android:attr/textAppearanceMedium"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/activity_vertical_margin"
+        android:fontFamily="sans-serif-light"
+        android:text="@string/info"
+        android:textColor="@android:color/black"
+        android:textStyle="bold" />
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1">
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp">
 
-        <android.support.design.widget.AppBarLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <LinearLayout
-                android:id="@+id/toolbar_1"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                android:background="@color/colorPrimary"
-                android:elevation="4dp"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:padding="5dp"
-                tools:targetApi="lollipop">
-
-                <EditText
-                    android:id="@+id/etSearch"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="8"
-                    android:hint="@string/searchAddress"
-                    android:textColor="@android:color/white"
-                    android:textColorHint="@color/colorGray"
-                    android:theme="@style/MyCustomEditText" />
-
-                <TextView
-                    android:id="@+id/tvFilter"
-                    style="?android:attr/textAppearanceMedium"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginEnd="10dp"
-                    android:layout_marginStart="10dp"
-                    android:layout_weight="2"
-                    android:background="@drawable/background_tv_filter"
-                    android:clickable="true"
-                    android:fontFamily="sans-serif-light"
-                    android:gravity="center_horizontal|bottom"
-                    android:paddingBottom="6dp"
-                    android:text="@string/filter"
-                    android:textAllCaps="true"
-                    android:textColor="@android:color/white"
-                    android:textStyle="bold" />
-            </LinearLayout>
-
-        </android.support.design.widget.AppBarLayout>
-
-        <RelativeLayout
-            android:layout_width="match_parent"
+        <TextView
+            style="?android:attr/textAppearanceSmall"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+            android:layout_weight="1"
+            android:text="@string/status" />
 
-            <RelativeLayout
-                android:id="@+id/layoutSearch"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
+        <TextView
+            android:id="@+id/tvStatus"
+            style="?android:attr/textAppearanceSmall"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:textColor="@android:color/black" />
+    </LinearLayout>
 
-            </RelativeLayout>
-
-            <ProgressBar
-                android:id="@+id/progress_bar"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true" />
-
-            <android.support.design.widget.FloatingActionButton
-                android:id="@+id/fabEnableMarker"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_above="@+id/fabLocation"
-                android:layout_alignParentEnd="true"
-                android:layout_marginEnd="16dp"
-                android:background="?android:attr/selectableItemBackground"
-                android:src="@drawable/drawable_ic_marker_level_list"
-                app:backgroundTint="@color/colorWhiteBackground" />
-
-            <android.support.design.widget.FloatingActionButton
-                android:id="@+id/fabLocation"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_alignParentEnd="true"
-                android:layout_margin="16dp"
-                android:background="?android:attr/selectableItemBackground"
-                android:src="@drawable/ic_location"
-                app:backgroundTint="@color/colorWhiteBackground" />
-        </RelativeLayout>
-    </android.support.design.widget.CoordinatorLayout>
-
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="?android:attr/actionBarSize">
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp">
 
-        <LinearLayout
-            android:layout_width="match_parent"
+        <TextView
+            style="?android:attr/textAppearanceSmall"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:layout_weight="1"
+            android:text="@string/area" />
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="0.5dp"
-                android:background="@color/colorGrayBorder" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center_vertical">
-
-                <TextView
-                    android:id="@+id/tvResult"
-                    style="?android:attr/textAppearanceSmall"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_margin="5dp"
-                    android:layout_weight="1"
-                    android:background="?android:attr/selectableItemBackground"
-                    android:clickable="true"
-                    android:gravity="center"
-                    android:text="@string/listResult"
-                    android:textAllCaps="true"
-                    android:textColor="@color/colorDarkGray" />
-
-                <TextView
-                    android:id="@+id/tvLocalInfo"
-                    style="?android:attr/textAppearanceSmall"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_margin="5dp"
-                    android:layout_weight="1"
-                    android:background="?android:attr/selectableItemBackground"
-                    android:clickable="true"
-                    android:gravity="center"
-                    android:text="@string/localInfo"
-                    android:textAllCaps="true"
-                    android:textColor="@color/colorDarkGray" />
-
-                <TextView
-                    android:id="@+id/tvSaveSearch"
-                    style="?android:attr/textAppearanceSmall"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_margin="5dp"
-                    android:layout_weight="1"
-                    android:background="?android:attr/selectableItemBackground"
-                    android:clickable="true"
-                    android:gravity="center"
-                    android:text="@string/saveSearch"
-                    android:textAllCaps="true"
-                    android:textColor="@color/colorDarkGray" />
-            </LinearLayout>
-        </LinearLayout>
-
-
-        <LinearLayout
-            android:id="@+id/layoutLocalInfo"
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/tvArea"
+            style="?android:attr/textAppearanceSmall"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:background="@color/colorWhiteBackground"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:visibility="invisible">
+            android:layout_weight="1"
+            android:textColor="@android:color/black" />
+    </LinearLayout>
 
-            <ImageView
-                android:id="@+id/imvClose"
-                android:layout_width="@dimen/defaultSize"
-                android:layout_height="@dimen/defaultSize"
-                android:layout_marginStart="10dp"
-                android:scaleType="center"
-                android:src="@drawable/ic_close" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp">
 
-            <TextView
-                android:id="@+id/tvInfoType"
-                style="?android:attr/textAppearanceSmall"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/activity_vertical_margin"
-                android:background="@drawable/background_text_view_info_type"
-                android:paddingBottom="5dp"
-                android:paddingEnd="@dimen/activity_vertical_margin"
-                android:paddingStart="@dimen/activity_vertical_margin"
-                android:paddingTop="5dp"
-                android:textColor="@android:color/white" />
-        </LinearLayout>
-    </RelativeLayout>
+        <TextView
+            style="?android:attr/textAppearanceSmall"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="@string/price" />
+
+        <TextView
+            android:id="@+id/tvPriceInfo"
+            style="?android:attr/textAppearanceSmall"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:textColor="@android:color/black" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp">
+
+        <TextView
+            style="?android:attr/textAppearanceSmall"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="@string/priceOverArea" />
+
+        <TextView
+            android:id="@+id/tvPriceOverArea"
+            style="?android:attr/textAppearanceSmall"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:textColor="@android:color/black" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp">
+
+        <TextView
+            style="?android:attr/textAppearanceSmall"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="@string/numberOfRoom" />
+
+        <TextView
+            android:id="@+id/tvNumberOfRoom"
+            style="?android:attr/textAppearanceSmall"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:textColor="@android:color/black" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp">
+
+        <TextView
+            style="?android:attr/textAppearanceSmall"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="@string/propertyType" />
+
+        <TextView
+            android:id="@+id/tvPropertyType"
+            style="?android:attr/textAppearanceSmall"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:textColor="@android:color/black" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp">
+
+        <TextView
+            style="?android:attr/textAppearanceSmall"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="@string/addedOnHousie" />
+
+        <TextView
+            android:id="@+id/tvAddedOn"
+            style="?android:attr/textAppearanceSmall"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:textColor="@android:color/black" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp">
+
+        <TextView
+            style="?android:attr/textAppearanceSmall"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="@string/address" />
+
+        <TextView
+            android:id="@+id/tvAddressInfo"
+            style="?android:attr/textAppearanceSmall"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:textColor="@android:color/black" />
+    </LinearLayout>
 </LinearLayout>

@@ -104,6 +104,11 @@ public class HomeFragment extends Fragment {
 
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        Log.e(TAG, "onActivityResult: helo");
+    }
+
     private void requestData() {
         if (!ServiceUtils.isNetworkAvailable(view.getContext())) {
             AlertUtils.showSnackBarNoInternet(view);

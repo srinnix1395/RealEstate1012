@@ -1,12 +1,10 @@
 package com.qtd.realestate1012.activity;
 
-import android.animation.ObjectAnimator;
 import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -15,7 +13,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewTreeObserver;
-import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -72,12 +69,6 @@ public class HouseDetailActivity extends AppCompatActivity implements ViewTreeOb
     @BindView(R.id.tvType)
     TextView tvType;
 
-    @BindView(R.id.tvIntro)
-    TextView tvIntro;
-
-    @BindView(R.id.tvSeeMoreIntro)
-    TextView tvSeeMoreIntro;
-
     @BindView(R.id.tvStatus)
     TextView tvStatus;
 
@@ -108,9 +99,6 @@ public class HouseDetailActivity extends AppCompatActivity implements ViewTreeOb
     @BindView(R.id.scrollView)
     ScrollView scrollView;
 
-    @BindView(R.id.layoutInfo)
-    LinearLayout layoutInfo;
-
     @BindView(R.id.tvImages)
     TextView tvImages;
 
@@ -126,6 +114,14 @@ public class HouseDetailActivity extends AppCompatActivity implements ViewTreeOb
     @BindView(R.id.layoutTotalInfo)
     LinearLayout layoutTotalInfo;
 
+    @BindView(R.id.tvIntro)
+    TextView tvIntro;
+
+    @BindView(R.id.tvSeeMoreIntro)
+    TextView tvSeeMoreIntro;
+
+    @BindView(R.id.layoutInfo)
+    LinearLayout layoutInfo;
 
     private String id;
     private FullHouse fullHouse;
@@ -330,47 +326,24 @@ public class HouseDetailActivity extends AppCompatActivity implements ViewTreeOb
 
     @OnClick(R.id.tvSeeMoreInfo)
     void onClickTvMoreInfo() {
-        if (layoutInfo.getLayoutParams().height == AppConstant.HEIGHT_LAYOUT_INFO_COLLAPSED) {
-            ObjectAnimator animator = ObjectAnimator.ofInt(layoutInfo, "layout_height", AppConstant.HEIGHT_LAYOUT_INFO_EXPANDED);
-            animator.setDuration(2000).start();
+        LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) layoutInfo.getLayoutParams();
+        if (params.height == LinearLayout.LayoutParams.WRAP_CONTENT) {
+            params.height = AppConstant.HEIGHT_LAYOUT_INFO_COLLAPSED;
         } else {
-            ObjectAnimator animator = ObjectAnimator.ofInt(layoutInfo, "layout_height", AppConstant.HEIGHT_LAYOUT_INFO_COLLAPSED);
-            animator.setDuration(2000).start();
+            params.height = LinearLayout.LayoutParams.WRAP_CONTENT;
         }
+
+        layoutInfo.requestLayout();
     }
 
     @OnClick(R.id.tvSeeMoreIntro)
     void onClickTvSeeMoreIntro() {
-        if (tvIntro.getMaxLines() == AppConstant.MAX_LINES_TV_INTRO_COLLAPSED) {
-            ObjectAnimator animator = ObjectAnimator.ofInt(tvIntro, "maxLines", AppConstant.MAX_LINES_TV_INTRO_EXPANDED);
-            animator.setDuration(1000);
-            animator.setInterpolator(new AccelerateDecelerateInterpolator());
-            animator.start();
-
-            tvSeeMoreIntro.setText(R.string.seeLess);
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    tvIntro.setMaxLines(AppConstant.MAX_LINES_TV_INTRO_EXPANDED);
-                }
-            }, 1000);
-            return;
-        }
-
-        if (tvIntro.getMaxLines() == AppConstant.MAX_LINES_TV_INTRO_EXPANDED) {
-            ObjectAnimator animator = ObjectAnimator.ofInt(tvIntro, "maxLines", AppConstant.MAX_LINES_TV_INTRO_COLLAPSED);
-            animator.setDuration(1000);
-            animator.setInterpolator(new AccelerateDecelerateInterpolator());
-            animator.start();
-
-            tvSeeMoreIntro.setText(R.string.seeMore);
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    tvIntro.setMaxLines(AppConstant.MAX_LINES_TV_INTRO_COLLAPSED);
-                }
-            }, 1000);
-
+        if (tvIntro.getMaxLines() == AppConstant.MAX_LINE_COLLAPSE) {
+            tvIntro.setMaxLines(AppConstant.MAX_LINE_EXPAND);
+            tvSeeMoreIntro.setText(getString(R.string.seeLess));
+        } else {
+            tvIntro.setMaxLines(AppConstant.MAX_LINE_COLLAPSE);
+            tvSeeMoreIntro.setText(getString(R.string.seeMore));
         }
     }
 
@@ -400,6 +373,4 @@ public class HouseDetailActivity extends AppCompatActivity implements ViewTreeOb
         intent.putExtra(ApiConstant.MAP_TYPE, mapType);
         startActivity(intent);
     }
-
-
 }
