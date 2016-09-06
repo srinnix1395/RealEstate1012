@@ -119,7 +119,7 @@ public class BottomSheetListBoard extends BottomSheetDialogFragment {
             return;
         }
 
-        final JSONObject jsonRequest = new JSONObject();
+        JSONObject jsonRequest = new JSONObject();
         try {
             jsonRequest.put(ApiConstant._ID_BOARD, event.id);
             jsonRequest.put(ApiConstant._ID_HOUSE, idHouse);
@@ -139,7 +139,7 @@ public class BottomSheetListBoard extends BottomSheetDialogFragment {
                             break;
                         }
                         case ApiConstant.SUCCESS:{
-                            handleResponseSuccess(jsonRequest);
+                            handleResponseSuccess(response);
                             break;
                         }
                     }

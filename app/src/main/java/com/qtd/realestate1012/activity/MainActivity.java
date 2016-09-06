@@ -14,7 +14,6 @@ import android.widget.Toast;
 import com.qtd.realestate1012.HousieApplication;
 import com.qtd.realestate1012.R;
 import com.qtd.realestate1012.callback.FavoriteFragmentCallback;
-import com.qtd.realestate1012.constant.ApiConstant;
 import com.qtd.realestate1012.constant.AppConstant;
 import com.qtd.realestate1012.fragment.FavoriteFragment;
 import com.qtd.realestate1012.fragment.HomeFragment;
@@ -119,7 +118,7 @@ public class MainActivity extends AppCompatActivity implements FavoriteFragmentC
                             break;
                         }
                         case R.id.miSetting: {
-                            Intent intent = new Intent(MainActivity.this, HouseDetailActivity.class);
+                            Intent intent = new Intent(MainActivity.this, PostActivity.class);
                             startActivity(intent);
                             break;
                         }

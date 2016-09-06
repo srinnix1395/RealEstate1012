@@ -1,5 +1,6 @@
 package com.qtd.realestate1012.viewholder;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -12,8 +13,10 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.qtd.realestate1012.R;
+import com.qtd.realestate1012.activity.BoardDetailActivity;
 import com.qtd.realestate1012.constant.ApiConstant;
 import com.qtd.realestate1012.custom.BlurTransformation;
+import com.qtd.realestate1012.custom.RippleView;
 import com.qtd.realestate1012.model.Board;
 import com.qtd.realestate1012.utils.UiUtils;
 
@@ -25,7 +28,7 @@ import butterknife.ButterKnife;
 /**
  * Created by Dell on 8/7/2016.
  */
-public class BoardViewHolder extends RecyclerView.ViewHolder {
+public class BoardViewHolder extends RecyclerView.ViewHolder implements RippleView.OnRippleCompleteListener {
     @BindView(R.id.imvBoard)
     ImageView imvBoard;
 
@@ -38,9 +41,20 @@ public class BoardViewHolder extends RecyclerView.ViewHolder {
     @BindView(R.id.cardView)
     CardView cardView;
 
+    @BindView(R.id.rippleView)
+    RippleView rippleView;
+
+    private String id;
+    private String name;
+
     public BoardViewHolder(View itemView) {
         super(itemView);
         ButterKnife.bind(this, itemView);
+        initViews();
+    }
+
+    private void initViews() {
+        rippleView.setOnRippleCompleteListener(this);
     }
 
     private void initSize(int position) {
@@ -73,6 +87,9 @@ public class BoardViewHolder extends RecyclerView.ViewHolder {
     }
 
     public void setupViewHolder(Board board, int position) {
+        id = board.getId();
+        name = board.getName();
+
         initSize(position);
 
         tvName.setText(board.getName());
@@ -84,5 +101,13 @@ public class BoardViewHolder extends RecyclerView.ViewHolder {
                 .placeholder(R.color.colorFacebookGray)
                 .error(R.color.colorFacebookGray)
                 .into(imvBoard);
+    }
+
+    @Override
+    public void onComplete(RippleView rippleView) {
+        Intent intent = new Intent(itemView.getContext(), BoardDetailActivity.class);
+        intent.putExtra(ApiConstant._ID, id);
+        intent.putExtra(ApiConstant.NAME, name);
+        itemView.getContext().startActivity(intent);
     }
 }

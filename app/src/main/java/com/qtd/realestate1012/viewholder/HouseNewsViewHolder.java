@@ -108,7 +108,7 @@ public class HouseNewsViewHolder implements RippleView.OnRippleCompleteListener 
 
     private View view;
     private BunchHouse bunchHouse;
-    private boolean flagStartDetail;
+    private boolean flagClickHeart;
 
     public HouseNewsViewHolder(View view) {
         this.view = view;
@@ -187,7 +187,7 @@ public class HouseNewsViewHolder implements RippleView.OnRippleCompleteListener 
     }
 
     @OnClick({R.id.imvHeart1, R.id.imvHeart2, R.id.imvHeart3, R.id.imvHeart4, R.id.imvHeart5, R.id.tvSeeAll,
-            R.id.imvImage1,R.id.imvImage2,R.id.imvImage3,R.id.imvImage4,R.id.imvImage5,})
+            R.id.imvImage1,R.id.imvImage2,R.id.imvImage3,R.id.imvImage4,R.id.imvImage5})
     void onClick(View v) {
         switch (v.getId()) {
             case R.id.tvSeeAll: {
@@ -215,7 +215,7 @@ public class HouseNewsViewHolder implements RippleView.OnRippleCompleteListener 
                 break;
             }
             default: {
-                flagStartDetail = true;
+                flagClickHeart = false;
             }
         }
     }
@@ -226,7 +226,7 @@ public class HouseNewsViewHolder implements RippleView.OnRippleCompleteListener 
 
 
     private void addHouseToFavorite(int i, View v) {
-        flagStartDetail = false;
+        flagClickHeart = true;
         //ripple effect
         switch (i) {
             case 0: {
@@ -264,7 +264,7 @@ public class HouseNewsViewHolder implements RippleView.OnRippleCompleteListener 
 
     @Override
     public void onComplete(RippleView rippleView) {
-        if (flagStartDetail) {
+        if (!flagClickHeart) {
             switch (rippleView.getId()) {
                 case R.id.rippleView1: {
                     startDetailHouseActivity(0);

@@ -111,5 +111,12 @@
     <string name="homeSaved">Nhà đã được lưu</string>
     <string name="contentEmail">Nội dung email</string>
     <string name="noHouses">Không có nhà nào trong khu vực này</string>
+    <string name="image">Ảnh</string>
+    <string name="post">Đăng tin</string>
+    <string name="description">Mô tả</string>
+    <string name="imageSelected">" ảnh đã được chọn"</string>
+    <string name="YES">Chọn</string>
+    <string name="processing">Đang xử lý…</string>
+    <string name="rename">Đổi tên</string>
 
 </resources>
