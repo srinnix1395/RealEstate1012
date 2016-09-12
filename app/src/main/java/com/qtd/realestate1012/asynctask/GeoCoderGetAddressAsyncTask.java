@@ -15,11 +15,11 @@ import java.util.Locale;
 /**
  * Created by DELL on 9/2/2016.
  */
-public class GeoCoderAsyncTask extends AsyncTask<LatLng, Void, String> {
+public class GeoCoderGetAddressAsyncTask extends AsyncTask<LatLng, Void, String> {
     private Context context;
     private SearchFragmentCallback callback;
 
-    public GeoCoderAsyncTask(Context context, SearchFragmentCallback callback) {
+    public GeoCoderGetAddressAsyncTask(Context context, SearchFragmentCallback callback) {
         this.context = context;
         this.callback = callback;
     }

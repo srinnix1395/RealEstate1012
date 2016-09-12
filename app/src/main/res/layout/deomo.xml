@@ -1,203 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:context=".activity.MainActivity">
 
     <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar_newspaper"
-        android:background="@color/colorPrimary"
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:elevation="5dp">
+        android:layout_height="?android:attr/actionBarSize"
+        android:background="@color/colorPrimary"
+        android:elevation="4dp"
+        tools:targetApi="lollipop">
+
 
     </android.support.v7.widget.Toolbar>
 
-    <!--<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"-->
-        <!--xmlns:tools="http://schemas.android.com/tools"-->
-        <!--android:id="@+id/scrollView"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent"-->
-        <!--android:paddingLeft="10dp"-->
-        <!--android:paddingRight="10dp"-->
-        <!--android:scrollbars="none"-->
-        <!--tools:context=".activity.NewpaperActivity">-->
+    <android.support.design.widget.TabLayout
+        android:id="@+id/tabLayout"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:layout_marginEnd="40dp"
+        android:background="@color/colorPrimary"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark"
+        app:tabIndicatorColor="@android:color/transparent"
+        app:tabIndicatorHeight="0dp"
+        app:tabMode="fixed"/>
 
-        <!--<LinearLayout-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="match_parent"-->
-            <!--android:orientation="vertical"-->
-            <!--android:weightSum="1">-->
+    <View
+        android:id="@+id/viewAnchor"
+        android:layout_width="5dp"
+        android:layout_height="5dp"
+        android:layout_alignParentEnd="true"
+        android:layout_margin="5dp"/>
 
-            <!--<Spinner-->
-                <!--android:id="@+id/spCity"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_marginTop="20dp"/>-->
-
-            <!--<LinearLayout-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_marginTop="10dp"-->
-                <!--android:orientation="horizontal">-->
-
-                <!--<Spinner-->
-                    <!--android:id="@+id/spFrom"-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:layout_weight="1" />-->
-
-                <!--<Spinner-->
-                    <!--android:id="@+id/spKind"-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:layout_weight="1"-->
-                    <!--android:prompt="@string/kind_prompt" />-->
-            <!--</LinearLayout>-->
-
-            <!--<LinearLayout-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_marginTop="10dp"-->
-                <!--android:orientation="horizontal">-->
-
-                <!--<Spinner-->
-                    <!--android:id="@+id/spStreet"-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:layout_weight="1"></Spinner>-->
-
-                <!--<Spinner-->
-                    <!--android:id="@+id/spDistrict"-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:layout_weight="1"></Spinner>-->
-            <!--</LinearLayout>-->
-
-            <!--<RelativeLayout-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content">-->
-
-                <!--<EditText-->
-                    <!--android:id="@+id/edtAddress"-->
-                    <!--android:layout_width="120dp"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:hint="Địa chỉ"-->
-                    <!--android:maxLines="1"-->
-                    <!--android:textColor="@android:color/black"-->
-                    <!--android:theme="@style/EditTextStyle" />-->
-
-                <!--<TextView-->
-                    <!--android:id="@+id/tv_street"-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:layout_centerVertical="true"-->
-                    <!--android:layout_toRightOf="@id/edtAddress"-->
-                    <!--android:layout_weight="1"-->
-                    <!--android:ellipsize="end"-->
-                    <!--android:maxLines="1"-->
-                    <!--android:text=", Thái Hà"-->
-                    <!--android:textColor="@android:color/black"-->
-                    <!--android:textSize="16sp" />-->
-
-                <!--<TextView-->
-                    <!--android:id="@+id/tv_district"-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:layout_centerVertical="true"-->
-                    <!--android:layout_toRightOf="@id/tv_street"-->
-                    <!--android:layout_weight="1"-->
-                    <!--android:ellipsize="end"-->
-                    <!--android:maxLines="1"-->
-                    <!--android:text=", Đống Đa"-->
-                    <!--android:textColor="@android:color/black"-->
-                    <!--android:textSize="16sp" />-->
-
-                <!--<TextView-->
-                    <!--android:id="@+id/tv_city"-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:layout_centerVertical="true"-->
-                    <!--android:layout_toRightOf="@id/tv_district"-->
-                    <!--android:layout_weight="1"-->
-                    <!--android:ellipsize="end"-->
-                    <!--android:maxLines="1"-->
-                    <!--android:text=", Hà Nội"-->
-                    <!--android:textColor="@android:color/black"-->
-                    <!--android:textSize="16sp" />-->
-            <!--</RelativeLayout>-->
-
-            <!--<EditText-->
-                <!--android:id="@+id/edtAcrea"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:hint="Diện tích"-->
-                <!--android:inputType="number"-->
-                <!--android:textColor="@android:color/black"-->
-                <!--android:theme="@style/EditTextStyle" />-->
-
-            <!--<EditText-->
-                <!--android:id="@+id/edtCost"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:hint="Tổng tiền"-->
-                <!--android:inputType="number"-->
-                <!--android:textColor="@android:color/black"-->
-                <!--android:theme="@style/EditTextStyle" />-->
-
-            <!--<EditText-->
-                <!--android:id="@+id/edtRoom"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:hint="Số phòng"-->
-                <!--android:inputType="number"-->
-                <!--android:textColor="@android:color/black"-->
-                <!--android:theme="@style/EditTextStyle" />-->
-
-            <!--<EditText-->
-                <!--android:id="@+id/edtDescribe"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="150dp"-->
-                <!--android:gravity="top"-->
-                <!--android:hint="Mô tả"-->
-                <!--android:padding="10dp"-->
-                <!--android:textColor="@android:color/black"-->
-                <!--android:theme="@style/EditTextStyle" />-->
-
-            <!--<HorizontalScrollView-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_marginTop="10dp"-->
-                <!--android:padding="5dp"-->
-                <!--android:scrollbarStyle="insideOverlay">-->
-
-                <!--<LinearLayout-->
-                    <!--android:id="@+id/layout_images"-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:orientation="horizontal">-->
-
-                    <!--<Button-->
-                        <!--android:id="@+id/btnSelect"-->
-                        <!--android:layout_width="100dp"-->
-                        <!--android:layout_height="100dp"-->
-                        <!--android:layout_marginLeft="5dp"-->
-                        <!--android:text="+"-->
-                        <!--android:textColor="@android:color/white"-->
-                        <!--android:textSize="40sp" />-->
-                <!--</LinearLayout>-->
-            <!--</HorizontalScrollView>-->
-
-            <!--<Button-->
-                <!--android:id="@+id/btnPost"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_marginBottom="30dp"-->
-                <!--android:layout_marginTop="30dp"-->
-                <!--android:text="ĐĂNG TIN" />-->
-
-        <!--</LinearLayout>-->
-
-    <!--</ScrollView>-->
-
-</LinearLayout>
+    <RelativeLayout
+        android:id="@+id/layoutMain"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/tabLayout"/>
+</RelativeLayout>

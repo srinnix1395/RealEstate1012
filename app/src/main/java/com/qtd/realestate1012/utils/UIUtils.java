@@ -3,13 +3,20 @@ package com.qtd.realestate1012.utils;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
 import android.support.v4.content.ContextCompat;
+import android.util.Base64;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.RelativeLayout;
+
+import com.nguyenhoanglam.imagepicker.model.Image;
+
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 
 /**
  * Created by Dell on 7/31/2016.
@@ -60,5 +67,12 @@ public class UiUtils {
             result = context.getResources().getDimensionPixelSize(resourceId);
         }
         return result;
+    }
+
+    public static String encodeImage(Context context, Image image) throws IOException {
+        Bitmap bitmap = BitmapFactory.decodeFile(image.getPath());
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 90, bytes);
+        return Base64.encodeToString(bytes.toByteArray(), Base64.DEFAULT);
     }
 }

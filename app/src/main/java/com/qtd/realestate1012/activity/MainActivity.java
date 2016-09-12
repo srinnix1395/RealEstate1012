@@ -41,7 +41,15 @@ public class MainActivity extends AppCompatActivity implements FavoriteFragmentC
         initView();
     }
 
+//    @BindView(R.id.toolbar)
+//    Toolbar toolbar;
+
     private void initView() {
+//        setSupportActionBar(toolbar);
+//        getSupportActionBar().setDisplayShowTitleEnabled(false);
+//        toolbar.setVisibility(View.INVISIBLE);
+//        toolbar.inflateMenu(R.menu.menu_signed_in);
+
         tabLayout.addTab(tabLayout.newTab().setIcon(AppConstant.ICON_TAB_SELECTED[0]));
         tabLayout.addTab(tabLayout.newTab().setIcon(AppConstant.ICON_TAB_NORMAL[1]));
         tabLayout.addTab(tabLayout.newTab().setIcon(AppConstant.ICON_TAB_NORMAL[2]));
@@ -113,6 +121,16 @@ public class MainActivity extends AppCompatActivity implements FavoriteFragmentC
                 @Override
                 public boolean onMenuItemClick(MenuItem item) {
                     switch (item.getItemId()) {
+                        case R.id.miProfile:{
+                            Intent intent = new Intent(MainActivity.this, ProfileActivity.class);
+                            startActivity(intent);
+                            break;
+                        }
+                        case R.id.miPostedHouse:{
+                            Intent intent = new Intent(MainActivity.this, MyPostedHouseActivity.class);
+                            startActivity(intent);
+                            break;
+                        }
                         case R.id.miLogOut: {
                             Toast.makeText(MainActivity.this, R.string.logout, Toast.LENGTH_SHORT).show();
                             break;
@@ -187,6 +205,7 @@ public class MainActivity extends AppCompatActivity implements FavoriteFragmentC
         }
         tab.setIcon(AppConstant.ICON_TAB_SELECTED[tab.getPosition()]);
     }
+
 
     @Override
     public void showSearchFragment() {

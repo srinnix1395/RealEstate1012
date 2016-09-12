@@ -10,7 +10,7 @@ public class ApiConstant {
     public static final String PASSWORD = "password";
     public static final String NAME = "name";
     public static final String DOB = "DOB";
-    public static final String TELEPHONE = "telephone";
+    public static final String TELEPHONE = "phone_number";
     public static final String GENDER = "gender";
     public static final String AVATAR = "avatar";
     public static final String TYPE = "type";
@@ -22,11 +22,18 @@ public class ApiConstant {
     public static final String URL_WEB_SERVICE_LOGIN = "http://protectedcedar-31067.rhcloud.com/user/login";
     public static final String URL_WEB_SERVICE_REGISTER = "http://protectedcedar-31067.rhcloud.com/user/register";
     public static final String URL_WEB_SERVICE_IS_EMAIL_EXISTED = "http://protectedcedar-31067.rhcloud.com/user/isEmailExisted";
+    public static final String URL_WEB_SERVICE_USER_INFO = "http://protectedcedar-31067.rhcloud.com/user/info";
+    public static final String URL_WEB_SERVICE_UPDATE_INFO = "http://protectedcedar-31067.rhcloud.com/user/updateWithoutAvatar";
+    public static final String URL_WEB_SERVICE_UPDATE_INFO_HAS_AVATAR = "http://protectedcedar-31067.rhcloud" +
+            ".com/user/updateWithAvatar";
+
 
     public static final String URL_WEB_SERVICE_GET_BOARDS = "http://protectedcedar-31067.rhcloud.com/board/getBoards";
     public static final String URL_WEB_SERVICE_CREATE_BOARD = "http://protectedcedar-31067.rhcloud.com/board/createBoard";
     public static final String URL_WEB_SERVICE_DELETE_BOARD = "http://protectedcedar-31067.rhcloud.com/board/deleteBoard";
     public static final String URL_WEB_SERVICE_DETAIL_BOARD = "http://protectedcedar-31067.rhcloud.com/board/detailInfo";
+    public static final String URL_WEB_SERVICE_RENAME_BOARD = "http://protectedcedar-31067.rhcloud" +
+            ".com/board/rename?_id=%s&name=%s";
 
     public static final String URL_WEB_SERVICE_GET_ALL_HOUSE = "http://protectedcedar-31067.rhcloud.com/house/getAllHouses?lat=%s&lng=%s";
     public static final String URL_WEB_SERVICE_GET_ALL_HOUSE_OF_KIND = "http://protectedcedar-31067.rhcloud.com/house/getAllHousesOfKind";
@@ -34,6 +41,7 @@ public class ApiConstant {
     public static final String URL_WEB_SERVICE_HANDLE_FAVORITE_HOUSES = "http://protectedcedar-31067.rhcloud.com/house/handleFavoriteHouse";
     public static final String URL_WEB_SERVICE_DETAIL_HOUSE = "http://protectedcedar-31067.rhcloud.com/house/detailInfo";
     public static final String URL_WEB_SERVICE_GET_NEWS = "http://protectedcedar-31067.rhcloud.com/house/getNews";
+    public static final String URL_WEB_SERVICE_POST_HOUSE = "http://protectedcedar-31067.rhcloud.com/house/post";
 
     public static final String URL_WEB_SERVICE_GET_IMAGE = "http://protectedcedar-31067.rhcloud.com/image/";
 
@@ -74,8 +82,12 @@ public class ApiConstant {
     public static final String ACTION_ADD = "add";
     public static final String BOARD = "board";
     public static final String URL_WEB_SERVICE = "URL";
+    public static final String USER_INFO = "user_info";
+    public static final String NOTIFICATION = "receive_noti";
     public static String _ID_BOARD = "_id_board";
     public static String _ID_HOUSE = "_id_house";
+    public static String _ID_OWNER = "_id_owner";
+
 
     //    api place
     public static final String API_PLACE_NEAR_BY_URL = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?";

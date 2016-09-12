@@ -1,7 +1,6 @@
 package com.qtd.realestate1012.fragment;
 
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -11,8 +10,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import com.qtd.realestate1012.HousieApplication;
 import com.qtd.realestate1012.R;
@@ -20,6 +19,7 @@ import com.qtd.realestate1012.adapter.SearchesAdapter;
 import com.qtd.realestate1012.callback.FavoriteFragmentCallback;
 import com.qtd.realestate1012.constant.AppConstant;
 import com.qtd.realestate1012.model.ItemSearch;
+import com.qtd.realestate1012.utils.ServiceUtils;
 
 import java.util.ArrayList;
 
@@ -42,7 +42,6 @@ public class SearchesFavoriteFragment extends Fragment implements SwipeRefreshLa
     @BindView(R.id.layoutNoSearches)
     RelativeLayout layoutNoSearches;
 
-    private ViewTreeObserver.OnScrollChangedListener mOnScrollChangedListener;
     private FavoriteFragmentCallback callback;
     private ArrayList<ItemSearch> arrayList;
     private SearchesAdapter adapter;
@@ -108,13 +107,15 @@ public class SearchesFavoriteFragment extends Fragment implements SwipeRefreshLa
     }
 
     private void requestData() {
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                refreshLayout.setRefreshing(false);
-            }
-        }, 3000);
+        if (!ServiceUtils.isNetworkAvailable(getContext())) {
+            Toast.makeText(getContext(), R.string.noInternetConnection, Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+
     }
+
+
 
     @OnClick(R.id.tvSearch)
     void onClick() {

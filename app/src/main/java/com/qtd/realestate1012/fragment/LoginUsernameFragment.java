@@ -213,7 +213,7 @@ public class LoginUsernameFragment extends Fragment implements GoogleApiClient.O
             @Override
             public void onResponse(JSONObject response) {
                 try {
-                    handleAccountSignInResult(response);
+                    handleResponseLoginHousie(response);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -232,7 +232,7 @@ public class LoginUsernameFragment extends Fragment implements GoogleApiClient.O
         HousieApplication.getInstance().addToRequestQueue(request);
     }
 
-    private void handleAccountSignInResult(JSONObject response) throws JSONException {
+    private void handleResponseLoginHousie(JSONObject response) throws JSONException {
         String result = "";
         try {
             result = response.getString(ApiConstant.RESULT);
@@ -335,21 +335,11 @@ public class LoginUsernameFragment extends Fragment implements GoogleApiClient.O
                 try {
                     switch (response.getString(ApiConstant.RESULT)) {
                         case ApiConstant.FAILED: {
-                            Toast.makeText(view.getContext(), R.string.errorLogin, Toast.LENGTH_SHORT).show();
+                            handleResponseLoginSocialFailed(response);
                             break;
                         }
                         case ApiConstant.SUCCESS: {
-                            HousieApplication.getInstance().getSharedPreUtils().putBoolean(AppConstant.USER_LOGGED_IN, true);
-                            HousieApplication.getInstance().getSharedPreUtils().putString(ApiConstant._ID, response.getString(ApiConstant._ID));
-                            HousieApplication.getInstance().getSharedPreUtils().putString(ApiConstant.EMAIL, response.getString(ApiConstant.EMAIL));
-
-                            AlertUtils.showToastSuccess(view.getContext(), R.drawable.ic_account_checked, R.string.loginSuccess);
-                            new Handler().postDelayed(new Runnable() {
-                                @Override
-                                public void run() {
-                                    getActivity().finish();
-                                }
-                            }, 2500);
+                            handleResponseLoginSocialSuccess(response);
                             break;
                         }
                     }
@@ -370,6 +360,29 @@ public class LoginUsernameFragment extends Fragment implements GoogleApiClient.O
             }
         });
         HousieApplication.getInstance().addToRequestQueue(request);
+    }
+
+    private void handleResponseLoginSocialSuccess(JSONObject response) throws JSONException {
+        HousieApplication.getInstance().getSharedPreUtils().putBoolean(AppConstant.USER_LOGGED_IN, true);
+        HousieApplication.getInstance().getSharedPreUtils().putString(ApiConstant._ID, response.getString(ApiConstant._ID));
+        HousieApplication.getInstance().getSharedPreUtils().putString(ApiConstant.EMAIL, response.getString(ApiConstant.EMAIL));
+
+        AlertUtils.showToastSuccess(view.getContext(), R.drawable.ic_account_checked, R.string.loginSuccess);
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                getActivity().finish();
+            }
+        }, 2500);
+    }
+
+    private void handleResponseLoginSocialFailed(JSONObject response) {
+        if (!response.has(ApiConstant.TYPE)) {
+            Toast.makeText(view.getContext(), R.string.errorLogin, Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(getContext(), R.string.emailHasBeenRegisteredHousieAccount, Toast.LENGTH_SHORT).show();
+            //// TODO: 9/12/2016 Sign out account social
+        }
     }
 
     public String getEmail() {

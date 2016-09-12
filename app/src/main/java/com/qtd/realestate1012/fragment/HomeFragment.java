@@ -65,6 +65,7 @@ public class HomeFragment extends Fragment {
     private HouseNewsAdapter adapter;
     private ArrayList<Board> arrayListBoard;
     private JSONObject jsonBoard;
+    private JsonObjectRequest requestGetNew;
 
     @Nullable
     @Override
@@ -120,7 +121,7 @@ public class HomeFragment extends Fragment {
             e.printStackTrace();
         }
 
-        JsonObjectRequest request = new JsonObjectRequest(JsonRequest.Method.POST, ApiConstant.URL_WEB_SERVICE_GET_NEWS, jsonRequest, new Response.Listener<JSONObject>() {
+        requestGetNew = new JsonObjectRequest(JsonRequest.Method.POST, ApiConstant.URL_WEB_SERVICE_GET_NEWS, jsonRequest, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 try {
@@ -162,22 +163,28 @@ public class HomeFragment extends Fragment {
                 progressBar.setVisibility(View.INVISIBLE);
             }
         });
-        HousieApplication.getInstance().addToRequestQueue(request);
+        HousieApplication.getInstance().addToRequestQueue(requestGetNew);
     }
 
 
     @Override
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
-        if (!hidden && ServiceUtils.isNetworkAvailable(view.getContext())) {
-            arrayListHouseNews.clear();
-            adapter.notifyDataSetChanged();
+        if (!hidden) {
+            if (ServiceUtils.isNetworkAvailable(view.getContext())) {
+                arrayListHouseNews.clear();
+                adapter.notifyDataSetChanged();
 
-            progressBar.setEnabled(true);
-            progressBar.setVisibility(View.VISIBLE);
-            tvError.setVisibility(View.INVISIBLE);
+                progressBar.setEnabled(true);
+                progressBar.setVisibility(View.VISIBLE);
+                tvError.setVisibility(View.INVISIBLE);
 
-            requestData();
+                requestData();
+            }
+        } else {
+            if (requestGetNew != null) {
+                requestGetNew.cancel();
+            }
         }
     }
 

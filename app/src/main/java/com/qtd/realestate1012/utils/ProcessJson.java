@@ -6,6 +6,7 @@ import com.qtd.realestate1012.model.BoardHasHeart;
 import com.qtd.realestate1012.model.BunchHouse;
 import com.qtd.realestate1012.model.CompactHouse;
 import com.qtd.realestate1012.model.FullHouse;
+import com.qtd.realestate1012.model.User;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -198,4 +199,19 @@ public class ProcessJson {
         }
         return null;
     }
+
+    public static User getUserInfo(JSONObject response) throws JSONException {
+        JSONObject user = response.getJSONObject(ApiConstant.USER_INFO);
+
+        String id = user.getString(ApiConstant._ID);
+        String name = user.getString(ApiConstant.NAME);
+        String image = user.getString(ApiConstant.AVATAR);
+        String email = user.getString(ApiConstant.EMAIL);
+        String provider = user.getString(ApiConstant.PROVIDER);
+        String phoneNumber = user.getString(ApiConstant.TELEPHONE);
+        boolean hasReceiveNotification = user.getBoolean(ApiConstant.NOTIFICATION);
+
+        return new User(id, name, image, email, provider, phoneNumber, hasReceiveNotification);
+    }
+
 }

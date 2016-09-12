@@ -45,6 +45,10 @@
             android:name=".activity.HouseDetailActivity"
             android:theme="@style/DetailHouseActivityStyle"/>
 
+        <activity
+            android:name=".activity.ProfileActivity"
+            android:theme="@style/DetailHouseActivityStyle"/>
+
         <activity android:name=".activity.BoardDetailActivity"/>
 
         <activity android:name=".activity.MapViewActivity"/>

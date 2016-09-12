@@ -1,6 +1,8 @@
 package com.qtd.realestate1012.activity;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
@@ -12,9 +14,11 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -258,6 +262,87 @@ public class BoardDetailActivity extends AppCompatActivity {
     }
 
     private void onClickRenameBoard() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(R.string.newNameForBoard);
 
+        View view = LayoutInflater.from(this).inflate(R.layout.dialog_rename_board, null);
+        builder.setView(view);
+
+        final EditText etName = (EditText) view.findViewById(R.id.etName);
+
+        builder.setPositiveButton(getString(R.string.OK), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                sendRequestRename(etName.getText().toString(), dialogInterface);
+            }
+        });
+        builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+            }
+        });
+
+        builder.create().show();
+    }
+
+    private void sendRequestRename(String s, DialogInterface dialogInterface) {
+        if (s.isEmpty()) {
+            Toast.makeText(BoardDetailActivity.this, R.string.pleaseInputNewName, Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if (!ServiceUtils.isNetworkAvailable(this)) {
+            Toast.makeText(BoardDetailActivity.this, R.string.noInternetConnection, Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        dialogInterface.dismiss();
+        progressDialog.show();
+
+        String url = String.format(ApiConstant.URL_WEB_SERVICE_RENAME_BOARD, id, s);
+        JsonObjectRequest request = new JsonObjectRequest(url, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                try {
+                    switch (response.getString(ApiConstant.RESULT)) {
+                        case ApiConstant.FAILED: {
+                            Toast.makeText(BoardDetailActivity.this, R.string.errorProcessing, Toast.LENGTH_SHORT).show();
+                            break;
+                        }
+                        case ApiConstant.SUCCESS: {
+                            handleResponseRenameBoardSuccess(response);
+                            break;
+                        }
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                } finally {
+                    progressDialog.dismiss();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                error.printStackTrace();
+                progressDialog.dismiss();
+                Toast.makeText(BoardDetailActivity.this, R.string.errorProcessing, Toast.LENGTH_SHORT).show();
+            }
+        });
+        HousieApplication.getInstance().addToRequestQueue(request);
+    }
+
+    private void handleResponseRenameBoardSuccess(JSONObject response) throws JSONException {
+        String name = response.getString(ApiConstant.NAME);
+
+        getSupportActionBar().setTitle(name);
+    }
+
+    @Override
+    protected void onDestroy() {
+        if (progressDialog != null && progressDialog.isShowing()) {
+            progressDialog.dismiss();
+        }
+        super.onDestroy();
     }
 }

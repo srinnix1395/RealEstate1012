@@ -10,9 +10,9 @@ import android.view.View;
 /**
  * Created by DELL on 8/25/2016.
  */
-public class ScrollAwareFABBehavior extends FloatingActionButton.Behavior {
+public class ScrollHorizontalAwareFABBehavior extends FloatingActionButton.Behavior {
 
-    public ScrollAwareFABBehavior(Context context, AttributeSet attrs) {
+    public ScrollHorizontalAwareFABBehavior(Context context, AttributeSet attrs) {
         super();
     }
 

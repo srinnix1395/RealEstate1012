@@ -118,5 +118,25 @@
     <string name="YES">Chọn</string>
     <string name="processing">Đang xử lý…</string>
     <string name="rename">Đổi tên</string>
+    <string name="newNameForBoard">Nhập tên mới cho nhóm</string>
+    <string name="OK">OK</string>
+    <string name="pleaseInputNewName">Hãy nhập tên nhóm mới</string>
+    <string name="postANewHouse">Đăng thông tin nhà</string>
+    <string name="postSuccessfully">Đăng thông tin thành công</string>
+    <string name="pleaseInputInfo">Hãy nhập đầy đủ thông tin</string>
+    <string name="accountInfo">Thông tin tài khoản</string>
+    <string name="yourPost">Nhà bạn đã đăng</string>
+    <string name="edit">Sửa</string>
+    <string name="save">Lưu</string>
+    <string name="name">Tên</string>
+    <string name="accountType">Loại tài khoản</string>
+    <string name="phoneNumber">Điện thoại liên hệ</string>
+    <string name="receiveNoti">Nhận thông báo</string>
+    <string name="update">Cập nhật</string>
+    <string name="housieAccount">Tài khoản Housie</string>
+    <string name="updateSuccessfully">Đã cập nhật thông tin</string>
+    <string name="emailHasBeenRegisteredHousieAccount">Bạn đã sử dụng email này để đăng ký tài khoản Housie</string>
+    <string name="updateInfo">Cập nhật hồ sơ</string>
+    <string name="confirmToFinish">Mọi thay đổi của bạn đều sẽ không được lưu, bạn có muốn kết thúc</string>
 
 </resources>

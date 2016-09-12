@@ -9,10 +9,13 @@ import android.net.ConnectivityManager;
  */
 public class ServiceUtils {
     public static boolean isNetworkAvailable(Context context) {
-        ConnectivityManager mConnectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-        return (mConnectivityManager.getActiveNetworkInfo() != null
-                && mConnectivityManager.getActiveNetworkInfo().isAvailable()
-                && mConnectivityManager.getActiveNetworkInfo().isConnected());
+        if (context != null) {
+            ConnectivityManager mConnectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+            return (mConnectivityManager.getActiveNetworkInfo() != null
+                    && mConnectivityManager.getActiveNetworkInfo().isAvailable()
+                    && mConnectivityManager.getActiveNetworkInfo().isConnected());
+        }
+        return false;
     }
 
     public static boolean isLocationServiceEnabled(Context context) {

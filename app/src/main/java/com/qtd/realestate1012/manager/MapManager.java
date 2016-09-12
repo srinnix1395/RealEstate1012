@@ -6,18 +6,16 @@ import android.content.pm.PackageManager;
 import android.os.Build;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-import android.util.Log;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
-import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.qtd.realestate1012.R;
 import com.qtd.realestate1012.activity.MainActivity;
-import com.qtd.realestate1012.asynctask.GeoCoderAsyncTask;
+import com.qtd.realestate1012.asynctask.GeoCoderGetAddressAsyncTask;
 import com.qtd.realestate1012.asynctask.LocalInfoAsyncTask;
 import com.qtd.realestate1012.callback.SearchFragmentCallback;
 import com.qtd.realestate1012.constant.ApiConstant;
@@ -202,7 +200,7 @@ public class MapManager implements GoogleMap.OnMarkerClickListener, GoogleMap.On
     }
 
     private void getCurrentLocationName(final LatLng target) {
-        new GeoCoderAsyncTask(context, callback).execute(target);
+        new GeoCoderGetAddressAsyncTask(context, callback).execute(target);
     }
 
     public void moveCameraTo(LatLng latLng) {

@@ -101,6 +101,7 @@ public class SearchFragment extends Fragment implements OnMapReadyCallback {
     private String jsonHouse = "";
     private String lat;
     private String lng;
+    private JsonObjectRequest requestGetHouse;
 
     @Nullable
     @Override
@@ -122,7 +123,9 @@ public class SearchFragment extends Fragment implements OnMapReadyCallback {
 
     private void requestData() {
         if (!ServiceUtils.isNetworkAvailable(getContext())) {
-            Toast.makeText(getContext(), R.string.noInternetConnection, Toast.LENGTH_SHORT).show();
+            if (getContext() != null) {
+                Toast.makeText(getContext(), R.string.noInternetConnection, Toast.LENGTH_SHORT).show();
+            }
             return;
         }
 
@@ -131,7 +134,7 @@ public class SearchFragment extends Fragment implements OnMapReadyCallback {
 
         String url = String.format(ApiConstant.URL_WEB_SERVICE_GET_ALL_HOUSE, lat, lng);
 
-        JsonObjectRequest request = new JsonObjectRequest(url, new Response.Listener<JSONObject>() {
+        requestGetHouse = new JsonObjectRequest(url, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 try {
@@ -160,7 +163,7 @@ public class SearchFragment extends Fragment implements OnMapReadyCallback {
                 progressBar.setVisibility(View.INVISIBLE);
             }
         });
-        HousieApplication.getInstance().addToRequestQueue(request);
+        HousieApplication.getInstance().addToRequestQueue(requestGetHouse);
     }
 
     private void handleResponseSuccess(JSONObject response) throws JSONException {
@@ -410,6 +413,7 @@ public class SearchFragment extends Fragment implements OnMapReadyCallback {
     public void onHiddenChanged(boolean hidden) {
         if (hidden) {
             getActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
+            onDestroyView();
         }
     }
 
@@ -453,6 +457,14 @@ public class SearchFragment extends Fragment implements OnMapReadyCallback {
         bundle.putString(ApiConstant.HOUSE, message.houseInfo);
         dialog.setArguments(bundle);
         dialog.show(getFragmentManager(), "dialog");
+    }
+
+    @Override
+    public void onDestroyView() {
+        if (requestGetHouse != null) {
+            requestGetHouse.cancel();
+        }
+        super.onDestroyView();
     }
 }
 
