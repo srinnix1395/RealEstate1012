@@ -9,11 +9,12 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.PopupMenu;
 import android.view.MenuItem;
-import android.widget.Toast;
 
+import com.facebook.login.LoginManager;
 import com.qtd.realestate1012.HousieApplication;
 import com.qtd.realestate1012.R;
 import com.qtd.realestate1012.callback.FavoriteFragmentCallback;
+import com.qtd.realestate1012.constant.ApiConstant;
 import com.qtd.realestate1012.constant.AppConstant;
 import com.qtd.realestate1012.fragment.FavoriteFragment;
 import com.qtd.realestate1012.fragment.HomeFragment;
@@ -121,18 +122,18 @@ public class MainActivity extends AppCompatActivity implements FavoriteFragmentC
                 @Override
                 public boolean onMenuItemClick(MenuItem item) {
                     switch (item.getItemId()) {
-                        case R.id.miProfile:{
+                        case R.id.miProfile: {
                             Intent intent = new Intent(MainActivity.this, ProfileActivity.class);
                             startActivity(intent);
                             break;
                         }
-                        case R.id.miPostedHouse:{
+                        case R.id.miPostedHouse: {
                             Intent intent = new Intent(MainActivity.this, MyPostedHouseActivity.class);
                             startActivity(intent);
                             break;
                         }
                         case R.id.miLogOut: {
-                            Toast.makeText(MainActivity.this, R.string.logout, Toast.LENGTH_SHORT).show();
+                            logoutAccount();
                             break;
                         }
                         case R.id.miSetting: {
@@ -146,6 +147,32 @@ public class MainActivity extends AppCompatActivity implements FavoriteFragmentC
             });
         }
         popupMenu.show();
+    }
+
+    private void logoutAccount() {
+        //// TODO: 9/13/2016 logout
+        switch (HousieApplication.getInstance().getSharedPreUtils().getString(ApiConstant.PROVIDER, "")) {
+            case ApiConstant.FACEBOOK:{
+                LoginManager.getInstance().logOut();
+                break;
+            }
+            case ApiConstant.GOOGLE:{
+
+                break;
+            }
+            case ApiConstant.HOUSIE:{
+
+                break;
+            }
+            default:{
+                break;
+            }
+        }
+
+        HousieApplication.getInstance().getSharedPreUtils().remove(ApiConstant.PROVIDER);
+        HousieApplication.getInstance().getSharedPreUtils().remove(AppConstant.USER_LOGGED_IN);
+        HousieApplication.getInstance().getSharedPreUtils().remove(ApiConstant._ID);
+        HousieApplication.getInstance().getSharedPreUtils().remove(ApiConstant.EMAIL);
     }
 
     private void showFragment(TabLayout.Tab tab) {

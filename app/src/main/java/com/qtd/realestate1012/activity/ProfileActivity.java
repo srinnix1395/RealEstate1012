@@ -13,6 +13,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SwitchCompat;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
@@ -87,6 +88,9 @@ public class ProfileActivity extends AppCompatActivity implements Toolbar.OnMenu
     @BindView(R.id.progress_bar)
     ProgressBar progressBar;
 
+    @BindView(R.id.layoutInfo)
+    RelativeLayout layoutInfo;
+
     ProgressDialog progressDialog;
 
     private User userOld;
@@ -103,9 +107,22 @@ public class ProfileActivity extends AppCompatActivity implements Toolbar.OnMenu
         requestData();
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_profile_normal, menu);
+        return true;
+    }
+
     private void initViews() {
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle(R.string.yourPost);
+
+        if (Build.VERSION.SDK_INT >= 17) {
+            RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) toolbar.getLayoutParams();
+            layoutParams.topMargin = UiUtils.getStatusBarHeight(this);
+            toolbar.requestLayout();
+        }
+
+        getSupportActionBar().setTitle(R.string.yourProfile);
         toolbar.setTitleTextColor(Color.WHITE);
         toolbar.setNavigationIcon(R.drawable.ic_back);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -114,14 +131,7 @@ public class ProfileActivity extends AppCompatActivity implements Toolbar.OnMenu
                 finish();
             }
         });
-        toolbar.inflateMenu(R.menu.menu_profile_normal);
         toolbar.setOnMenuItemClickListener(this);
-
-        if (Build.VERSION.SDK_INT >= 17) {
-            RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) toolbar.getLayoutParams();
-            layoutParams.topMargin = UiUtils.getStatusBarHeight(this);
-            toolbar.requestLayout();
-        }
 
         progressBar.setIndeterminate(true);
         progressBar.getIndeterminateDrawable().setColorFilter(ContextCompat.getColor(this, R.color.colorPrimary), PorterDuff.Mode.SRC_ATOP);
@@ -142,8 +152,9 @@ public class ProfileActivity extends AppCompatActivity implements Toolbar.OnMenu
 
         JSONObject jsonRequest = new JSONObject();
         try {
-            jsonRequest.put(ApiConstant._ID, HousieApplication.getInstance().getSharedPreUtils()
-                    .getString(ApiConstant._ID, ""));
+//            jsonRequest.put(ApiConstant._ID, HousieApplication.getInstance().getSharedPreUtils()
+//                    .getString(ApiConstant._ID, ""));
+            jsonRequest.put(ApiConstant._ID, "57d6b208f07077132325fed7");
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -166,6 +177,9 @@ public class ProfileActivity extends AppCompatActivity implements Toolbar.OnMenu
 
                     progressBar.setEnabled(false);
                     progressBar.setVisibility(View.INVISIBLE);
+
+                    layoutInfo.setVisibility(View.VISIBLE
+                    );
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -227,13 +241,14 @@ public class ProfileActivity extends AppCompatActivity implements Toolbar.OnMenu
 
     private void disableEditMode() {
         isEditMode = false;
+        toolbar.getMenu().clear();
         toolbar.inflateMenu(R.menu.menu_profile_normal);
 
         tvName.setVisibility(View.VISIBLE);
         etName.setVisibility(View.INVISIBLE);
         tvPhone.setVisibility(View.VISIBLE);
         etPhone.setVisibility(View.INVISIBLE);
-        switchNoti.setEnabled(true);
+        switchNoti.setEnabled(false);
     }
 
     private void sendDataHasAvatar(User userNew) {
@@ -258,14 +273,18 @@ public class ProfileActivity extends AppCompatActivity implements Toolbar.OnMenu
                 .setCallback(new FutureCallback<com.koushikdutta.ion.Response<String>>() {
                     @Override
                     public void onCompleted(Exception e, com.koushikdutta.ion.Response<String> result) {
-                        if (e != null || result.equals(ApiConstant.FAILED)) {
+                        if (e != null) {
                             Toast.makeText(ProfileActivity.this, R.string.errorProcessing, Toast.LENGTH_SHORT).show();
                             return;
                         }
 
                         try {
                             JSONObject response = new JSONObject(result.getResult());
-                            handleResponseSuccess(response);
+                            if (response.getString(ApiConstant.RESULT).equals(ApiConstant.FAILED)) {
+                                Toast.makeText(ProfileActivity.this, R.string.errorProcessing, Toast.LENGTH_SHORT).show();
+                            } else {
+                                handleResponseSuccess(response);
+                            }
                         } catch (JSONException e1) {
                             e1.printStackTrace();
                         }
@@ -330,12 +349,24 @@ public class ProfileActivity extends AppCompatActivity implements Toolbar.OnMenu
     }
 
     private void setData() {
-        Glide.with(this)
-                .load(userOld.getImage())
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .crossFade(1000)
-                .error(R.drawable.ic_account_profile)
-                .into(imvImage);
+        //nếu là ảnh của facebook hoặc google
+        if (userOld.getImage().contains("http")) {
+            Glide.with(this)
+                    .load(userOld.getImage())
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .crossFade(1000)
+                    .error(R.drawable.ic_account_profile)
+                    .into(imvImage);
+        } else {
+            //là ảnh của được lưu trên web service
+            Glide.with(this)
+                    .load(ApiConstant.URL_WEB_SERVICE_GET_IMAGE_USER + userOld.getImage())
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .crossFade(1000)
+                    .error(R.drawable.ic_account_profile)
+                    .into(imvImage);
+        }
+
         tvName.setText(userOld.getName());
         etName.setText(userOld.getName());
         tvEmail.setText(userOld.getEmail());
@@ -347,6 +378,7 @@ public class ProfileActivity extends AppCompatActivity implements Toolbar.OnMenu
 
     private void editProfile() {
         isEditMode = true;
+        toolbar.getMenu().clear();
         toolbar.inflateMenu(R.menu.menu_profile_edit);
 
         tvName.setVisibility(View.INVISIBLE);
@@ -358,7 +390,7 @@ public class ProfileActivity extends AppCompatActivity implements Toolbar.OnMenu
 
     @OnClick(R.id.imvImage)
     void onClickImage() {
-        if (switchNoti.isEnabled()) {
+        if (isEditMode) {
             ImagePicker.create(this)
                     .single()
                     .showCamera(true)

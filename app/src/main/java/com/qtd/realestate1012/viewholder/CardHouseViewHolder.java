@@ -60,7 +60,7 @@ public class CardHouseViewHolder extends RecyclerView.ViewHolder implements Ripp
     public void setupDataViewHolder(CompactHouse house) {
         id = house.getId();
         Glide.with(itemView.getContext())
-                .load(ApiConstant.URL_WEB_SERVICE_GET_IMAGE + house.getFirstImage())
+                .load(ApiConstant.URL_WEB_SERVICE_GET_IMAGE_HOUSE + house.getFirstImage())
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .placeholder(R.drawable.ic_apartment)
                 .error(R.drawable.ic_apartment)

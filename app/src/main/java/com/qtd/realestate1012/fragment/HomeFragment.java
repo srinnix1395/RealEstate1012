@@ -116,7 +116,7 @@ public class HomeFragment extends Fragment {
         try {
             jsonRequest.put(AppConstant.USER_LOGGED_IN, HousieApplication.getInstance().getSharedPreUtils().getBoolean(AppConstant.USER_LOGGED_IN, false));
 //            jsonRequest.put(ApiConstant._ID, HousieApplication.getInstance().getSharedPreUtils().getString(ApiConstant._ID, "-1"));
-            jsonRequest.put(ApiConstant._ID, "57ac3429f71b399577118c72");
+            jsonRequest.put(ApiConstant._ID, "57d6b208f07077132325fed7");
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -135,7 +135,11 @@ public class HomeFragment extends Fragment {
                         return;
                     }
 
-                    jsonBoard = response.getJSONObject(ApiConstant.BOARD);
+                    if (response.has(ApiConstant.BOARD)) {
+                        jsonBoard = response.getJSONObject(ApiConstant.BOARD);
+                    } else {
+                        jsonBoard = new JSONObject();
+                    }
                     HousieApplication.getInstance().getSharedPreUtils().putString(ApiConstant.LIST_BOARD, jsonBoard.toString());
                     arrayListBoard.clear();
                     arrayListBoard.addAll(ProcessJson.getFavoriteBoards(jsonBoard));
@@ -189,6 +193,12 @@ public class HomeFragment extends Fragment {
     }
 
     @Override
+    public void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
     public void onStop() {
         EventBus.getDefault().unregister(this);
         super.onStop();
@@ -200,6 +210,7 @@ public class HomeFragment extends Fragment {
     }
 
     public void openDialogBoard(String id) {
+        Log.e(TAG, "openDialogBoard: 1");
         BottomSheetListBoard dialog = new BottomSheetListBoard();
         Bundle bundle = new Bundle();
         bundle.putString(ApiConstant._ID, id);

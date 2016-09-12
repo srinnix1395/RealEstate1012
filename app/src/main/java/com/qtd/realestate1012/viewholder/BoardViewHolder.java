@@ -95,7 +95,7 @@ public class BoardViewHolder extends RecyclerView.ViewHolder implements RippleVi
         tvName.setText(board.getName());
         tvCount.setText(String.format(Locale.getDefault(), "%d %s", board.getListHouse().size(), itemView.getContext().getString(R.string.houses)));
         Glide.with(itemView.getContext())
-                .load(ApiConstant.URL_WEB_SERVICE_GET_IMAGE + board.getImage())
+                .load(ApiConstant.URL_WEB_SERVICE_GET_IMAGE_HOUSE + board.getImage())
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .bitmapTransform(new BlurTransformation(itemView.getContext()))
                 .placeholder(R.color.colorFacebookGray)

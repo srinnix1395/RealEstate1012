@@ -43,7 +43,8 @@ public class ApiConstant {
     public static final String URL_WEB_SERVICE_GET_NEWS = "http://protectedcedar-31067.rhcloud.com/house/getNews";
     public static final String URL_WEB_SERVICE_POST_HOUSE = "http://protectedcedar-31067.rhcloud.com/house/post";
 
-    public static final String URL_WEB_SERVICE_GET_IMAGE = "http://protectedcedar-31067.rhcloud.com/image/";
+    public static final String URL_WEB_SERVICE_GET_IMAGE_HOUSE = "http://protectedcedar-31067.rhcloud.com/imageHouse/";
+    public static final String URL_WEB_SERVICE_GET_IMAGE_USER = "http://protectedcedar-31067.rhcloud.com/imageUser/";
 
 
     public static final String RESULT = "result";
@@ -84,6 +85,7 @@ public class ApiConstant {
     public static final String URL_WEB_SERVICE = "URL";
     public static final String USER_INFO = "user_info";
     public static final String NOTIFICATION = "receive_noti";
+    public static final String HOUSIE = "housie";
     public static String _ID_BOARD = "_id_board";
     public static String _ID_HOUSE = "_id_house";
     public static String _ID_OWNER = "_id_owner";

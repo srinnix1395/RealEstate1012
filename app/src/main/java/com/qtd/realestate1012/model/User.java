@@ -65,4 +65,13 @@ public class User {
     public void setImage(String image) {
         this.image = image;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        User user = (User) obj;
+        if (name.equals(user.getName()) && phoneNumber.equals(user.getPhoneNumber()) && noti == user.isNoti()) {
+            return true;
+        }
+        return false;
+    }
 }

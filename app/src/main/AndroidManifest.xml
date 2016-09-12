@@ -47,7 +47,9 @@
 
         <activity
             android:name=".activity.ProfileActivity"
-            android:theme="@style/DetailHouseActivityStyle"/>
+            android:theme="@style/ProfileActivityStyle"/>
+
+        <activity android:name=".activity.MyPostedHouseActivity"/>
 
         <activity android:name=".activity.BoardDetailActivity"/>
 

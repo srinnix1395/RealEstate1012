@@ -39,7 +39,7 @@ public class HouseViewHolder extends RecyclerView.ViewHolder {
 
     public void setupDataViewHolder(CompactHouse house) {
         Glide.with(itemView.getContext())
-                .load(ApiConstant.URL_WEB_SERVICE_GET_IMAGE + house.getFirstImage())
+                .load(ApiConstant.URL_WEB_SERVICE_GET_IMAGE_HOUSE + house.getFirstImage())
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .thumbnail(0.2f)
                 .placeholder(R.drawable.ic_apartment)

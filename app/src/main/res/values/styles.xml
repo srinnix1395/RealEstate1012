@@ -12,6 +12,15 @@
         <item name="android:windowTranslucentStatus" tools:targetApi="kitkat">true</item>
     </style>
 
+    <style name="ProfileActivityStyle" parent="AppTheme">
+        <item name="android:actionOverflowButtonStyle">@style/overFlowStyle</item>
+        <item name="android:windowTranslucentStatus" tools:targetApi="kitkat">true</item>
+    </style>
+
+    <style name="overFlowStyle" parent="Widget.AppCompat.Light.ActionButton.Overflow">
+        <item name="android:tint">@android:color/white</item>
+    </style>
+
     <!--style filter activity-->
     <style name="StyleFilterActivity" parent="AppTheme">
         <!-- Customize your theme here. -->

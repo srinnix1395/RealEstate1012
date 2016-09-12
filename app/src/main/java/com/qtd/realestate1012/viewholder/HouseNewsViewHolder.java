@@ -126,7 +126,7 @@ public class HouseNewsViewHolder implements RippleView.OnRippleCompleteListener 
 
     public void setupViewHolder(BunchHouse bunchHouse) {
         this.bunchHouse = bunchHouse;
-        String url = ApiConstant.URL_WEB_SERVICE_GET_IMAGE;
+        String url = ApiConstant.URL_WEB_SERVICE_GET_IMAGE_HOUSE;
 
         Glide.with(view.getContext())
                 .load(url + bunchHouse.getCompactHouse(0).getFirstImage())
@@ -187,7 +187,7 @@ public class HouseNewsViewHolder implements RippleView.OnRippleCompleteListener 
     }
 
     @OnClick({R.id.imvHeart1, R.id.imvHeart2, R.id.imvHeart3, R.id.imvHeart4, R.id.imvHeart5, R.id.tvSeeAll,
-            R.id.imvImage1,R.id.imvImage2,R.id.imvImage3,R.id.imvImage4,R.id.imvImage5})
+            R.id.imvImage1, R.id.imvImage2, R.id.imvImage3, R.id.imvImage4, R.id.imvImage5})
     void onClick(View v) {
         switch (v.getId()) {
             case R.id.tvSeeAll: {
@@ -250,9 +250,6 @@ public class HouseNewsViewHolder implements RippleView.OnRippleCompleteListener 
                 break;
             }
         }
-
-        String id = bunchHouse.getCompactHouse(i).getId();
-        EventBus.getDefault().post(new MessageClickImvHeartOnHouse(id));
     }
 
     private void startDetailHouseActivity(int i) {
@@ -284,6 +281,34 @@ public class HouseNewsViewHolder implements RippleView.OnRippleCompleteListener 
                 }
                 case R.id.rippleView5: {
                     startDetailHouseActivity(4);
+                    break;
+                }
+            }
+        } else {
+            switch (rippleView.getId()) {
+                case R.id.rippleView1: {
+                    String id = bunchHouse.getCompactHouse(0).getId();
+                    EventBus.getDefault().post(new MessageClickImvHeartOnHouse(id));
+                    break;
+                }
+                case R.id.rippleView2: {
+                    String id = bunchHouse.getCompactHouse(1).getId();
+                    EventBus.getDefault().post(new MessageClickImvHeartOnHouse(id));
+                    break;
+                }
+                case R.id.rippleView3: {
+                    String id = bunchHouse.getCompactHouse(2).getId();
+                    EventBus.getDefault().post(new MessageClickImvHeartOnHouse(id));
+                    break;
+                }
+                case R.id.rippleView4: {
+                    String id = bunchHouse.getCompactHouse(3).getId();
+                    EventBus.getDefault().post(new MessageClickImvHeartOnHouse(id));
+                    break;
+                }
+                case R.id.rippleView5: {
+                    String id = bunchHouse.getCompactHouse(4).getId();
+                    EventBus.getDefault().post(new MessageClickImvHeartOnHouse(id));
                     break;
                 }
             }

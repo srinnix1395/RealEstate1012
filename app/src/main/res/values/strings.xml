@@ -138,5 +138,6 @@
     <string name="emailHasBeenRegisteredHousieAccount">Bạn đã sử dụng email này để đăng ký tài khoản Housie</string>
     <string name="updateInfo">Cập nhật hồ sơ</string>
     <string name="confirmToFinish">Mọi thay đổi của bạn đều sẽ không được lưu, bạn có muốn kết thúc</string>
+    <string name="yourProfile">Hồ sơ của bạn</string>
 
 </resources>

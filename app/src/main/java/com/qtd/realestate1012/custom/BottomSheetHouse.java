@@ -69,7 +69,7 @@ public class BottomSheetHouse extends BottomSheetDialogFragment implements Rippl
 
         if (house != null) {
             Glide.with(getContext())
-                    .load(ApiConstant.URL_WEB_SERVICE_GET_IMAGE + house.getFirstImage())
+                    .load(ApiConstant.URL_WEB_SERVICE_GET_IMAGE_HOUSE + house.getFirstImage())
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .placeholder(R.drawable.ic_apartment)
                     .error(R.drawable.ic_apartment)

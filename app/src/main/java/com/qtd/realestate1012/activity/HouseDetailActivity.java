@@ -228,7 +228,7 @@ public class HouseDetailActivity extends AppCompatActivity implements ViewTreeOb
         fullHouse = ProcessJson.getDetailInfoHouse(response);
         if (fullHouse != null) {
             Glide.with(this)
-                    .load(ApiConstant.URL_WEB_SERVICE_GET_IMAGE + fullHouse.getFirstImage())
+                    .load(ApiConstant.URL_WEB_SERVICE_GET_IMAGE_HOUSE + fullHouse.getFirstImage())
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .crossFade(1000)
                     .into(imvImage);

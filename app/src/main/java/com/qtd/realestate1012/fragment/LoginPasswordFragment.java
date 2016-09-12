@@ -162,6 +162,8 @@ public class LoginPasswordFragment extends Fragment {
                             HousieApplication.getInstance().getSharedPreUtils().putBoolean(AppConstant.USER_LOGGED_IN, true);
                             HousieApplication.getInstance().getSharedPreUtils().putString(ApiConstant._ID, response.getString(ApiConstant._ID));
                             HousieApplication.getInstance().getSharedPreUtils().putString(ApiConstant.EMAIL, response.getString(ApiConstant.EMAIL));
+                            HousieApplication.getInstance().getSharedPreUtils().putString(ApiConstant.PROVIDER, response.getString
+                                    (ApiConstant.PROVIDER));
 
                             if (type.equals(ApiConstant.TYPE_LOGIN)) {
                                 AlertUtils.showToastSuccess(view.getContext(), R.drawable.ic_account_checked, R.string.loginSuccess);
