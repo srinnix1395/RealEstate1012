@@ -42,6 +42,7 @@ import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import de.hamm.pinnedsectionlistview.PinnedSectionListView;
 
 /**
@@ -58,7 +59,7 @@ public class HomeFragment extends Fragment {
     @BindView(R.id.progress_bar)
     ProgressBar progressBar;
 
-    @BindView(R.id.tvNoInternet)
+    @BindView(R.id.tvError)
     TextView tvError;
 
     private ArrayList<Object> arrayListHouseNews;
@@ -179,9 +180,10 @@ public class HomeFragment extends Fragment {
                 arrayListHouseNews.clear();
                 adapter.notifyDataSetChanged();
 
+                tvError.setVisibility(View.INVISIBLE);
+
                 progressBar.setEnabled(true);
                 progressBar.setVisibility(View.VISIBLE);
-                tvError.setVisibility(View.INVISIBLE);
 
                 requestData();
             }
@@ -245,5 +247,15 @@ public class HomeFragment extends Fragment {
         Intent intent = new Intent(getContext(), AllHouseActivity.class);
         intent.putExtra(ApiConstant.TYPE, message.type);
         getContext().startActivity(intent);
+    }
+
+    @OnClick(R.id.tvError)
+    void onClickError() {
+        tvError.setVisibility(View.INVISIBLE);
+
+        progressBar.setEnabled(true);
+        progressBar.setVisibility(View.VISIBLE);
+
+        requestData();
     }
 }

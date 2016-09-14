@@ -461,7 +461,7 @@ public class SearchFragment extends Fragment implements OnMapReadyCallback {
 
     @Override
     public void onDestroyView() {
-        if (requestGetHouse != null) {
+        if (requestGetHouse != null && !requestGetHouse.isCanceled()) {
             requestGetHouse.cancel();
         }
         super.onDestroyView();

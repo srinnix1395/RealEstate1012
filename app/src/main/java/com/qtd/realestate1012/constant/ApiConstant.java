@@ -24,17 +24,16 @@ public class ApiConstant {
     public static final String URL_WEB_SERVICE_IS_EMAIL_EXISTED = "http://protectedcedar-31067.rhcloud.com/user/isEmailExisted";
     public static final String URL_WEB_SERVICE_USER_INFO = "http://protectedcedar-31067.rhcloud.com/user/info";
     public static final String URL_WEB_SERVICE_UPDATE_INFO = "http://protectedcedar-31067.rhcloud.com/user/updateWithoutAvatar";
-    public static final String URL_WEB_SERVICE_UPDATE_INFO_HAS_AVATAR = "http://protectedcedar-31067.rhcloud" +
-            ".com/user/updateWithAvatar";
+    public static final String URL_WEB_SERVICE_UPDATE_INFO_HAS_AVATAR = "http://protectedcedar-31067.rhcloud.com/user/updateWithAvatar";
 
 
     public static final String URL_WEB_SERVICE_GET_BOARDS = "http://protectedcedar-31067.rhcloud.com/board/getBoards";
     public static final String URL_WEB_SERVICE_CREATE_BOARD = "http://protectedcedar-31067.rhcloud.com/board/createBoard";
     public static final String URL_WEB_SERVICE_DELETE_BOARD = "http://protectedcedar-31067.rhcloud.com/board/deleteBoard";
     public static final String URL_WEB_SERVICE_DETAIL_BOARD = "http://protectedcedar-31067.rhcloud.com/board/detailInfo";
-    public static final String URL_WEB_SERVICE_RENAME_BOARD = "http://protectedcedar-31067.rhcloud" +
-            ".com/board/rename?_id=%s&name=%s";
+    public static final String URL_WEB_SERVICE_RENAME_BOARD = "http://protectedcedar-31067.rhcloud.com/board/rename?_id=%s&name=%s";
 
+    public static final String URL_WEB_SERVICE_MY_POST = "http://protectedcedar-31067.rhcloud.com/house/myPost";
     public static final String URL_WEB_SERVICE_GET_ALL_HOUSE = "http://protectedcedar-31067.rhcloud.com/house/getAllHouses?lat=%s&lng=%s";
     public static final String URL_WEB_SERVICE_GET_ALL_HOUSE_OF_KIND = "http://protectedcedar-31067.rhcloud.com/house/getAllHousesOfKind";
     public static final String URL_WEB_SERVICE_GET_FAVORITE_HOUSES = "http://protectedcedar-31067.rhcloud.com/house/getFavoriteHouses";

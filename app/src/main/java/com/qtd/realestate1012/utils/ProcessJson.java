@@ -205,7 +205,12 @@ public class ProcessJson {
 
         String id = user.getString(ApiConstant._ID);
         String name = user.getString(ApiConstant.NAME);
-        String image = user.getString(ApiConstant.AVATAR);
+        String image;
+        if (user.getString(ApiConstant.AVATAR).contains("http")) {
+            image = user.getString(ApiConstant.AVATAR);
+        } else {
+            image = ApiConstant.URL_WEB_SERVICE_GET_IMAGE_USER + user.getString(ApiConstant.AVATAR);
+        }
         String email = user.getString(ApiConstant.EMAIL);
         String provider = user.getString(ApiConstant.PROVIDER);
         String phoneNumber = user.getString(ApiConstant.TELEPHONE);

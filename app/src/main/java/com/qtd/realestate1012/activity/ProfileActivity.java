@@ -97,6 +97,7 @@ public class ProfileActivity extends AppCompatActivity implements Toolbar.OnMenu
     private Image avatar;
     private boolean isEditAvatar;
     private boolean isEditMode;
+    private JsonObjectRequest requestUserInfo;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -105,12 +106,6 @@ public class ProfileActivity extends AppCompatActivity implements Toolbar.OnMenu
         ButterKnife.bind(this);
         initViews();
         requestData();
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_profile_normal, menu);
-        return true;
     }
 
     private void initViews() {
@@ -159,7 +154,7 @@ public class ProfileActivity extends AppCompatActivity implements Toolbar.OnMenu
             e.printStackTrace();
         }
 
-        JsonObjectRequest request = new JsonObjectRequest(JsonRequest.Method.POST, ApiConstant
+        requestUserInfo = new JsonObjectRequest(JsonRequest.Method.POST, ApiConstant
                 .URL_WEB_SERVICE_USER_INFO, jsonRequest, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
@@ -193,12 +188,18 @@ public class ProfileActivity extends AppCompatActivity implements Toolbar.OnMenu
                 progressBar.setVisibility(View.INVISIBLE);
             }
         });
-        HousieApplication.getInstance().addToRequestQueue(request);
+        HousieApplication.getInstance().addToRequestQueue(requestUserInfo);
     }
 
     private void handleResponseSuccess(JSONObject response) throws JSONException {
         userOld = ProcessJson.getUserInfo(response);
         setData();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_profile_normal, menu);
+        return true;
     }
 
     @Override
@@ -235,7 +236,7 @@ public class ProfileActivity extends AppCompatActivity implements Toolbar.OnMenu
         if (!isEditAvatar) {
             sendDataWithoutUpdateAvatar(userNew);
         } else {
-            sendDataHasAvatar(userNew);
+            sendDataWithAvatar(userNew);
         }
     }
 
@@ -251,7 +252,7 @@ public class ProfileActivity extends AppCompatActivity implements Toolbar.OnMenu
         switchNoti.setEnabled(false);
     }
 
-    private void sendDataHasAvatar(User userNew) {
+    private void sendDataWithAvatar(User userNew) {
         JSONObject jsonRequest = new JSONObject();
         try {
             jsonRequest.put(ApiConstant._ID, userNew.getId());
@@ -281,18 +282,20 @@ public class ProfileActivity extends AppCompatActivity implements Toolbar.OnMenu
                         try {
                             JSONObject response = new JSONObject(result.getResult());
                             if (response.getString(ApiConstant.RESULT).equals(ApiConstant.FAILED)) {
+                                setData();
+                                disableEditMode();
+                                progressDialog.dismiss();
                                 Toast.makeText(ProfileActivity.this, R.string.errorProcessing, Toast.LENGTH_SHORT).show();
                             } else {
                                 handleResponseSuccess(response);
+                                disableEditMode();
+                                progressDialog.dismiss();
+                                AlertUtils.showToastSuccess(ProfileActivity.this, R.drawable.ic_account_checked,
+                                        R.string.updateSuccessfully);
                             }
                         } catch (JSONException e1) {
                             e1.printStackTrace();
                         }
-                        disableEditMode();
-                        progressDialog.dismiss();
-
-                        AlertUtils.showToastSuccess(ProfileActivity.this, R.drawable.ic_account_checked,
-                                R.string.updateSuccessfully);
                     }
                 });
     }
@@ -301,7 +304,7 @@ public class ProfileActivity extends AppCompatActivity implements Toolbar.OnMenu
         JSONObject jsonRequest = new JSONObject();
         try {
             jsonRequest.put(ApiConstant._ID, userNew.getId());
-            jsonRequest.put(ApiConstant.EMAIL, userNew.getId());
+            jsonRequest.put(ApiConstant.EMAIL, userNew.getEmail());
             jsonRequest.put(ApiConstant.PROVIDER, userNew.getProvider());
             jsonRequest.put(ApiConstant.NAME, userNew.getName());
             jsonRequest.put(ApiConstant.TELEPHONE, userNew.getPhoneNumber());
@@ -349,23 +352,12 @@ public class ProfileActivity extends AppCompatActivity implements Toolbar.OnMenu
     }
 
     private void setData() {
-        //nếu là ảnh của facebook hoặc google
-        if (userOld.getImage().contains("http")) {
-            Glide.with(this)
-                    .load(userOld.getImage())
-                    .diskCacheStrategy(DiskCacheStrategy.ALL)
-                    .crossFade(1000)
-                    .error(R.drawable.ic_account_profile)
-                    .into(imvImage);
-        } else {
-            //là ảnh của được lưu trên web service
-            Glide.with(this)
-                    .load(ApiConstant.URL_WEB_SERVICE_GET_IMAGE_USER + userOld.getImage())
-                    .diskCacheStrategy(DiskCacheStrategy.ALL)
-                    .crossFade(1000)
-                    .error(R.drawable.ic_account_profile)
-                    .into(imvImage);
-        }
+        Glide.with(this)
+                .load(userOld.getImage())
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .crossFade(1000)
+                .error(R.drawable.ic_account_profile)
+                .into(imvImage);
 
         tvName.setText(userOld.getName());
         etName.setText(userOld.getName());
@@ -435,5 +427,13 @@ public class ProfileActivity extends AppCompatActivity implements Toolbar.OnMenu
         } else {
             finish();
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        if (requestUserInfo != null && !requestUserInfo.isCanceled()) {
+            requestUserInfo.cancel();
+        }
+        super.onDestroy();
     }
 }

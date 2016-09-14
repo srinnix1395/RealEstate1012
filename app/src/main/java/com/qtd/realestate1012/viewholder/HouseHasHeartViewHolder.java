@@ -18,6 +18,8 @@ import com.qtd.realestate1012.utils.UiUtils;
 
 import org.greenrobot.eventbus.EventBus;
 
+import java.util.Locale;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -66,7 +68,7 @@ public class HouseHasHeartViewHolder extends RecyclerView.ViewHolder implements 
 
         tvAddress.setText(house.getSmallAddress());
         tvAddress1.setText(house.getLargeAddress());
-        tvPrice.setTextColor(house.getPrice() + R.string.currency);
+        tvPrice.setText(String.format(Locale.getDefault(), "%,d %s", house.getPrice(), itemView.getContext().getString(R.string.currency)));
     }
 
     @OnClick(R.id.imvHeart)
@@ -76,7 +78,7 @@ public class HouseHasHeartViewHolder extends RecyclerView.ViewHolder implements 
     }
 
     @OnClick(R.id.imvImage)
-    void onClickHouse(){
+    void onClickHouse() {
         flagClickHeart = false;
     }
 
