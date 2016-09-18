@@ -1,6 +1,7 @@
 package com.qtd.realestate1012.fragment;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -137,7 +138,7 @@ public class HomesFavoriteFragment extends Fragment {
 
         if (HousieApplication.getInstance().getSharedPreUtils().getBoolean(AppConstant.USER_LOGGED_IN, false)) {
 //            String idUserLoggedIn = HousieApplication.getInstance().getSharedPreUtils().getString(ApiConstant._ID, "-1");
-            String idUserLoggedIn = "57ac3429f71b399577118c72";
+            String idUserLoggedIn = "57d6b208f07077132325fed7";
             String url = ApiConstant.URL_WEB_SERVICE_GET_FAVORITE_HOUSES;
 
             JSONObject jsonRequest = new JSONObject();
@@ -198,5 +199,19 @@ public class HomesFavoriteFragment extends Fragment {
         if (callback != null) {
             callback.showSearchFragment();
         }
+    }
+
+    public void clearUserData() {
+        int size = arrayListHouses.size();
+        arrayListHouses.clear();
+        adapter.notifyItemRangeRemoved(0, size);
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                recyclerView.setVisibility(View.INVISIBLE);
+                layoutNoHouses.setVisibility(View.VISIBLE);
+            }
+        }, 1000);
     }
 }

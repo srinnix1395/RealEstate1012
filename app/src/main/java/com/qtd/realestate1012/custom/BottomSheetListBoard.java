@@ -1,5 +1,6 @@
 package com.qtd.realestate1012.custom;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -101,6 +102,23 @@ public class BottomSheetListBoard extends BottomSheetDialogFragment {
     }
 
     @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == AppConstant.REQUEST_CODE_CREATE_BOARD && resultCode == Activity.RESULT_OK && data != null) {
+            int size = arrayListBoards.size();
+            arrayListBoards.clear();
+            adapter.notifyItemRangeRemoved(0, size);
+
+            try {
+                JSONObject jsonObject = new JSONObject(data.getStringExtra(ApiConstant.BOARD));
+                arrayListBoards.addAll(ProcessJson.getFavoriteBoards(jsonObject.getJSONObject(ApiConstant.BOARD)));
+                adapter.notifyItemRangeInserted(0, arrayListBoards.size());
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    @Override
     public void onStart() {
         super.onStart();
         EventBus.getDefault().register(this);
@@ -134,11 +152,11 @@ public class BottomSheetListBoard extends BottomSheetDialogFragment {
             public void onResponse(JSONObject response) {
                 try {
                     switch (response.getString(ApiConstant.RESULT)) {
-                        case ApiConstant.FAILED:{
+                        case ApiConstant.FAILED: {
                             Toast.makeText(getContext(), R.string.errorProcessing, Toast.LENGTH_SHORT).show();
                             break;
                         }
-                        case ApiConstant.SUCCESS:{
+                        case ApiConstant.SUCCESS: {
                             handleResponseSuccess(response);
                             break;
                         }

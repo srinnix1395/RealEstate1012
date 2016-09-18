@@ -1,5 +1,7 @@
 package com.qtd.realestate1012.fragment;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -19,8 +21,10 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.qtd.realestate1012.HousieApplication;
 import com.qtd.realestate1012.R;
+import com.qtd.realestate1012.activity.LoginActivity;
 import com.qtd.realestate1012.adapter.HouseCardViewAdapter;
 import com.qtd.realestate1012.constant.ApiConstant;
+import com.qtd.realestate1012.constant.AppConstant;
 import com.qtd.realestate1012.custom.BottomSheetListBoard;
 import com.qtd.realestate1012.messageevent.MessageClickImvHeartOnCardHouseViewHolder;
 import com.qtd.realestate1012.model.CompactHouse;
@@ -180,7 +184,19 @@ public class ListHouseFragment extends Fragment {
 
     @Subscribe
     public void handleEventLikeHouseCardHouseViewHolder(MessageClickImvHeartOnCardHouseViewHolder message) {
-        openDialogBoard(message.id);
+        if (HousieApplication.getInstance().getSharedPreUtils().getBoolean(AppConstant.USER_LOGGED_IN, false)) {
+            openDialogBoard(message.id);
+        } else {
+            Intent intent = new Intent(getActivity(), LoginActivity.class);
+            startActivityForResult(intent, AppConstant.REQUEST_CODE_SIGN_IN);
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == AppConstant.REQUEST_CODE_SIGN_IN && resultCode == Activity.RESULT_OK && data != null) {
+            // TODO: 9/18/2016 reset favorite house
+        }
     }
 
     public void openDialogBoard(String id) {
@@ -190,5 +206,14 @@ public class ListHouseFragment extends Fragment {
         bundle.putString(ApiConstant.BOARD, jsonBoard);
         dialog.setArguments(bundle);
         dialog.show(getFragmentManager(), "dialog");
+    }
+
+    public void clearUserData() {
+        for (CompactHouse house : arrayList) {
+            house.setLiked(false);
+        }
+        adapter.notifyDataSetChanged();
+
+        jsonBoard = "{}";
     }
 }

@@ -1,6 +1,7 @@
 package com.qtd.realestate1012.fragment;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -122,5 +123,19 @@ public class SearchesFavoriteFragment extends Fragment implements SwipeRefreshLa
         if (callback != null) {
             callback.showSearchFragment();
         }
+    }
+
+    public void clearUserData() {
+        int size = arrayList.size();
+        arrayList.clear();
+        adapter.notifyItemRangeRemoved(0, size);
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                recyclerView.setVisibility(View.INVISIBLE);
+                layoutNoSearches.setVisibility(View.VISIBLE);
+            }
+        }, 1000);
     }
 }

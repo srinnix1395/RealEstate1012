@@ -41,4 +41,10 @@ public class BunchHouse {
             }
         }
     }
+
+    public void clearHeart() {
+        for (CompactHouse house : arrayList) {
+            house.setLiked(false);
+        }
+    }
 }

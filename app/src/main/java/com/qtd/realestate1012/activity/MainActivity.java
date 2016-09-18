@@ -1,5 +1,6 @@
 package com.qtd.realestate1012.activity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -9,19 +10,25 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.PopupMenu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
-import com.facebook.login.LoginManager;
 import com.qtd.realestate1012.HousieApplication;
 import com.qtd.realestate1012.R;
 import com.qtd.realestate1012.callback.FavoriteFragmentCallback;
 import com.qtd.realestate1012.constant.ApiConstant;
 import com.qtd.realestate1012.constant.AppConstant;
+import com.qtd.realestate1012.custom.DialogSignOut;
 import com.qtd.realestate1012.fragment.FavoriteFragment;
 import com.qtd.realestate1012.fragment.HomeFragment;
 import com.qtd.realestate1012.fragment.NotificationFragment;
 import com.qtd.realestate1012.fragment.SearchFragment;
+import com.qtd.realestate1012.messageevent.MessageSignOutResult;
+import com.qtd.realestate1012.utils.AlertUtils;
 import com.qtd.realestate1012.utils.ServiceUtils;
 import com.qtd.realestate1012.utils.UiUtils;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -33,6 +40,7 @@ public class MainActivity extends AppCompatActivity implements FavoriteFragmentC
     private HomeFragment homeFragment;
     private FavoriteFragment favoriteFragment;
     private NotificationFragment notificationFragment;
+    private SearchFragment searchFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,15 +50,7 @@ public class MainActivity extends AppCompatActivity implements FavoriteFragmentC
         initView();
     }
 
-//    @BindView(R.id.toolbar)
-//    Toolbar toolbar;
-
     private void initView() {
-//        setSupportActionBar(toolbar);
-//        getSupportActionBar().setDisplayShowTitleEnabled(false);
-//        toolbar.setVisibility(View.INVISIBLE);
-//        toolbar.inflateMenu(R.menu.menu_signed_in);
-
         tabLayout.addTab(tabLayout.newTab().setIcon(AppConstant.ICON_TAB_SELECTED[0]));
         tabLayout.addTab(tabLayout.newTab().setIcon(AppConstant.ICON_TAB_NORMAL[1]));
         tabLayout.addTab(tabLayout.newTab().setIcon(AppConstant.ICON_TAB_NORMAL[2]));
@@ -87,10 +87,12 @@ public class MainActivity extends AppCompatActivity implements FavoriteFragmentC
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.add(R.id.layoutMain, homeFragment);
         transaction.commit();
+    }
 
-        if (ServiceUtils.isNetworkAvailable(this) && !HousieApplication.getInstance().getSharedPreUtils().getBoolean(AppConstant.USER_LOGGED_IN, false)) {
-            Intent intent = new Intent(this, LoginActivity.class);
-            startActivityForResult(intent, AppConstant.REQUEST_CODE_SIGN_IN);
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == AppConstant.REQUEST_CODE_SIGN_IN && resultCode == RESULT_OK && data != null) {
+
         }
     }
 
@@ -105,7 +107,7 @@ public class MainActivity extends AppCompatActivity implements FavoriteFragmentC
                     switch (item.getItemId()) {
                         case R.id.miLogin: {
                             Intent intent = new Intent(MainActivity.this, LoginActivity.class);
-                            startActivity(intent);
+                            startActivityForResult(intent, AppConstant.REQUEST_CODE_SIGN_IN);
                             break;
                         }
                         case R.id.miSetting: {
@@ -133,7 +135,7 @@ public class MainActivity extends AppCompatActivity implements FavoriteFragmentC
                             break;
                         }
                         case R.id.miLogOut: {
-                            logoutAccount();
+                            onClickLogout();
                             break;
                         }
                         case R.id.miSetting: {
@@ -149,30 +151,72 @@ public class MainActivity extends AppCompatActivity implements FavoriteFragmentC
         popupMenu.show();
     }
 
-    private void logoutAccount() {
-        //// TODO: 9/13/2016 logout
-        switch (HousieApplication.getInstance().getSharedPreUtils().getString(ApiConstant.PROVIDER, "")) {
-            case ApiConstant.FACEBOOK:{
-                LoginManager.getInstance().logOut();
-                break;
-            }
-            case ApiConstant.GOOGLE:{
-
-                break;
-            }
-            case ApiConstant.HOUSIE:{
-
-                break;
-            }
-            default:{
-                break;
-            }
+    private void onClickLogout() {
+        if (!ServiceUtils.isNetworkAvailable(this)) {
+            Toast.makeText(MainActivity.this, R.string.noInternetConnection, Toast.LENGTH_SHORT).show();
+            return;
         }
 
+        DialogSignOut mDialog = new DialogSignOut(this, HousieApplication.getInstance().getSharedPreUtils().getString(ApiConstant.PROVIDER, ""));
+        mDialog.setCancelable(false);
+        mDialog.setTitle(R.string.logout);
+        mDialog.setMessage(getString(R.string.are_you_sure_to_log_out));
+        mDialog.setButton(DialogInterface.BUTTON_NEGATIVE, getString(R.string.cancel), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+            }
+        });
+        mDialog.setButton(DialogInterface.BUTTON_POSITIVE, getString(R.string.OK), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                ((DialogSignOut) dialogInterface).logout();
+            }
+        });
+        mDialog.show();
+    }
+
+    @Subscribe
+    public void handleMessageSignOug(MessageSignOutResult message){
+        processLogout(message.result);
+    }
+
+    private void processLogout(String s) {
+        if (s.equals(ApiConstant.SUCCESS)) {
+            clearData();
+        } else {
+            Toast.makeText(MainActivity.this, R.string.errorProcessing, Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void clearData() {
         HousieApplication.getInstance().getSharedPreUtils().remove(ApiConstant.PROVIDER);
         HousieApplication.getInstance().getSharedPreUtils().remove(AppConstant.USER_LOGGED_IN);
         HousieApplication.getInstance().getSharedPreUtils().remove(ApiConstant._ID);
         HousieApplication.getInstance().getSharedPreUtils().remove(ApiConstant.EMAIL);
+
+//        home fragment
+        if (homeFragment.isVisible()) {
+            homeFragment.clearUserData();
+        }
+
+//        search fragment
+        if (searchFragment.isVisible()) {
+            searchFragment.clearUserData();
+        }
+
+//        favorite fragment
+        if (favoriteFragment != null) {
+            favoriteFragment.clearUserData();
+        }
+
+//        notification fragment
+        //// TODO: 9/18/2016 notification fragment
+        if (notificationFragment != null) {
+            notificationFragment.clearUserData();
+        }
+
+        AlertUtils.showToastSuccess(this, R.drawable.ic_account_checked, R.string.logoutSuccessfully);
     }
 
     private void showFragment(TabLayout.Tab tab) {
@@ -195,7 +239,7 @@ public class MainActivity extends AppCompatActivity implements FavoriteFragmentC
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                     tabLayout.setElevation(0);
                 }
-                SearchFragment searchFragment = new SearchFragment();
+                searchFragment = new SearchFragment();
                 transaction.add(R.id.layoutMain, searchFragment);
                 transaction.show(searchFragment);
                 break;
@@ -237,5 +281,17 @@ public class MainActivity extends AppCompatActivity implements FavoriteFragmentC
     @Override
     public void showSearchFragment() {
         tabLayout.getTabAt(AppConstant.SEARCH_FRAGMENT_TAB).select();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    protected void onStop() {
+        EventBus.getDefault().unregister(this);
+        super.onStop();
     }
 }

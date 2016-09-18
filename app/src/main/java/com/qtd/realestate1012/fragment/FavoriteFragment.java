@@ -30,6 +30,8 @@ public class FavoriteFragment extends Fragment {
     @BindView(R.id.viewpager)
     ViewPager viewPager;
 
+    private FavoritePagerAdapter adapter;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -49,7 +51,7 @@ public class FavoriteFragment extends Fragment {
         fragments.add(new HomesFavoriteFragment());
         fragments.add(new SearchesFavoriteFragment());
 
-        FavoritePagerAdapter adapter = new FavoritePagerAdapter(view.getContext(), getChildFragmentManager(), fragments);
+        adapter = new FavoritePagerAdapter(view.getContext(), getChildFragmentManager(), fragments);
         viewPager.setAdapter(adapter);
         viewPager.setOffscreenPageLimit(3);
 
@@ -70,5 +72,11 @@ public class FavoriteFragment extends Fragment {
 
             }
         });
+    }
+
+    public void clearUserData() {
+        ((BoardFragment) adapter.getItem(0)).clearUserData();
+        ((HomesFavoriteFragment) adapter.getItem(1)).clearUserData();
+        ((SearchesFavoriteFragment) adapter.getItem(2)).clearUserData();
     }
 }

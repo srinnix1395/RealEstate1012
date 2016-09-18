@@ -3,6 +3,7 @@ package com.qtd.realestate1012.fragment;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
@@ -227,7 +228,33 @@ public class BoardFragment extends Fragment {
         if (requestCode == AppConstant.REQUEST_CODE_CREATE_BOARD && resultCode == Activity.RESULT_OK && data != null) {
             refreshLayout.setEnabled(true);
             refreshLayout.setRefreshing(true);
-            requestData();
+
+            int size = arrayListBoards.size();
+            arrayListBoards.clear();
+            adapter.notifyItemRangeRemoved(0, size);
+
+            try {
+                JSONObject jsonObject = new JSONObject(data.getStringExtra(ApiConstant.BOARD));
+                arrayListBoards.addAll(ProcessJson.getFavoriteBoards(jsonObject.getJSONObject(ApiConstant.BOARD)));
+                adapter.notifyItemRangeInserted(0, arrayListBoards.size());
+                refreshLayout.setRefreshing(false);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
         }
+    }
+
+    public void clearUserData() {
+        int size = arrayListBoards.size();
+        arrayListBoards.clear();
+        adapter.notifyItemRangeRemoved(0, size);
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                recyclerView.setVisibility(View.INVISIBLE);
+                layoutNoBoard.setVisibility(View.VISIBLE);
+            }
+        }, 1000);
     }
 }

@@ -102,6 +102,7 @@ public class SearchFragment extends Fragment implements OnMapReadyCallback {
     private String lat;
     private String lng;
     private JsonObjectRequest requestGetHouse;
+    private boolean isListResultShow;
 
     @Nullable
     @Override
@@ -280,6 +281,8 @@ public class SearchFragment extends Fragment implements OnMapReadyCallback {
     private void onClickTvResult() {
         switch (tvListResult.getText().toString()) {
             case LIST_RESULT: {
+                isListResultShow = true;
+
                 listHouseFragment = new ListHouseFragment();
                 Bundle bundle = new Bundle();
                 bundle.putString(ApiConstant.URL_WEB_SERVICE, ApiConstant.URL_WEB_SERVICE_GET_ALL_HOUSE);
@@ -294,17 +297,19 @@ public class SearchFragment extends Fragment implements OnMapReadyCallback {
                 fabLocation.setVisibility(View.GONE);
                 fabEnableMarker.setVisibility(View.GONE);
 
-                AppBarLayout.LayoutParams params = (AppBarLayout.LayoutParams) layoutSearch.getLayoutParams();
-                params.setScrollFlags(AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL | AppBarLayout.LayoutParams.SCROLL_FLAG_ENTER_ALWAYS);
-                layoutSearch.requestLayout();
+                AppBarLayout.LayoutParams layoutParams = new AppBarLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                layoutParams.setScrollFlags(AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL | AppBarLayout.LayoutParams.SCROLL_FLAG_ENTER_ALWAYS);
+                layoutSearch.setLayoutParams(layoutParams);
 
                 tvListResult.setText(MAP_RESULT);
                 break;
             }
             case MAP_RESULT: {
-                AppBarLayout.LayoutParams params = (AppBarLayout.LayoutParams) layoutSearch.getLayoutParams();
-                params.setScrollFlags(0);
-                layoutSearch.requestLayout();
+                isListResultShow = false;
+
+                AppBarLayout.LayoutParams layoutParams = new AppBarLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                layoutParams.setScrollFlags(0);
+                layoutSearch.setLayoutParams(layoutParams);
 
                 fabLocation.setVisibility(View.VISIBLE);
                 fabEnableMarker.setVisibility(View.VISIBLE);
@@ -465,6 +470,12 @@ public class SearchFragment extends Fragment implements OnMapReadyCallback {
             requestGetHouse.cancel();
         }
         super.onDestroyView();
+    }
+
+    public void clearUserData() {
+        if (isListResultShow) {
+            listHouseFragment.clearUserData();
+        }
     }
 }
 

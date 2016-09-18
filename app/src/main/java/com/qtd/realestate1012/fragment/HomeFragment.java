@@ -20,6 +20,7 @@ import com.android.volley.toolbox.JsonRequest;
 import com.qtd.realestate1012.HousieApplication;
 import com.qtd.realestate1012.R;
 import com.qtd.realestate1012.activity.AllHouseActivity;
+import com.qtd.realestate1012.activity.LoginActivity;
 import com.qtd.realestate1012.adapter.HouseNewsAdapter;
 import com.qtd.realestate1012.constant.ApiConstant;
 import com.qtd.realestate1012.constant.AppConstant;
@@ -188,7 +189,7 @@ public class HomeFragment extends Fragment {
                 requestData();
             }
         } else {
-            if (requestGetNew != null) {
+            if (requestGetNew != null && !requestGetNew.isCanceled()) {
                 requestGetNew.cancel();
             }
         }
@@ -208,11 +209,15 @@ public class HomeFragment extends Fragment {
 
     @Subscribe
     public void handleEventClickImvHeartOnHouseNew(MessageClickImvHeartOnHouse event) {
-        openDialogBoard(event.id);
+        if (HousieApplication.getInstance().getSharedPreUtils().getBoolean(AppConstant.USER_LOGGED_IN, false)) {
+            openDialogBoard(event.id);
+        } else {
+            Intent intent = new Intent(getActivity(), LoginActivity.class);
+            startActivity(intent);
+        }
     }
 
     public void openDialogBoard(String id) {
-        Log.e(TAG, "openDialogBoard: 1");
         BottomSheetListBoard dialog = new BottomSheetListBoard();
         Bundle bundle = new Bundle();
         bundle.putString(ApiConstant._ID, id);
@@ -257,5 +262,15 @@ public class HomeFragment extends Fragment {
         progressBar.setVisibility(View.VISIBLE);
 
         requestData();
+    }
+
+    public void clearUserData() {
+        for (Object obj : arrayListHouseNews) {
+            if (obj instanceof BunchHouse) {
+                ((BunchHouse) obj).clearHeart();
+            }
+        }
+        adapter.notifyDataSetChanged();
+        jsonBoard = new JSONObject();
     }
 }

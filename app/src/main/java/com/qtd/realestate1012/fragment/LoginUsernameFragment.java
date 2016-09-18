@@ -10,6 +10,7 @@ import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -283,8 +284,33 @@ public class LoginUsernameFragment extends Fragment implements GoogleApiClient.O
     }
 
     @Override
-    public void onConnectionFailed(ConnectionResult connectionResult) {
+    public void onStart() {
+        super.onStart();
+        //add this to connect Google Client
+        mGoogleApiClient.connect();
+    }
 
+    @Override
+    public void onStop() {
+        super.onStop();
+        //Stop the Google Client when activity is stopped
+        if (mGoogleApiClient.isConnected()) {
+            mGoogleApiClient.disconnect();
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (mGoogleApiClient.isConnected()) {
+            mGoogleApiClient.connect();
+        }
+    }
+
+    @Override
+    public void onConnectionFailed(ConnectionResult connectionResult) {
+        Log.e("login user fragment", "onConnectionFailed: " + connectionResult.getErrorMessage());
+        Toast.makeText(getContext(), R.string.errorLogin, Toast.LENGTH_SHORT).show();
     }
 
     @Override

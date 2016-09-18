@@ -139,5 +139,7 @@
     <string name="updateInfo">Cập nhật hồ sơ</string>
     <string name="confirmToFinish">Mọi thay đổi của bạn đều sẽ không được lưu, bạn có muốn kết thúc</string>
     <string name="yourProfile">Hồ sơ của bạn</string>
+    <string name="are_you_sure_to_log_out">Bạn có chắc chắn muốn thoát?</string>
+    <string name="logoutSuccessfully">Đăng xuất thành công</string>
 
 </resources>

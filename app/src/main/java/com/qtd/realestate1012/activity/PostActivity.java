@@ -92,9 +92,6 @@ public class PostActivity extends AppCompatActivity implements AdapterView.OnIte
     @BindView(R.id.toolbar)
     Toolbar toolbar;
 
-    @BindView(R.id.tvDescription)
-    TextView tvDescription;
-
     private ArrayList<Image> images;
     ProgressDialog progressDialog;
 
@@ -208,7 +205,7 @@ public class PostActivity extends AppCompatActivity implements AdapterView.OnIte
             jsonRequest.put(ApiConstant.AREA, tvArea.getText().toString());
 //            jsonRequest.put(ApiConstant.DETAIL_ADDRESS, )
             jsonRequest.put(ApiConstant.NUMBER_OF_ROOMS, tvNumberOfRoom.getText().toString());
-            jsonRequest.put(ApiConstant.DESCRIPTION, tvDescription.getText().toString());
+            jsonRequest.put(ApiConstant.DESCRIPTION, etDescription.getText().toString());
             jsonRequest.put(ApiConstant.LATITUDE, latLng.latitude);
             jsonRequest.put(ApiConstant.LONGITUDE, latLng.longitude);
             jsonRequest.put(ApiConstant._ID_OWNER, HousieApplication.getInstance().getSharedPreUtils().getString

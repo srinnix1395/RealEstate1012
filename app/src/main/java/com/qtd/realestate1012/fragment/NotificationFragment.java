@@ -22,4 +22,8 @@ public class NotificationFragment extends Fragment {
         view = inflater.inflate(R.layout.fragment_notification, container, false);
         return view;
     }
+
+    public void clearUserData() {
+
+    }
 }
