@@ -19,7 +19,6 @@ import com.android.volley.toolbox.JsonRequest;
 import com.qtd.realestate1012.HousieApplication;
 import com.qtd.realestate1012.R;
 import com.qtd.realestate1012.activity.CreateBoardActivity;
-import com.qtd.realestate1012.activity.LoginActivity;
 import com.qtd.realestate1012.adapter.BoardAdapter;
 import com.qtd.realestate1012.constant.ApiConstant;
 import com.qtd.realestate1012.constant.AppConstant;
@@ -77,19 +76,13 @@ public class BottomSheetListBoard extends BottomSheetDialogFragment {
         Bundle bundle = getArguments();
         idHouse = bundle.getString(ApiConstant._ID);
 
-        arrayListBoards = ProcessJson.getFavoriteBoardsHasHeart(bundle.getString(ApiConstant.BOARD), idHouse);
+        String jsonBoard = HousieApplication.getInstance().getSharedPreUtils().getString(ApiConstant.LIST_BOARD, "{}");
+        arrayListBoards = ProcessJson.getFavoriteBoardsHasHeart(jsonBoard, idHouse);
         adapter = new BoardAdapter(arrayListBoards, true);
-
     }
 
     @OnClick(R.id.fabAddBoard)
     void onClick() {
-        if (!HousieApplication.getInstance().getSharedPreUtils().getBoolean(AppConstant.USER_LOGGED_IN, false)) {
-            Intent intentLogin = new Intent(getActivity(), LoginActivity.class);
-            startActivityForResult(intentLogin, AppConstant.REQUEST_CODE_SIGN_IN);
-            return;
-        }
-
         Intent intent = new Intent(getActivity(), CreateBoardActivity.class);
 
         String listBoard = "";
@@ -104,14 +97,10 @@ public class BottomSheetListBoard extends BottomSheetDialogFragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == AppConstant.REQUEST_CODE_CREATE_BOARD && resultCode == Activity.RESULT_OK && data != null) {
-            int size = arrayListBoards.size();
-            arrayListBoards.clear();
-            adapter.notifyItemRangeRemoved(0, size);
-
             try {
                 JSONObject jsonObject = new JSONObject(data.getStringExtra(ApiConstant.BOARD));
-                arrayListBoards.addAll(ProcessJson.getFavoriteBoards(jsonObject.getJSONObject(ApiConstant.BOARD)));
-                adapter.notifyItemRangeInserted(0, arrayListBoards.size());
+                arrayListBoards.add(ProcessJson.getBoard(jsonObject.getJSONObject(ApiConstant.BOARD)));
+                adapter.notifyItemInserted(arrayListBoards.size() - 1);
             } catch (JSONException e) {
                 e.printStackTrace();
             }

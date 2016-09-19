@@ -174,15 +174,13 @@ public class CreateBoardActivity extends AppCompatActivity {
     }
 
     private void handleResponseSuccess(final JSONObject response) {
-        AlertUtils.showToastSuccess(CreateBoardActivity.this, R.drawable.ic_check_ok, R.string.createBoard);
+        AlertUtils.showToastSuccess(CreateBoardActivity.this, R.drawable.ic_check_ok, R.string.createBoardSuccesfully);
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                if (response.has(ApiConstant.BOARD)) {
-                    Intent intent = new Intent();
-                    intent.putExtra(ApiConstant.BOARD, response.toString());
-                    setResult(RESULT_OK, intent);
-                }
+                Intent intent = new Intent();
+                intent.putExtra(ApiConstant.BOARD, response.toString());
+                setResult(RESULT_OK, intent);
                 CreateBoardActivity.this.finish();
             }
         }, 2500);

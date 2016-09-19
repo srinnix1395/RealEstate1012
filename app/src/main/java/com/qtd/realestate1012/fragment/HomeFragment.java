@@ -1,5 +1,6 @@
 package com.qtd.realestate1012.fragment;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
@@ -208,12 +209,21 @@ public class HomeFragment extends Fragment {
     }
 
     @Subscribe
-    public void handleEventClickImvHeartOnHouseNew(MessageClickImvHeartOnHouse event) {
+    public void handleEventClickImvHeartOnHouseNew(MessageClickImvHeartOnHouse message) {
         if (HousieApplication.getInstance().getSharedPreUtils().getBoolean(AppConstant.USER_LOGGED_IN, false)) {
-            openDialogBoard(event.id);
+            openDialogBoard(message.id);
         } else {
             Intent intent = new Intent(getActivity(), LoginActivity.class);
-            startActivity(intent);
+            intent.putExtra(ApiConstant._ID_HOUSE, message.id);
+            startActivityForResult(intent, AppConstant.REQUEST_CODE_SIGN_IN);
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == AppConstant.REQUEST_CODE_SIGN_IN && resultCode == Activity.RESULT_OK && data!=null) {
+            String idHouse = data.getStringExtra(ApiConstant._ID_HOUSE);
+            openDialogBoard(idHouse);
         }
     }
 
@@ -221,7 +231,6 @@ public class HomeFragment extends Fragment {
         BottomSheetListBoard dialog = new BottomSheetListBoard();
         Bundle bundle = new Bundle();
         bundle.putString(ApiConstant._ID, id);
-        bundle.putString(ApiConstant.BOARD, jsonBoard.toString());
         dialog.setArguments(bundle);
         dialog.show(getFragmentManager(), "dialog");
     }

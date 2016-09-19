@@ -3,6 +3,7 @@ package com.qtd.realestate1012.utils;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.qtd.realestate1012.constant.ApiConstant;
 import com.qtd.realestate1012.constant.AppConstant;
 
 /**
@@ -48,6 +49,30 @@ public class SharedPreUtils {
     public void remove(String key) {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.remove(key);
+        editor.apply();
+    }
+
+    public void putUserData(boolean userLoggedIn, String id, String email, String provider, String jsonBoard) {
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+
+        editor.putBoolean(AppConstant.USER_LOGGED_IN, userLoggedIn);
+        editor.putString(ApiConstant._ID, id);
+        editor.putString(ApiConstant.EMAIL, email);
+        editor.putString(ApiConstant.PROVIDER, provider);
+        editor.putString(ApiConstant.LIST_BOARD, jsonBoard);
+
+        editor.apply();
+    }
+
+    public void removeUserData() {
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+
+        editor.remove(AppConstant.USER_LOGGED_IN);
+        editor.remove(ApiConstant._ID);
+        editor.remove(ApiConstant.EMAIL);
+        editor.remove(ApiConstant.PROVIDER);
+        editor.remove(ApiConstant.LIST_BOARD);
+
         editor.apply();
     }
 }

@@ -190,10 +190,7 @@ public class MainActivity extends AppCompatActivity implements FavoriteFragmentC
     }
 
     private void clearData() {
-        HousieApplication.getInstance().getSharedPreUtils().remove(ApiConstant.PROVIDER);
-        HousieApplication.getInstance().getSharedPreUtils().remove(AppConstant.USER_LOGGED_IN);
-        HousieApplication.getInstance().getSharedPreUtils().remove(ApiConstant._ID);
-        HousieApplication.getInstance().getSharedPreUtils().remove(ApiConstant.EMAIL);
+        HousieApplication.getInstance().getSharedPreUtils().removeUserData();
 
 //        home fragment
         if (homeFragment.isVisible()) {

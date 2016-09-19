@@ -188,6 +188,7 @@ public class ListHouseFragment extends Fragment {
             openDialogBoard(message.id);
         } else {
             Intent intent = new Intent(getActivity(), LoginActivity.class);
+            intent.putExtra(ApiConstant._ID_HOUSE, message.id);
             startActivityForResult(intent, AppConstant.REQUEST_CODE_SIGN_IN);
         }
     }
@@ -195,7 +196,8 @@ public class ListHouseFragment extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == AppConstant.REQUEST_CODE_SIGN_IN && resultCode == Activity.RESULT_OK && data != null) {
-            // TODO: 9/18/2016 reset favorite house
+            String idHouse = data.getStringExtra(ApiConstant._ID_HOUSE);
+            openDialogBoard(idHouse);
         }
     }
 
@@ -203,7 +205,6 @@ public class ListHouseFragment extends Fragment {
         BottomSheetListBoard dialog = new BottomSheetListBoard();
         Bundle bundle = new Bundle();
         bundle.putString(ApiConstant._ID, id);
-        bundle.putString(ApiConstant.BOARD, jsonBoard);
         dialog.setArguments(bundle);
         dialog.show(getFragmentManager(), "dialog");
     }

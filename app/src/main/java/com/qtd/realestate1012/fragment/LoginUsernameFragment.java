@@ -1,5 +1,6 @@
 package com.qtd.realestate1012.fragment;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -389,16 +390,22 @@ public class LoginUsernameFragment extends Fragment implements GoogleApiClient.O
     }
 
     private void handleResponseLoginSocialSuccess(JSONObject response) throws JSONException {
-        HousieApplication.getInstance().getSharedPreUtils().putBoolean(AppConstant.USER_LOGGED_IN, true);
-        HousieApplication.getInstance().getSharedPreUtils().putString(ApiConstant._ID, response.getString(ApiConstant._ID));
-        HousieApplication.getInstance().getSharedPreUtils().putString(ApiConstant.EMAIL, response.getString(ApiConstant.EMAIL));
-        HousieApplication.getInstance().getSharedPreUtils().putString(ApiConstant.PROVIDER, response.getString
-                (ApiConstant.PROVIDER));
+        HousieApplication.getInstance().getSharedPreUtils().putUserData(true, response.getString(ApiConstant._ID)
+                , response.getString(ApiConstant.EMAIL), response.getString(ApiConstant.PROVIDER)
+                , response.has(ApiConstant.BOARD) ? response.getString(ApiConstant.BOARD) : "{}");
 
         AlertUtils.showToastSuccess(view.getContext(), R.drawable.ic_account_checked, R.string.loginSuccess);
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
+                String idHouse = ((LoginActivity) getActivity()).getIdHouse();
+                if (idHouse != null) {
+                    Intent intent = new Intent();
+                    intent.putExtra(ApiConstant._ID_HOUSE, idHouse);
+                    getActivity().setResult(Activity.RESULT_OK, intent);
+                } else {
+                    getActivity().setResult(Activity.RESULT_OK);
+                }
                 getActivity().finish();
             }
         }, 2500);

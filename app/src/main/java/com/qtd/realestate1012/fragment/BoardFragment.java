@@ -225,23 +225,40 @@ public class BoardFragment extends Fragment {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == AppConstant.REQUEST_CODE_CREATE_BOARD && resultCode == Activity.RESULT_OK && data != null) {
-            refreshLayout.setEnabled(true);
-            refreshLayout.setRefreshing(true);
-
-            int size = arrayListBoards.size();
-            arrayListBoards.clear();
-            adapter.notifyItemRangeRemoved(0, size);
-
-            try {
-                JSONObject jsonObject = new JSONObject(data.getStringExtra(ApiConstant.BOARD));
-                arrayListBoards.addAll(ProcessJson.getFavoriteBoards(jsonObject.getJSONObject(ApiConstant.BOARD)));
-                adapter.notifyItemRangeInserted(0, arrayListBoards.size());
-                refreshLayout.setRefreshing(false);
-            } catch (JSONException e) {
-                e.printStackTrace();
+        switch (requestCode) {
+            case AppConstant.REQUEST_CODE_CREATE_BOARD: {
+                if (resultCode == Activity.RESULT_OK && data != null) {
+                    try {
+                        JSONObject jsonObject = new JSONObject(data.getStringExtra(ApiConstant.BOARD));
+                        arrayListBoards.add(ProcessJson.getBoard(jsonObject.getJSONObject(ApiConstant.BOARD)));
+                        adapter.notifyItemInserted(arrayListBoards.size() - 1);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+                break;
             }
+            case AppConstant.REQUEST_CODE_SIGN_IN: {
+                if (resultCode == Activity.RESULT_OK) {
+                    refreshLayout.setEnabled(true);
+                    refreshLayout.setRefreshing(true);
+
+                    String jsonBoard = HousieApplication.getInstance().getSharedPreUtils().getString(ApiConstant.LIST_BOARD, "{}");
+                    try {
+                        arrayListBoards.addAll(ProcessJson.getFavoriteBoards(new JSONObject(jsonBoard)));
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    adapter.notifyItemRangeInserted(0, arrayListBoards.size());
+
+                    refreshLayout.setRefreshing(false);
+                }
+                break;
+            }
+            default:
+                break;
         }
+
     }
 
     public void clearUserData() {

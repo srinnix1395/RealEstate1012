@@ -1,6 +1,8 @@
 package com.qtd.realestate1012.fragment;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
@@ -23,8 +25,8 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.JsonRequest;
 import com.qtd.realestate1012.HousieApplication;
 import com.qtd.realestate1012.R;
+import com.qtd.realestate1012.activity.LoginActivity;
 import com.qtd.realestate1012.constant.ApiConstant;
-import com.qtd.realestate1012.constant.AppConstant;
 import com.qtd.realestate1012.utils.AlertUtils;
 
 import org.json.JSONException;
@@ -159,20 +161,28 @@ public class LoginPasswordFragment extends Fragment {
                             break;
                         }
                         case ApiConstant.SUCCESS: {
-                            HousieApplication.getInstance().getSharedPreUtils().putBoolean(AppConstant.USER_LOGGED_IN, true);
-                            HousieApplication.getInstance().getSharedPreUtils().putString(ApiConstant._ID, response.getString(ApiConstant._ID));
-                            HousieApplication.getInstance().getSharedPreUtils().putString(ApiConstant.EMAIL, response.getString(ApiConstant.EMAIL));
-                            HousieApplication.getInstance().getSharedPreUtils().putString(ApiConstant.PROVIDER, response.getString
-                                    (ApiConstant.PROVIDER));
+                            HousieApplication.getInstance().getSharedPreUtils().putUserData(true, response.getString(ApiConstant._ID)
+                                    , response.getString(ApiConstant.EMAIL), response.getString(ApiConstant.PROVIDER)
+                                    , response.has(ApiConstant.BOARD) ? response.getString(ApiConstant.BOARD) : "{}");
 
                             if (type.equals(ApiConstant.TYPE_LOGIN)) {
                                 AlertUtils.showToastSuccess(view.getContext(), R.drawable.ic_account_checked, R.string.loginSuccess);
                             } else {
                                 AlertUtils.showToastSuccess(view.getContext(), R.drawable.ic_account_checked, R.string.registerSuccess);
                             }
+
+
                             new Handler().postDelayed(new Runnable() {
                                 @Override
                                 public void run() {
+                                    String idHouse = ((LoginActivity) getActivity()).getIdHouse();
+                                    if (idHouse != null) {
+                                        Intent intent = new Intent();
+                                        intent.putExtra(ApiConstant._ID_HOUSE, idHouse);
+                                        getActivity().setResult(Activity.RESULT_OK, intent);
+                                    } else {
+                                        getActivity().setResult(Activity.RESULT_OK);
+                                    }
                                     getActivity().finish();
                                 }
                             }, 2500);

@@ -219,4 +219,9 @@ public class ProcessJson {
         return new User(id, name, image, email, provider, phoneNumber, hasReceiveNotification);
     }
 
+    public static Board getBoard(JSONObject jsonObject) throws JSONException {
+        String id = jsonObject.getString(ApiConstant._ID);
+        String name = jsonObject.getString(ApiConstant.NAME);
+        return new Board(id, name, new ArrayList<String>(), "");
+    }
 }
