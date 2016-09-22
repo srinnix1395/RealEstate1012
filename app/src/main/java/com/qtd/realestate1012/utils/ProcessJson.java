@@ -18,33 +18,44 @@ import java.util.ArrayList;
  * Created by Dell on 8/8/2016.
  */
 public class ProcessJson {
-    public static ArrayList<Object> getArrayListHousesNew(ArrayList<Board> arrayListBoard, JSONArray jsonArray) {
+    public static ArrayList<Object> getArrayListHousesNew(JSONObject jsonBoard, JSONArray jsonArray) {
+        ArrayList<String> listFavoriteHouse = getListIdFavoriteHouse(jsonBoard);
+
         ArrayList<Object> arrayList = new ArrayList<>();
-        arrayList.add("Nhà thường");
-        BunchHouse bunchHouse = new BunchHouse();
-        for (int i = 0, length = jsonArray.length(); i < length; i++) {
+
+        for (int i = 0, size = jsonArray.length(); i < size; i++) {
             try {
-                JSONObject house = jsonArray.getJSONObject(i);
+                JSONObject houseType = jsonArray.getJSONObject(i);
 
-                String id = house.getString(ApiConstant._ID);
-                int price = house.getInt(ApiConstant.PRICE);
-                String firstImage = house.getJSONArray(ApiConstant.IMAGE).getString(0);
-                String detailAddress = house.getString(ApiConstant.DETAIL_ADDRESS);
-                String street = house.getString(ApiConstant.STREET);
-                String ward = house.getString(ApiConstant.WARD);
-                String district = house.getString(ApiConstant.DISTRICT);
-                String city = house.getString(ApiConstant.CITY);
+                String type = houseType.getString(ApiConstant.TYPE);
+                arrayList.add(type);
 
-                bunchHouse.addHouse(new CompactHouse(id, price, detailAddress, street, ward, district, city, firstImage, null, null, false));
+                BunchHouse bunchHouse = new BunchHouse();
+                bunchHouse.setType(type);
 
+                JSONArray listHouse = houseType.getJSONArray(ApiConstant.LIST_HOUSE);
+                for (int j = 0, length = listHouse.length(); j < length; j++) {
+                    JSONObject house = listHouse.getJSONObject(j);
+
+                    String id = house.getString(ApiConstant._ID);
+                    int price = house.getInt(ApiConstant.PRICE);
+                    String firstImage = house.getJSONArray(ApiConstant.IMAGE).getString(0);
+                    String detailAddress = house.getString(ApiConstant.DETAIL_ADDRESS);
+                    String street = house.getString(ApiConstant.STREET);
+                    String ward = house.getString(ApiConstant.WARD);
+                    String district = house.getString(ApiConstant.DISTRICT);
+                    String city = house.getString(ApiConstant.CITY);
+                    boolean isLiked = listFavoriteHouse.contains(id);
+
+                    bunchHouse.addHouse(new CompactHouse(id, price, detailAddress, street, ward, district, city, firstImage, null, null, isLiked));
+                }
+
+                arrayList.add(bunchHouse);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
+
         }
-        bunchHouse.setType("Nhà thường");
-        arrayList.add(bunchHouse);
-        arrayList.add("Nhà thường");
-        arrayList.add(bunchHouse);
         return arrayList;
     }
 
@@ -223,5 +234,10 @@ public class ProcessJson {
         String id = jsonObject.getString(ApiConstant._ID);
         String name = jsonObject.getString(ApiConstant.NAME);
         return new Board(id, name, new ArrayList<String>(), "");
+    }
+
+    public static ArrayList<String> getListIdFavoriteHouse(JSONObject jsonBoard) {
+        // TODO: 9/22/2016 getListId favorite house
+        return null;
     }
 }

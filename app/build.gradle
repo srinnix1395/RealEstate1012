@@ -46,6 +46,7 @@ dependencies {
     compile 'com.github.traex.rippleeffect:library:1.2.3'
     compile 'com.github.nguyenhoanglam:ImagePicker:1.0.3'
     compile group: 'com.koushikdutta.ion', name: 'ion', version: '2.1.6'
+    compile 'io.reactivex:rxandroid:1.2.1'
 }
 apply plugin: 'com.google.gms.google-services'
 

@@ -195,7 +195,7 @@ public class ListHouseFragment extends Fragment {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == AppConstant.REQUEST_CODE_SIGN_IN && resultCode == Activity.RESULT_OK && data != null) {
+        if (requestCode == AppConstant.REQUEST_CODE_SIGN_IN && resultCode == Activity.RESULT_OK) {
             String idHouse = data.getStringExtra(ApiConstant._ID_HOUSE);
             openDialogBoard(idHouse);
         }
