@@ -31,6 +31,7 @@ import com.qtd.realestate1012.activity.LoginActivity;
 import com.qtd.realestate1012.adapter.BoardAdapter;
 import com.qtd.realestate1012.constant.ApiConstant;
 import com.qtd.realestate1012.constant.AppConstant;
+import com.qtd.realestate1012.database.DatabaseHelper;
 import com.qtd.realestate1012.model.Board;
 import com.qtd.realestate1012.utils.AlertUtils;
 import com.qtd.realestate1012.utils.ProcessJson;
@@ -81,15 +82,9 @@ public class BoardFragment extends Fragment {
     }
 
     private void initData() {
-        String jsonBoard = HousieApplication.getInstance().getSharedPreUtils().getString(ApiConstant.LIST_BOARD, null);
-        if (!ServiceUtils.isNetworkAvailable(getContext()) && jsonBoard != null) {
-            JSONObject jsonObject = null;
-            try {
-                jsonObject = new JSONObject(jsonBoard);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-            arrayListBoards = ProcessJson.getFavoriteBoards(jsonObject);
+        if (!ServiceUtils.isNetworkAvailable(getContext())) {
+            DatabaseHelper databaseHelper = DatabaseHelper.getInstance(getContext());
+            arrayListBoards = databaseHelper.getAllBoards();
         } else {
             arrayListBoards = new ArrayList<>();
         }
@@ -138,6 +133,7 @@ public class BoardFragment extends Fragment {
 
     private void requestData() {
         refreshLayout.setRefreshing(true);
+
         if (!ServiceUtils.isNetworkAvailable(getContext())) {
             if (this.getUserVisibleHint()) {
                 AlertUtils.showSnackBarNoInternet(fabAddBoard);
@@ -171,7 +167,9 @@ public class BoardFragment extends Fragment {
                                 int size = arrayListBoards.size();
                                 arrayListBoards.clear();
                                 adapter.notifyItemRangeRemoved(0, size);
-                                arrayListBoards.addAll(ProcessJson.getFavoriteBoards(response));
+
+                                ArrayList<Board> boardNews = ProcessJson.getFavoriteBoards(response);
+                                arrayListBoards.addAll(boardNews);
                                 adapter.notifyItemRangeInserted(0, arrayListBoards.size());
 
                                 if (arrayListBoards.size() == 0) {
@@ -182,7 +180,7 @@ public class BoardFragment extends Fragment {
                                     layoutNoBoard.setVisibility(View.INVISIBLE);
                                 }
 
-                                HousieApplication.getInstance().getSharedPreUtils().putString(ApiConstant.LIST_BOARD, response.toString());
+                                //// TODO: 9/24/2016 sync dữ liệu(tránh việc xóa hết r insert hết lại)
                                 break;
                             }
                         }
@@ -201,6 +199,8 @@ public class BoardFragment extends Fragment {
                 }
             });
             HousieApplication.getInstance().addToRequestQueue(request);
+        } else {
+            refreshLayout.setRefreshing(false);
         }
     }
 
@@ -214,9 +214,9 @@ public class BoardFragment extends Fragment {
 
         Intent intent = new Intent(getActivity(), CreateBoardActivity.class);
 
-        String listBoard = "";
-        for (Board board : arrayListBoards) {
-            listBoard += (board.getName() + "-");
+        String listBoard[] = new String[arrayListBoards.size()];
+        for (int i = 0; i < arrayListBoards.size(); i++) {
+            listBoard[i] = arrayListBoards.get(i).getName();
         }
         intent.putExtra(ApiConstant.LIST_BOARD, listBoard);
 
@@ -224,17 +224,12 @@ public class BoardFragment extends Fragment {
     }
 
     @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+    public void onActivityResult(int requestCode, int resultCode, final Intent data) {
         switch (requestCode) {
             case AppConstant.REQUEST_CODE_CREATE_BOARD: {
                 if (resultCode == Activity.RESULT_OK && data != null) {
-                    try {
-                        JSONObject jsonObject = new JSONObject(data.getStringExtra(ApiConstant.BOARD));
-                        arrayListBoards.add(ProcessJson.getBoard(jsonObject.getJSONObject(ApiConstant.BOARD)));
-                        adapter.notifyItemInserted(arrayListBoards.size() - 1);
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
+                    arrayListBoards.add((Board) data.getParcelableExtra(ApiConstant.BOARD));
+                    adapter.notifyItemInserted(arrayListBoards.size() - 1);
                 }
                 break;
             }
@@ -243,13 +238,11 @@ public class BoardFragment extends Fragment {
                     refreshLayout.setEnabled(true);
                     refreshLayout.setRefreshing(true);
 
-                    String jsonBoard = HousieApplication.getInstance().getSharedPreUtils().getString(ApiConstant.LIST_BOARD, "{}");
-                    try {
-                        arrayListBoards.addAll(ProcessJson.getFavoriteBoards(new JSONObject(jsonBoard)));
-                    } catch (JSONException e) {
-                        e.printStackTrace();
+                    ArrayList<Board> arrayBoard = data.getParcelableArrayListExtra(ApiConstant.LIST_BOARD);
+                    if (arrayBoard != null) {
+                        arrayListBoards.addAll(arrayBoard);
+                        adapter.notifyItemRangeInserted(0, arrayListBoards.size());
                     }
-                    adapter.notifyItemRangeInserted(0, arrayListBoards.size());
 
                     refreshLayout.setRefreshing(false);
                 }

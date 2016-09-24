@@ -22,9 +22,12 @@ import com.qtd.realestate1012.activity.CreateBoardActivity;
 import com.qtd.realestate1012.adapter.BoardAdapter;
 import com.qtd.realestate1012.constant.ApiConstant;
 import com.qtd.realestate1012.constant.AppConstant;
+import com.qtd.realestate1012.database.DatabaseHelper;
 import com.qtd.realestate1012.messageevent.MessageClickImvHeartOnBoard;
 import com.qtd.realestate1012.messageevent.MessageLikeBoardSuccess;
 import com.qtd.realestate1012.model.Board;
+import com.qtd.realestate1012.model.BoardHasHeart;
+import com.qtd.realestate1012.model.CompactHouse;
 import com.qtd.realestate1012.utils.ProcessJson;
 import com.qtd.realestate1012.utils.ServiceUtils;
 
@@ -34,10 +37,15 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.concurrent.Callable;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import rx.Single;
+import rx.SingleSubscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by DELL on 8/23/2016.
@@ -76,18 +84,38 @@ public class BottomSheetListBoard extends BottomSheetDialogFragment {
         Bundle bundle = getArguments();
         idHouse = bundle.getString(ApiConstant._ID);
 
-        String jsonBoard = HousieApplication.getInstance().getSharedPreUtils().getString(ApiConstant.LIST_BOARD, "{}");
-        arrayListBoards = ProcessJson.getFavoriteBoardsHasHeart(jsonBoard, idHouse);
+        arrayListBoards = new ArrayList<>();
         adapter = new BoardAdapter(arrayListBoards, true);
+
+        Single.fromCallable(new Callable<ArrayList<BoardHasHeart>>() {
+            @Override
+            public ArrayList<BoardHasHeart> call() throws Exception {
+                DatabaseHelper databaseHelper = DatabaseHelper.getInstance(getContext());
+                return databaseHelper.getAllBoardHasHeart(idHouse);
+            }
+        }).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new SingleSubscriber<ArrayList<BoardHasHeart>>() {
+                    @Override
+                    public void onSuccess(ArrayList<BoardHasHeart> value) {
+                        arrayListBoards.addAll(value);
+                        adapter.notifyDataSetChanged();
+                    }
+
+                    @Override
+                    public void onError(Throwable error) {
+                        error.printStackTrace();
+                    }
+                });
     }
 
     @OnClick(R.id.fabAddBoard)
     void onClick() {
         Intent intent = new Intent(getActivity(), CreateBoardActivity.class);
 
-        String listBoard = "";
-        for (Board board : arrayListBoards) {
-            listBoard += (board.getName() + "-");
+        String listBoard[] = new String[arrayListBoards.size()];
+        for (int i = 0; i < arrayListBoards.size(); i++) {
+            listBoard[i] = arrayListBoards.get(i).getName();
         }
         intent.putExtra(ApiConstant.LIST_BOARD, listBoard);
 
@@ -97,13 +125,8 @@ public class BottomSheetListBoard extends BottomSheetDialogFragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == AppConstant.REQUEST_CODE_CREATE_BOARD && resultCode == Activity.RESULT_OK && data != null) {
-            try {
-                JSONObject jsonObject = new JSONObject(data.getStringExtra(ApiConstant.BOARD));
-                arrayListBoards.add(ProcessJson.getBoard(jsonObject.getJSONObject(ApiConstant.BOARD)));
-                adapter.notifyItemInserted(arrayListBoards.size() - 1);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
+            arrayListBoards.add((Board) data.getParcelableExtra(ApiConstant.BOARD));
+            adapter.notifyItemInserted(arrayListBoards.size() - 1);
         }
     }
 
@@ -120,13 +143,13 @@ public class BottomSheetListBoard extends BottomSheetDialogFragment {
     }
 
     @Subscribe
-    public void handleEventClickImvHeartOnBoard(MessageClickImvHeartOnBoard event) {
+    public void handleEventClickImvHeartOnBoard(final MessageClickImvHeartOnBoard event) {
         if (!ServiceUtils.isNetworkAvailable(getContext())) {
             Toast.makeText(getContext(), R.string.noInternetConnection, Toast.LENGTH_SHORT).show();
             return;
         }
 
-        JSONObject jsonRequest = new JSONObject();
+        final JSONObject jsonRequest = new JSONObject();
         try {
             jsonRequest.put(ApiConstant._ID_BOARD, event.id);
             jsonRequest.put(ApiConstant._ID_HOUSE, idHouse);
@@ -146,6 +169,9 @@ public class BottomSheetListBoard extends BottomSheetDialogFragment {
                             break;
                         }
                         case ApiConstant.SUCCESS: {
+                            response.put(ApiConstant._ID_BOARD, event.id);
+                            response.put(ApiConstant._ID_HOUSE, idHouse);
+                            response.put(ApiConstant.ACTION, event.action);
                             handleResponseSuccess(response);
                             break;
                         }
@@ -164,8 +190,36 @@ public class BottomSheetListBoard extends BottomSheetDialogFragment {
         HousieApplication.getInstance().addToRequestQueue(request);
     }
 
-    private void handleResponseSuccess(JSONObject jsonRequest) {
-        EventBus.getDefault().post(new MessageLikeBoardSuccess(jsonRequest));
-        dismiss();
+    private void handleResponseSuccess(final JSONObject response) {
+        Single.fromCallable(new Callable<Void>() {
+            @Override
+            public Void call() throws Exception {
+                DatabaseHelper databaseHelper = DatabaseHelper.getInstance(getContext());
+                String action = response.getString(ApiConstant.ACTION);
+                if (action.equals(ApiConstant.ACTION_ADD)) {
+                    CompactHouse house = ProcessJson.getCompactHouse(response.getString(ApiConstant.HOUSE));
+                    databaseHelper.insertHouseFavorite(house);
+                } else {
+                    databaseHelper.deleteHouseFavorite(idHouse);
+                }
+
+                //// TODO: 9/24/2016 insert house cos them id board
+                return null;
+            }
+        }).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new SingleSubscriber<Void>() {
+                    @Override
+                    public void onSuccess(Void value) {
+                        EventBus.getDefault().post(new MessageLikeBoardSuccess(response));
+                        dismiss();
+                    }
+
+                    @Override
+                    public void onError(Throwable error) {
+                        error.printStackTrace();
+                    }
+                });
+
     }
 }

@@ -30,10 +30,10 @@ public class ScrollHorizontalAwareFABBehavior extends FloatingActionButton.Behav
                                final int dxUnconsumed, final int dyUnconsumed) {
         super.onNestedScroll(coordinatorLayout, child, target, dxConsumed, dyConsumed, dxUnconsumed, dyUnconsumed);
         if (dxConsumed > 0 && child.getVisibility() == View.VISIBLE) {
-            // User scrolled down and the FAB is currently visible -> hide the FAB
+            // User scrolled right and the FAB is currently visible -> hide the FAB
             child.hide();
         } else if (dxConsumed < 0 && child.getVisibility() != View.VISIBLE) {
-            // User scrolled up and the FAB is currently not visible -> show the FAB
+            // User scrolled left and the FAB is currently not visible -> show the FAB
             child.show();
         }
     }

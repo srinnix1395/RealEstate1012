@@ -52,14 +52,13 @@ public class SharedPreUtils {
         editor.apply();
     }
 
-    public void putUserData(boolean userLoggedIn, String id, String email, String provider, String jsonBoard) {
+    public void putUserData(boolean userLoggedIn, String id, String email, String provider) {
         SharedPreferences.Editor editor = sharedPreferences.edit();
 
         editor.putBoolean(AppConstant.USER_LOGGED_IN, userLoggedIn);
         editor.putString(ApiConstant._ID, id);
         editor.putString(ApiConstant.EMAIL, email);
         editor.putString(ApiConstant.PROVIDER, provider);
-        editor.putString(ApiConstant.LIST_BOARD, jsonBoard);
 
         editor.apply();
     }

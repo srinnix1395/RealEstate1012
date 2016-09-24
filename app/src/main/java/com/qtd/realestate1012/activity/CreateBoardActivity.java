@@ -23,17 +23,25 @@ import com.android.volley.toolbox.JsonRequest;
 import com.qtd.realestate1012.HousieApplication;
 import com.qtd.realestate1012.R;
 import com.qtd.realestate1012.constant.ApiConstant;
+import com.qtd.realestate1012.database.DatabaseHelper;
+import com.qtd.realestate1012.model.Board;
 import com.qtd.realestate1012.utils.AlertUtils;
+import com.qtd.realestate1012.utils.ProcessJson;
 import com.qtd.realestate1012.utils.ServiceUtils;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.concurrent.Callable;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import rx.Single;
+import rx.SingleSubscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by DELL on 8/18/2016.
@@ -67,10 +75,9 @@ public class CreateBoardActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         if (intent != null) {
-            String boards = intent.getStringExtra(ApiConstant.LIST_BOARD);
-            String[] list = boards.split("-");
-            for (int i = 0, size = list.length - 1; i < size; i++) {
-                listBoard.add(list[i]);
+            String[] boards = intent.getStringArrayExtra(ApiConstant.LIST_BOARD);
+            for (int i = 0; i < boards.length; i++) {
+                listBoard.add(boards[i]);
             }
         }
     }
@@ -158,8 +165,6 @@ public class CreateBoardActivity extends AppCompatActivity {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-
-
             }
         }, new Response.ErrorListener() {
             @Override
@@ -174,16 +179,39 @@ public class CreateBoardActivity extends AppCompatActivity {
     }
 
     private void handleResponseSuccess(final JSONObject response) {
-        AlertUtils.showToastSuccess(CreateBoardActivity.this, R.drawable.ic_check_ok, R.string.createBoardSuccesfully);
-        new Handler().postDelayed(new Runnable() {
+        Single.fromCallable(new Callable<Board>() {
             @Override
-            public void run() {
-                Intent intent = new Intent();
-                intent.putExtra(ApiConstant.BOARD, response.toString());
-                setResult(RESULT_OK, intent);
-                CreateBoardActivity.this.finish();
+            public Board call() throws Exception {
+                Board board = ProcessJson.getBoard(response.getJSONObject(ApiConstant.BOARD));
+
+                DatabaseHelper databaseHelper = DatabaseHelper.getInstance(CreateBoardActivity.this);
+                databaseHelper.insertBoard(board);
+                return board;
             }
-        }, 2500);
+        }).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new SingleSubscriber<Board>() {
+                    @Override
+                    public void onSuccess(final Board value) {
+                        AlertUtils.showToastSuccess(CreateBoardActivity.this, R.drawable.ic_check_ok, R.string.createBoardSuccesfully);
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                Intent intent = new Intent();
+                                intent.putExtra(ApiConstant.BOARD, value);
+                                setResult(RESULT_OK, intent);
+                                CreateBoardActivity.this.finish();
+                            }
+                        }, 2500);
+                    }
+
+                    @Override
+                    public void onError(Throwable error) {
+                        error.printStackTrace();
+                    }
+                });
+
+
     }
 
     @Override

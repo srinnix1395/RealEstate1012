@@ -24,6 +24,7 @@ import com.qtd.realestate1012.adapter.HouseAdapter;
 import com.qtd.realestate1012.callback.FavoriteFragmentCallback;
 import com.qtd.realestate1012.constant.ApiConstant;
 import com.qtd.realestate1012.constant.AppConstant;
+import com.qtd.realestate1012.database.DatabaseHelper;
 import com.qtd.realestate1012.model.CompactHouse;
 import com.qtd.realestate1012.utils.AlertUtils;
 import com.qtd.realestate1012.utils.ProcessJson;
@@ -33,10 +34,15 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.concurrent.Callable;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import rx.Single;
+import rx.SingleSubscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by Dell on 7/31/2016.
@@ -75,20 +81,32 @@ public class HomesFavoriteFragment extends Fragment {
     }
 
     private void initData() {
-        String jsonHouse = HousieApplication.getInstance().getSharedPreUtils().getString(ApiConstant.LIST_HOUSE, null);
-        if (!ServiceUtils.isNetworkAvailable(getContext()) && jsonHouse != null) {
-            JSONObject jsonObject = null;
-            try {
-                jsonObject = new JSONObject(jsonHouse);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-            arrayListHouses = ProcessJson.getListCompactHouse(jsonObject);
-        } else {
-            arrayListHouses = new ArrayList<>();
+        arrayListHouses = new ArrayList<>();
+        adapter = new HouseAdapter(arrayListHouses);
+
+        if (!ServiceUtils.isNetworkAvailable(getContext())) {
+            Single.fromCallable(new Callable<ArrayList<CompactHouse>>() {
+                @Override
+                public ArrayList<CompactHouse> call() throws Exception {
+                    DatabaseHelper databaseHelper = DatabaseHelper.getInstance(getContext());
+                    return databaseHelper.getAllCompactHouses();
+                }
+            }).subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new SingleSubscriber<ArrayList<CompactHouse>>() {
+                        @Override
+                        public void onSuccess(ArrayList<CompactHouse> value) {
+                            arrayListHouses.addAll(value);
+                            adapter.notifyDataSetChanged();
+                        }
+
+                        @Override
+                        public void onError(Throwable error) {
+
+                        }
+                    });
         }
 
-        adapter = new HouseAdapter(arrayListHouses);
     }
 
     private void initViews() {
@@ -165,6 +183,7 @@ public class HomesFavoriteFragment extends Fragment {
                                 adapter.notifyItemRangeInserted(0, arrayListHouses.size());
 
                                 HousieApplication.getInstance().getSharedPreUtils().putString(ApiConstant.LIST_HOUSE, response.toString());
+                                //// TODO: 9/24/2016 sync data house favorite
                                 break;
                             }
                         }
@@ -191,6 +210,8 @@ public class HomesFavoriteFragment extends Fragment {
                 }
             });
             HousieApplication.getInstance().addToRequestQueue(request);
+        } else {
+            refreshLayout.setRefreshing(false);
         }
     }
 

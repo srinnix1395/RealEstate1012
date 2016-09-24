@@ -29,6 +29,7 @@ import com.qtd.realestate1012.custom.BottomSheetListBoard;
 import com.qtd.realestate1012.messageevent.MessageClickImvHeartOnHouse;
 import com.qtd.realestate1012.messageevent.MessageEventClickSeeAllViewHolder;
 import com.qtd.realestate1012.messageevent.MessageLikeBoardSuccess;
+import com.qtd.realestate1012.model.Board;
 import com.qtd.realestate1012.model.BunchHouse;
 import com.qtd.realestate1012.utils.AlertUtils;
 import com.qtd.realestate1012.utils.ProcessJson;
@@ -70,7 +71,6 @@ public class HomeFragment extends Fragment {
 
     private ArrayList<Object> arrayListHouseNews;
     private HouseNewsAdapter adapter;
-    private JSONObject jsonBoard;
     private JsonObjectRequest requestGetNew;
 
     @Nullable
@@ -89,7 +89,6 @@ public class HomeFragment extends Fragment {
     }
 
     private void initData() {
-        jsonBoard = new JSONObject();
         arrayListHouseNews = new ArrayList<>();
         adapter = new HouseNewsAdapter(arrayListHouseNews);
     }
@@ -111,12 +110,12 @@ public class HomeFragment extends Fragment {
 
     private void requestData() {
         if (!ServiceUtils.isNetworkAvailable(view.getContext())) {
+            progressBar.setEnabled(false);
+            progressBar.setVisibility(View.INVISIBLE);
             AlertUtils.showSnackBarNoInternet(view);
             return;
         }
 
-        progressBar.setEnabled(true);
-        progressBar.setVisibility(View.VISIBLE);
         JSONObject jsonRequest = new JSONObject();
         try {
             jsonRequest.put(AppConstant.USER_LOGGED_IN, HousieApplication.getInstance().getSharedPreUtils().getBoolean(AppConstant.USER_LOGGED_IN, false));
@@ -140,7 +139,7 @@ public class HomeFragment extends Fragment {
                         return;
                     }
 
-                    handleResult(response);
+                    handleResponseSuccess(response);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -158,21 +157,18 @@ public class HomeFragment extends Fragment {
         HousieApplication.getInstance().addToRequestQueue(requestGetNew);
     }
 
-    private void handleResult(final JSONObject response) throws JSONException {
-        if (response.has(ApiConstant.BOARD)) {
-            jsonBoard = response.getJSONObject(ApiConstant.BOARD);
-        } else {
-            jsonBoard = new JSONObject();
-        }
-        HousieApplication.getInstance().getSharedPreUtils().putString(ApiConstant.LIST_BOARD, jsonBoard.toString());
+    private void handleResponseSuccess(final JSONObject response) throws JSONException {
+        final JSONObject jsonBoard;
 
-        Single
-                .fromCallable(new Callable<ArrayList<Object>>() {
-                    @Override
-                    public ArrayList<Object> call() throws Exception {
-                        return ProcessJson.getArrayListHousesNew(jsonBoard, response.getJSONArray(ApiConstant.LIST_HOUSE));
-                    }
-                })
+        Single.fromCallable(new Callable<ArrayList<Object>>() {
+            @Override
+            public ArrayList<Object> call() throws Exception {
+                JSONObject jsonBoard = response.getJSONObject(ApiConstant.BOARD);
+                ArrayList<Board> arrayList = ProcessJson.getFavoriteBoards(jsonBoard);
+                //// TODO: 9/24/2016 sync dữ liệu board
+                return ProcessJson.getArrayListHousesNew(jsonBoard, response.getJSONArray(ApiConstant.LIST_HOUSE));
+            }
+        })
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new SingleSubscriber<ArrayList<Object>>() {
@@ -261,16 +257,16 @@ public class HomeFragment extends Fragment {
     public void handleEventSuccessFavoriteHouse(MessageLikeBoardSuccess messageEvent) {
         JSONObject response = messageEvent.message;
         String id = null;
-        boolean action = false;
+        boolean isLike = false;
         try {
             id = response.getString(ApiConstant._ID_HOUSE);
-            action = response.getString(ApiConstant.ACTION).equals(ApiConstant.ACTION_ADD);
+            isLike = response.getString(ApiConstant.ACTION).equals(ApiConstant.ACTION_ADD);
         } catch (JSONException e) {
             e.printStackTrace();
         }
         for (Object object : arrayListHouseNews) {
             if (object instanceof BunchHouse) {
-                ((BunchHouse) object).resetImvHeart(id, action);
+                ((BunchHouse) object).resetImvHeart(id, isLike);
                 break;
             }
         }
@@ -302,6 +298,5 @@ public class HomeFragment extends Fragment {
             }
         }
         adapter.notifyDataSetChanged();
-        jsonBoard = new JSONObject();
     }
 }

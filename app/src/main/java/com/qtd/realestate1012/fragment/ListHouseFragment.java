@@ -26,8 +26,11 @@ import com.qtd.realestate1012.adapter.HouseCardViewAdapter;
 import com.qtd.realestate1012.constant.ApiConstant;
 import com.qtd.realestate1012.constant.AppConstant;
 import com.qtd.realestate1012.custom.BottomSheetListBoard;
+import com.qtd.realestate1012.database.DatabaseHelper;
 import com.qtd.realestate1012.messageevent.MessageClickImvHeartOnCardHouseViewHolder;
+import com.qtd.realestate1012.messageevent.MessageLikeBoardSuccess;
 import com.qtd.realestate1012.model.CompactHouse;
+import com.qtd.realestate1012.utils.AlertUtils;
 import com.qtd.realestate1012.utils.ProcessJson;
 import com.qtd.realestate1012.utils.ServiceUtils;
 
@@ -37,9 +40,15 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.concurrent.Callable;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
+import rx.Single;
+import rx.SingleSubscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by DELL on 9/1/2016.
@@ -57,7 +66,7 @@ public class ListHouseFragment extends Fragment {
     private HouseCardViewAdapter adapter;
     private ArrayList<CompactHouse> arrayList;
     private String url;
-    private String jsonBoard;
+    private String type;
     private boolean listHouseNull;
 
     @Nullable
@@ -95,6 +104,7 @@ public class ListHouseFragment extends Fragment {
         switch (url) {
             case ApiConstant.URL_WEB_SERVICE_GET_ALL_HOUSE_OF_KIND: {
                 arrayList = new ArrayList<>();
+                type = arguments.getString(ApiConstant.TYPE);
                 break;
             }
             case ApiConstant.URL_WEB_SERVICE_GET_ALL_HOUSE: {
@@ -112,7 +122,17 @@ public class ListHouseFragment extends Fragment {
 
         adapter = new HouseCardViewAdapter(arrayList);
 
-        jsonBoard = HousieApplication.getInstance().getSharedPreUtils().getString(ApiConstant.LIST_BOARD, "{}");
+    }
+
+    @OnClick(R.id.tvError)
+    public void onClickTvError() {
+        if (url.equals(ApiConstant.URL_WEB_SERVICE_GET_ALL_HOUSE_OF_KIND)) {
+            tvError.setVisibility(View.GONE);
+
+            progressBar.setEnabled(true);
+            progressBar.setVisibility(View.VISIBLE);
+            requestData();
+        }
     }
 
     private void initViews() {
@@ -132,7 +152,7 @@ public class ListHouseFragment extends Fragment {
             return;
         }
 
-        JsonObjectRequest request = new JsonObjectRequest(url, new Response.Listener<JSONObject>() {
+        JsonObjectRequest request = new JsonObjectRequest(String.format(url, type), new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 try {
@@ -164,10 +184,39 @@ public class ListHouseFragment extends Fragment {
         HousieApplication.getInstance().addToRequestQueue(request);
     }
 
-    private void handleResponseSuccess(JSONObject response) {
-        arrayList.clear();
-        arrayList.addAll(ProcessJson.getListCompactHouse(response));
-        adapter.notifyDataSetChanged();
+    private void handleResponseSuccess(final JSONObject response) {
+        Single.fromCallable(new Callable<ArrayList<CompactHouse>>() {
+            @Override
+            public ArrayList<CompactHouse> call() throws Exception {
+                ArrayList<CompactHouse> arrayList = ProcessJson.getListCompactHouse(response);
+
+                DatabaseHelper databaseHelper = DatabaseHelper.getInstance(getContext());
+                ArrayList<String> arrayListId = databaseHelper.getListIdFavoriteHouse();
+
+                for (CompactHouse house : arrayList) {
+                    if (arrayListId.contains(house.getId())) {
+                        house.setLiked(true);
+                    }
+                }
+                return arrayList;
+
+            }
+        }).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new SingleSubscriber<ArrayList<CompactHouse>>() {
+                    @Override
+                    public void onSuccess(ArrayList<CompactHouse> value) {
+                        arrayList.clear();
+                        arrayList.addAll(value);
+                        adapter.notifyDataSetChanged();
+                    }
+
+                    @Override
+                    public void onError(Throwable error) {
+                        error.printStackTrace();
+                    }
+                });
+
     }
 
     @Override
@@ -209,12 +258,30 @@ public class ListHouseFragment extends Fragment {
         dialog.show(getFragmentManager(), "dialog");
     }
 
+    @Subscribe
+    public void handleEventSuccessFavoriteHouse(MessageLikeBoardSuccess messageEvent) {
+        JSONObject response = messageEvent.message;
+        String id = null;
+        boolean isLike = false;
+        try {
+            id = response.getString(ApiConstant._ID_HOUSE);
+            isLike = response.getString(ApiConstant.ACTION).equals(ApiConstant.ACTION_ADD);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        for (CompactHouse house : arrayList) {
+            if (house.getId().equals(id)) {
+                house.setLiked(isLike);
+            }
+        }
+
+        AlertUtils.showToastSuccess(getContext(), R.drawable.ic_heart_white_large, R.string.homeSaved);
+    }
+
     public void clearUserData() {
         for (CompactHouse house : arrayList) {
             house.setLiked(false);
         }
         adapter.notifyDataSetChanged();
-
-        jsonBoard = "{}";
     }
 }

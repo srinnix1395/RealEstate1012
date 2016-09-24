@@ -55,6 +55,7 @@ public class AllHouseActivity extends AppCompatActivity {
         ListHouseFragment listHouseFragment = new ListHouseFragment();
         Bundle bundle = new Bundle();
         bundle.putString(ApiConstant.URL_WEB_SERVICE, ApiConstant.URL_WEB_SERVICE_GET_ALL_HOUSE_OF_KIND);
+        bundle.putString(ApiConstant.TYPE, type);
         listHouseFragment.setArguments(bundle);
 
         getSupportFragmentManager().beginTransaction().add(R.id.layout, listHouseFragment).commit();

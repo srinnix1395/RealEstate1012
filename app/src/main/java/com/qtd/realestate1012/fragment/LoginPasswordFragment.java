@@ -27,14 +27,24 @@ import com.qtd.realestate1012.HousieApplication;
 import com.qtd.realestate1012.R;
 import com.qtd.realestate1012.activity.LoginActivity;
 import com.qtd.realestate1012.constant.ApiConstant;
+import com.qtd.realestate1012.database.DatabaseHelper;
+import com.qtd.realestate1012.model.Board;
 import com.qtd.realestate1012.utils.AlertUtils;
+import com.qtd.realestate1012.utils.ProcessJson;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.concurrent.Callable;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import rx.Single;
+import rx.SingleSubscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by Dell on 7/29/2016.
@@ -153,7 +163,7 @@ public class LoginPasswordFragment extends Fragment {
 
         JsonObjectRequest request = new JsonObjectRequest(JsonRequest.Method.POST, url, jsonObject, new Response.Listener<JSONObject>() {
             @Override
-            public void onResponse(JSONObject response) {
+            public void onResponse(final JSONObject response) {
                 try {
                     switch (response.getString(ApiConstant.RESULT)) {
                         case ApiConstant.FAILED: {
@@ -161,31 +171,7 @@ public class LoginPasswordFragment extends Fragment {
                             break;
                         }
                         case ApiConstant.SUCCESS: {
-                            HousieApplication.getInstance().getSharedPreUtils().putUserData(true, response.getString(ApiConstant._ID)
-                                    , response.getString(ApiConstant.EMAIL), response.getString(ApiConstant.PROVIDER)
-                                    , response.has(ApiConstant.BOARD) ? response.getString(ApiConstant.BOARD) : "{}");
-
-                            if (type.equals(ApiConstant.TYPE_LOGIN)) {
-                                AlertUtils.showToastSuccess(view.getContext(), R.drawable.ic_account_checked, R.string.loginSuccess);
-                            } else {
-                                AlertUtils.showToastSuccess(view.getContext(), R.drawable.ic_account_checked, R.string.registerSuccess);
-                            }
-
-
-                            new Handler().postDelayed(new Runnable() {
-                                @Override
-                                public void run() {
-                                    String idHouse = ((LoginActivity) getActivity()).getIdHouse();
-                                    if (idHouse != null) {
-                                        Intent intent = new Intent();
-                                        intent.putExtra(ApiConstant._ID_HOUSE, idHouse);
-                                        getActivity().setResult(Activity.RESULT_OK, intent);
-                                    } else {
-                                        getActivity().setResult(Activity.RESULT_OK);
-                                    }
-                                    getActivity().finish();
-                                }
-                            }, 2500);
+                            handleLoginSuccess(response);
                             break;
                         }
                     }
@@ -204,5 +190,66 @@ public class LoginPasswordFragment extends Fragment {
             }
         });
         HousieApplication.getInstance().addToRequestQueue(request);
+    }
+
+    private void handleLoginSuccess(final JSONObject response) throws JSONException {
+        HousieApplication.getInstance().getSharedPreUtils().putUserData(
+                true,
+                response.getString(ApiConstant._ID),
+                response.getString(ApiConstant.EMAIL),
+                response.getString(ApiConstant.PROVIDER));
+
+        if (response.has(ApiConstant.BOARD)) {
+            Single.fromCallable(new Callable<ArrayList<Board>>() {
+                @Override
+                public ArrayList<Board> call() throws Exception {
+                    ArrayList<Board> arrayList = ProcessJson.getFavoriteBoards(response.getJSONObject(ApiConstant.BOARD));
+
+                    DatabaseHelper database = DatabaseHelper.getInstance(getContext());
+                    database.insertMultiplesBoard(arrayList);
+                    return arrayList;
+                }
+            }).subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new SingleSubscriber<ArrayList<Board>>() {
+                        @Override
+                        public void onSuccess(ArrayList<Board> value) {
+                            finishActivity(value);
+                        }
+
+                        @Override
+                        public void onError(Throwable error) {
+                            error.printStackTrace();
+                        }
+                    });
+
+        } else {
+            finishActivity(null);
+        }
+    }
+
+    private void finishActivity(final ArrayList<Board> arrayList) {
+        if (type.equals(ApiConstant.TYPE_LOGIN)) {
+            AlertUtils.showToastSuccess(view.getContext(), R.drawable.ic_account_checked, R.string.loginSuccess);
+        } else {
+            AlertUtils.showToastSuccess(view.getContext(), R.drawable.ic_account_checked, R.string.registerSuccess);
+        }
+
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                String idHouse = ((LoginActivity) getActivity()).getIdHouse();
+                if (idHouse != null) {
+                    Intent intent = new Intent();
+                    intent.putExtra(ApiConstant._ID_HOUSE, idHouse);
+                    intent.putParcelableArrayListExtra(ApiConstant.LIST_BOARD, arrayList);
+                    getActivity().setResult(Activity.RESULT_OK, intent);
+                } else {
+                    getActivity().setResult(Activity.RESULT_OK);
+                }
+                getActivity().finish();
+            }
+        }, 2500);
     }
 }
