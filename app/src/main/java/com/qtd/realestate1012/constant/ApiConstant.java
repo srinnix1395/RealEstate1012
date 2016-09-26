@@ -41,6 +41,9 @@ public class ApiConstant {
     public static final String URL_WEB_SERVICE_DETAIL_HOUSE = "http://protectedcedar-31067.rhcloud.com/house/detailInfo";
     public static final String URL_WEB_SERVICE_GET_NEWS = "http://protectedcedar-31067.rhcloud.com/house/getNews";
     public static final String URL_WEB_SERVICE_POST_HOUSE = "http://protectedcedar-31067.rhcloud.com/house/post";
+    public static final String URL_WEB_SERVICE_SEARCH_HOUSE = "http://protectedcedar-31067.rhcloud.com/house/search"; 
+//            +
+//            "status=%s&price_from=%s&price_to=%d&number_of_rooms=%d&area_from=%s&area_to=%s";
 
     public static final String URL_WEB_SERVICE_GET_IMAGE_HOUSE = "http://protectedcedar-31067.rhcloud.com/imageHouse/";
     public static final String URL_WEB_SERVICE_GET_IMAGE_USER = "http://protectedcedar-31067.rhcloud.com/imageUser/";
@@ -85,6 +88,15 @@ public class ApiConstant {
     public static final String USER_INFO = "user_info";
     public static final String NOTIFICATION = "receive_noti";
     public static final String HOUSIE = "housie";
+    public static final String SALE = "Bán";
+    public static final String RENT = "Cho thuê";
+    public static final String ANY = "Bất kỳ";
+    public static final String MILLION = "triệu";
+    public static final String BILLION = "tỷ";
+    public static final String PRICE_FROM = "price_from";
+    public static final String PRICE_TO = "price_to";
+    public static final String AREA_FROM = "area_from";
+    public static final String AREA_TO = "area_to";
     public static String _ID_BOARD = "_id_board";
     public static String _ID_HOUSE = "_id_house";
     public static String _ID_OWNER = "_id_owner";

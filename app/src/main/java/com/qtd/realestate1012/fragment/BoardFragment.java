@@ -41,10 +41,15 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.concurrent.Callable;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import rx.Single;
+import rx.SingleSubscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by Dell on 7/31/2016.
@@ -164,23 +169,7 @@ public class BoardFragment extends Fragment {
                                 break;
                             }
                             case ApiConstant.SUCCESS: {
-                                int size = arrayListBoards.size();
-                                arrayListBoards.clear();
-                                adapter.notifyItemRangeRemoved(0, size);
-
-                                ArrayList<Board> boardNews = ProcessJson.getFavoriteBoards(response);
-                                arrayListBoards.addAll(boardNews);
-                                adapter.notifyItemRangeInserted(0, arrayListBoards.size());
-
-                                if (arrayListBoards.size() == 0) {
-                                    recyclerView.setVisibility(View.INVISIBLE);
-                                    layoutNoBoard.setVisibility(View.VISIBLE);
-                                } else {
-                                    recyclerView.setVisibility(View.VISIBLE);
-                                    layoutNoBoard.setVisibility(View.INVISIBLE);
-                                }
-
-                                //// TODO: 9/24/2016 sync dữ liệu(tránh việc xóa hết r insert hết lại)
+                                handleResponseSuccess(response);
                                 break;
                             }
                         }
@@ -202,6 +191,43 @@ public class BoardFragment extends Fragment {
         } else {
             refreshLayout.setRefreshing(false);
         }
+    }
+
+    private void handleResponseSuccess(final JSONObject response) {
+        Single.fromCallable(new Callable<ArrayList<Board>>() {
+            @Override
+            public ArrayList<Board> call() throws Exception {
+                ArrayList<Board> boardNews = ProcessJson.getFavoriteBoards(response);
+                DatabaseHelper databaseHelper = DatabaseHelper.getInstance(getContext());
+                databaseHelper.syncDataBoard(boardNews);
+                return boardNews;
+            }
+        }).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new SingleSubscriber<ArrayList<Board>>() {
+                    @Override
+                    public void onSuccess(ArrayList<Board> value) {
+                        int size = arrayListBoards.size();
+                        arrayListBoards.clear();
+                        adapter.notifyItemRangeRemoved(0, size);
+
+                        arrayListBoards.addAll(value);
+                        adapter.notifyItemRangeInserted(0, arrayListBoards.size());
+
+                        if (arrayListBoards.size() == 0) {
+                            recyclerView.setVisibility(View.INVISIBLE);
+                            layoutNoBoard.setVisibility(View.VISIBLE);
+                        } else {
+                            recyclerView.setVisibility(View.VISIBLE);
+                            layoutNoBoard.setVisibility(View.INVISIBLE);
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable error) {
+                        error.printStackTrace();
+                    }
+                });
     }
 
     @OnClick(R.id.fabAddBoard)

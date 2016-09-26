@@ -73,7 +73,12 @@ public class ProcessJson {
 
                     JSONArray listHouse = jsonObject.getJSONArray(ApiConstant.LIST_HOUSE);
 
-                    arrayList.add(new Board(id, name, listHouse.length(), image));
+                    ArrayList<String> arrayList1 = new ArrayList<>();
+                    for (int j = 0, length = listHouse.length(); j < length; j++) {
+                        arrayList1.add(listHouse.getString(j));
+                    }
+
+                    arrayList.add(new Board(id, name, arrayList1, image));
                 }
             }
         } catch (JSONException e) {
@@ -150,7 +155,7 @@ public class ProcessJson {
             }
 
             return new FullHouse(id, price, detailAdd, street, ward, district, city, false, area, numberOfRoom, status, propertyType,
-                    description, lat, lng, address, "hello", "0123", images);
+                    description, lat, lng, address, images);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -172,16 +177,17 @@ public class ProcessJson {
 
                     JSONArray listHouse = jsonObject.getJSONArray(ApiConstant.LIST_HOUSE);
 
-                    int count = 0;
                     boolean hasHeart = false;
+
+                    ArrayList<String> arrayList1 = new ArrayList<>();
                     for (int j = 0, length = listHouse.length(); j < length; j++) {
-                        count++;
+                        arrayList1.add(listHouse.getString(j));
                         if (listHouse.getString(j).equals(idHouse)) {
                             hasHeart = true;
                         }
                     }
 
-                    arrayList.add(new BoardHasHeart(id, name, count, image, hasHeart));
+                    arrayList.add(new BoardHasHeart(id, name, arrayList1, image, hasHeart));
                 }
             }
         } catch (JSONException e) {
@@ -232,6 +238,7 @@ public class ProcessJson {
 
     /***
      * trả về board khi vừa tạo thành công
+     *
      * @param jsonObject chuỗi json board
      * @return board vừa được tạo
      * @throws JSONException
@@ -239,7 +246,7 @@ public class ProcessJson {
     public static Board getBoard(JSONObject jsonObject) throws JSONException {
         String id = jsonObject.getString(ApiConstant._ID);
         String name = jsonObject.getString(ApiConstant.NAME);
-        return new Board(id, name, 0, "");
+        return new Board(id, name, new ArrayList<String>(), "");
     }
 
     public static ArrayList<String> getListIdFavoriteHouse(JSONObject jsonBoard) {

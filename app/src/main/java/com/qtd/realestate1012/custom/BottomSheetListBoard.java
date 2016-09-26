@@ -28,6 +28,7 @@ import com.qtd.realestate1012.messageevent.MessageLikeBoardSuccess;
 import com.qtd.realestate1012.model.Board;
 import com.qtd.realestate1012.model.BoardHasHeart;
 import com.qtd.realestate1012.model.CompactHouse;
+import com.qtd.realestate1012.model.FavoriteHouse;
 import com.qtd.realestate1012.utils.ProcessJson;
 import com.qtd.realestate1012.utils.ServiceUtils;
 
@@ -198,12 +199,10 @@ public class BottomSheetListBoard extends BottomSheetDialogFragment {
                 String action = response.getString(ApiConstant.ACTION);
                 if (action.equals(ApiConstant.ACTION_ADD)) {
                     CompactHouse house = ProcessJson.getCompactHouse(response.getString(ApiConstant.HOUSE));
-                    databaseHelper.insertHouseFavorite(house);
+                    databaseHelper.insertHouseFavorite(new FavoriteHouse(house, response.getString(ApiConstant._ID_BOARD)));
                 } else {
                     databaseHelper.deleteHouseFavorite(idHouse);
                 }
-
-                //// TODO: 9/24/2016 insert house cos them id board
                 return null;
             }
         }).subscribeOn(Schedulers.io())

@@ -3,26 +3,28 @@ package com.qtd.realestate1012.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.ArrayList;
+
 /**
  * Created by Dell on 8/7/2016.
  */
-public class Board implements Parcelable {
+public class Board implements Parcelable{
     protected String id;
     protected String name;
-    protected int countHouse;
+    protected ArrayList<String> listHouse;
     protected String image;
 
-    public Board(String id, String name, int countHouse, String image) {
+    public Board(String id, String name, ArrayList<String> listHouse, String image) {
         this.id = id;
         this.name = name;
-        this.countHouse = countHouse;
+        this.listHouse = listHouse;
         this.image = image;
     }
 
     protected Board(Parcel in) {
         id = in.readString();
         name = in.readString();
-        countHouse = in.readInt();
+        listHouse = in.createStringArrayList();
         image = in.readString();
     }
 
@@ -46,12 +48,12 @@ public class Board implements Parcelable {
         return name;
     }
 
-    public String getImage() {
-        return image;
+    public ArrayList<String> getListHouse() {
+        return listHouse;
     }
 
-    public int getCountHouse() {
-        return countHouse;
+    public String getImage() {
+        return image;
     }
 
     @Override
@@ -63,7 +65,7 @@ public class Board implements Parcelable {
     public void writeToParcel(Parcel parcel, int i) {
         parcel.writeString(id);
         parcel.writeString(name);
-        parcel.writeInt(countHouse);
+        parcel.writeStringList(listHouse);
         parcel.writeString(image);
     }
 }

@@ -25,7 +25,9 @@ import com.qtd.realestate1012.callback.FavoriteFragmentCallback;
 import com.qtd.realestate1012.constant.ApiConstant;
 import com.qtd.realestate1012.constant.AppConstant;
 import com.qtd.realestate1012.database.DatabaseHelper;
+import com.qtd.realestate1012.model.Board;
 import com.qtd.realestate1012.model.CompactHouse;
+import com.qtd.realestate1012.model.FavoriteHouse;
 import com.qtd.realestate1012.utils.AlertUtils;
 import com.qtd.realestate1012.utils.ProcessJson;
 import com.qtd.realestate1012.utils.ServiceUtils;
@@ -89,7 +91,7 @@ public class HomesFavoriteFragment extends Fragment {
                 @Override
                 public ArrayList<CompactHouse> call() throws Exception {
                     DatabaseHelper databaseHelper = DatabaseHelper.getInstance(getContext());
-                    return databaseHelper.getAllCompactHouses();
+                    return databaseHelper.getAllFavoriteHouse();
                 }
             }).subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
@@ -176,14 +178,7 @@ public class HomesFavoriteFragment extends Fragment {
                                 break;
                             }
                             case ApiConstant.SUCCESS: {
-                                int size = arrayListHouses.size();
-                                arrayListHouses.clear();
-                                adapter.notifyItemRangeRemoved(0, size);
-                                arrayListHouses.addAll(ProcessJson.getListCompactHouse(response));
-                                adapter.notifyItemRangeInserted(0, arrayListHouses.size());
-
-                                HousieApplication.getInstance().getSharedPreUtils().putString(ApiConstant.LIST_HOUSE, response.toString());
-                                //// TODO: 9/24/2016 sync data house favorite
+                                handleResponseSuccess(response);
                                 break;
                             }
                         }
@@ -213,6 +208,57 @@ public class HomesFavoriteFragment extends Fragment {
         } else {
             refreshLayout.setRefreshing(false);
         }
+    }
+
+    private void handleResponseSuccess(final JSONObject response) {
+        Single.fromCallable(new Callable<ArrayList<CompactHouse>>() {
+            @Override
+            public ArrayList<CompactHouse> call() throws Exception {
+                ArrayList<CompactHouse> compactHouses = ProcessJson.getListCompactHouse(response);
+
+                if (compactHouses.size() > 0) {
+                    response.put(ApiConstant.HAS_BOARD, true);
+                } else {
+                    response.put(ApiConstant.HAS_BOARD, false);
+                }
+                ArrayList<Board> arrayListBoard = ProcessJson.getFavoriteBoards(response);
+
+                ArrayList<FavoriteHouse> arrayListFavoriteHouse = new ArrayList<>();
+                for (Board board : arrayListBoard) {
+                    if (compactHouses.size() == 0) {
+                        break;
+                    } else {
+                        for (int i = compactHouses.size(); i >= 0; i--) {
+                            if (board.getListHouse().contains(compactHouses.get(i).getId())) {
+                                arrayListFavoriteHouse.add(new FavoriteHouse(compactHouses.get(i), board.getId()));
+                                compactHouses.remove(i);
+                            }
+                        }
+                    }
+                }
+
+                DatabaseHelper databaseHelper = DatabaseHelper.getInstance(getContext());
+                databaseHelper.syncDataFavoriteHouse(arrayListFavoriteHouse);
+
+                return compactHouses;
+            }
+        }).observeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new SingleSubscriber<ArrayList<CompactHouse>>() {
+                    @Override
+                    public void onSuccess(ArrayList<CompactHouse> value) {
+                        int size = arrayListHouses.size();
+                        arrayListHouses.clear();
+                        adapter.notifyItemRangeRemoved(0, size);
+                        arrayListHouses.addAll(value);
+                        adapter.notifyItemRangeInserted(0, arrayListHouses.size());
+                    }
+
+                    @Override
+                    public void onError(Throwable error) {
+                        error.printStackTrace();
+                    }
+                });
     }
 
     @OnClick(R.id.tvSearch)

@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:orientation="vertical"
+              android:padding="@dimen/activity_horizontal_margin">
+
+    <RadioGroup
+        android:id="@+id/radioProperty"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <RadioButton
+            android:id="@+id/radioAny"
+            style="?android:attr/textAppearanceMedium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            android:padding="10dp"
+            android:text="@string/any"
+            android:textSize="16sp"/>
+
+        <RadioButton
+            android:id="@+id/radioPrivateHouse"
+            style="?android:attr/textAppearanceMedium"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:padding="10dp"
+            android:text="@string/privateHouse"
+            android:textSize="16sp"/>
+
+        <RadioButton
+            android:id="@+id/radioCondominium"
+            style="?android:attr/textAppearanceMedium"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:padding="10dp"
+            android:text="@string/condominium"
+            android:textSize="16sp"/>
+
+        <RadioButton
+            android:id="@+id/radioShop"
+            style="?android:attr/textAppearanceMedium"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:padding="10dp"
+            android:text="@string/shop"
+            android:textSize="16sp"/>
+
+        <RadioButton
+            android:id="@+id/radioWarehouse"
+            style="?android:attr/textAppearanceMedium"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:padding="10dp"
+            android:text="@string/warehouse"
+            android:textSize="16sp"/>
+
+        <RadioButton
+            android:id="@+id/radioResort"
+            style="?android:attr/textAppearanceMedium"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:padding="10dp"
+            android:text="@string/resort"
+            android:textSize="16sp"/>
+
+        <RadioButton
+            android:id="@+id/radioLand"
+            style="?android:attr/textAppearanceMedium"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:padding="10dp"
+            android:text="@string/land"
+            android:textSize="16sp"/>
+    </RadioGroup>
+</LinearLayout>

@@ -9,6 +9,7 @@ import android.database.sqlite.SQLiteDatabase;
 import com.qtd.realestate1012.model.Board;
 import com.qtd.realestate1012.model.BoardHasHeart;
 import com.qtd.realestate1012.model.CompactHouse;
+import com.qtd.realestate1012.model.FavoriteHouse;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -20,7 +21,7 @@ import java.util.ArrayList;
  * Created by DELL on 9/24/2016.
  */
 public class DatabaseHelper {
-    public static final String PATH = "/data/data/com.qtd.realestate1012/database/";
+    public static final String PATH = "/data/data/com.qtd.realestate1012/databases/";
     public static final String DATABASE = "HOUSIE_DATABASE.sqlite";
 
     public static final String TABLE_BOARD = "tblBoard";
@@ -107,7 +108,7 @@ public class DatabaseHelper {
                 int countHouse = cursor.getInt(2);
                 String firstImage = cursor.getString(3);
 
-                arrayList.add(new Board(id, name, countHouse, firstImage));
+                arrayList.add(new Board(id, name, new ArrayList<String>(countHouse), firstImage));
             }
             cursor.close();
         } catch (SQLException ex) {
@@ -126,7 +127,7 @@ public class DatabaseHelper {
             contentValues.put(_ID, board.getId());
             contentValues.put(NAME, board.getName());
             contentValues.put(FIRST_IMAGE, board.getImage());
-            contentValues.put(COUNT_HOUSE, board.getCountHouse());
+            contentValues.put(COUNT_HOUSE, board.getListHouse().size());
 
             mDatabase.insertOrThrow(TABLE_BOARD, null, contentValues);
         } catch (SQLException ex) {
@@ -137,7 +138,6 @@ public class DatabaseHelper {
     }
 
     public void insertMultiplesBoard(ArrayList<Board> arrayList) {
-        //// TODO: 9/24/2016 transaction insert
         try {
             openDatabase();
 
@@ -148,34 +148,38 @@ public class DatabaseHelper {
                 contentValues.put(_ID, board.getId());
                 contentValues.put(NAME, board.getName());
                 contentValues.put(FIRST_IMAGE, board.getImage());
-                contentValues.put(COUNT_HOUSE, board.getCountHouse());
+                contentValues.put(COUNT_HOUSE, board.getListHouse().size());
 
-                mDatabase.insertOrThrow(TABLE_BOARD, null, contentValues);
+                mDatabase.insert(TABLE_BOARD, null, contentValues);
             }
 
-            mDatabase.endTransaction();
+            mDatabase.setTransactionSuccessful();
         } catch (SQLException ex) {
             ex.printStackTrace();
         } finally {
+            mDatabase.endTransaction();
             closeDatabase();
         }
     }
 
-    public void deleteBoard(String idBoard) {
-        //// TODO: 9/24/2016 xem lại hàm delete và trả về kết quả
+    public boolean deleteBoard(String idBoard) {
         try {
             openDatabase();
 
-            mDatabase.delete(TABLE_BOARD, _ID + " = '" + idBoard + "'", null);
+            int result = mDatabase.delete(TABLE_BOARD, _ID + " = '" + idBoard + "'", null);
+            if (result == 1) {
+                return true;
+            }
 
         } catch (SQLException ex) {
             ex.printStackTrace();
         } finally {
             closeDatabase();
         }
+        return false;
     }
 
-    public ArrayList<CompactHouse> getAllCompactHouses() {
+    public ArrayList<CompactHouse> getAllFavoriteHouse() {
         ArrayList<CompactHouse> arrayList = new ArrayList<>();
 
         try {
@@ -212,7 +216,7 @@ public class DatabaseHelper {
         return arrayList;
     }
 
-    public void insertHouseFavorite(CompactHouse house) {
+    public void insertHouseFavorite(FavoriteHouse house) {
         try {
             openDatabase();
 
@@ -227,28 +231,33 @@ public class DatabaseHelper {
             contentValues.put(CITY, house.getCity());
             contentValues.put(PRICE, house.getPrice());
             contentValues.put(FIRST_IMAGE, house.getFirstImage());
+            contentValues.put(_ID_BOARD, house.getIdBoard());
 
             mDatabase.insertOrThrow(TABLE_HOUSE_FAVORITE, null, contentValues);
 
-            mDatabase.endTransaction();
+            mDatabase.setTransactionSuccessful();
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
+            mDatabase.endTransaction();
             closeDatabase();
         }
     }
 
-    public void deleteHouseFavorite(String id) {
+    public boolean deleteHouseFavorite(String id) {
         try {
             openDatabase();
 
-            mDatabase.delete(TABLE_HOUSE_FAVORITE, _ID + "='" + id + "'", null);
-
+            int result = mDatabase.delete(TABLE_HOUSE_FAVORITE, _ID + "='" + id + "'", null);
+            if (result == 1) {
+                return true;
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
             closeDatabase();
         }
+        return false;
     }
 
     public void clearUserData() {
@@ -260,10 +269,11 @@ public class DatabaseHelper {
             mDatabase.delete(TABLE_BOARD, null, null);
             mDatabase.delete(TABLE_HOUSE_FAVORITE, null, null);
 
-            mDatabase.endTransaction();
+            mDatabase.setTransactionSuccessful();
         } catch (SQLException ex) {
             ex.printStackTrace();
         } finally {
+            mDatabase.endTransaction();
             closeDatabase();
         }
     }
@@ -289,7 +299,7 @@ public class DatabaseHelper {
                     int countHouse = cursorBoard.getInt(2);
                     String firstImage = cursorBoard.getString(3);
 
-                    arrayList.add(new BoardHasHeart(id, name, countHouse, firstImage, id.equals(idBoard)));
+                    arrayList.add(new BoardHasHeart(id, name, new ArrayList<String>(countHouse), firstImage, id.equals(idBoard)));
                 }
             } else {
                 while (cursorBoard.moveToNext()) {
@@ -298,7 +308,7 @@ public class DatabaseHelper {
                     int countHouse = cursorBoard.getInt(2);
                     String firstImage = cursorBoard.getString(3);
 
-                    arrayList.add(new BoardHasHeart(id, name, countHouse, firstImage, false));
+                    arrayList.add(new BoardHasHeart(id, name, new ArrayList<String>(countHouse), firstImage, false));
                 }
             }
             cursorBoard.close();
@@ -327,5 +337,58 @@ public class DatabaseHelper {
             closeDatabase();
         }
         return arrayList;
+    }
+
+    public void syncDataBoard(ArrayList<Board> arrayListServer) {
+        try {
+            openDatabase();
+
+            Cursor cursor = mDatabase.query(TABLE_BOARD, new String[]{_ID}, null, null, null, null, null);
+            ArrayList<String> arrayListLocal = new ArrayList<>();
+            while (cursor.moveToNext()) {
+                arrayListLocal.add(cursor.getString(0));
+            }
+            cursor.close();
+
+            mDatabase.beginTransaction();
+
+            for (Board board : arrayListServer) {
+                if (!arrayListLocal.contains(board.getId())) {
+                    ContentValues contentValues = new ContentValues();
+                    contentValues.put(_ID, board.getId());
+                    contentValues.put(NAME, board.getName());
+                    contentValues.put(COUNT_HOUSE, board.getListHouse().size());
+                    contentValues.put(FIRST_IMAGE, board.getImage());
+
+                    mDatabase.insert(TABLE_BOARD, null, contentValues);
+                }
+            }
+
+            for (String id : arrayListLocal) {
+                boolean severHas = false;
+                for (Board board : arrayListServer) {
+                    if (board.getId().equals(id)) {
+                        severHas = true;
+                        break;
+                    }
+                }
+
+                if (!severHas) {
+                    mDatabase.delete(TABLE_BOARD, _ID + "='" + id + "'", null);
+                }
+            }
+
+            mDatabase.setTransactionSuccessful();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            mDatabase.endTransaction();
+            closeDatabase();
+        }
+    }
+
+    public void syncDataFavoriteHouse(ArrayList<FavoriteHouse> arrayListFavoriteHouse) {
+        // TODO: 9/26/2016 datasync
+
     }
 }

@@ -2,6 +2,7 @@
 <resources>
     <!--array price range sale-->
     <string-array name="price_range_from_sale">
+        <item>Bất kỳ</item>
         <item>200 triệu VNĐ</item>
         <item>300 triệu VNĐ</item>
         <item>400 triệu VNĐ</item>
@@ -17,7 +18,6 @@
     </string-array>
 
     <string-array name="price_range_to_sale">
-
         <item>1 tỷ VNĐ</item>
         <item>1.1 tỷ VNĐ</item>
         <item>1.2 tỷ VNĐ</item>
@@ -36,51 +36,56 @@
         <item>12.5 tỷ VNĐ</item>
         <item>15 tỷ VNĐ</item>
         <item>20 tỷ VNĐ</item>
-        <item>20+ tỷ VNĐ</item>
+        <item>22.5 tỷ VNĐ</item>
+        <item>25 tỷ VNĐ</item>
+        <item>30 tỷ VNĐ</item>
     </string-array>
     <!--array price range sale-->
 
 
     <!--array price range rent-->
     <string-array name="price_range_from_rent">
-        <item>1.000.000 VND</item>
-        <item>1.500.000 VND</item>
-        <item>2.000.000 VND</item>
-        <item>2.500.000 VND</item>
-        <item>3.000.000 VND</item>
-        <item>3.500.000 VND</item>
-        <item>4.000.000 VND</item>
-        <item>5.000.000 VND</item>
-        <item>6.000.000 VND</item>
-        <item>7.500.000 VND</item>
-        <item>10.000.000 VND</item>
-        <item>12.000.000 VND</item>
-        <item>15.000.000 VND</item>
+        <item>Bất kỳ</item>
+        <item>1.000.000 VNĐ</item>
+        <item>1.500.000 VNĐ</item>
+        <item>2.000.000 VNĐ</item>
+        <item>2.500.000 VNĐ</item>
+        <item>3.000.000 VNĐ</item>
+        <item>3.500.000 VNĐ</item>
+        <item>4.000.000 VNĐ</item>
+        <item>5.000.000 VNĐ</item>
+        <item>6.000.000 VNĐ</item>
+        <item>7.500.000 VNĐ</item>
+        <item>10.000.000 VNĐ</item>
+        <item>12.000.000 VNĐ</item>
+        <item>15.000.000 VNĐ</item>
     </string-array>
 
     <string-array name="price_range_to_rent">
-        <item>4.000.000 VND</item>
-        <item>5.000.000 VND</item>
-        <item>6.000.000 VND</item>
-        <item>7.500.000 VND</item>
-        <item>10.000.000 VND</item>
-        <item>12.000.000 VND</item>
-        <item>15.000.000 VND</item>
-        <item>16.000.000 VND</item>
-        <item>17.500.000 VND</item>
-        <item>20.000.000 VND</item>
-        <item>22.500.000 VND</item>
-        <item>25.000.000 VND</item>
-        <item>30.000.000 VND</item>
-        <item>40.000.000 VND</item>
-        <item>50.000.000 VND</item>
-        <item>50.000.000+ VND</item>
+        <item>4.000.000 VNĐ</item>
+        <item>5.000.000 VNĐ</item>
+        <item>6.000.000 VNĐ</item>
+        <item>7.500.000 VNĐ</item>
+        <item>10.000.000 VNĐ</item>
+        <item>12.000.000 VNĐ</item>
+        <item>15.000.000 VNĐ</item>
+        <item>16.000.000 VNĐ</item>
+        <item>17.500.000 VNĐ</item>
+        <item>20.000.000 VNĐ</item>
+        <item>22.500.000 VNĐ</item>
+        <item>25.000.000 VNĐ</item>
+        <item>30.000.000 VNĐ</item>
+        <item>40.000.000 VNĐ</item>
+        <item>50.000.000 VNĐ</item>
+        <item>75.000.000 VNĐ</item>
+        <item>100.000.000 VNĐ</item>
     </string-array>
     <!--array price range rent-->
 
 
     <!--array area from-->
     <string-array name="area_from">
+        <item>Bất kỳ</item>
         <item>10 m2</item>
         <item>15 m2</item>
         <item>20 m2</item>
@@ -108,7 +113,21 @@
         <item>600 m2</item>
         <item>750 m2</item>
         <item>1000 m2</item>
-        <item>1000+ m2</item>
+        <item>1500 m2</item>
+        <item>2000 m2</item>
+        <item>3000 m2</item>
     </string-array>
     <!--array area to-->
+
+    <!--array property type-->
+    <string-array name="array_property_type">
+        <item>Bất kỳ</item>
+        <item>Nhà riêng</item>
+        <item>Chung cư</item>
+        <item>Cửa hàng</item>
+        <item>Kho, nhà xưởng</item>
+        <item>Khu nghỉ dưỡng</item>
+        <item>Đất nền</item>
+    </string-array>
+    <!--array property type-->
 </resources>

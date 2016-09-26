@@ -22,7 +22,7 @@
     </style>
 
     <!--style filter activity-->
-    <style name="StyleFilterActivity" parent="AppTheme">
+    <style name="StylePostActivity" parent="AppTheme">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>

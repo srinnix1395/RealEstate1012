@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/colorPrimary" />
+        android:background="@color/colorPrimary"/>
 
     <ScrollView
         android:layout_width="match_parent"
@@ -24,8 +24,8 @@
             android:padding="@dimen/activity_horizontal_margin">
 
             <RadioGroup
-                android:layout_width="match_parent"
                 android:id="@+id/radioGroup"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
@@ -35,14 +35,14 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:checked="true"
-                    android:text="@string/forSale" />
+                    android:text="@string/forSale"/>
 
                 <RadioButton
                     android:id="@+id/radioRent"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="@string/forRent" />
+                    android:text="@string/forRent"/>
             </RadioGroup>
 
             <TextView
@@ -53,7 +53,7 @@
                 android:layout_marginTop="@dimen/high_margin"
                 android:text="@string/priceRange"
                 android:textColor="@android:color/black"
-                android:textSize="16sp" />
+                android:textSize="16sp"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -68,13 +68,13 @@
                         android:id="@+id/spinnerPriceFrom"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:entries="@array/price_range_from_sale" />
+                        android:entries="@array/price_range_from_sale"/>
 
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="0.5dp"
                         android:layout_gravity="bottom"
-                        android:background="@color/colorDarkGray" />
+                        android:background="@color/colorDarkGray"/>
                 </FrameLayout>
 
 
@@ -85,7 +85,7 @@
                     android:layout_weight="1"
                     android:fontFamily="sans-serif-light"
                     android:gravity="center"
-                    android:text="@string/line" />
+                    android:text="@string/line"/>
 
                 <FrameLayout
                     android:layout_width="0dp"
@@ -96,13 +96,13 @@
                         android:id="@+id/spinnerPriceTo"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:entries="@array/price_range_to_sale" />
+                        android:entries="@array/price_range_to_sale"/>
 
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="0.5dp"
                         android:layout_gravity="bottom"
-                        android:background="@color/colorDarkGray" />
+                        android:background="@color/colorDarkGray"/>
                 </FrameLayout>
 
             </LinearLayout>
@@ -115,7 +115,7 @@
                 android:layout_marginTop="@dimen/high_margin"
                 android:text="@string/numberOfRooms"
                 android:textColor="@android:color/black"
-                android:textSize="16sp" />
+                android:textSize="16sp"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -129,7 +129,7 @@
                     android:background="@drawable/background_number_room_selected"
                     android:gravity="center"
                     android:text="@string/any"
-                    android:textColor="@android:color/white" />
+                    android:textColor="@android:color/white"/>
 
                 <TextView
                     android:id="@+id/tvRoom1"
@@ -139,7 +139,7 @@
                     android:background="@drawable/background_number_room"
                     android:gravity="center"
                     android:text="@string/onePlus"
-                    android:textColor="@color/colorDarkGray" />
+                    android:textColor="@color/colorDarkGray"/>
 
                 <TextView
                     android:id="@+id/tvRoom2"
@@ -149,7 +149,7 @@
                     android:background="@drawable/background_number_room"
                     android:gravity="center"
                     android:text="@string/twoPlus"
-                    android:textColor="@color/colorDarkGray" />
+                    android:textColor="@color/colorDarkGray"/>
 
                 <TextView
                     android:id="@+id/tvRoom3"
@@ -159,7 +159,7 @@
                     android:background="@drawable/background_number_room"
                     android:gravity="center"
                     android:text="@string/threePlus"
-                    android:textColor="@color/colorDarkGray" />
+                    android:textColor="@color/colorDarkGray"/>
 
                 <TextView
                     android:id="@+id/tvRoom4"
@@ -169,7 +169,7 @@
                     android:background="@drawable/background_number_room"
                     android:gravity="center"
                     android:text="@string/fourPlus"
-                    android:textColor="@color/colorDarkGray" />
+                    android:textColor="@color/colorDarkGray"/>
             </LinearLayout>
 
             <TextView
@@ -180,7 +180,7 @@
                 android:layout_marginTop="@dimen/high_margin"
                 android:text="@string/area"
                 android:textColor="@android:color/black"
-                android:textSize="16sp" />
+                android:textSize="16sp"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -195,13 +195,13 @@
                         android:id="@+id/spinnerAreaFrom"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:entries="@array/area_from" />
+                        android:entries="@array/area_from"/>
 
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="0.5dp"
                         android:layout_gravity="bottom"
-                        android:background="@color/colorDarkGray" />
+                        android:background="@color/colorDarkGray"/>
                 </FrameLayout>
 
 
@@ -212,7 +212,7 @@
                     android:layout_weight="1"
                     android:fontFamily="sans-serif-light"
                     android:gravity="center"
-                    android:text="@string/line" />
+                    android:text="@string/line"/>
 
                 <FrameLayout
                     android:layout_width="0dp"
@@ -223,13 +223,13 @@
                         android:id="@+id/spinnerAreaTo"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:entries="@array/area_to" />
+                        android:entries="@array/area_to"/>
 
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="0.5dp"
                         android:layout_gravity="bottom"
-                        android:background="@color/colorDarkGray" />
+                        android:background="@color/colorDarkGray"/>
                 </FrameLayout>
 
             </LinearLayout>
@@ -242,7 +242,60 @@
                 android:layout_marginTop="@dimen/high_margin"
                 android:text="@string/propertyType"
                 android:textColor="@android:color/black"
-                android:textSize="16sp" />
+                android:textSize="16sp"/>
+
+            <RelativeLayout
+                android:id="@+id/layoutProperty"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/background_tv_search">
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@+id/layout1"
+                    android:layout_marginBottom="9dp">
+
+                    <TextView
+                        android:id="@+id/tvPropertyType"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingBottom="5dp"
+                        android:paddingStart="10dp"
+                        android:text="@string/any"
+                        android:textSize="16sp"/>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="0.5dp"
+                        android:layout_gravity="bottom"
+                        android:background="@color/colorDarkGray"/>
+                </FrameLayout>
+
+
+                <LinearLayout
+                    android:id="@+id/layout1"
+                    android:layout_width="@dimen/defaultSize"
+                    android:layout_height="@dimen/defaultSize"
+                    android:layout_alignParentEnd="true"
+                    android:orientation="horizontal">
+
+                    <View
+                        android:layout_width="0.5dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginBottom="9dp"
+                        android:background="#8a8a8a"/>
+
+                    <ImageView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:paddingBottom="10dp"
+                        android:scaleType="center"
+                        android:src="@drawable/ic_number_of_room"/>
+
+                </LinearLayout>
+            </RelativeLayout>
         </LinearLayout>
     </ScrollView>
 
@@ -252,7 +305,7 @@
         android:layout_width="match_parent"
         android:layout_height="0.25dp"
         android:layout_above="@+id/layout"
-        android:background="@color/colorDarkGray" />
+        android:background="@color/colorDarkGray"/>
 
     <LinearLayout
         android:id="@+id/layout"
@@ -275,7 +328,7 @@
             android:text="@string/cancel"
             android:textAllCaps="true"
             android:textColor="@color/colorDarkGray"
-            android:textStyle="bold" />
+            android:textStyle="bold"/>
 
         <TextView
             android:id="@+id/tvReset"
@@ -292,7 +345,7 @@
             android:text="@string/reset"
             android:textAllCaps="true"
             android:textColor="@color/colorDarkGray"
-            android:textStyle="bold" />
+            android:textStyle="bold"/>
 
         <TextView
             android:id="@+id/tvSearch"
@@ -309,6 +362,6 @@
             android:text="@string/search"
             android:textAllCaps="true"
             android:textColor="@color/colorPrimary"
-            android:textStyle="bold" />
+            android:textStyle="bold"/>
     </LinearLayout>
 </RelativeLayout>

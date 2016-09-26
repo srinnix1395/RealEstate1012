@@ -1,9 +1,12 @@
 package com.qtd.realestate1012.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 /**
  * Created by Dell on 8/7/2016.
  */
-public class CompactHouse {
+public class CompactHouse implements Parcelable {
     protected String id;
     protected int price;
     protected String detailAddress;
@@ -29,6 +32,32 @@ public class CompactHouse {
         this.lng = lng;
         this.isLiked = isLiked;
     }
+
+    protected CompactHouse(Parcel in) {
+        id = in.readString();
+        price = in.readInt();
+        detailAddress = in.readString();
+        street = in.readString();
+        ward = in.readString();
+        district = in.readString();
+        city = in.readString();
+        firstImage = in.readString();
+        lat = in.readString();
+        lng = in.readString();
+        isLiked = in.readByte() != 0;
+    }
+
+    public static final Creator<CompactHouse> CREATOR = new Creator<CompactHouse>() {
+        @Override
+        public CompactHouse createFromParcel(Parcel in) {
+            return new CompactHouse(in);
+        }
+
+        @Override
+        public CompactHouse[] newArray(int size) {
+            return new CompactHouse[size];
+        }
+    };
 
     public String getId() {
         return id;
@@ -84,5 +113,25 @@ public class CompactHouse {
 
     public void setLiked(boolean liked) {
         isLiked = liked;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeString(id);
+        parcel.writeInt(price);
+        parcel.writeString(detailAddress);
+        parcel.writeString(street);
+        parcel.writeString(ward);
+        parcel.writeString(district);
+        parcel.writeString(city);
+        parcel.writeString(firstImage);
+        parcel.writeString(lat);
+        parcel.writeString(lng);
+        parcel.writeByte((byte) (isLiked ? 1 : 0));
     }
 }

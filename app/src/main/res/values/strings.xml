@@ -142,5 +142,12 @@
     <string name="are_you_sure_to_log_out">Bạn có chắc chắn muốn thoát?</string>
     <string name="logoutSuccessfully">Đăng xuất thành công</string>
     <string name="createBoardSuccesfully">Tạo nhóm thành công</string>
+    <string name="noResult">Không có kết quả nào</string>
+    <string name="privateHouse">Nhà riêng</string>
+    <string name="shop">Cửa hàng</string>
+    <string name="condominium">Chung cư</string>
+    <string name="warehouse">Kho, nhà xưởng</string>
+    <string name="resort">Khu nghỉ dưỡng</string>
+    <string name="land">Đất nền</string>
 
 </resources>

@@ -26,6 +26,7 @@ import com.qtd.realestate1012.adapter.HouseNewsAdapter;
 import com.qtd.realestate1012.constant.ApiConstant;
 import com.qtd.realestate1012.constant.AppConstant;
 import com.qtd.realestate1012.custom.BottomSheetListBoard;
+import com.qtd.realestate1012.database.DatabaseHelper;
 import com.qtd.realestate1012.messageevent.MessageClickImvHeartOnHouse;
 import com.qtd.realestate1012.messageevent.MessageEventClickSeeAllViewHolder;
 import com.qtd.realestate1012.messageevent.MessageLikeBoardSuccess;
@@ -112,6 +113,10 @@ public class HomeFragment extends Fragment {
         if (!ServiceUtils.isNetworkAvailable(view.getContext())) {
             progressBar.setEnabled(false);
             progressBar.setVisibility(View.INVISIBLE);
+            if (arrayListHouseNews.size() == 0) {
+                tvError.setVisibility(View.VISIBLE);
+                tvError.setText(R.string.noInternetConnection);
+            }
             AlertUtils.showSnackBarNoInternet(view);
             return;
         }
@@ -164,8 +169,11 @@ public class HomeFragment extends Fragment {
             @Override
             public ArrayList<Object> call() throws Exception {
                 JSONObject jsonBoard = response.getJSONObject(ApiConstant.BOARD);
+
                 ArrayList<Board> arrayList = ProcessJson.getFavoriteBoards(jsonBoard);
-                //// TODO: 9/24/2016 sync dữ liệu board
+                DatabaseHelper databaseHelper = DatabaseHelper.getInstance(getContext());
+                databaseHelper.syncDataBoard(arrayList);
+
                 return ProcessJson.getArrayListHousesNew(jsonBoard, response.getJSONArray(ApiConstant.LIST_HOUSE));
             }
         })

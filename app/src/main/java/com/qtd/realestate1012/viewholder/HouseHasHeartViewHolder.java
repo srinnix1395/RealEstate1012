@@ -60,7 +60,7 @@ public class HouseHasHeartViewHolder extends RecyclerView.ViewHolder implements 
         id = house.getId();
 
         Glide.with(itemView.getContext())
-                .load(house.getFirstImage())
+                .load(ApiConstant.URL_WEB_SERVICE_GET_IMAGE_HOUSE + house.getFirstImage())
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .crossFade(1000)
                 .placeholder(R.drawable.ic_apartment)

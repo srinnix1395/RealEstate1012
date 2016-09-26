@@ -14,6 +14,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
@@ -114,7 +115,7 @@ public class SearchFragment extends Fragment implements OnMapReadyCallback {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         ButterKnife.bind(this, view);
         initData();
-        initView();
+        initViews();
     }
 
     private void initData() {
@@ -173,7 +174,7 @@ public class SearchFragment extends Fragment implements OnMapReadyCallback {
         mapManager.displayHousesMarker(response.getJSONArray(ApiConstant.LIST_HOUSE));
     }
 
-    private void initView() {
+    private void initViews() {
         fabEnableMarker.getDrawable().setLevel(1);
 
         progressBar.setIndeterminate(true);
@@ -183,6 +184,13 @@ public class SearchFragment extends Fragment implements OnMapReadyCallback {
         supportMapFragment = new SupportMapFragment();
         getChildFragmentManager().beginTransaction().add(R.id.layoutSearch, supportMapFragment).commit();
         supportMapFragment.getMapAsync(this);
+
+        layoutLocalInfo.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                return true;
+            }
+        });
     }
 
 
@@ -237,7 +245,7 @@ public class SearchFragment extends Fragment implements OnMapReadyCallback {
                 break;
             }
             case R.id.tvSaveSearch: {
-
+                onClickTvFilter();
                 break;
             }
             case R.id.fabEnableMarker: {
@@ -334,12 +342,6 @@ public class SearchFragment extends Fragment implements OnMapReadyCallback {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         switch (requestCode) {
-            case AppConstant.REQUEST_CODE_FILTER_ACTIVITY: {
-                if (resultCode == Activity.RESULT_OK && data != null) {
-                    //// TODO: 8/21/2016 filter
-                }
-                break;
-            }
             case AppConstant.PLACE_AUTOCOMPLETE_REQUEST_CODE: {
                 if (resultCode == PlaceAutocomplete.RESULT_ERROR) {
                     Toast.makeText(getContext(), R.string.errorProcessing, Toast.LENGTH_SHORT).show();
