@@ -1,16 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.qtd.realestate1012.custom.RippleView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/rippleView"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    app:rv_color="@color/colorGrayBorder"
-    app:rv_rippleDuration="250">
+                                          xmlns:app="http://schemas.android.com/apk/res-auto"
+                                          android:id="@+id/rippleView"
+                                          android:layout_width="wrap_content"
+                                          android:layout_height="wrap_content"
+                                          app:rv_color="@color/colorGrayBorder"
+                                          app:rv_rippleDuration="250">
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="80dp"
-        android:clickable="true"
+        android:layout_height="70dp"
         android:orientation="vertical">
 
         <LinearLayout
@@ -23,14 +22,14 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/tvArea"
+                android:id="@+id/tvStatus"
                 style="?android:attr/textAppearanceSmall"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
                 android:lines="1"
                 android:textColor="@android:color/black"
-                android:textSize="16sp" />
+                android:textSize="16sp"/>
 
             <TextView
                 android:id="@+id/tvDescription"
@@ -38,8 +37,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
-                android:lines="1"
-                android:textSize="16sp" />
+                android:lines="1"/>
         </LinearLayout>
 
         <ImageView
@@ -48,16 +46,15 @@
             android:layout_width="@dimen/defaultSize"
             android:layout_height="@dimen/defaultSize"
             android:layout_alignParentEnd="true"
-            android:layout_alignTop="@+id/layout"
+            android:layout_centerVertical="true"
             android:layout_marginEnd="20dp"
-            android:clickable="true"
             android:scaleType="center"
-            app:srcCompat="@drawable/ic_heart_pink_large" />
+            app:srcCompat="@drawable/ic_heart_pink_large"/>
 
         <View
             android:layout_width="match_parent"
             android:layout_height="0.1dp"
             android:layout_alignParentBottom="true"
-            android:background="@color/colorGrayBorder" />
+            android:background="@color/colorGrayBorder"/>
     </RelativeLayout>
 </com.qtd.realestate1012.custom.RippleView>

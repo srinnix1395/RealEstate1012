@@ -41,9 +41,11 @@ public class ApiConstant {
     public static final String URL_WEB_SERVICE_DETAIL_HOUSE = "http://protectedcedar-31067.rhcloud.com/house/detailInfo";
     public static final String URL_WEB_SERVICE_GET_NEWS = "http://protectedcedar-31067.rhcloud.com/house/getNews";
     public static final String URL_WEB_SERVICE_POST_HOUSE = "http://protectedcedar-31067.rhcloud.com/house/post";
-    public static final String URL_WEB_SERVICE_SEARCH_HOUSE = "http://protectedcedar-31067.rhcloud.com/house/search"; 
-//            +
-//            "status=%s&price_from=%s&price_to=%d&number_of_rooms=%d&area_from=%s&area_to=%s";
+    public static final String URL_WEB_SERVICE_SEARCH_HOUSE = "http://protectedcedar-31067.rhcloud.com/house/search";
+
+    public static final String URL_WEB_SERVICE_FIND_SEARCH = "http://protectedcedar-31067.rhcloud.com/search/find";
+    public static final String URL_WEB_SERVICE_SAVE_SEARCH = "http://protectedcedar-31067.rhcloud.com/search/insert";
+    public static final String URL_WEB_SERVICE_REMOVE_SEARCH = "http://protectedcedar-31067.rhcloud.com/search/remove?_id=%s";
 
     public static final String URL_WEB_SERVICE_GET_IMAGE_HOUSE = "http://protectedcedar-31067.rhcloud.com/imageHouse/";
     public static final String URL_WEB_SERVICE_GET_IMAGE_USER = "http://protectedcedar-31067.rhcloud.com/imageUser/";
@@ -97,6 +99,8 @@ public class ApiConstant {
     public static final String PRICE_TO = "price_to";
     public static final String AREA_FROM = "area_from";
     public static final String AREA_TO = "area_to";
+    public static final String ITEM_SAVED_SEARCH = "item_saved_search";
+    public static final String LIST_SEARCH = "list_search";
     public static String _ID_BOARD = "_id_board";
     public static String _ID_HOUSE = "_id_house";
     public static String _ID_OWNER = "_id_owner";

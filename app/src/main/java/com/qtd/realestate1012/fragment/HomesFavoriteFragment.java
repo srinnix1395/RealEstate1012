@@ -144,7 +144,9 @@ public class HomesFavoriteFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        requestData();
+        if (getUserVisibleHint()) {
+            requestData();
+        }
     }
 
     private void requestData() {
@@ -272,6 +274,7 @@ public class HomesFavoriteFragment extends Fragment {
         int size = arrayListHouses.size();
         arrayListHouses.clear();
         adapter.notifyItemRangeRemoved(0, size);
+        refreshLayout.setEnabled(false);
 
         new Handler().postDelayed(new Runnable() {
             @Override

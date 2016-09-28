@@ -6,7 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.qtd.realestate1012.R;
-import com.qtd.realestate1012.model.ItemSearch;
+import com.qtd.realestate1012.model.ItemSavedSearch;
 import com.qtd.realestate1012.viewholder.SearchesViewHolder;
 
 import java.util.ArrayList;
@@ -15,9 +15,9 @@ import java.util.ArrayList;
  * Created by DELL on 8/22/2016.
  */
 public class SearchesAdapter extends RecyclerView.Adapter<SearchesViewHolder> {
-    private ArrayList<ItemSearch> arrayList;
+    private ArrayList<ItemSavedSearch> arrayList;
 
-    public SearchesAdapter(ArrayList<ItemSearch> arrayList) {
+    public SearchesAdapter(ArrayList<ItemSavedSearch> arrayList) {
         this.arrayList = arrayList;
     }
 

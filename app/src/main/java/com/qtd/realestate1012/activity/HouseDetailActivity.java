@@ -312,7 +312,7 @@ public class HouseDetailActivity extends AppCompatActivity implements ViewTreeOb
     @OnClick(R.id.tvCallOwner)
     void onClickTvCallOwner() {
         Intent intent = new Intent(Intent.ACTION_DIAL);
-//        intent.setData(Uri.parse("tel:" + tvPhoneOwner.getText().toString()));
+        intent.setData(Uri.parse("tel:0942899531"));
         startActivity(intent);
 
     }
@@ -320,7 +320,6 @@ public class HouseDetailActivity extends AppCompatActivity implements ViewTreeOb
     @OnClick(R.id.tvCallAgent)
     void onClickTvCallAgent() {
         Intent intent = new Intent(Intent.ACTION_DIAL);
-//        intent.setData(Uri.parse("tel:" + tvPhoneOwner.getText().toString()));
         intent.setData(Uri.parse("tel:0942899531"));
         startActivity(intent);
 

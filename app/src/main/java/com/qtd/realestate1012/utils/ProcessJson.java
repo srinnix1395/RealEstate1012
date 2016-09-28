@@ -6,6 +6,7 @@ import com.qtd.realestate1012.model.BoardHasHeart;
 import com.qtd.realestate1012.model.BunchHouse;
 import com.qtd.realestate1012.model.CompactHouse;
 import com.qtd.realestate1012.model.FullHouse;
+import com.qtd.realestate1012.model.ItemSavedSearch;
 import com.qtd.realestate1012.model.User;
 
 import org.json.JSONArray;
@@ -304,5 +305,32 @@ public class ProcessJson {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public static ArrayList<ItemSavedSearch> getListItemSearch(JSONObject response) {
+        ArrayList<ItemSavedSearch> arrayList = new ArrayList<>();
+
+        try {
+            JSONArray jsonArray = response.getJSONArray(ApiConstant.LIST_SEARCH);
+            for (int i = 0; i < jsonArray.length(); i++) {
+                JSONObject jsonObject = jsonArray.getJSONObject(i);
+
+                String id = jsonObject.getString(ApiConstant._ID);
+                String status = jsonObject.getString(ApiConstant.STATUS);
+                int priceFrom = jsonObject.getInt(ApiConstant.PRICE_FROM);
+                int priceTo = jsonObject.getInt(ApiConstant.PRICE_TO);
+                int numberOfRooms = jsonObject.getInt(ApiConstant.NUMBER_OF_ROOMS);
+                int areaFrom = jsonObject.getInt(ApiConstant.AREA_FROM);
+                int areaTo = jsonObject.getInt(ApiConstant.AREA_TO);
+                String property = jsonObject.getString(ApiConstant.PROPERTY_TYPE);
+                String idOwner = jsonObject.getString(ApiConstant._ID_OWNER);
+
+                arrayList.add(new ItemSavedSearch(id, status, priceFrom, priceTo, numberOfRooms, areaFrom, areaTo, property, idOwner));
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return arrayList;
     }
 }

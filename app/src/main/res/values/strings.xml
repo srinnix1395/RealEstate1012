@@ -149,5 +149,8 @@
     <string name="warehouse">Kho, nhà xưởng</string>
     <string name="resort">Khu nghỉ dưỡng</string>
     <string name="land">Đất nền</string>
+    <string name="removeSuccessfully">Xóa tìm kiếm thành công</string>
+    <string name="confirmSaveSearch">Bạn có muốn lưu tìm kiếm này?</string>
+    <string name="saveSearchSuccessfully">Lưu tìm kiếm thành công</string>
 
 </resources>

@@ -99,7 +99,9 @@ public class BoardFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        requestData();
+        if (getUserVisibleHint()) {
+            requestData();
+        }
     }
 
     private void initViews() {
@@ -284,6 +286,7 @@ public class BoardFragment extends Fragment {
         int size = arrayListBoards.size();
         arrayListBoards.clear();
         adapter.notifyItemRangeRemoved(0, size);
+        refreshLayout.setEnabled(false);
 
         new Handler().postDelayed(new Runnable() {
             @Override
