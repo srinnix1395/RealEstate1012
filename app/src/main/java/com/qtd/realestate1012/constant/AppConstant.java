@@ -25,6 +25,7 @@ public class AppConstant {
     public static final int REQUEST_CODE_IMAGES_PICKER = 11;
     public static final int TYPE_PICKER_AREA = 12;
     public static final int TYPE_PICKER_NUMBER_OF_ROOM = 13;
+    public static final int NOTIFICATION_ID = 10121995;
 
     public static int ICON_TAB_NORMAL[] = {
             R.drawable.ic_home_dark_green,

@@ -12,8 +12,10 @@ import android.support.v7.widget.PopupMenu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.qtd.realestate1012.HousieApplication;
 import com.qtd.realestate1012.R;
+import com.qtd.realestate1012.asynctask.UpdateFirebaseRegId;
 import com.qtd.realestate1012.callback.FavoriteFragmentCallback;
 import com.qtd.realestate1012.constant.ApiConstant;
 import com.qtd.realestate1012.constant.AppConstant;
@@ -48,6 +50,18 @@ public class MainActivity extends AppCompatActivity implements FavoriteFragmentC
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         initView();
+        updateRegId();
+    }
+
+    private void updateRegId() {
+        boolean isUserLoggedIn = HousieApplication.getInstance().getSharedPreUtils().getBoolean(AppConstant.USER_LOGGED_IN, false);
+
+        if (isUserLoggedIn && ServiceUtils.isNetworkAvailable(this)) {
+            String id = HousieApplication.getInstance().getSharedPreUtils().getString(ApiConstant._ID, "");
+            String token = FirebaseInstanceId.getInstance().getToken();
+
+            UpdateFirebaseRegId.updateRegId(id, token);
+        }
     }
 
     private void initView() {

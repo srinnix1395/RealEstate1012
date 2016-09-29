@@ -25,6 +25,7 @@ public class ApiConstant {
     public static final String URL_WEB_SERVICE_USER_INFO = "http://protectedcedar-31067.rhcloud.com/user/info";
     public static final String URL_WEB_SERVICE_UPDATE_INFO = "http://protectedcedar-31067.rhcloud.com/user/updateWithoutAvatar";
     public static final String URL_WEB_SERVICE_UPDATE_INFO_HAS_AVATAR = "http://protectedcedar-31067.rhcloud.com/user/updateWithAvatar";
+    public static final String URL_WEB_SERVICE_UPDATE_REG_ID = "http://protectedcedar-31067.rhcloud.com/user/updateRegID";
 
 
     public static final String URL_WEB_SERVICE_GET_BOARDS = "http://protectedcedar-31067.rhcloud.com/board/getBoards";
@@ -101,6 +102,7 @@ public class ApiConstant {
     public static final String AREA_TO = "area_to";
     public static final String ITEM_SAVED_SEARCH = "item_saved_search";
     public static final String LIST_SEARCH = "list_search";
+    public static final String REG_ID = "reg_id";
     public static String _ID_BOARD = "_id_board";
     public static String _ID_HOUSE = "_id_house";
     public static String _ID_OWNER = "_id_owner";
