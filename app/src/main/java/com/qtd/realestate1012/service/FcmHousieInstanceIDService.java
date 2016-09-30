@@ -1,5 +1,7 @@
 package com.qtd.realestate1012.service;
 
+import android.util.Log;
+
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.FirebaseInstanceIdService;
 import com.qtd.realestate1012.HousieApplication;
@@ -16,6 +18,7 @@ public class FcmHousieInstanceIDService extends FirebaseInstanceIdService {
     public void onTokenRefresh() {
         super.onTokenRefresh();
         String token = FirebaseInstanceId.getInstance().getToken();
+        Log.e("housie", "onTokenRefresh: " + token);
 
         boolean isUserLoggedIn = HousieApplication.getInstance().getSharedPreUtils().getBoolean(AppConstant.USER_LOGGED_IN, false);
 

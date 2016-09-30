@@ -55,8 +55,9 @@ public class MainActivity extends AppCompatActivity implements FavoriteFragmentC
 
     private void updateRegId() {
         boolean isUserLoggedIn = HousieApplication.getInstance().getSharedPreUtils().getBoolean(AppConstant.USER_LOGGED_IN, false);
+        boolean hasDeviceToken = HousieApplication.getInstance().getSharedPreUtils().getBoolean(AppConstant.DEVICE_TOKEN, false);
 
-        if (isUserLoggedIn && ServiceUtils.isNetworkAvailable(this)) {
+        if (!hasDeviceToken && isUserLoggedIn && ServiceUtils.isNetworkAvailable(this)) {
             String id = HousieApplication.getInstance().getSharedPreUtils().getString(ApiConstant._ID, "");
             String token = FirebaseInstanceId.getInstance().getToken();
 
@@ -191,7 +192,7 @@ public class MainActivity extends AppCompatActivity implements FavoriteFragmentC
     }
 
     @Subscribe
-    public void handleMessageSignOug(MessageSignOutResult message){
+    public void handleMessageSignOug(MessageSignOutResult message) {
         processLogout(message.result);
     }
 
