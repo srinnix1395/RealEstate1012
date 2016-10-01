@@ -139,15 +139,15 @@ public class BoardFragment extends Fragment {
     }
 
     private void requestData() {
-        refreshLayout.setRefreshing(true);
 
         if (!ServiceUtils.isNetworkAvailable(getContext())) {
-            if (this.getUserVisibleHint()) {
+            if (getUserVisibleHint()) {
                 AlertUtils.showSnackBarNoInternet(fabAddBoard);
             }
-            refreshLayout.setRefreshing(false);
             return;
         }
+
+        refreshLayout.setRefreshing(true);
 
         if (HousieApplication.getInstance().getSharedPreUtils().getBoolean(AppConstant.USER_LOGGED_IN, false)) {
             String url = ApiConstant.URL_WEB_SERVICE_GET_BOARDS;

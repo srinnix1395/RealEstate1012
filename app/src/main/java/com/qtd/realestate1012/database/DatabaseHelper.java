@@ -378,6 +378,7 @@ public class DatabaseHelper {
                 }
             }
 
+
             mDatabase.setTransactionSuccessful();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -387,8 +388,58 @@ public class DatabaseHelper {
         }
     }
 
-    public void syncDataFavoriteHouse(ArrayList<FavoriteHouse> arrayListFavoriteHouse) {
+    public void syncDataFavoriteHouse(ArrayList<FavoriteHouse> arrayListServer) {
         // TODO: 9/26/2016 datasync
+        ArrayList<String> arrayListLocal = new ArrayList<>();
 
+        try {
+            openDatabase();
+
+            Cursor cursor = mDatabase.query(TABLE_HOUSE_FAVORITE, new String[]{_ID}, null, null, null, null, null);
+            while (cursor.moveToNext()) {
+                arrayListLocal.add(cursor.getString(0));
+            }
+            cursor.close();
+
+            for (FavoriteHouse house : arrayListServer) {
+                if (!arrayListLocal.contains(house.getId())) {
+
+                    ContentValues contentValues = new ContentValues();
+                    contentValues.put(_ID, house.getId());
+                    contentValues.put(DETAIL_ADDRESS, house.getDetailAddress());
+                    contentValues.put(STREET, house.getStreet());
+                    contentValues.put(WARD, house.getWard());
+                    contentValues.put(DISTRICT, house.getDistrict());
+                    contentValues.put(CITY, house.getCity());
+                    contentValues.put(PRICE, house.getPrice());
+                    contentValues.put(FIRST_IMAGE, house.getFirstImage());
+                    contentValues.put(_ID_BOARD, house.getIdBoard());
+
+                    mDatabase.insertOrThrow(TABLE_HOUSE_FAVORITE, null, contentValues);
+                }
+            }
+
+            for (String id : arrayListLocal) {
+                boolean severHas = false;
+                for (FavoriteHouse house : arrayListServer) {
+                    if (house.getId().equals(id)) {
+                        severHas = true;
+                        break;
+                    }
+                }
+
+                if (!severHas) {
+                    mDatabase.delete(TABLE_HOUSE_FAVORITE, _ID + "='" + id + "'", null);
+                }
+            }
+
+            mDatabase.setTransactionSuccessful();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            mDatabase.endTransaction();
+            closeDatabase();
+        }
     }
 }

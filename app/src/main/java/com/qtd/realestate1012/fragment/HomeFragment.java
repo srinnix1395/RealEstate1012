@@ -21,16 +21,20 @@ import com.android.volley.toolbox.JsonRequest;
 import com.qtd.realestate1012.HousieApplication;
 import com.qtd.realestate1012.R;
 import com.qtd.realestate1012.activity.AllHouseActivity;
+import com.qtd.realestate1012.activity.HouseDetailActivity;
 import com.qtd.realestate1012.activity.LoginActivity;
 import com.qtd.realestate1012.adapter.HouseNewsAdapter;
 import com.qtd.realestate1012.constant.ApiConstant;
 import com.qtd.realestate1012.constant.AppConstant;
 import com.qtd.realestate1012.custom.BottomSheetListBoard;
+import com.qtd.realestate1012.database.DatabaseHelper;
 import com.qtd.realestate1012.messageevent.MessageClickImvHeartOnHouse;
 import com.qtd.realestate1012.messageevent.MessageEventClickSeeAllViewHolder;
 import com.qtd.realestate1012.messageevent.MessageLikeBoardSuccess;
+import com.qtd.realestate1012.model.Board;
 import com.qtd.realestate1012.model.BunchHouse;
 import com.qtd.realestate1012.utils.AlertUtils;
+import com.qtd.realestate1012.utils.ProcessJson;
 import com.qtd.realestate1012.utils.ServiceUtils;
 
 import org.greenrobot.eventbus.EventBus;
@@ -39,11 +43,16 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.concurrent.Callable;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import de.hamm.pinnedsectionlistview.PinnedSectionListView;
+import rx.Single;
+import rx.SingleSubscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by Dell on 7/30/2016.
@@ -65,6 +74,7 @@ public class HomeFragment extends Fragment {
     private ArrayList<Object> arrayListHouseNews;
     private HouseNewsAdapter adapter;
     private JsonObjectRequest requestGetNew;
+    private Bundle bundle;
 
     @Nullable
     @Override
@@ -79,9 +89,16 @@ public class HomeFragment extends Fragment {
         initData();
         initView();
         requestData();
+
+        if (bundle != null) {
+            Intent intent = new Intent(getActivity(), HouseDetailActivity.class);
+            intent.putExtra(ApiConstant._ID, bundle.getString(ApiConstant._ID_HOUSE));
+            getActivity().startActivity(intent);
+        }
     }
 
     private void initData() {
+        bundle = getArguments();
         arrayListHouseNews = new ArrayList<>();
         adapter = new HouseNewsAdapter(arrayListHouseNews);
     }
@@ -116,8 +133,8 @@ public class HomeFragment extends Fragment {
         JSONObject jsonRequest = new JSONObject();
         try {
             jsonRequest.put(AppConstant.USER_LOGGED_IN, HousieApplication.getInstance().getSharedPreUtils().getBoolean(AppConstant.USER_LOGGED_IN, false));
-//            jsonRequest.put(ApiConstant._ID, HousieApplication.getInstance().getSharedPreUtils().getString(ApiConstant._ID, "-1"));
-            jsonRequest.put(ApiConstant._ID, "57d6b208f07077132325fed7");
+            jsonRequest.put(ApiConstant._ID, HousieApplication.getInstance().getSharedPreUtils().getString(ApiConstant._ID, "-1"));
+//            jsonRequest.put(ApiConstant._ID, "57d6b208f07077132325fed7");
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -155,40 +172,43 @@ public class HomeFragment extends Fragment {
     }
 
     private void handleResponseSuccess(final JSONObject response) throws JSONException {
-        final JSONObject jsonBoard;
+        Single.fromCallable(new Callable<ArrayList<Object>>() {
+            @Override
+            public ArrayList<Object> call() throws Exception {
+                JSONObject jsonBoard = new JSONObject();
 
-//        Single.fromCallable(new Callable<ArrayList<Object>>() {
-//            @Override
-//            public ArrayList<Object> call() throws Exception {
-//                JSONObject jsonBoard = response.getJSONObject(ApiConstant.BOARD);
-//
-//                ArrayList<Board> arrayList = ProcessJson.getFavoriteBoards(jsonBoard);
-//                DatabaseHelper databaseHelper = DatabaseHelper.getInstance(getContext());
-//                databaseHelper.syncDataBoard(arrayList);
-//
-//                return ProcessJson.getArrayListHousesNew(jsonBoard, response.getJSONArray(ApiConstant.LIST_HOUSE));
-//            }
-//        })
-//                .subscribeOn(Schedulers.io())
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .subscribe(new SingleSubscriber<ArrayList<Object>>() {
-//                    @Override
-//                    public void onSuccess(ArrayList<Object> value) {
-//                        arrayListHouseNews.clear();
-//                        arrayListHouseNews.addAll(value);
-//                        adapter.notifyDataSetChanged();
-//
-//                        tvError.setVisibility(View.INVISIBLE);
-//
-//                        progressBar.setEnabled(false);
-//                        progressBar.setVisibility(View.INVISIBLE);
-//                    }
-//
-//                    @Override
-//                    public void onError(Throwable e) {
-//                        e.printStackTrace();
-//                    }
-//                });
+                if (response.has(ApiConstant.BOARD)) {
+                    jsonBoard = response.getJSONObject(ApiConstant.BOARD);
+
+                    ArrayList<Board> arrayList = ProcessJson.getFavoriteBoards(jsonBoard);
+                    DatabaseHelper databaseHelper = DatabaseHelper.getInstance(getContext());
+                    databaseHelper.syncDataBoard(arrayList);
+                }
+
+                //// TODO: 10/1/2016 datasync
+                return ProcessJson.getArrayListHousesNew(jsonBoard, response.getJSONArray(ApiConstant.LIST_HOUSE));
+            }
+        })
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new SingleSubscriber<ArrayList<Object>>() {
+                    @Override
+                    public void onSuccess(ArrayList<Object> value) {
+                        arrayListHouseNews.clear();
+                        arrayListHouseNews.addAll(value);
+                        adapter.notifyDataSetChanged();
+
+                        tvError.setVisibility(View.INVISIBLE);
+
+                        progressBar.setEnabled(false);
+                        progressBar.setVisibility(View.INVISIBLE);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        e.printStackTrace();
+                    }
+                });
     }
 
 

@@ -44,13 +44,23 @@ public class MainActivity extends AppCompatActivity implements FavoriteFragmentC
     private NotificationFragment notificationFragment;
     private SearchFragment searchFragment;
 
+    private Bundle bundleHomeFragment;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
+        initData();
         initView();
         updateRegId();
+    }
+
+    private void initData() {
+        Intent intent = getIntent();
+        if (!intent.getAction().equals(Intent.ACTION_MAIN)) {
+            bundleHomeFragment = intent.getExtras();
+        }
     }
 
     private void updateRegId() {
@@ -99,6 +109,7 @@ public class MainActivity extends AppCompatActivity implements FavoriteFragmentC
         });
 
         homeFragment = new HomeFragment();
+        homeFragment.setArguments(bundleHomeFragment);
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.add(R.id.layoutMain, homeFragment);
         transaction.commit();
