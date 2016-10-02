@@ -4,9 +4,9 @@ import android.content.Context;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.view.ViewCompat;
-import android.support.v4.view.animation.FastOutLinearInInterpolator;
 import android.util.AttributeSet;
 import android.view.View;
+import android.view.animation.AccelerateInterpolator;
 
 /**
  * Created by DELL on 9/7/2016.
@@ -25,9 +25,9 @@ public class ScrollVerticalAwareFABBehavior extends FloatingActionButton.Behavio
         if (dyConsumed > 0) {
             CoordinatorLayout.LayoutParams layoutParams = (CoordinatorLayout.LayoutParams) child.getLayoutParams();
             int fab_bottomMargin = layoutParams.bottomMargin;
-            child.animate().translationY(child.getHeight() + fab_bottomMargin).setInterpolator(new FastOutLinearInInterpolator()).start();
+            child.animate().translationY(child.getHeight() + fab_bottomMargin).setInterpolator(new AccelerateInterpolator()).start();
         } else if (dyConsumed < 0) {
-            child.animate().translationY(0).setInterpolator(new FastOutLinearInInterpolator()).start();
+            child.animate().translationY(0).setInterpolator(new AccelerateInterpolator()).start();
         }
     }
 
@@ -35,4 +35,6 @@ public class ScrollVerticalAwareFABBehavior extends FloatingActionButton.Behavio
     public boolean onStartNestedScroll(CoordinatorLayout coordinatorLayout, FloatingActionButton child, View directTargetChild, View target, int nestedScrollAxes) {
         return nestedScrollAxes == ViewCompat.SCROLL_AXIS_VERTICAL;
     }
+
+
 }

@@ -1,8 +1,6 @@
 package com.qtd.realestate1012.fragment;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
@@ -25,7 +23,7 @@ import com.android.volley.toolbox.JsonRequest;
 import com.qtd.realestate1012.HousieApplication;
 import com.qtd.realestate1012.R;
 import com.qtd.realestate1012.adapter.SearchesAdapter;
-import com.qtd.realestate1012.callback.FavoriteFragmentCallback;
+import com.qtd.realestate1012.callback.ActivityCallback;
 import com.qtd.realestate1012.constant.ApiConstant;
 import com.qtd.realestate1012.constant.AppConstant;
 import com.qtd.realestate1012.messageevent.MessageRemoveSavedSearch;
@@ -65,7 +63,7 @@ public class SearchesFavoriteFragment extends Fragment implements SwipeRefreshLa
     @BindView(R.id.layoutNoSearches)
     RelativeLayout layoutNoSearches;
 
-    private FavoriteFragmentCallback callback;
+    private ActivityCallback activityCallback;
     private ArrayList<ItemSavedSearch> arrayList;
     private SearchesAdapter adapter;
     private JsonObjectRequest request;
@@ -73,7 +71,7 @@ public class SearchesFavoriteFragment extends Fragment implements SwipeRefreshLa
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        callback = (FavoriteFragmentCallback) getActivity();
+        activityCallback = (ActivityCallback) getActivity();
     }
 
     @Nullable
@@ -150,7 +148,9 @@ public class SearchesFavoriteFragment extends Fragment implements SwipeRefreshLa
 
     private void requestData() {
         if (!ServiceUtils.isNetworkAvailable(getContext())) {
-            Toast.makeText(getContext(), R.string.noInternetConnection, Toast.LENGTH_SHORT).show();
+            if (getUserVisibleHint()) {
+                AlertUtils.showSnackBarNoInternet(getView());
+            }
             refreshLayout.setRefreshing(false);
             return;
         }
@@ -239,8 +239,8 @@ public class SearchesFavoriteFragment extends Fragment implements SwipeRefreshLa
 
     @OnClick(R.id.tvSearch)
     void onClick() {
-        if (callback != null) {
-            callback.showSearchFragment();
+        if (activityCallback != null) {
+            activityCallback.showSearchFragment();
         }
     }
 
@@ -310,13 +310,5 @@ public class SearchesFavoriteFragment extends Fragment implements SwipeRefreshLa
         });
 
         HousieApplication.getInstance().addToRequestQueue(requestRemove);
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == AppConstant.REQUEST_CODE_SIGN_IN && resultCode == Activity.RESULT_OK) {
-            Log.e("result", "onActivityResult: searches");
-
-        }
     }
 }

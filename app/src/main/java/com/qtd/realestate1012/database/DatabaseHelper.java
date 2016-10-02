@@ -5,7 +5,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
 
 import com.qtd.realestate1012.model.Board;
 import com.qtd.realestate1012.model.BoardHasHeart;
@@ -198,7 +197,6 @@ public class DatabaseHelper {
             }, null, null, null, null, null);
             while (cursor.moveToNext()) {
                 String id = cursor.getString(0);
-                Log.e("database", "getAllFavoriteHouse: " + id);
                 String detailAddress = cursor.getString(1);
                 String street = cursor.getString(2);
                 String ward = cursor.getString(3);

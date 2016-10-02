@@ -91,6 +91,13 @@ public class BoardFragment extends Fragment {
         if (!ServiceUtils.isNetworkAvailable(getContext())) {
             DatabaseHelper databaseHelper = DatabaseHelper.getInstance(getContext());
             arrayListBoards = databaseHelper.getAllBoards();
+            arrayListBoards.add(arrayListBoards.get(0));
+            arrayListBoards.add(arrayListBoards.get(0));
+            arrayListBoards.add(arrayListBoards.get(0));
+            arrayListBoards.add(arrayListBoards.get(0));
+            arrayListBoards.add(arrayListBoards.get(0));
+            arrayListBoards.add(arrayListBoards.get(0));
+            arrayListBoards.add(arrayListBoards.get(0));
         } else {
             arrayListBoards = new ArrayList<>();
         }
@@ -261,10 +268,6 @@ public class BoardFragment extends Fragment {
                     arrayListBoards.add((Board) data.getParcelableExtra(ApiConstant.BOARD));
                     adapter.notifyItemInserted(arrayListBoards.size() - 1);
                 }
-                break;
-            }
-            case AppConstant.REQUEST_CODE_SIGN_IN:{
-
                 break;
             }
         }

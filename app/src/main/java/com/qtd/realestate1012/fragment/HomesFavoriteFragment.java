@@ -1,7 +1,5 @@
 package com.qtd.realestate1012.fragment;
 
-import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
@@ -24,7 +22,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.qtd.realestate1012.HousieApplication;
 import com.qtd.realestate1012.R;
 import com.qtd.realestate1012.adapter.HouseAdapter;
-import com.qtd.realestate1012.callback.FavoriteFragmentCallback;
+import com.qtd.realestate1012.callback.ActivityCallback;
 import com.qtd.realestate1012.constant.ApiConstant;
 import com.qtd.realestate1012.constant.AppConstant;
 import com.qtd.realestate1012.database.DatabaseHelper;
@@ -64,12 +62,12 @@ public class HomesFavoriteFragment extends Fragment {
 
     private ArrayList<CompactHouse> arrayListHouses;
     private HouseAdapter adapter;
-    private FavoriteFragmentCallback callback;
+    private ActivityCallback callbackActivity;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        callback = (FavoriteFragmentCallback) getActivity();
+        callbackActivity = (ActivityCallback) getActivity();
     }
 
     @Nullable
@@ -278,8 +276,8 @@ public class HomesFavoriteFragment extends Fragment {
 
     @OnClick(R.id.tvSearch)
     void onClick() {
-        if (callback != null) {
-            callback.showSearchFragment();
+        if (callbackActivity != null) {
+            callbackActivity.showSearchFragment();
         }
     }
 
@@ -296,12 +294,5 @@ public class HomesFavoriteFragment extends Fragment {
                 layoutNoHouses.setVisibility(View.VISIBLE);
             }
         }, 1000);
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == AppConstant.REQUEST_CODE_SIGN_IN && resultCode == Activity.RESULT_OK) {
-
-        }
     }
 }

@@ -1,12 +1,10 @@
 package com.qtd.realestate1012.fragment;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,7 +20,7 @@ import butterknife.ButterKnife;
 /**
  * Created by Dell on 7/30/2016.
  */
-public class FavoriteFragment extends Fragment {
+public class FavoriteFragment extends Fragment{
 
     private View view;
 
@@ -80,10 +78,5 @@ public class FavoriteFragment extends Fragment {
         ((BoardFragment) adapter.getItem(0)).clearUserData();
         ((HomesFavoriteFragment) adapter.getItem(1)).clearUserData();
         ((SearchesFavoriteFragment) adapter.getItem(2)).clearUserData();
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        Log.e("ok", "onActivityResult: fragment favorite");
     }
 }

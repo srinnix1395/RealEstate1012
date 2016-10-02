@@ -17,7 +17,7 @@ import com.google.firebase.iid.FirebaseInstanceId;
 import com.qtd.realestate1012.HousieApplication;
 import com.qtd.realestate1012.R;
 import com.qtd.realestate1012.asynctask.UpdateFirebaseRegId;
-import com.qtd.realestate1012.callback.FavoriteFragmentCallback;
+import com.qtd.realestate1012.callback.ActivityCallback;
 import com.qtd.realestate1012.constant.ApiConstant;
 import com.qtd.realestate1012.constant.AppConstant;
 import com.qtd.realestate1012.custom.DialogSignOut;
@@ -36,7 +36,7 @@ import org.greenrobot.eventbus.Subscribe;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class MainActivity extends AppCompatActivity implements FavoriteFragmentCallback {
+public class MainActivity extends AppCompatActivity implements ActivityCallback {
     @BindView(R.id.tabLayout)
     TabLayout tabLayout;
 
