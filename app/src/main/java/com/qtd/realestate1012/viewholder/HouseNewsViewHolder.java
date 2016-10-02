@@ -14,6 +14,7 @@ import com.qtd.realestate1012.custom.RippleView;
 import com.qtd.realestate1012.messageevent.MessageClickImvHeartOnHouse;
 import com.qtd.realestate1012.messageevent.MessageEventClickSeeAllViewHolder;
 import com.qtd.realestate1012.model.BunchHouse;
+import com.qtd.realestate1012.model.CompactHouse;
 import com.qtd.realestate1012.utils.UiUtils;
 
 import org.greenrobot.eventbus.EventBus;
@@ -106,6 +107,22 @@ public class HouseNewsViewHolder implements RippleView.OnRippleCompleteListener 
     @BindView(R.id.rippleView5)
     RippleView rippleView5;
 
+    @BindView(R.id.imvHeart1)
+    ImageView imvHeart1;
+
+    @BindView(R.id.imvHeart2)
+    ImageView imvHeart2;
+
+    @BindView(R.id.imvHeart3)
+    ImageView imvHeart3;
+
+    @BindView(R.id.imvHeart4)
+    ImageView imvHeart4;
+
+    @BindView(R.id.imvHeart5)
+    ImageView imvHeart5;
+
+
     private View view;
     private BunchHouse bunchHouse;
     private boolean flagClickHeart;
@@ -128,17 +145,23 @@ public class HouseNewsViewHolder implements RippleView.OnRippleCompleteListener 
         this.bunchHouse = bunchHouse;
         String url = ApiConstant.URL_WEB_SERVICE_GET_IMAGE_HOUSE;
 
+        CompactHouse house = bunchHouse.getCompactHouse(0);
         Glide.with(view.getContext())
-                .load(url + bunchHouse.getCompactHouse(0).getFirstImage())
+                .load(url + house.getFirstImage())
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .placeholder(R.drawable.ic_apartment)
                 .crossFade()
                 .into(imvImage1);
-        tvAddress1.setText(bunchHouse.getCompactHouse(0).getSmallAddress());
-        tvAddress12.setText(bunchHouse.getCompactHouse(0).getLargeAddress());
-        tvPrice1.setText(String.format(Locale.getDefault(), "%,d %s", bunchHouse.getCompactHouse(0).getPrice(), view.getContext().getString(R.string.currency)));
+        tvAddress1.setText(house.getSmallAddress());
+        tvAddress12.setText(house.getLargeAddress());
+        tvPrice1.setText(String.format(Locale.getDefault(), "%,d %s", house.getPrice(), view.getContext().getString(R.string.currency)));
+        if (house.isLiked()) {
+            imvHeart1.setImageResource(R.drawable.ic_heart_pink_36dp);
+        } else {
+            imvHeart1.setImageResource(R.drawable.ic_heart_outline);
+        }
 
-
+        house = bunchHouse.getCompactHouse(1);
         Glide.with(view.getContext())
                 .load(url + bunchHouse.getCompactHouse(1).getFirstImage())
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
@@ -148,8 +171,13 @@ public class HouseNewsViewHolder implements RippleView.OnRippleCompleteListener 
         tvAddress2.setText(bunchHouse.getCompactHouse(1).getSmallAddress());
         tvAddress22.setText(bunchHouse.getCompactHouse(1).getLargeAddress());
         tvPrice2.setText(String.format(Locale.getDefault(), "%,d %s", bunchHouse.getCompactHouse(1).getPrice(), view.getContext().getString(R.string.currency)));
+        if (house.isLiked()) {
+            imvHeart2.setImageResource(R.drawable.ic_heart_pink_36dp);
+        } else {
+            imvHeart2.setImageResource(R.drawable.ic_heart_outline);
+        }
 
-
+        house = bunchHouse.getCompactHouse(2);
         Glide.with(view.getContext())
                 .load(url + bunchHouse.getCompactHouse(2).getFirstImage())
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
@@ -159,8 +187,13 @@ public class HouseNewsViewHolder implements RippleView.OnRippleCompleteListener 
         tvAddress3.setText(bunchHouse.getCompactHouse(2).getSmallAddress());
         tvAddress32.setText(bunchHouse.getCompactHouse(2).getLargeAddress());
         tvPrice3.setText(String.format(Locale.getDefault(), "%,d %s", bunchHouse.getCompactHouse(2).getPrice(), view.getContext().getString(R.string.currency)));
+        if (house.isLiked()) {
+            imvHeart3.setImageResource(R.drawable.ic_heart_pink_36dp);
+        } else {
+            imvHeart3.setImageResource(R.drawable.ic_heart_outline);
+        }
 
-
+        house = bunchHouse.getCompactHouse(3);
         Glide.with(view.getContext())
                 .load(url + bunchHouse.getCompactHouse(3).getFirstImage())
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
@@ -170,8 +203,13 @@ public class HouseNewsViewHolder implements RippleView.OnRippleCompleteListener 
         tvAddress4.setText(bunchHouse.getCompactHouse(3).getSmallAddress());
         tvAddress42.setText(bunchHouse.getCompactHouse(3).getLargeAddress());
         tvPrice4.setText(String.format(Locale.getDefault(), "%,d %s", bunchHouse.getCompactHouse(3).getPrice(), view.getContext().getString(R.string.currency)));
+        if (house.isLiked()) {
+            imvHeart4.setImageResource(R.drawable.ic_heart_pink_36dp);
+        } else {
+            imvHeart4.setImageResource(R.drawable.ic_heart_outline);
+        }
 
-
+        house = bunchHouse.getCompactHouse(4);
         Glide.with(view.getContext())
                 .load(url + bunchHouse.getCompactHouse(4).getFirstImage())
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
@@ -181,6 +219,11 @@ public class HouseNewsViewHolder implements RippleView.OnRippleCompleteListener 
         tvAddress5.setText(bunchHouse.getCompactHouse(4).getSmallAddress());
         tvAddress52.setText(bunchHouse.getCompactHouse(4).getLargeAddress());
         tvPrice5.setText(String.format(Locale.getDefault(), "%,d %s", bunchHouse.getCompactHouse(4).getPrice(), view.getContext().getString(R.string.currency)));
+        if (house.isLiked()) {
+            imvHeart5.setImageResource(R.drawable.ic_heart_pink_36dp);
+        } else {
+            imvHeart5.setImageResource(R.drawable.ic_heart_outline);
+        }
 
 
         tvSeeAll.setText(String.format("%s %s", view.getContext().getString(R.string.seeAll), bunchHouse.getType()));
@@ -227,7 +270,6 @@ public class HouseNewsViewHolder implements RippleView.OnRippleCompleteListener 
 
     private void addHouseToFavorite(int i, View v) {
         flagClickHeart = true;
-        //ripple effect
         switch (i) {
             case 0: {
                 rippleView1.animateRipple(v.getLeft() + v.getWidth() / 2, v.getTop() + UiUtils.convertPixelsToDp(view.getContext(), 10) + v.getHeight() / 2);

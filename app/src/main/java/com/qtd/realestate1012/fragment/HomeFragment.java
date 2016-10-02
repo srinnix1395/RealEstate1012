@@ -276,21 +276,23 @@ public class HomeFragment extends Fragment {
     @Subscribe
     public void handleEventSuccessFavoriteHouse(MessageLikeBoardSuccess messageEvent) {
         JSONObject response = messageEvent.message;
-        String id = null;
+        String idHouse = null;
         boolean isLike = false;
         try {
-            id = response.getString(ApiConstant._ID_HOUSE);
+            idHouse = response.getString(ApiConstant._ID_HOUSE);
             isLike = response.getString(ApiConstant.ACTION).equals(ApiConstant.ACTION_ADD);
         } catch (JSONException e) {
             e.printStackTrace();
         }
         for (Object object : arrayListHouseNews) {
             if (object instanceof BunchHouse) {
-                ((BunchHouse) object).resetImvHeart(id, isLike);
+                ((BunchHouse) object).resetImvHeart(idHouse, isLike);
                 break;
             }
         }
+        adapter.notifyDataSetChanged();
 
+        //// TODO: 10/2/2016 add or delete house
         AlertUtils.showToastSuccess(getContext(), R.drawable.ic_heart_white_large, R.string.homeSaved);
     }
 
