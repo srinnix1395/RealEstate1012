@@ -9,6 +9,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -138,6 +139,7 @@ public class HouseDetailActivity extends AppCompatActivity implements ViewTreeOb
     private void initData() {
         Intent intent = getIntent();
         id = intent.getStringExtra(ApiConstant._ID);
+        Log.e("fsaj", "initData: " + id);
     }
 
     private void initViews() {
@@ -170,12 +172,12 @@ public class HouseDetailActivity extends AppCompatActivity implements ViewTreeOb
     @Override
     public void onScrollChanged() {
         int y = scrollView.getScrollY();
-
+        //// TODO: 10/1/2016 animation button request info
     }
 
     private void requestData() {
         if (!ServiceUtils.isNetworkAvailable(this)) {
-
+            Toast.makeText(HouseDetailActivity.this, R.string.noInternetConnection, Toast.LENGTH_SHORT).show();
             progressBar.setEnabled(false);
             progressBar.setVisibility(View.INVISIBLE);
             return;
@@ -195,7 +197,6 @@ public class HouseDetailActivity extends AppCompatActivity implements ViewTreeOb
                     switch (response.getString(ApiConstant.RESULT)) {
                         case ApiConstant.FAILED: {
                             Toast.makeText(HouseDetailActivity.this, R.string.errorProcessing, Toast.LENGTH_SHORT).show();
-
                             progressBar.setEnabled(false);
                             progressBar.setVisibility(View.INVISIBLE);
                             break;
@@ -212,6 +213,9 @@ public class HouseDetailActivity extends AppCompatActivity implements ViewTreeOb
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
+                    Toast.makeText(HouseDetailActivity.this, R.string.errorProcessing, Toast.LENGTH_SHORT).show();
+                    progressBar.setEnabled(false);
+                    progressBar.setVisibility(View.INVISIBLE);
                 }
             }
         }, new Response.ErrorListener() {
@@ -245,7 +249,7 @@ public class HouseDetailActivity extends AppCompatActivity implements ViewTreeOb
             tvStatus.setText(fullHouse.getStatus());
             tvArea.setText(String.format(Locale.getDefault(), "%,d m2", fullHouse.getArea()));
             tvPriceInfo.setText(String.format("%s %s", fullHouse.getPrice(), getString(R.string.currency)));
-            tvPriceOverArea.setText(String.format(Locale.getDefault(), "%,d %s", (fullHouse.getPrice() / fullHouse.getArea()), getString(R.string.currency)));
+            tvPriceOverArea.setText(String.format(Locale.getDefault(), "%,d %s/m2", (fullHouse.getPrice() / fullHouse.getArea()), getString(R.string.currency)));
             tvNumberOfRoom.setText(String.format(Locale.getDefault(), "%d %s", fullHouse.getNumberOfRoom(), getString(R.string.room)));
             tvPropertyType.setText(fullHouse.getPropertyType());
 //        tvAddedOn
@@ -279,16 +283,20 @@ public class HouseDetailActivity extends AppCompatActivity implements ViewTreeOb
     }
 
     private void onClickMenuLike() {
-
+        //// TODO: 10/1/2016 like house
     }
 
     private void onClickMenuShare() {
-
+        //// TODO: 10/1/2016 share house
     }
 
-    @OnClick(R.id.tvImages)
-    void onClickTvImages() {
-
+    @OnClick({R.id.layoutImage, R.id.tvImages})
+    void onClickLayoutImages() {
+        if (fullHouse != null) {
+            Intent intent = new Intent(this, ImageActivity.class);
+            intent.putStringArrayListExtra(ApiConstant.IMAGE, fullHouse.getImages());
+            startActivity(intent);
+        }
     }
 
     @OnClick(R.id.btnSend)
@@ -296,7 +304,7 @@ public class HouseDetailActivity extends AppCompatActivity implements ViewTreeOb
         if (!etContentEmail.getText().toString().isEmpty()) {
             Intent i = new Intent(Intent.ACTION_SEND);
             i.setType("message/rfc822");
-            i.putExtra(Intent.EXTRA_EMAIL, new String[]{""});
+            i.putExtra(Intent.EXTRA_EMAIL, new String[]{"abc@gmail.com"});
             i.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.subject));
             i.putExtra(Intent.EXTRA_TEXT, etContentEmail.getText().toString());
             try {
@@ -312,7 +320,7 @@ public class HouseDetailActivity extends AppCompatActivity implements ViewTreeOb
     @OnClick(R.id.tvCallOwner)
     void onClickTvCallOwner() {
         Intent intent = new Intent(Intent.ACTION_DIAL);
-        intent.setData(Uri.parse("tel:0942899531"));
+        intent.setData(Uri.parse("tel:01234567899"));
         startActivity(intent);
 
     }
@@ -320,7 +328,7 @@ public class HouseDetailActivity extends AppCompatActivity implements ViewTreeOb
     @OnClick(R.id.tvCallAgent)
     void onClickTvCallAgent() {
         Intent intent = new Intent(Intent.ACTION_DIAL);
-        intent.setData(Uri.parse("tel:0942899531"));
+        intent.setData(Uri.parse("tel:01234567899"));
         startActivity(intent);
 
     }
@@ -330,8 +338,10 @@ public class HouseDetailActivity extends AppCompatActivity implements ViewTreeOb
         LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) layoutInfo.getLayoutParams();
         if (params.height == LinearLayout.LayoutParams.WRAP_CONTENT) {
             params.height = AppConstant.HEIGHT_LAYOUT_INFO_COLLAPSED;
+            tvSeeMoreInfo.setText(getString(R.string.seeMore));
         } else {
             params.height = LinearLayout.LayoutParams.WRAP_CONTENT;
+            tvSeeMoreInfo.setText(getString(R.string.seeLess));
         }
 
         layoutInfo.requestLayout();

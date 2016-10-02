@@ -153,6 +153,6 @@
     <string name="confirmSaveSearch">Bạn có muốn lưu tìm kiếm này?</string>
     <string name="saveSearchSuccessfully">Lưu tìm kiếm thành công</string>
     <string name="newHomeMatches">Nhà mới phù hợp</string>
-    <string name="newHome">Một ngôi nhà vừa đăng phù hợp với bạn</string>
+    <string name="newHome">Một ngôi nhà vừa đăng phù hợp với tìm kiếm của bạn</string>
 
 </resources>

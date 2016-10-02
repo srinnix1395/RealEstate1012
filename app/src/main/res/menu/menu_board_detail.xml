@@ -3,7 +3,12 @@
       xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/miRename"
-        android:icon="@drawable/ic_close"
+        android:icon="@drawable/ic_rename"
         android:title="@string/rename"
+        app:showAsAction="always"/>
+    <item
+        android:id="@+id/miSetting"
+        android:icon="@drawable/ic_setting"
+        android:title="@string/setting"
         app:showAsAction="always"/>
 </menu>

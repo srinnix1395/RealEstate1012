@@ -1,6 +1,8 @@
 package com.qtd.realestate1012.fragment;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
@@ -9,6 +11,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -95,7 +98,8 @@ public class SearchesFavoriteFragment extends Fragment implements SwipeRefreshLa
     @Override
     public void onStart() {
         super.onStart();
-        if (getUserVisibleHint()) {
+        if (arrayList.size() == 0 || getUserVisibleHint()) {
+            refreshLayout.setRefreshing(true);
             requestData();
         }
         EventBus.getDefault().register(this);
@@ -145,7 +149,6 @@ public class SearchesFavoriteFragment extends Fragment implements SwipeRefreshLa
     }
 
     private void requestData() {
-        refreshLayout.setRefreshing(true);
         if (!ServiceUtils.isNetworkAvailable(getContext())) {
             Toast.makeText(getContext(), R.string.noInternetConnection, Toast.LENGTH_SHORT).show();
             refreshLayout.setRefreshing(false);
@@ -213,12 +216,22 @@ public class SearchesFavoriteFragment extends Fragment implements SwipeRefreshLa
                         adapter.notifyItemRangeRemoved(0, size);
                         arrayList.addAll(value);
                         adapter.notifyItemRangeInserted(0, arrayList.size());
+
+                        if (arrayList.size() == 0) {
+                            recyclerView.setVisibility(View.INVISIBLE);
+                            layoutNoSearches.setVisibility(View.VISIBLE);
+                        } else {
+                            recyclerView.setVisibility(View.VISIBLE);
+                            layoutNoSearches.setVisibility(View.INVISIBLE);
+                        }
+
                         refreshLayout.setRefreshing(false);
                     }
 
                     @Override
                     public void onError(Throwable error) {
                         error.printStackTrace();
+                        Log.e("saved search fragment", "onError: Đã có lỗi trong quá trình lấy sync data");
                     }
                 });
     }
@@ -279,7 +292,7 @@ public class SearchesFavoriteFragment extends Fragment implements SwipeRefreshLa
                             progressDialog.dismiss();
                             arrayList.remove(position);
                             adapter.notifyItemRemoved(position);
-                            AlertUtils.showToastSuccess(getContext(),R.drawable.ic_playlist_remove, R.string.removeSuccessfully);
+                            AlertUtils.showToastSuccess(getContext(), R.drawable.ic_playlist_remove, R.string.removeSuccessfully);
                             break;
                         }
                     }
@@ -297,5 +310,13 @@ public class SearchesFavoriteFragment extends Fragment implements SwipeRefreshLa
         });
 
         HousieApplication.getInstance().addToRequestQueue(requestRemove);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == AppConstant.REQUEST_CODE_SIGN_IN && resultCode == Activity.RESULT_OK) {
+            Log.e("result", "onActivityResult: searches");
+
+        }
     }
 }

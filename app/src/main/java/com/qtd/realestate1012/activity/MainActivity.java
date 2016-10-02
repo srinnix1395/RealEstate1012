@@ -9,6 +9,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.PopupMenu;
+import android.util.Log;
 import android.view.MenuItem;
 import android.widget.Toast;
 
@@ -58,7 +59,7 @@ public class MainActivity extends AppCompatActivity implements FavoriteFragmentC
 
     private void initData() {
         Intent intent = getIntent();
-        if (!intent.getAction().equals(Intent.ACTION_MAIN)) {
+        if (intent.getAction().equals(AppConstant.ACTION_NOTIFICATION)) {
             bundleHomeFragment = intent.getExtras();
         }
     }
@@ -117,8 +118,8 @@ public class MainActivity extends AppCompatActivity implements FavoriteFragmentC
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == AppConstant.REQUEST_CODE_SIGN_IN && resultCode == RESULT_OK && data != null) {
-
+        if (requestCode == AppConstant.REQUEST_CODE_SIGN_IN && resultCode == RESULT_OK) {
+            Log.e("lákdfj", "onActivityResult: hello");
         }
     }
 

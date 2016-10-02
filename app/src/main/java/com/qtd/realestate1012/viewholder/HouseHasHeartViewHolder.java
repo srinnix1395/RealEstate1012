@@ -43,6 +43,9 @@ public class HouseHasHeartViewHolder extends RecyclerView.ViewHolder implements 
     @BindView(R.id.rippleView)
     RippleView rippleView;
 
+    @BindView(R.id.imvHeart)
+    ImageView imvHeart;
+
     private boolean flagClickHeart;
     private String id;
 
@@ -69,6 +72,12 @@ public class HouseHasHeartViewHolder extends RecyclerView.ViewHolder implements 
         tvAddress.setText(house.getSmallAddress());
         tvAddress1.setText(house.getLargeAddress());
         tvPrice.setText(String.format(Locale.getDefault(), "%,d %s", house.getPrice(), itemView.getContext().getString(R.string.currency)));
+
+        if (house.isLiked()) {
+            imvHeart.setImageResource(R.drawable.ic_heart_pink_36dp);
+        } else {
+            imvHeart.setImageResource(R.drawable.ic_heart_outline);
+        }
     }
 
     @OnClick(R.id.imvHeart)

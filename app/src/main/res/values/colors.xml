@@ -2,7 +2,6 @@
 <resources>
     <color name="colorPrimary">#20C063</color>
     <color name="colorPrimaryDark">#0e6d4a</color>
-    <!--<color name="colorAccent">#FF4081</color>-->
     <color name="colorAccent">#F74a27</color>
 
     <!--color background activity-->
@@ -11,6 +10,7 @@
     <color name="endColor">#03d2a2</color>
     <!--color background activity-->
 
+    <color name="colorPink">#ED1B77</color>
     <color name="colorDarkGreen">#03705b</color>
     <color name="colorGray">#e5e5e5</color>
     <color name="colorFacebook">#3b5998</color>

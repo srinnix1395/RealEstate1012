@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import com.qtd.realestate1012.model.Board;
 import com.qtd.realestate1012.model.BoardHasHeart;
@@ -197,6 +198,7 @@ public class DatabaseHelper {
             }, null, null, null, null, null);
             while (cursor.moveToNext()) {
                 String id = cursor.getString(0);
+                Log.e("database", "getAllFavoriteHouse: " + id);
                 String detailAddress = cursor.getString(1);
                 String street = cursor.getString(2);
                 String ward = cursor.getString(3);
@@ -380,16 +382,15 @@ public class DatabaseHelper {
 
 
             mDatabase.setTransactionSuccessful();
+            mDatabase.endTransaction();
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            mDatabase.endTransaction();
             closeDatabase();
         }
     }
 
     public void syncDataFavoriteHouse(ArrayList<FavoriteHouse> arrayListServer) {
-        // TODO: 9/26/2016 datasync
         ArrayList<String> arrayListLocal = new ArrayList<>();
 
         try {
@@ -400,6 +401,8 @@ public class DatabaseHelper {
                 arrayListLocal.add(cursor.getString(0));
             }
             cursor.close();
+
+            mDatabase.beginTransaction();
 
             for (FavoriteHouse house : arrayListServer) {
                 if (!arrayListLocal.contains(house.getId())) {
@@ -434,12 +437,51 @@ public class DatabaseHelper {
             }
 
             mDatabase.setTransactionSuccessful();
+            mDatabase.endTransaction();
 
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            mDatabase.endTransaction();
             closeDatabase();
         }
+    }
+
+    public ArrayList<CompactHouse> getAllFavoriteHouse(String idBoard) {
+        ArrayList<CompactHouse> arrayList = new ArrayList<>();
+
+        try {
+            openDatabase();
+
+            Cursor cursor = mDatabase.query(TABLE_HOUSE_FAVORITE, new String[]{
+                    _ID,
+                    DETAIL_ADDRESS,
+                    STREET,
+                    WARD,
+                    DISTRICT,
+                    CITY,
+                    PRICE,
+                    FIRST_IMAGE,
+            }, _ID_BOARD + "='" + idBoard + "'", null, null, null, null);
+
+            while (cursor.moveToNext()) {
+                String id = cursor.getString(0);
+                String detail = cursor.getString(1);
+                String street = cursor.getString(2);
+                String ward = cursor.getString(3);
+                String district = cursor.getString(4);
+                String city = cursor.getString(5);
+                int price = cursor.getInt(6);
+                String firstImage = cursor.getString(7);
+
+                arrayList.add(new CompactHouse(id, price, detail, street, ward, district, city, firstImage, "0", "0", true));
+            }
+            cursor.close();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            closeDatabase();
+        }
+        return arrayList;
     }
 }

@@ -15,6 +15,7 @@ import com.viewpagerindicator.CirclePageIndicator;
 import java.util.ArrayList;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 
 /**
  * Created by DELL on 9/27/2016.
@@ -33,6 +34,7 @@ public class ImageActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_image);
+        ButterKnife.bind(this);
         initData();
         initViews();
     }
@@ -40,21 +42,15 @@ public class ImageActivity extends AppCompatActivity {
     private void initViews() {
         viewPager.setAdapter(adapter);
 
+        circlePageIndicator.setStrokeWidth(0f);
         circlePageIndicator.setFillColor(ContextCompat.getColor(this, R.color.colorGray));
         circlePageIndicator.setPageColor(ContextCompat.getColor(this, R.color.colorDarkGray));
         circlePageIndicator.setViewPager(viewPager);
     }
 
     private void initData() {
-        arrayList = new ArrayList<>();
-
         Intent intent = getIntent();
-        if (intent != null) {
-            String[] temp = intent.getStringArrayExtra(ApiConstant.IMAGE);
-            for (int i = 0; i < temp.length; i++) {
-                arrayList.add(temp[i]);
-            }
-        }
+        arrayList = intent.getStringArrayListExtra(ApiConstant.IMAGE);
 
         adapter = new ImageAdapter(getSupportFragmentManager(), arrayList);
     }

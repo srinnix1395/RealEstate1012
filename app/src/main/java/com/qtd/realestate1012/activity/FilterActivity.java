@@ -336,6 +336,11 @@ public class FilterActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.miSaveSearch: {
+                if (!ServiceUtils.isNetworkAvailable(this)) {
+                    Toast.makeText(FilterActivity.this, R.string.noInternetConnection, Toast.LENGTH_SHORT).show();
+                    break;
+                }
+
                 showDialogSaveSearch();
                 break;
             }
@@ -365,16 +370,11 @@ public class FilterActivity extends AppCompatActivity {
     }
 
     private void clickSaveSearch() {
-        if (!ServiceUtils.isNetworkAvailable(this)) {
-            Toast.makeText(FilterActivity.this, R.string.noInternetConnection, Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        progressDialog.show();
-
         boolean userLoggedIn = HousieApplication.getInstance().getSharedPreUtils().getBoolean(AppConstant.USER_LOGGED_IN, false);
 
         if (userLoggedIn) {
+            progressDialog.show();
+
             JSONObject jsonRequest = getCriteria();
             try {
                 jsonRequest.put(ApiConstant._ID, HousieApplication.getInstance().getSharedPreUtils().getString(ApiConstant._ID, "1"));
@@ -395,6 +395,7 @@ public class FilterActivity extends AppCompatActivity {
                             }
                             case ApiConstant.SUCCESS: {
                                 handleResponseSaveSearchSuccess(response);
+                                progressDialog.dismiss();
                                 break;
                             }
                         }
@@ -414,7 +415,15 @@ public class FilterActivity extends AppCompatActivity {
             HousieApplication.getInstance().addToRequestQueue(request);
 
         } else {
-            progressDialog.dismiss();
+            Intent intent = new Intent(FilterActivity.this, LoginActivity.class);
+            startActivityForResult(intent, AppConstant.REQUEST_CODE_SIGN_IN);
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == AppConstant.REQUEST_CODE_SIGN_IN && resultCode == RESULT_OK) {
+            //// TODO: 10/2/2016 next process for save search
         }
     }
 

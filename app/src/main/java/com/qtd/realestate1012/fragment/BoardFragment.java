@@ -11,6 +11,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -99,7 +100,8 @@ public class BoardFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        if (getUserVisibleHint()) {
+        if (arrayListBoards.size() == 0 || getUserVisibleHint()) {
+            refreshLayout.setRefreshing(true);
             requestData();
         }
     }
@@ -139,15 +141,13 @@ public class BoardFragment extends Fragment {
     }
 
     private void requestData() {
-
         if (!ServiceUtils.isNetworkAvailable(getContext())) {
             if (getUserVisibleHint()) {
                 AlertUtils.showSnackBarNoInternet(fabAddBoard);
             }
+            refreshLayout.setRefreshing(false);
             return;
         }
-
-        refreshLayout.setRefreshing(true);
 
         if (HousieApplication.getInstance().getSharedPreUtils().getBoolean(AppConstant.USER_LOGGED_IN, false)) {
             String url = ApiConstant.URL_WEB_SERVICE_GET_BOARDS;
@@ -228,6 +228,8 @@ public class BoardFragment extends Fragment {
                     @Override
                     public void onError(Throwable error) {
                         error.printStackTrace();
+                        Log.e("board fragment", "onError: Đã có lỗi trong quá trình lấy sync data");
+
                     }
                 });
     }
@@ -261,23 +263,10 @@ public class BoardFragment extends Fragment {
                 }
                 break;
             }
-            case AppConstant.REQUEST_CODE_SIGN_IN: {
-                if (resultCode == Activity.RESULT_OK) {
-                    refreshLayout.setEnabled(true);
-                    refreshLayout.setRefreshing(true);
+            case AppConstant.REQUEST_CODE_SIGN_IN:{
 
-                    ArrayList<Board> arrayBoard = data.getParcelableArrayListExtra(ApiConstant.LIST_BOARD);
-                    if (arrayBoard != null) {
-                        arrayListBoards.addAll(arrayBoard);
-                        adapter.notifyItemRangeInserted(0, arrayListBoards.size());
-                    }
-
-                    refreshLayout.setRefreshing(false);
-                }
                 break;
             }
-            default:
-                break;
         }
 
     }

@@ -177,6 +177,7 @@ public class LoginPasswordFragment extends Fragment {
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
+                    Toast.makeText(view.getContext(), R.string.errorLogin, Toast.LENGTH_SHORT).show();
                 } finally {
                     progressBar.setEnabled(false);
                     progressBar.setVisibility(View.INVISIBLE);

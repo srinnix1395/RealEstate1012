@@ -18,7 +18,9 @@ public class FcmHousieInstanceIDService extends FirebaseInstanceIdService {
     public void onTokenRefresh() {
         super.onTokenRefresh();
         String token = FirebaseInstanceId.getInstance().getToken();
-        Log.e("housie", "onTokenRefresh: " + token);
+        Log.i(ApiConstant.HOUSIE, "onTokenRefresh: " + token);
+
+        HousieApplication.getInstance().getSharedPreUtils().putBoolean(AppConstant.DEVICE_TOKEN, false);
 
         boolean isUserLoggedIn = HousieApplication.getInstance().getSharedPreUtils().getBoolean(AppConstant.USER_LOGGED_IN, false);
 

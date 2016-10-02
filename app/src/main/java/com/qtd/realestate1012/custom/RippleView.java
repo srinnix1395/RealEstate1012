@@ -142,7 +142,7 @@ public class RippleView extends RelativeLayout {
                 timerEmpty = 0;
                 try {
                     canvas.restore();
-                } catch (Exception e) {
+                } catch (IllegalStateException e) {
                     e.printStackTrace();
                 }
                 invalidate();

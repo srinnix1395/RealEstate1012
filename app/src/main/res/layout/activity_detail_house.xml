@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:descendantFocusability="beforeDescendants"
-    android:focusableInTouchMode="true">
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:descendantFocusability="beforeDescendants"
+                android:focusableInTouchMode="true">
     <!--xmlns:panel="http://schemas.android.com/apk/res/com.digitalfootsteps.android"-->
 
     <!--scroll view-->
@@ -29,7 +29,7 @@
                     android:id="@+id/imvImage"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:scaleType="fitXY" />
+                    android:scaleType="fitXY"/>
 
                 <TextView
                     android:id="@+id/tvImages"
@@ -49,7 +49,7 @@
                     android:paddingStart="@dimen/activity_horizontal_margin"
                     android:paddingTop="8dp"
                     android:textColor="@android:color/white"
-                    android:textSize="12sp" />
+                    android:textSize="12sp"/>
             </RelativeLayout>
 
             <LinearLayout
@@ -73,19 +73,19 @@
                         style="?android:textAppearanceLarge"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="26sp" />
+                        android:textSize="26sp"/>
 
                     <TextView
                         android:id="@+id/tvInfo"
                         style="?android:attr/textAppearanceSmall"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"/>
 
                     <TextView
                         android:id="@+id/tvType"
                         style="?android:attr/textAppearanceSmall"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"/>
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -100,10 +100,10 @@
                             android:layout_marginEnd="10dp"
                             android:layout_weight="1"
                             android:background="@drawable/background_tv_search"
-                            android:gravity="center|start"
+                            android:gravity="center"
                             android:text="@string/direction"
                             android:textAllCaps="true"
-                            android:textColor="@color/colorPrimary" />
+                            android:textColor="@color/colorPrimary"/>
 
                         <TextView
                             android:id="@+id/tvMapView"
@@ -112,10 +112,10 @@
                             android:layout_marginEnd="10dp"
                             android:layout_weight="1"
                             android:background="@drawable/background_tv_search"
-                            android:gravity="center|start"
+                            android:gravity="center"
                             android:text="@string/mapView"
                             android:textAllCaps="true"
-                            android:textColor="@color/colorPrimary" />
+                            android:textColor="@color/colorPrimary"/>
 
                         <TextView
                             android:id="@+id/tvEarthView"
@@ -124,10 +124,10 @@
                             android:layout_marginEnd="10dp"
                             android:layout_weight="1"
                             android:background="@drawable/background_tv_search"
-                            android:gravity="center|start"
+                            android:gravity="center"
                             android:text="@string/earthView"
                             android:textAllCaps="true"
-                            android:textColor="@color/colorPrimary" />
+                            android:textColor="@color/colorPrimary"/>
                     </LinearLayout>
 
                     <TextView
@@ -137,7 +137,7 @@
                         android:fontFamily="sans-serif-light"
                         android:text="@string/intro"
                         android:textColor="@android:color/black"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"/>
 
 
                     <TextView
@@ -146,7 +146,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:maxLines="3"
-                        android:textColor="@android:color/black" />
+                        android:textColor="@android:color/black"/>
 
                     <TextView
                         android:id="@+id/tvSeeMoreIntro"
@@ -162,13 +162,13 @@
                         android:paddingStart="@dimen/activity_horizontal_margin"
                         android:text="@string/seeMore"
                         android:textAllCaps="true"
-                        android:textColor="@color/colorDarkGray" />
+                        android:textColor="@color/colorDarkGray"/>
                 </LinearLayout>
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="0.5dp"
-                    android:background="@android:color/darker_gray" />
+                    android:background="@android:color/darker_gray"/>
 
                 <!--layout info-->
                 <LinearLayout
@@ -188,7 +188,7 @@
                         android:fontFamily="sans-serif-light"
                         android:text="@string/info"
                         android:textColor="@android:color/black"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"/>
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -200,7 +200,7 @@
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:text="@string/status" />
+                            android:text="@string/status"/>
 
                         <TextView
                             android:id="@+id/tvStatus"
@@ -208,7 +208,7 @@
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:textColor="@android:color/black" />
+                            android:textColor="@android:color/black"/>
                     </LinearLayout>
 
                     <LinearLayout
@@ -221,7 +221,7 @@
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:text="@string/area" />
+                            android:text="@string/area"/>
 
                         <TextView
                             android:id="@+id/tvArea"
@@ -229,7 +229,7 @@
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:textColor="@android:color/black" />
+                            android:textColor="@android:color/black"/>
                     </LinearLayout>
 
                     <LinearLayout
@@ -242,7 +242,7 @@
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:text="@string/price" />
+                            android:text="@string/price"/>
 
                         <TextView
                             android:id="@+id/tvPriceInfo"
@@ -250,7 +250,7 @@
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:textColor="@android:color/black" />
+                            android:textColor="@android:color/black"/>
                     </LinearLayout>
 
                     <LinearLayout
@@ -263,7 +263,7 @@
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:text="@string/priceOverArea" />
+                            android:text="@string/priceOverArea"/>
 
                         <TextView
                             android:id="@+id/tvPriceOverArea"
@@ -271,7 +271,7 @@
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:textColor="@android:color/black" />
+                            android:textColor="@android:color/black"/>
                     </LinearLayout>
 
                     <LinearLayout
@@ -284,7 +284,7 @@
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:text="@string/numberOfRoom" />
+                            android:text="@string/numberOfRoom"/>
 
                         <TextView
                             android:id="@+id/tvNumberOfRoom"
@@ -292,7 +292,7 @@
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:textColor="@android:color/black" />
+                            android:textColor="@android:color/black"/>
                     </LinearLayout>
 
                     <LinearLayout
@@ -305,7 +305,7 @@
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:text="@string/propertyType" />
+                            android:text="@string/propertyType"/>
 
                         <TextView
                             android:id="@+id/tvPropertyType"
@@ -313,7 +313,7 @@
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:textColor="@android:color/black" />
+                            android:textColor="@android:color/black"/>
                     </LinearLayout>
 
                     <LinearLayout
@@ -326,28 +326,7 @@
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:text="@string/addedOnHousie" />
-
-                        <TextView
-                            android:id="@+id/tvAddedOn"
-                            style="?android:attr/textAppearanceSmall"
-                            android:layout_width="0dp"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1"
-                            android:textColor="@android:color/black" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="8dp">
-
-                        <TextView
-                            style="?android:attr/textAppearanceSmall"
-                            android:layout_width="0dp"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1"
-                            android:text="@string/address" />
+                            android:text="@string/address"/>
 
                         <TextView
                             android:id="@+id/tvAddressInfo"
@@ -355,7 +334,28 @@
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:textColor="@android:color/black" />
+                            android:textColor="@android:color/black"/>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="8dp">
+
+                        <TextView
+                            style="?android:attr/textAppearanceSmall"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:text="@string/addedOnHousie"/>
+
+                        <TextView
+                            android:id="@+id/tvAddedOn"
+                            style="?android:attr/textAppearanceSmall"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:textColor="@android:color/black"/>
                     </LinearLayout>
                 </LinearLayout>
                 <!--layout info-->
@@ -375,12 +375,12 @@
                     android:paddingStart="@dimen/activity_horizontal_margin"
                     android:text="@string/seeMore"
                     android:textAllCaps="true"
-                    android:textColor="@color/colorDarkGray" />
+                    android:textColor="@color/colorDarkGray"/>
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="0.5dp"
-                    android:background="@android:color/darker_gray" />
+                    android:background="@android:color/darker_gray"/>
 
 
                 <!--layout request info-->
@@ -401,7 +401,7 @@
                         android:fontFamily="sans-serif-light"
                         android:text="@string/contact"
                         android:textColor="@android:color/black"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"/>
 
                     <RelativeLayout
                         android:layout_width="match_parent"
@@ -414,7 +414,7 @@
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
                             android:layout_marginEnd="8dp"
-                            app:srcCompat="@drawable/ic_account" />
+                            app:srcCompat="@drawable/ic_account"/>
 
                         <LinearLayout
                             android:layout_width="wrap_content"
@@ -428,12 +428,12 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="@string/defaultNameAgent"
-                                android:textColor="@android:color/black" />
+                                android:textColor="@android:color/black"/>
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="@string/agent" />
+                                android:text="@string/agent"/>
                         </LinearLayout>
 
 
@@ -445,13 +445,15 @@
                             android:layout_alignParentEnd="true"
                             android:layout_centerVertical="true"
                             android:background="@drawable/background_button_call"
+                            android:clickable="true"
+                            android:foreground="?attr/selectableItemBackground"
                             android:gravity="center"
                             android:paddingEnd="@dimen/high_margin"
                             android:paddingStart="@dimen/high_margin"
                             android:text="@string/call"
                             android:textAllCaps="true"
                             android:textColor="@color/colorPrimary"
-                            android:textSize="16sp" />
+                            android:textSize="16sp"/>
                     </RelativeLayout>
 
                     <RelativeLayout
@@ -464,15 +466,26 @@
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
                             android:layout_marginEnd="8dp"
-                            app:srcCompat="@drawable/ic_account" />
+                            app:srcCompat="@drawable/ic_account"/>
 
-                        <TextView
+                        <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
                             android:layout_toEndOf="@id/imvOwner"
-                            android:text="@string/agent" />
+                            android:orientation="vertical">
 
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/defaultNameAgent"
+                                android:textColor="@android:color/black"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/agent"/>
+                        </LinearLayout>
 
                         <TextView
                             android:id="@+id/tvCallOwner"
@@ -482,20 +495,22 @@
                             android:layout_alignParentEnd="true"
                             android:layout_centerVertical="true"
                             android:background="@drawable/background_button_call"
+                            android:clickable="true"
+                            android:foreground="?attr/selectableItemBackground"
                             android:gravity="center"
                             android:paddingEnd="@dimen/high_margin"
                             android:paddingStart="@dimen/high_margin"
                             android:text="@string/call"
                             android:textAllCaps="true"
                             android:textColor="@color/colorPrimary"
-                            android:textSize="16sp" />
+                            android:textSize="16sp"/>
                     </RelativeLayout>
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/high_margin"
-                        android:text="@string/messageToTheOwner" />
+                        android:text="@string/messageToTheOwner"/>
 
                     <EditText
                         android:id="@+id/etContent"
@@ -504,7 +519,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="@dimen/activity_vertical_margin"
                         android:hint="@string/contentEmail"
-                        android:theme="@style/EditTextDetailActivity" />
+                        android:theme="@style/EditTextDetailActivity"/>
 
                     <LinearLayout
                         android:id="@+id/btnSend"
@@ -529,7 +544,7 @@
                             android:text="@string/requestInfo"
                             android:textAllCaps="true"
                             android:textColor="@android:color/white"
-                            android:textSize="16sp" />
+                            android:textSize="16sp"/>
                     </LinearLayout>
                 </LinearLayout>
                 <!--layout request info-->
@@ -541,7 +556,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/layoutImage"
                 android:layout_centerHorizontal="true"
-                android:layout_marginTop="@dimen/high_margin" />
+                android:layout_marginTop="@dimen/high_margin"/>
         </RelativeLayout>
 
     </ScrollView><!--scroll view-->
@@ -567,7 +582,7 @@
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
                 android:lines="1"
-                android:textColor="@android:color/white" />
+                android:textColor="@android:color/white"/>
 
             <TextView
                 android:id="@+id/tvAddressCityToolbar"
@@ -577,7 +592,7 @@
                 android:ellipsize="end"
                 android:lines="1"
                 android:textColor="@android:color/white"
-                android:textSize="12sp" />
+                android:textSize="12sp"/>
 
         </LinearLayout>
     </android.support.v7.widget.Toolbar><!--toolbar-->

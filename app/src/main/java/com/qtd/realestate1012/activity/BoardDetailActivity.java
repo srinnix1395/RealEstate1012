@@ -14,6 +14,7 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -31,6 +32,7 @@ import com.qtd.realestate1012.HousieApplication;
 import com.qtd.realestate1012.R;
 import com.qtd.realestate1012.adapter.HouseHasHeartAdapter;
 import com.qtd.realestate1012.constant.ApiConstant;
+import com.qtd.realestate1012.database.DatabaseHelper;
 import com.qtd.realestate1012.messageevent.MessageRemoveHouseToBoard;
 import com.qtd.realestate1012.model.CompactHouse;
 import com.qtd.realestate1012.utils.ProcessJson;
@@ -42,9 +44,14 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.concurrent.Callable;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import rx.Single;
+import rx.SingleSubscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by DELL on 9/5/2016.
@@ -67,7 +74,7 @@ public class BoardDetailActivity extends AppCompatActivity {
     private ArrayList<CompactHouse> arrayListHouse;
     private HouseHasHeartAdapter adapter;
 
-    private String id;
+    private String idBoard;
     private String name;
 
     @Override
@@ -77,7 +84,39 @@ public class BoardDetailActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         initData();
         initViews();
-        requestData();
+        if (ServiceUtils.isNetworkAvailable(this)) {
+            requestData();
+        } else {
+            getDataFromDatabase();
+        }
+    }
+
+    private void getDataFromDatabase() {
+        Single.fromCallable(new Callable<ArrayList<CompactHouse>>() {
+            @Override
+            public ArrayList<CompactHouse> call() throws Exception {
+                DatabaseHelper databaseHelper = DatabaseHelper.getInstance(BoardDetailActivity.this);
+                return databaseHelper.getAllFavoriteHouse(idBoard);
+            }
+        }).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new SingleSubscriber<ArrayList<CompactHouse>>() {
+                    @Override
+                    public void onSuccess(ArrayList<CompactHouse> value) {
+                        arrayListHouse.addAll(value);
+                        adapter.notifyDataSetChanged();
+                        progressBar.setEnabled(false);
+                        progressBar.setVisibility(View.INVISIBLE);
+                    }
+
+                    @Override
+                    public void onError(Throwable error) {
+                        error.printStackTrace();
+                        Log.e("Board detail", "onError: Đã có lỗi khi lấy dữ liệu từ database");
+                        progressBar.setEnabled(false);
+                        progressBar.setVisibility(View.INVISIBLE);
+                    }
+                });
     }
 
     private void requestData() {
@@ -90,7 +129,7 @@ public class BoardDetailActivity extends AppCompatActivity {
 
         JSONObject jsonRequest = new JSONObject();
         try {
-            jsonRequest.put(ApiConstant._ID, id);
+            jsonRequest.put(ApiConstant._ID, idBoard);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -131,13 +170,16 @@ public class BoardDetailActivity extends AppCompatActivity {
 
     private void handleResponseGetDataSuccess(JSONObject response) {
         arrayListHouse.addAll(ProcessJson.getListCompactHouse(response));
+        for (CompactHouse house : arrayListHouse) {
+            house.setLiked(true);
+        }
         adapter.notifyDataSetChanged();
     }
 
     private void initData() {
         Intent data = getIntent();
         if (data != null) {
-            id = data.getStringExtra(ApiConstant._ID);
+            idBoard = data.getStringExtra(ApiConstant._ID);
             name = data.getStringExtra(ApiConstant.NAME);
         }
 
@@ -198,7 +240,7 @@ public class BoardDetailActivity extends AppCompatActivity {
 
         JSONObject jsonRequest = new JSONObject();
         try {
-            jsonRequest.put(ApiConstant._ID_BOARD, id);
+            jsonRequest.put(ApiConstant._ID_BOARD, idBoard);
             jsonRequest.put(ApiConstant._ID_HOUSE, message.idHouse);
             jsonRequest.put(ApiConstant.ACTION, ApiConstant.ACTION_DELETE);
         } catch (JSONException e) {
@@ -257,8 +299,21 @@ public class BoardDetailActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        onClickRenameBoard();
+        switch (item.getItemId()) {
+            case R.id.miRename: {
+                onClickRenameBoard();
+                break;
+            }
+            case R.id.miSetting: {
+                onClickSetting();
+                break;
+            }
+        }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void onClickSetting() {
+
     }
 
     private void onClickRenameBoard() {
@@ -300,7 +355,7 @@ public class BoardDetailActivity extends AppCompatActivity {
         dialogInterface.dismiss();
         progressDialog.show();
 
-        String url = String.format(ApiConstant.URL_WEB_SERVICE_RENAME_BOARD, id, s);
+        String url = String.format(ApiConstant.URL_WEB_SERVICE_RENAME_BOARD, idBoard, s);
         JsonObjectRequest request = new JsonObjectRequest(url, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {

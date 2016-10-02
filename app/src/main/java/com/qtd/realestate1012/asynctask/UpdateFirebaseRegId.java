@@ -8,6 +8,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.JsonRequest;
 import com.qtd.realestate1012.HousieApplication;
 import com.qtd.realestate1012.constant.ApiConstant;
+import com.qtd.realestate1012.constant.AppConstant;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -32,11 +33,12 @@ public class UpdateFirebaseRegId {
                         try {
                             switch (response.getString(ApiConstant.RESULT)) {
                                 case ApiConstant.FAILED: {
-                                    Log.e("Housie", "onResponse: Can't not update regId");
+                                    Log.i(ApiConstant.HOUSIE, "update firebase reg_id: Can't not update regId");
                                     break;
                                 }
                                 case ApiConstant.SUCCESS: {
-                                    Log.e("Housie", "onResponse: update reg id succesfully");
+                                    Log.i(ApiConstant.HOUSIE, "update firebase reg_id: update reg id succesfully");
+                                    HousieApplication.getInstance().getSharedPreUtils().putBoolean(AppConstant.DEVICE_TOKEN, true);
                                     break;
                                 }
                             }

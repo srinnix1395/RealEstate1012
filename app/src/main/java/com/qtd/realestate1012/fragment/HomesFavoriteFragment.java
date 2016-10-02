@@ -1,5 +1,7 @@
 package com.qtd.realestate1012.fragment;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
@@ -8,6 +10,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -100,11 +103,20 @@ public class HomesFavoriteFragment extends Fragment {
                         public void onSuccess(ArrayList<CompactHouse> value) {
                             arrayListHouses.addAll(value);
                             adapter.notifyDataSetChanged();
+
+                            if (arrayListHouses.size() == 0) {
+                                recyclerView.setVisibility(View.INVISIBLE);
+                                layoutNoHouses.setVisibility(View.VISIBLE);
+                            } else {
+                                recyclerView.setVisibility(View.VISIBLE);
+                                layoutNoHouses.setVisibility(View.INVISIBLE);
+                            }
                         }
 
                         @Override
                         public void onError(Throwable error) {
-
+                            error.printStackTrace();
+                            Log.e("homes favorite fragment", "onError: Đã có lỗi trong quá trình lấy sync data");
                         }
                     });
         }
@@ -144,7 +156,8 @@ public class HomesFavoriteFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        if (getUserVisibleHint()) {
+        if (arrayListHouses.size() == 0 || getUserVisibleHint()) {
+            refreshLayout.setRefreshing(true);
             requestData();
         }
     }
@@ -159,8 +172,7 @@ public class HomesFavoriteFragment extends Fragment {
         }
 
         if (HousieApplication.getInstance().getSharedPreUtils().getBoolean(AppConstant.USER_LOGGED_IN, false)) {
-//            String idUserLoggedIn = HousieApplication.getInstance().getSharedPreUtils().getString(ApiConstant._ID, "-1");
-            String idUserLoggedIn = "57d6b208f07077132325fed7";
+            String idUserLoggedIn = HousieApplication.getInstance().getSharedPreUtils().getString(ApiConstant._ID, "-1");
             String url = ApiConstant.URL_WEB_SERVICE_GET_FAVORITE_HOUSES;
 
             JSONObject jsonRequest = new JSONObject();
@@ -177,6 +189,7 @@ public class HomesFavoriteFragment extends Fragment {
                         switch (response.getString(ApiConstant.RESULT)) {
                             case ApiConstant.FAILED: {
                                 Toast.makeText(getActivity(), R.string.errorConnection, Toast.LENGTH_SHORT).show();
+                                refreshLayout.setRefreshing(false);
                                 break;
                             }
                             case ApiConstant.SUCCESS: {
@@ -184,15 +197,6 @@ public class HomesFavoriteFragment extends Fragment {
                                 break;
                             }
                         }
-
-                        if (arrayListHouses.size() == 0) {
-                            recyclerView.setVisibility(View.INVISIBLE);
-                            layoutNoHouses.setVisibility(View.VISIBLE);
-                        } else {
-                            recyclerView.setVisibility(View.VISIBLE);
-                            layoutNoHouses.setVisibility(View.INVISIBLE);
-                        }
-                        refreshLayout.setRefreshing(false);
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -213,9 +217,9 @@ public class HomesFavoriteFragment extends Fragment {
     }
 
     private void handleResponseSuccess(final JSONObject response) {
-        Single.fromCallable(new Callable<ArrayList<CompactHouse>>() {
+        Single.fromCallable(new Callable<ArrayList<FavoriteHouse>>() {
             @Override
-            public ArrayList<CompactHouse> call() throws Exception {
+            public ArrayList<FavoriteHouse> call() throws Exception {
                 ArrayList<CompactHouse> compactHouses = ProcessJson.getListCompactHouse(response);
 
                 if (compactHouses.size() > 0) {
@@ -230,7 +234,7 @@ public class HomesFavoriteFragment extends Fragment {
                     if (compactHouses.size() == 0) {
                         break;
                     } else {
-                        for (int i = compactHouses.size(); i >= 0; i--) {
+                        for (int i = compactHouses.size() - 1; i >= 0; i--) {
                             if (board.getListHouse().contains(compactHouses.get(i).getId())) {
                                 arrayListFavoriteHouse.add(new FavoriteHouse(compactHouses.get(i), board.getId()));
                                 compactHouses.remove(i);
@@ -242,18 +246,27 @@ public class HomesFavoriteFragment extends Fragment {
                 DatabaseHelper databaseHelper = DatabaseHelper.getInstance(getContext());
                 databaseHelper.syncDataFavoriteHouse(arrayListFavoriteHouse);
 
-                return compactHouses;
+                return arrayListFavoriteHouse;
             }
         }).observeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new SingleSubscriber<ArrayList<CompactHouse>>() {
+                .subscribe(new SingleSubscriber<ArrayList<FavoriteHouse>>() {
                     @Override
-                    public void onSuccess(ArrayList<CompactHouse> value) {
+                    public void onSuccess(ArrayList<FavoriteHouse> value) {
                         int size = arrayListHouses.size();
                         arrayListHouses.clear();
                         adapter.notifyItemRangeRemoved(0, size);
                         arrayListHouses.addAll(value);
                         adapter.notifyItemRangeInserted(0, arrayListHouses.size());
+
+                        if (arrayListHouses.size() == 0) {
+                            recyclerView.setVisibility(View.INVISIBLE);
+                            layoutNoHouses.setVisibility(View.VISIBLE);
+                        } else {
+                            recyclerView.setVisibility(View.VISIBLE);
+                            layoutNoHouses.setVisibility(View.INVISIBLE);
+                        }
+                        refreshLayout.setRefreshing(false);
                     }
 
                     @Override
@@ -283,5 +296,12 @@ public class HomesFavoriteFragment extends Fragment {
                 layoutNoHouses.setVisibility(View.VISIBLE);
             }
         }, 1000);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == AppConstant.REQUEST_CODE_SIGN_IN && resultCode == Activity.RESULT_OK) {
+
+        }
     }
 }

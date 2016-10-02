@@ -18,38 +18,38 @@ public class ApiConstant {
     public static final String NOTIFICATION_ID = "regID";
 
     //webservice
-    public static final String URL_WEB_SERVICE_LOGIN_SOCIAL = "http://protectedcedar-31067.rhcloud.com/user/loginNetworkSocial";
-    public static final String URL_WEB_SERVICE_LOGIN = "http://protectedcedar-31067.rhcloud.com/user/login";
-    public static final String URL_WEB_SERVICE_REGISTER = "http://protectedcedar-31067.rhcloud.com/user/register";
-    public static final String URL_WEB_SERVICE_IS_EMAIL_EXISTED = "http://protectedcedar-31067.rhcloud.com/user/isEmailExisted";
-    public static final String URL_WEB_SERVICE_USER_INFO = "http://protectedcedar-31067.rhcloud.com/user/info";
-    public static final String URL_WEB_SERVICE_UPDATE_INFO = "http://protectedcedar-31067.rhcloud.com/user/updateWithoutAvatar";
-    public static final String URL_WEB_SERVICE_UPDATE_INFO_HAS_AVATAR = "http://protectedcedar-31067.rhcloud.com/user/updateWithAvatar";
-    public static final String URL_WEB_SERVICE_UPDATE_REG_ID = "http://protectedcedar-31067.rhcloud.com/user/updateRegID";
+    public static final String URL_WEB_SERVICE_LOGIN_SOCIAL = "http://protectedriver-31067.rhcloud.com/user/loginNetworkSocial";
+    public static final String URL_WEB_SERVICE_LOGIN = "http://protectedriver-31067.rhcloud.com/user/login";
+    public static final String URL_WEB_SERVICE_REGISTER = "http://protectedriver-31067.rhcloud.com/user/register";
+    public static final String URL_WEB_SERVICE_IS_EMAIL_EXISTED = "http://protectedriver-31067.rhcloud.com/user/isEmailExisted";
+    public static final String URL_WEB_SERVICE_USER_INFO = "http://protectedriver-31067.rhcloud.com/user/info";
+    public static final String URL_WEB_SERVICE_UPDATE_INFO = "http://protectedriver-31067.rhcloud.com/user/updateWithoutAvatar";
+    public static final String URL_WEB_SERVICE_UPDATE_INFO_HAS_AVATAR = "http://protectedriver-31067.rhcloud.com/user/updateWithAvatar";
+    public static final String URL_WEB_SERVICE_UPDATE_REG_ID = "http://protectedriver-31067.rhcloud.com/user/updateRegID";
 
 
-    public static final String URL_WEB_SERVICE_GET_BOARDS = "http://protectedcedar-31067.rhcloud.com/board/getBoards";
-    public static final String URL_WEB_SERVICE_CREATE_BOARD = "http://protectedcedar-31067.rhcloud.com/board/createBoard";
-    public static final String URL_WEB_SERVICE_DELETE_BOARD = "http://protectedcedar-31067.rhcloud.com/board/deleteBoard";
-    public static final String URL_WEB_SERVICE_DETAIL_BOARD = "http://protectedcedar-31067.rhcloud.com/board/detailInfo";
-    public static final String URL_WEB_SERVICE_RENAME_BOARD = "http://protectedcedar-31067.rhcloud.com/board/rename?_id=%s&name=%s";
+    public static final String URL_WEB_SERVICE_GET_BOARDS = "http://protectedriver-31067.rhcloud.com/board/getBoards";
+    public static final String URL_WEB_SERVICE_CREATE_BOARD = "http://protectedriver-31067.rhcloud.com/board/createBoard";
+    public static final String URL_WEB_SERVICE_DELETE_BOARD = "http://protectedriver-31067.rhcloud.com/board/deleteBoard";
+    public static final String URL_WEB_SERVICE_DETAIL_BOARD = "http://protectedriver-31067.rhcloud.com/board/detailInfo";
+    public static final String URL_WEB_SERVICE_RENAME_BOARD = "http://protectedriver-31067.rhcloud.com/board/rename?_id=%s&name=%s";
 
-    public static final String URL_WEB_SERVICE_MY_POST = "http://protectedcedar-31067.rhcloud.com/house/myPost";
-    public static final String URL_WEB_SERVICE_GET_ALL_HOUSE = "http://protectedcedar-31067.rhcloud.com/house/getAllHouses?lat=%s&lng=%s";
-    public static final String URL_WEB_SERVICE_GET_ALL_HOUSE_OF_KIND = "http://protectedcedar-31067.rhcloud.com/house/getAllOfKind?type=%s";
-    public static final String URL_WEB_SERVICE_GET_FAVORITE_HOUSES = "http://protectedcedar-31067.rhcloud.com/house/getFavoriteHouses";
-    public static final String URL_WEB_SERVICE_HANDLE_FAVORITE_HOUSES = "http://protectedcedar-31067.rhcloud.com/house/handleFavoriteHouse";
-    public static final String URL_WEB_SERVICE_DETAIL_HOUSE = "http://protectedcedar-31067.rhcloud.com/house/detailInfo";
-    public static final String URL_WEB_SERVICE_GET_NEWS = "http://protectedcedar-31067.rhcloud.com/house/getNews";
-    public static final String URL_WEB_SERVICE_POST_HOUSE = "http://protectedcedar-31067.rhcloud.com/house/post";
-    public static final String URL_WEB_SERVICE_SEARCH_HOUSE = "http://protectedcedar-31067.rhcloud.com/house/search";
+    public static final String URL_WEB_SERVICE_MY_POST = "http://protectedriver-31067.rhcloud.com/house/myPost";
+    public static final String URL_WEB_SERVICE_GET_ALL_HOUSE = "http://protectedriver-31067.rhcloud.com/house/getAllHouses?lat=%s&lng=%s";
+    public static final String URL_WEB_SERVICE_GET_ALL_HOUSE_OF_KIND = "http://protectedriver-31067.rhcloud.com/house/getAllOfKind?type=%s";
+    public static final String URL_WEB_SERVICE_GET_FAVORITE_HOUSES = "http://protectedriver-31067.rhcloud.com/house/getFavoriteHouses";
+    public static final String URL_WEB_SERVICE_HANDLE_FAVORITE_HOUSES = "http://protectedriver-31067.rhcloud.com/house/handleFavoriteHouse";
+    public static final String URL_WEB_SERVICE_DETAIL_HOUSE = "http://protectedriver-31067.rhcloud.com/house/detailInfo";
+    public static final String URL_WEB_SERVICE_GET_NEWS = "http://protectedriver-31067.rhcloud.com/house/getNews";
+    public static final String URL_WEB_SERVICE_POST_HOUSE = "http://protectedriver-31067.rhcloud.com/house/post";
+    public static final String URL_WEB_SERVICE_SEARCH_HOUSE = "http://protectedriver-31067.rhcloud.com/house/search";
 
-    public static final String URL_WEB_SERVICE_FIND_SEARCH = "http://protectedcedar-31067.rhcloud.com/search/find";
-    public static final String URL_WEB_SERVICE_SAVE_SEARCH = "http://protectedcedar-31067.rhcloud.com/search/insert";
-    public static final String URL_WEB_SERVICE_REMOVE_SEARCH = "http://protectedcedar-31067.rhcloud.com/search/remove?_id=%s";
+    public static final String URL_WEB_SERVICE_FIND_SEARCH = "http://protectedriver-31067.rhcloud.com/search/find";
+    public static final String URL_WEB_SERVICE_SAVE_SEARCH = "http://protectedriver-31067.rhcloud.com/search/insert";
+    public static final String URL_WEB_SERVICE_REMOVE_SEARCH = "http://protectedriver-31067.rhcloud.com/search/remove?_id=%s";
 
-    public static final String URL_WEB_SERVICE_GET_IMAGE_HOUSE = "http://protectedcedar-31067.rhcloud.com/imageHouse/";
-    public static final String URL_WEB_SERVICE_GET_IMAGE_USER = "http://protectedcedar-31067.rhcloud.com/imageUser/";
+    public static final String URL_WEB_SERVICE_GET_IMAGE_HOUSE = "http://protectedriver-31067.rhcloud.com/imageHouse/";
+    public static final String URL_WEB_SERVICE_GET_IMAGE_USER = "http://protectedriver-31067.rhcloud.com/imageUser/";
 
 
     public static final String RESULT = "result";
