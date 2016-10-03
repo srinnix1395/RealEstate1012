@@ -29,7 +29,10 @@ import com.qtd.realestate1012.HousieApplication;
 import com.qtd.realestate1012.R;
 import com.qtd.realestate1012.constant.ApiConstant;
 import com.qtd.realestate1012.constant.AppConstant;
+import com.qtd.realestate1012.database.DatabaseHelper;
+import com.qtd.realestate1012.model.ItemSavedSearch;
 import com.qtd.realestate1012.utils.AlertUtils;
+import com.qtd.realestate1012.utils.ProcessJson;
 import com.qtd.realestate1012.utils.ServiceUtils;
 import com.qtd.realestate1012.utils.StringUtils;
 
@@ -37,10 +40,15 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.concurrent.Callable;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import rx.Single;
+import rx.SingleSubscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by DELL on 8/17/2016.
@@ -380,7 +388,7 @@ public class FilterActivity extends AppCompatActivity {
 
         JSONObject jsonRequest = getCriteria();
         try {
-            jsonRequest.put(ApiConstant._ID, HousieApplication.getInstance().getSharedPreUtils().getString(ApiConstant._ID, "1"));
+            jsonRequest.put(ApiConstant._ID_OWNER, HousieApplication.getInstance().getSharedPreUtils().getString(ApiConstant._ID, "1"));
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -398,7 +406,6 @@ public class FilterActivity extends AppCompatActivity {
                         }
                         case ApiConstant.SUCCESS: {
                             handleResponseSaveSearchSuccess(response);
-                            progressDialog.dismiss();
                             break;
                         }
                     }
@@ -425,8 +432,32 @@ public class FilterActivity extends AppCompatActivity {
         }
     }
 
-    private void handleResponseSaveSearchSuccess(JSONObject response) {
-        // TODO: 10/3/2016 save database
-        AlertUtils.showToastSuccess(this, R.drawable.ic_playlist_check, R.string.saveSearchSuccessfully);
+    private void handleResponseSaveSearchSuccess(final JSONObject response) {
+        Single.fromCallable(new Callable<Boolean>() {
+            @Override
+            public Boolean call() throws Exception {
+                ItemSavedSearch itemSavedSearch = ProcessJson.getItemSavedSearch(response);
+
+                DatabaseHelper databaseHelper = DatabaseHelper.getInstance(FilterActivity.this);
+                databaseHelper.insertSavedSearch(itemSavedSearch);
+
+                return true;
+            }
+        }).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new SingleSubscriber<Boolean>() {
+                    @Override
+                    public void onSuccess(Boolean value) {
+                        progressDialog.dismiss();
+                        AlertUtils.showToastSuccess(FilterActivity.this, R.drawable.ic_playlist_check, R.string.saveSearchSuccessfully);
+                    }
+
+                    @Override
+                    public void onError(Throwable error) {
+                        error.printStackTrace();
+                        progressDialog.dismiss();
+                        Toast.makeText(FilterActivity.this, R.string.errorProcessing, Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 }

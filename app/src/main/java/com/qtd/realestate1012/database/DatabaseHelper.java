@@ -11,6 +11,7 @@ import com.qtd.realestate1012.model.Board;
 import com.qtd.realestate1012.model.BoardHasHeart;
 import com.qtd.realestate1012.model.CompactHouse;
 import com.qtd.realestate1012.model.FavoriteHouse;
+import com.qtd.realestate1012.model.ItemSavedSearch;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -27,6 +28,7 @@ public class DatabaseHelper {
 
     public static final String TABLE_BOARD = "tblBoard";
     public static final String TABLE_HOUSE_FAVORITE = "tblHouseFavorite";
+    public static final String TABLE_SAVED_SEARCH = "tblSavedSearch";
 
     public static final String _ID = "_ID";
     public static final String NAME = "Name";
@@ -43,16 +45,20 @@ public class DatabaseHelper {
 
     private Context mContext;
     private SQLiteDatabase mDatabase;
-    private static DatabaseHelper mInstance;
+    private static volatile DatabaseHelper mInstance;
 
     public static DatabaseHelper getInstance(Context mContext) {
         if (mInstance == null) {
-            mInstance = new DatabaseHelper(mContext);
+            synchronized (DatabaseHelper.class){
+                if (mInstance == null) {
+                    mInstance = new DatabaseHelper(mContext);
+                }
+            }
         }
         return mInstance;
     }
 
-    public DatabaseHelper(Context mContext) {
+    private DatabaseHelper(Context mContext) {
         this.mContext = mContext;
         copyFile();
     }
@@ -71,7 +77,7 @@ public class DatabaseHelper {
                 InputStream input = mContext.getAssets().open(DATABASE);
                 FileOutputStream output = new FileOutputStream(file);
 
-                int recv = 0;
+                int recv;
                 byte[] buff = new byte[2048];
 
                 while (true) {
@@ -128,6 +134,8 @@ public class DatabaseHelper {
         try {
             openDatabase();
 
+            mDatabase.beginTransaction();
+
             ContentValues contentValues = new ContentValues();
             contentValues.put(_ID, board.getId());
             contentValues.put(NAME, board.getName());
@@ -135,9 +143,12 @@ public class DatabaseHelper {
             contentValues.put(COUNT_HOUSE, board.getListHouse().size());
 
             mDatabase.insertOrThrow(TABLE_BOARD, null, contentValues);
+
+            mDatabase.setTransactionSuccessful();
         } catch (SQLException ex) {
             ex.printStackTrace();
         } finally {
+            mDatabase.endTransaction();
             closeDatabase();
         }
     }
@@ -155,7 +166,7 @@ public class DatabaseHelper {
                 contentValues.put(FIRST_IMAGE, board.getImage());
                 contentValues.put(COUNT_HOUSE, board.getListHouse().size());
 
-                mDatabase.insert(TABLE_BOARD, null, contentValues);
+                mDatabase.insertOrThrow(TABLE_BOARD, null, contentValues);
             }
 
             mDatabase.setTransactionSuccessful();
@@ -273,6 +284,7 @@ public class DatabaseHelper {
 
             mDatabase.delete(TABLE_BOARD, null, null);
             mDatabase.delete(TABLE_HOUSE_FAVORITE, null, null);
+            mDatabase.delete(TABLE_SAVED_SEARCH, null, null);
 
             mDatabase.setTransactionSuccessful();
         } catch (SQLException ex) {
@@ -373,7 +385,7 @@ public class DatabaseHelper {
                     contentValues.put(COUNT_HOUSE, board.getListHouse().size());
                     contentValues.put(FIRST_IMAGE, board.getImage());
 
-                    mDatabase.insert(TABLE_BOARD, null, contentValues);
+                    mDatabase.insertOrThrow(TABLE_BOARD, null, contentValues);
                 }
             }
 
@@ -510,6 +522,121 @@ public class DatabaseHelper {
             }
 
             mDatabase.update(TABLE_BOARD, contentValues, _ID + "='" + board.getId() + "'", null);
+
+            mDatabase.setTransactionSuccessful();
+            mDatabase.endTransaction();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            closeDatabase();
+        }
+    }
+
+    public ArrayList<ItemSavedSearch> getAllSavedSearch() {
+        ArrayList<ItemSavedSearch> arrayList = new ArrayList<>();
+
+        try {
+            openDatabase();
+
+            Cursor cursor = mDatabase.query(TABLE_SAVED_SEARCH, new String[]{
+                    _ID,
+                    ApiConstant.STATUS,
+                    ApiConstant.PRICE_FROM,
+                    ApiConstant.PRICE_TO,
+                    ApiConstant.NUMBER_OF_ROOMS,
+                    ApiConstant.AREA_FROM,
+                    ApiConstant.AREA_TO,
+                    ApiConstant.PROPERTY_TYPE
+            }, null, null, null, null, null);
+            while (cursor.moveToNext()) {
+                String id = cursor.getString(0);
+                String status = cursor.getString(1);
+                int priceFrom = cursor.getInt(2);
+                int priceTo = cursor.getInt(3);
+                int numberOfRooms = cursor.getInt(4);
+                int areaFrom = cursor.getInt(5);
+                int areaTo = cursor.getInt(6);
+                String property = cursor.getString(7);
+
+                arrayList.add(new ItemSavedSearch(id, status, priceFrom, priceTo, numberOfRooms, areaFrom, areaTo, property));
+            }
+            cursor.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            closeDatabase();
+        }
+        return arrayList;
+    }
+
+    public void insertSavedSearch(ItemSavedSearch item) {
+        try {
+            openDatabase();
+
+            mDatabase.beginTransaction();
+
+            ContentValues contentValues = new ContentValues();
+            contentValues.put(_ID, item.getId());
+            contentValues.put(ApiConstant.STATUS, item.getStatus());
+            contentValues.put(ApiConstant.PRICE_FROM, item.getPriceFrom());
+            contentValues.put(ApiConstant.PRICE_TO, item.getPriceTo());
+            contentValues.put(ApiConstant.NUMBER_OF_ROOMS, item.getNumberOfRooms());
+            contentValues.put(ApiConstant.AREA_FROM, item.getAreaFrom());
+            contentValues.put(ApiConstant.AREA_TO, item.getAreaTo());
+
+            mDatabase.insertOrThrow(TABLE_SAVED_SEARCH, null, contentValues);
+
+            mDatabase.setTransactionSuccessful();
+            mDatabase.endTransaction();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            closeDatabase();
+        }
+    }
+
+    public void syncDataSavedSearch(ArrayList<ItemSavedSearch> arrayListServer) {
+        try {
+            openDatabase();
+
+            Cursor cursor = mDatabase.query(TABLE_SAVED_SEARCH, new String[]{_ID}, null, null, null, null, null);
+            ArrayList<String> arrayListLocal = new ArrayList<>();
+            while (cursor.moveToNext()) {
+                arrayListLocal.add(cursor.getString(0));
+            }
+            cursor.close();
+
+            mDatabase.beginTransaction();
+
+            for (ItemSavedSearch item : arrayListServer) {
+                if (!arrayListLocal.contains(item.getId())) {
+                    ContentValues contentValues = new ContentValues();
+                    contentValues.put(_ID, item.getId());
+                    contentValues.put(ApiConstant.STATUS, item.getStatus());
+                    contentValues.put(ApiConstant.PRICE_FROM, item.getPriceFrom());
+                    contentValues.put(ApiConstant.PRICE_TO, item.getPriceTo());
+                    contentValues.put(ApiConstant.NUMBER_OF_ROOMS, item.getNumberOfRooms());
+                    contentValues.put(ApiConstant.AREA_FROM, item.getAreaFrom());
+                    contentValues.put(ApiConstant.AREA_TO, item.getAreaTo());
+
+                    mDatabase.insertOrThrow(TABLE_SAVED_SEARCH, null, contentValues);
+                }
+            }
+
+            for (String id : arrayListLocal) {
+                boolean severHas = false;
+                for (ItemSavedSearch item : arrayListServer) {
+                    if (item.getId().equals(id)) {
+                        severHas = true;
+                        break;
+                    }
+                }
+
+                if (!severHas) {
+                    mDatabase.delete(TABLE_SAVED_SEARCH, _ID + "='" + id + "'", null);
+                }
+            }
+
 
             mDatabase.setTransactionSuccessful();
             mDatabase.endTransaction();

@@ -26,6 +26,7 @@ import com.qtd.realestate1012.adapter.SearchesAdapter;
 import com.qtd.realestate1012.callback.ActivityCallback;
 import com.qtd.realestate1012.constant.ApiConstant;
 import com.qtd.realestate1012.constant.AppConstant;
+import com.qtd.realestate1012.database.DatabaseHelper;
 import com.qtd.realestate1012.messageevent.MessageRemoveSavedSearch;
 import com.qtd.realestate1012.model.ItemSavedSearch;
 import com.qtd.realestate1012.utils.AlertUtils;
@@ -204,7 +205,12 @@ public class SearchesFavoriteFragment extends Fragment implements SwipeRefreshLa
         Single.fromCallable(new Callable<ArrayList<ItemSavedSearch>>() {
             @Override
             public ArrayList<ItemSavedSearch> call() throws Exception {
-                return ProcessJson.getListItemSearch(response);
+                ArrayList<ItemSavedSearch> arrayList = ProcessJson.getListItemSearch(response);
+
+                DatabaseHelper databaseHelper = DatabaseHelper.getInstance(SearchesFavoriteFragment.this.getContext());
+                databaseHelper.syncDataSavedSearch(arrayList);
+
+                return arrayList;
             }
         }).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

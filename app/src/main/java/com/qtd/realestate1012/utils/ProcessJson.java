@@ -323,14 +323,33 @@ public class ProcessJson {
                 int areaFrom = jsonObject.getInt(ApiConstant.AREA_FROM);
                 int areaTo = jsonObject.getInt(ApiConstant.AREA_TO);
                 String property = jsonObject.getString(ApiConstant.PROPERTY_TYPE);
-                String idOwner = jsonObject.getString(ApiConstant._ID_OWNER);
 
-                arrayList.add(new ItemSavedSearch(id, status, priceFrom, priceTo, numberOfRooms, areaFrom, areaTo, property, idOwner));
+                arrayList.add(new ItemSavedSearch(id, status, priceFrom, priceTo, numberOfRooms, areaFrom, areaTo, property));
             }
         } catch (JSONException e) {
             e.printStackTrace();
         }
 
         return arrayList;
+    }
+
+    public static ItemSavedSearch getItemSavedSearch(JSONObject response) {
+        try {
+            JSONObject jsonObject = response.getJSONObject(ApiConstant.ITEM_SAVED_SEARCH);
+
+            String id = jsonObject.getString(ApiConstant._ID);
+            String status = jsonObject.getString(ApiConstant.STATUS);
+            int priceFrom = jsonObject.getInt(ApiConstant.PRICE_FROM);
+            int priceTo = jsonObject.getInt(ApiConstant.PRICE_TO);
+            int numberOfRooms = jsonObject.getInt(ApiConstant.NUMBER_OF_ROOMS);
+            int areaFrom = jsonObject.getInt(ApiConstant.AREA_FROM);
+            int areaTo = jsonObject.getInt(ApiConstant.AREA_TO);
+            String property = jsonObject.getString(ApiConstant.PROPERTY_TYPE);
+
+            return new ItemSavedSearch(id, status, priceFrom, priceTo, numberOfRooms, areaFrom, areaTo, property);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

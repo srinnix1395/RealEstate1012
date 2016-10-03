@@ -21,6 +21,7 @@ import com.qtd.realestate1012.callback.ActivityCallback;
 import com.qtd.realestate1012.constant.ApiConstant;
 import com.qtd.realestate1012.constant.AppConstant;
 import com.qtd.realestate1012.custom.DialogSignOut;
+import com.qtd.realestate1012.database.DatabaseHelper;
 import com.qtd.realestate1012.fragment.FavoriteFragment;
 import com.qtd.realestate1012.fragment.HomeFragment;
 import com.qtd.realestate1012.fragment.NotificationFragment;
@@ -33,8 +34,14 @@ import com.qtd.realestate1012.utils.UiUtils;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
+import java.util.concurrent.Callable;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import rx.Single;
+import rx.SingleSubscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 public class MainActivity extends AppCompatActivity implements ActivityCallback {
     @BindView(R.id.tabLayout)
@@ -240,7 +247,26 @@ public class MainActivity extends AppCompatActivity implements ActivityCallback 
             notificationFragment.clearUserData();
         }
 
-        AlertUtils.showToastSuccess(this, R.drawable.ic_account_checked, R.string.logoutSuccessfully);
+        Single.fromCallable(new Callable<Boolean>() {
+            @Override
+            public Boolean call() throws Exception {
+                DatabaseHelper databaseHelper = DatabaseHelper.getInstance(MainActivity.this);
+                databaseHelper.clearUserData();
+                return true;
+            }
+        }).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new SingleSubscriber<Boolean>() {
+                    @Override
+                    public void onSuccess(Boolean value) {
+                        AlertUtils.showToastSuccess(MainActivity.this, R.drawable.ic_account_checked, R.string.logoutSuccessfully);
+                    }
+
+                    @Override
+                    public void onError(Throwable error) {
+                        error.printStackTrace();
+                    }
+                });
     }
 
     private void showFragment(TabLayout.Tab tab) {

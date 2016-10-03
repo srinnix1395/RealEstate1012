@@ -15,10 +15,9 @@ public class ItemSavedSearch implements Parcelable {
     private int areaFrom;
     private int areaTo;
     private String propertyType;
-    private String idOwner;
 
 
-    public ItemSavedSearch(String id, String status, int priceFrom, int priceTo, int numberOfRooms, int areaFrom, int areaTo, String propertyType, String idOwner) {
+    public ItemSavedSearch(String id, String status, int priceFrom, int priceTo, int numberOfRooms, int areaFrom, int areaTo, String propertyType) {
         this.id = id;
         this.status = status;
         this.priceFrom = priceFrom;
@@ -27,7 +26,6 @@ public class ItemSavedSearch implements Parcelable {
         this.areaFrom = areaFrom;
         this.areaTo = areaTo;
         this.propertyType = propertyType;
-        this.idOwner = idOwner;
     }
 
     protected ItemSavedSearch(Parcel in) {
@@ -39,7 +37,6 @@ public class ItemSavedSearch implements Parcelable {
         areaFrom = in.readInt();
         areaTo = in.readInt();
         propertyType = in.readString();
-        idOwner = in.readString();
     }
 
     @Override
@@ -52,7 +49,6 @@ public class ItemSavedSearch implements Parcelable {
         dest.writeInt(areaFrom);
         dest.writeInt(areaTo);
         dest.writeString(propertyType);
-        dest.writeString(idOwner);
     }
 
     @Override
@@ -71,10 +67,6 @@ public class ItemSavedSearch implements Parcelable {
             return new ItemSavedSearch[size];
         }
     };
-
-    public String getIdOwner() {
-        return idOwner;
-    }
 
     public String getId() {
         return id;
