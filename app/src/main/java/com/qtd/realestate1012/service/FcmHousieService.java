@@ -1,5 +1,6 @@
 package com.qtd.realestate1012.service;
 
+import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Intent;
@@ -32,7 +33,10 @@ public class FcmHousieService extends FirebaseMessagingService {
         builder.setContentTitle("Housie - " + getString(R.string.newHomeMatches));
         builder.setContentText(getString(R.string.newHome));
         builder.setSmallIcon(R.drawable.ic_home_white);
-        builder.setAutoCancel(true);
+        builder.setVibrate(new long[]{
+                0, 200, 200, 600, 600
+        });
+        builder.mNotification.flags = Notification.FLAG_INSISTENT;
 
         Intent intent = new Intent(this, MainActivity.class);
         intent.setAction(AppConstant.ACTION_NOTIFICATION);

@@ -91,13 +91,6 @@ public class BoardFragment extends Fragment {
         if (!ServiceUtils.isNetworkAvailable(getContext())) {
             DatabaseHelper databaseHelper = DatabaseHelper.getInstance(getContext());
             arrayListBoards = databaseHelper.getAllBoards();
-            arrayListBoards.add(arrayListBoards.get(0));
-            arrayListBoards.add(arrayListBoards.get(0));
-            arrayListBoards.add(arrayListBoards.get(0));
-            arrayListBoards.add(arrayListBoards.get(0));
-            arrayListBoards.add(arrayListBoards.get(0));
-            arrayListBoards.add(arrayListBoards.get(0));
-            arrayListBoards.add(arrayListBoards.get(0));
         } else {
             arrayListBoards = new ArrayList<>();
         }

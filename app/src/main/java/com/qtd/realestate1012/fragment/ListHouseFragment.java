@@ -19,6 +19,7 @@ import android.widget.Toast;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.JsonRequest;
 import com.qtd.realestate1012.HousieApplication;
 import com.qtd.realestate1012.R;
 import com.qtd.realestate1012.activity.LoginActivity;
@@ -152,7 +153,14 @@ public class ListHouseFragment extends Fragment {
             return;
         }
 
-        JsonObjectRequest request = new JsonObjectRequest(String.format(url, type), new Response.Listener<JSONObject>() {
+        JSONObject jsonRequest = new JSONObject();
+        try {
+            jsonRequest.put(ApiConstant.PROPERTY_TYPE, type);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        JsonObjectRequest request = new JsonObjectRequest(JsonRequest.Method.POST, url, jsonRequest, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 try {

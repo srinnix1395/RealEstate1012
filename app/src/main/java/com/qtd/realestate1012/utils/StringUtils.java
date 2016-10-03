@@ -17,7 +17,12 @@ public class StringUtils {
                 return (int) (Float.parseFloat(temp[0]) * 1000000000);
             }
             case "VNĐ": {
-                return Integer.parseInt(temp[0]);
+                String a[] = temp[0].split("\\.");
+                String result = "";
+                for (int i = 0; i < a.length; i++) {
+                    result += a[i];
+                }
+                return Integer.parseInt(result);
             }
             default:
                 return 0;

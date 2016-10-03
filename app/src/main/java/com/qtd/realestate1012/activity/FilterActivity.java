@@ -29,10 +29,7 @@ import com.qtd.realestate1012.HousieApplication;
 import com.qtd.realestate1012.R;
 import com.qtd.realestate1012.constant.ApiConstant;
 import com.qtd.realestate1012.constant.AppConstant;
-import com.qtd.realestate1012.model.CompactHouse;
-import com.qtd.realestate1012.model.ItemSavedSearch;
 import com.qtd.realestate1012.utils.AlertUtils;
-import com.qtd.realestate1012.utils.ProcessJson;
 import com.qtd.realestate1012.utils.ServiceUtils;
 import com.qtd.realestate1012.utils.StringUtils;
 
@@ -107,25 +104,17 @@ public class FilterActivity extends AppCompatActivity {
         setContentView(R.layout.activity_filter);
         ButterKnife.bind(this);
         initViews();
-        getData();
     }
 
-    private void getData() {
-        Intent intent = getIntent();
-        if (intent != null && intent.hasExtra(ApiConstant.ITEM_SAVED_SEARCH)) {
-            ItemSavedSearch item = intent.getParcelableExtra(ApiConstant.ITEM_SAVED_SEARCH);
-            setupData(item);
-            tvSearch.performClick();
+    @Override
+    protected void onDestroy() {
+        if (progressDialog != null && progressDialog.isShowing()) {
+            progressDialog.dismiss();
         }
-    }
-
-    private void setupData(ItemSavedSearch item) {
-        if (item.getStatus().equals(ApiConstant.RENT)) {
-            radioRent.performClick();
+        if (request != null && !request.isCanceled()) {
+            request.cancel();
         }
-
-        numberOfRooms = item.getNumberOfRooms();
-        //// TODO: 9/28/2016 setup data
+        super.onDestroy();
     }
 
     private void initViews() {
@@ -231,47 +220,6 @@ public class FilterActivity extends AppCompatActivity {
         builder.create().show();
     }
 
-    private void performSearch() {
-        if (!ServiceUtils.isNetworkAvailable(this)) {
-            Toast.makeText(FilterActivity.this, R.string.noInternetConnection, Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        progressDialog.show();
-
-        JSONObject jsonObject = getCriteria();
-
-        JsonObjectRequest request = new JsonObjectRequest(JsonRequest.Method.POST, ApiConstant.URL_WEB_SERVICE_SEARCH_HOUSE, jsonObject, new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject response) {
-                try {
-                    switch (response.getString(ApiConstant.RESULT)) {
-                        case ApiConstant.FAILED: {
-                            progressDialog.dismiss();
-                            Toast.makeText(FilterActivity.this, R.string.errorProcessing, Toast.LENGTH_SHORT).show();
-                            break;
-                        }
-                        case ApiConstant.SUCCESS: {
-                            handleResponseFilterSuccess(response);
-                            progressDialog.dismiss();
-                            break;
-                        }
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                error.printStackTrace();
-                progressDialog.dismiss();
-                Toast.makeText(FilterActivity.this, R.string.errorProcessing, Toast.LENGTH_SHORT).show();
-            }
-        });
-        HousieApplication.getInstance().addToRequestQueue(request);
-    }
-
     private JSONObject getCriteria() {
         String status = radioGroup.getCheckedRadioButtonId() == R.id.radioSale ? ApiConstant.SALE : ApiConstant.RENT;
 
@@ -318,129 +266,19 @@ public class FilterActivity extends AppCompatActivity {
         return jsonObject;
     }
 
-    private void handleResponseFilterSuccess(JSONObject response) {
-        ArrayList<CompactHouse> arrayList = ProcessJson.getListCompactHouse(response);
+    private void performSearch() {
+        if (!ServiceUtils.isNetworkAvailable(this)) {
+            Toast.makeText(FilterActivity.this, R.string.noInternetConnection, Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        JSONObject jsonObject = getCriteria();
 
         Intent intent = new Intent(FilterActivity.this, ResultActivity.class);
-        intent.putParcelableArrayListExtra(ApiConstant.LIST_HOUSE, arrayList);
+        intent.putExtra(ApiConstant.CRITERIA, jsonObject.toString());
         startActivity(intent);
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_filter_activity, menu);
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.miSaveSearch: {
-                if (!ServiceUtils.isNetworkAvailable(this)) {
-                    Toast.makeText(FilterActivity.this, R.string.noInternetConnection, Toast.LENGTH_SHORT).show();
-                    break;
-                }
-
-                showDialogSaveSearch();
-                break;
-            }
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-    private void showDialogSaveSearch() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle(R.string.search);
-        builder.setMessage(R.string.confirmSaveSearch);
-        builder.setCancelable(false);
-        builder.setPositiveButton(R.string.OK, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                clickSaveSearch();
-            }
-        });
-        builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                dialogInterface.dismiss();
-            }
-        });
-
-        builder.create().show();
-    }
-
-    private void clickSaveSearch() {
-        boolean userLoggedIn = HousieApplication.getInstance().getSharedPreUtils().getBoolean(AppConstant.USER_LOGGED_IN, false);
-
-        if (userLoggedIn) {
-            progressDialog.show();
-
-            JSONObject jsonRequest = getCriteria();
-            try {
-                jsonRequest.put(ApiConstant._ID, HousieApplication.getInstance().getSharedPreUtils().getString(ApiConstant._ID, "1"));
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-
-            request = new JsonObjectRequest(JsonRequest.Method.POST, ApiConstant.URL_WEB_SERVICE_SAVE_SEARCH, jsonRequest
-                    , new Response.Listener<JSONObject>() {
-                @Override
-                public void onResponse(JSONObject response) {
-                    try {
-                        switch (response.getString(ApiConstant.RESULT)) {
-                            case ApiConstant.FAILED: {
-                                progressDialog.dismiss();
-                                Toast.makeText(FilterActivity.this, R.string.errorProcessing, Toast.LENGTH_SHORT).show();
-                                break;
-                            }
-                            case ApiConstant.SUCCESS: {
-                                handleResponseSaveSearchSuccess(response);
-                                progressDialog.dismiss();
-                                break;
-                            }
-                        }
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    error.printStackTrace();
-                    progressDialog.dismiss();
-                    Toast.makeText(FilterActivity.this, R.string.errorProcessing, Toast.LENGTH_SHORT).show();
-                }
-            });
-
-            HousieApplication.getInstance().addToRequestQueue(request);
-
-        } else {
-            Intent intent = new Intent(FilterActivity.this, LoginActivity.class);
-            startActivityForResult(intent, AppConstant.REQUEST_CODE_SIGN_IN);
-        }
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == AppConstant.REQUEST_CODE_SIGN_IN && resultCode == RESULT_OK) {
-            //// TODO: 10/2/2016 next process for save search
-        }
-    }
-
-    private void handleResponseSaveSearchSuccess(JSONObject response) {
-        AlertUtils.showToastSuccess(this, R.drawable.ic_playlist_check, R.string.saveSearchSuccessfully);
-    }
-
-    @Override
-    protected void onDestroy() {
-        if (progressDialog != null && progressDialog.isShowing()) {
-            progressDialog.dismiss();
-        }
-        if (request != null && !request.isCanceled()) {
-            request.cancel();
-        }
-        super.onDestroy();
-    }
 
     private void resetForm() {
         radioGroup.check(R.id.radioSale);
@@ -482,5 +320,113 @@ public class FilterActivity extends AppCompatActivity {
         }
         spinnerPriceFrom.setAdapter(adapterFrom);
         spinnerPriceTo.setAdapter(adapterTo);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_filter_activity, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.miSaveSearch: {
+                onClickMenuItemSaveSearch();
+                break;
+            }
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void onClickMenuItemSaveSearch() {
+        if (!ServiceUtils.isNetworkAvailable(this)) {
+            Toast.makeText(FilterActivity.this, R.string.noInternetConnection, Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        boolean userLoggedIn = HousieApplication.getInstance().getSharedPreUtils().getBoolean(AppConstant.USER_LOGGED_IN, false);
+        if (userLoggedIn) {
+            showDialogSaveSearch();
+        } else {
+            Intent intent = new Intent(FilterActivity.this, LoginActivity.class);
+            startActivityForResult(intent, AppConstant.REQUEST_CODE_SIGN_IN);
+        }
+    }
+
+    private void showDialogSaveSearch() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(R.string.search);
+        builder.setMessage(R.string.confirmSaveSearch);
+        builder.setCancelable(false);
+        builder.setPositiveButton(R.string.OK, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                clickSaveSearch();
+            }
+        });
+        builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+            }
+        });
+
+        builder.create().show();
+    }
+
+    private void clickSaveSearch() {
+        progressDialog.show();
+
+        JSONObject jsonRequest = getCriteria();
+        try {
+            jsonRequest.put(ApiConstant._ID, HousieApplication.getInstance().getSharedPreUtils().getString(ApiConstant._ID, "1"));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        request = new JsonObjectRequest(JsonRequest.Method.POST, ApiConstant.URL_WEB_SERVICE_SAVE_SEARCH, jsonRequest
+                , new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                try {
+                    switch (response.getString(ApiConstant.RESULT)) {
+                        case ApiConstant.FAILED: {
+                            progressDialog.dismiss();
+                            Toast.makeText(FilterActivity.this, R.string.errorProcessing, Toast.LENGTH_SHORT).show();
+                            break;
+                        }
+                        case ApiConstant.SUCCESS: {
+                            handleResponseSaveSearchSuccess(response);
+                            progressDialog.dismiss();
+                            break;
+                        }
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                error.printStackTrace();
+                progressDialog.dismiss();
+                Toast.makeText(FilterActivity.this, R.string.errorProcessing, Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        HousieApplication.getInstance().addToRequestQueue(request);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == AppConstant.REQUEST_CODE_SIGN_IN && resultCode == RESULT_OK) {
+            onClickMenuItemSaveSearch();
+        }
+    }
+
+    private void handleResponseSaveSearchSuccess(JSONObject response) {
+        // TODO: 10/3/2016 save database
+        AlertUtils.showToastSuccess(this, R.drawable.ic_playlist_check, R.string.saveSearchSuccessfully);
     }
 }

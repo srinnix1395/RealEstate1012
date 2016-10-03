@@ -185,7 +185,6 @@ public class HomeFragment extends Fragment {
                     databaseHelper.syncDataBoard(arrayList);
                 }
 
-                //// TODO: 10/1/2016 datasync
                 return ProcessJson.getArrayListHousesNew(jsonBoard, response.getJSONArray(ApiConstant.LIST_HOUSE));
             }
         })
@@ -292,8 +291,11 @@ public class HomeFragment extends Fragment {
         }
         adapter.notifyDataSetChanged();
 
-        //// TODO: 10/2/2016 add or delete house
-        AlertUtils.showToastSuccess(getContext(), R.drawable.ic_heart_white_large, R.string.homeSaved);
+        if (isLike) {
+            AlertUtils.showToastSuccess(getContext(), R.drawable.ic_heart_white_large, R.string.homeSaved);
+        } else {
+            AlertUtils.showToastSuccess(getContext(), R.drawable.ic_heart_broken, R.string.homeUnsaved);
+        }
     }
 
     @Subscribe

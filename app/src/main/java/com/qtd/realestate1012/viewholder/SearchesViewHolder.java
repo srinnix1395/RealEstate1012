@@ -7,7 +7,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.qtd.realestate1012.R;
-import com.qtd.realestate1012.activity.FilterActivity;
+import com.qtd.realestate1012.activity.ResultActivity;
 import com.qtd.realestate1012.constant.ApiConstant;
 import com.qtd.realestate1012.custom.RippleView;
 import com.qtd.realestate1012.messageevent.MessageRemoveSavedSearch;
@@ -15,6 +15,8 @@ import com.qtd.realestate1012.model.ItemSavedSearch;
 import com.qtd.realestate1012.utils.UiUtils;
 
 import org.greenrobot.eventbus.EventBus;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.Locale;
 
@@ -38,7 +40,7 @@ public class SearchesViewHolder extends RecyclerView.ViewHolder implements Rippl
     @BindView(R.id.rippleView)
     RippleView rippleView;
 
-    private ItemSavedSearch mItemSearch;
+    private ItemSavedSearch mItem;
     private int mPosition;
     private boolean isClickHeart;
 
@@ -51,9 +53,9 @@ public class SearchesViewHolder extends RecyclerView.ViewHolder implements Rippl
 
     public void setupDataViewHolder(ItemSavedSearch itemSearch, int position) {
         mPosition = position;
+        mItem = itemSearch;
 
-        mItemSearch = itemSearch;
-        tvStatus.setText(itemSearch.getStatus());
+        tvStatus.setText(itemSearch.getStatus() + (itemSearch.getPropertyType().equals(ApiConstant.ANY) ? "" : " - " + itemSearch.getPropertyType()));
         tvDescription.setText(String.format(Locale.getDefault(), "%,d %s - %,d %s, %,d m2 - %,d m2", itemSearch.getPriceFrom(),
                 itemView.getContext().getString(R.string.currency), itemSearch.getPriceTo(), itemView.getContext().getString(R.string.currency),
                 itemSearch.getAreaFrom(), itemSearch.getAreaTo()));
@@ -72,8 +74,21 @@ public class SearchesViewHolder extends RecyclerView.ViewHolder implements Rippl
             return;
         }
 
-        Intent intent = new Intent(itemView.getContext(), FilterActivity.class);
-        intent.putExtra(ApiConstant.ITEM_SAVED_SEARCH, mItemSearch);
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put(ApiConstant.STATUS, mItem.getStatus());
+            jsonObject.put(ApiConstant.PRICE_FROM, mItem.getPriceFrom());
+            jsonObject.put(ApiConstant.PRICE_TO, mItem.getPriceTo());
+            jsonObject.put(ApiConstant.NUMBER_OF_ROOMS, mItem.getNumberOfRooms());
+            jsonObject.put(ApiConstant.AREA_FROM, mItem.getAreaFrom());
+            jsonObject.put(ApiConstant.AREA_TO, mItem.getAreaTo());
+            jsonObject.put(ApiConstant.PROPERTY_TYPE, mItem.getPropertyType());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        Intent intent = new Intent(itemView.getContext(), ResultActivity.class);
+        intent.putExtra(ApiConstant.CRITERIA, jsonObject.toString());
         itemView.getContext().startActivity(intent);
     }
 

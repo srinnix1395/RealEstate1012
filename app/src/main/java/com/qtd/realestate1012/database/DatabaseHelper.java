@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 
+import com.qtd.realestate1012.constant.ApiConstant;
 import com.qtd.realestate1012.model.Board;
 import com.qtd.realestate1012.model.BoardHasHeart;
 import com.qtd.realestate1012.model.CompactHouse;
@@ -108,7 +109,11 @@ public class DatabaseHelper {
                 int countHouse = cursor.getInt(2);
                 String firstImage = cursor.getString(3);
 
-                arrayList.add(new Board(id, name, new ArrayList<String>(countHouse), firstImage));
+                ArrayList<String> arrayListHouse = new ArrayList<>();
+                for (int i = 0; i < countHouse; i++) {
+                    arrayListHouse.add(String.valueOf(i));
+                }
+                arrayList.add(new Board(id, name, arrayListHouse, firstImage));
             }
             cursor.close();
         } catch (SQLException ex) {
@@ -299,7 +304,11 @@ public class DatabaseHelper {
                     int countHouse = cursorBoard.getInt(2);
                     String firstImage = cursorBoard.getString(3);
 
-                    arrayList.add(new BoardHasHeart(id, name, new ArrayList<String>(countHouse), firstImage, id.equals(idBoard)));
+                    ArrayList<String> arrayListHouse = new ArrayList<>();
+                    for (int i = 0; i < countHouse; i++) {
+                        arrayListHouse.add(String.valueOf(i));
+                    }
+                    arrayList.add(new BoardHasHeart(id, name, arrayListHouse, firstImage, id.equals(idBoard)));
                 }
             } else {
                 while (cursorBoard.moveToNext()) {
@@ -308,7 +317,11 @@ public class DatabaseHelper {
                     int countHouse = cursorBoard.getInt(2);
                     String firstImage = cursorBoard.getString(3);
 
-                    arrayList.add(new BoardHasHeart(id, name, new ArrayList<String>(countHouse), firstImage, false));
+                    ArrayList<String> arrayListHouse = new ArrayList<>();
+                    for (int i = 0; i < countHouse; i++) {
+                        arrayListHouse.add(String.valueOf(i));
+                    }
+                    arrayList.add(new BoardHasHeart(id, name, arrayListHouse, firstImage, false));
                 }
             }
             cursorBoard.close();
@@ -481,5 +494,29 @@ public class DatabaseHelper {
             closeDatabase();
         }
         return arrayList;
+    }
+
+    public void updateListHouseInBoard(BoardHasHeart board, String action) {
+        try {
+            openDatabase();
+
+            mDatabase.beginTransaction();
+
+            ContentValues contentValues = new ContentValues();
+            if (action.equals(ApiConstant.ACTION)) {
+                contentValues.put(COUNT_HOUSE, board.getListHouse().size() + 1);
+            } else {
+                contentValues.put(COUNT_HOUSE, board.getListHouse().size() - 1);
+            }
+
+            mDatabase.update(TABLE_BOARD, contentValues, _ID + "='" + board.getId() + "'", null);
+
+            mDatabase.setTransactionSuccessful();
+            mDatabase.endTransaction();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            closeDatabase();
+        }
     }
 }

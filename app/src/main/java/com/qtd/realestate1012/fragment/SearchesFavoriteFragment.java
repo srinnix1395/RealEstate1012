@@ -231,6 +231,7 @@ public class SearchesFavoriteFragment extends Fragment implements SwipeRefreshLa
                     @Override
                     public void onError(Throwable error) {
                         error.printStackTrace();
+                        refreshLayout.setRefreshing(false);
                         Log.e("saved search fragment", "onError: Đã có lỗi trong quá trình lấy sync data");
                     }
                 });

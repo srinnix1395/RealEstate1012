@@ -152,7 +152,7 @@ public class BottomSheetListBoard extends BottomSheetDialogFragment {
 
         final JSONObject jsonRequest = new JSONObject();
         try {
-            jsonRequest.put(ApiConstant._ID_BOARD, event.id);
+            jsonRequest.put(ApiConstant._ID_BOARD, event.board.getId());
             jsonRequest.put(ApiConstant._ID_HOUSE, idHouse);
             jsonRequest.put(ApiConstant.ACTION, event.action);
         } catch (JSONException e) {
@@ -170,10 +170,8 @@ public class BottomSheetListBoard extends BottomSheetDialogFragment {
                             break;
                         }
                         case ApiConstant.SUCCESS: {
-                            response.put(ApiConstant._ID_BOARD, event.id);
-                            response.put(ApiConstant._ID_HOUSE, idHouse);
                             response.put(ApiConstant.ACTION, event.action);
-                            handleResponseSuccess(response);
+                            handleResponseSuccess(response, event.board);
                             break;
                         }
                     }
@@ -191,7 +189,7 @@ public class BottomSheetListBoard extends BottomSheetDialogFragment {
         HousieApplication.getInstance().addToRequestQueue(request);
     }
 
-    private void handleResponseSuccess(final JSONObject response) {
+    private void handleResponseSuccess(final JSONObject response, final BoardHasHeart board) {
         Single.fromCallable(new Callable<Void>() {
             @Override
             public Void call() throws Exception {
@@ -199,10 +197,11 @@ public class BottomSheetListBoard extends BottomSheetDialogFragment {
                 String action = response.getString(ApiConstant.ACTION);
                 if (action.equals(ApiConstant.ACTION_ADD)) {
                     CompactHouse house = ProcessJson.getCompactHouse(response.getString(ApiConstant.HOUSE));
-                    databaseHelper.insertHouseFavorite(new FavoriteHouse(house, response.getString(ApiConstant._ID_BOARD)));
+                    databaseHelper.insertHouseFavorite(new FavoriteHouse(house, board.getId()));
                 } else {
                     databaseHelper.deleteHouseFavorite(idHouse);
                 }
+                databaseHelper.updateListHouseInBoard(board, action);
                 return null;
             }
         }).subscribeOn(Schedulers.io())

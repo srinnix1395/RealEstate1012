@@ -256,8 +256,6 @@ public class HouseDetailActivity extends AppCompatActivity implements ViewTreeOb
             tvAddressInfo.setText(fullHouse.getAddress());
 
             etContentEmail.setText(String.format("%s %s", getString(R.string.iAmInterestingEmail), fullHouse.getAddress()));
-
-            //// TODO: 9/25/2016 hiển thị luôn tên 2 agent lên layout
         }
     }
 

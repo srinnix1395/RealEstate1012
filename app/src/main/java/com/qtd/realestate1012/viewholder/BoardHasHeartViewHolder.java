@@ -48,12 +48,17 @@ public class BoardHasHeartViewHolder extends RecyclerView.ViewHolder {
     @BindView(R.id.rippleView)
     RippleView rippleView;
 
-    private String id;
-    private boolean isLiked;
+    private BoardHasHeart board;
 
     public BoardHasHeartViewHolder(View itemView) {
         super(itemView);
         ButterKnife.bind(this, itemView);
+        itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onClickImvHeart(imvHeart);
+            }
+        });
     }
 
 
@@ -79,8 +84,7 @@ public class BoardHasHeartViewHolder extends RecyclerView.ViewHolder {
     }
 
     public void setupViewHolder(BoardHasHeart board, boolean lastItem) {
-        id = board.getId();
-        isLiked = board.isLiked();
+        this.board = board;
 
         initSize(lastItem);
         tvName.setText(board.getName());
@@ -104,10 +108,10 @@ public class BoardHasHeartViewHolder extends RecyclerView.ViewHolder {
         //ripple effect
         rippleView.animateRipple(v.getLeft() + v.getWidth() / 2, v.getTop() + UiUtils.convertPixelsToDp(itemView.getContext(), 10) + v.getHeight() / 2);
 
-        if (isLiked) {
-            EventBus.getDefault().post(new MessageClickImvHeartOnBoard(id, ApiConstant.ACTION_DELETE));
+        if (board.isLiked()) {
+            EventBus.getDefault().post(new MessageClickImvHeartOnBoard(board, ApiConstant.ACTION_DELETE));
         } else {
-            EventBus.getDefault().post(new MessageClickImvHeartOnBoard(id, ApiConstant.ACTION_ADD));
+            EventBus.getDefault().post(new MessageClickImvHeartOnBoard(board, ApiConstant.ACTION_ADD));
         }
     }
 }

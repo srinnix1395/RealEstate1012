@@ -154,5 +154,7 @@
     <string name="saveSearchSuccessfully">Lưu tìm kiếm thành công</string>
     <string name="newHomeMatches">Nhà mới phù hợp</string>
     <string name="newHome">Một ngôi nhà vừa đăng phù hợp với tìm kiếm của bạn</string>
+    <string name="homeUnsaved">Nhà đã được xóa</string>
+    <string name="result">Kết quả</string>
 
 </resources>

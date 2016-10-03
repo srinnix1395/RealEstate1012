@@ -1,15 +1,17 @@
 package com.qtd.realestate1012.messageevent;
 
+import com.qtd.realestate1012.model.BoardHasHeart;
+
 /**
  * Created by DELL on 8/30/2016.
  */
 public class MessageClickImvHeartOnBoard {
 
-    public final String id;
+    public final BoardHasHeart board;
     public final String action;
 
-    public MessageClickImvHeartOnBoard(String id, String action) {
-        this.id = id;
+    public MessageClickImvHeartOnBoard(BoardHasHeart board, String action) {
+        this.board = board;
         this.action = action;
     }
 }

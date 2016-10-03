@@ -15,7 +15,6 @@ public class ApiConstant {
     public static final String AVATAR = "avatar";
     public static final String TYPE = "type";
     public static final String _ID_SOCIAL = "_id_social";
-    public static final String NOTIFICATION_ID = "regID";
 
     //webservice
     public static final String URL_WEB_SERVICE_LOGIN_SOCIAL = "http://protectedriver-31067.rhcloud.com/user/loginNetworkSocial";
@@ -36,7 +35,7 @@ public class ApiConstant {
 
     public static final String URL_WEB_SERVICE_MY_POST = "http://protectedriver-31067.rhcloud.com/house/myPost";
     public static final String URL_WEB_SERVICE_GET_ALL_HOUSE = "http://protectedriver-31067.rhcloud.com/house/getAllHouses?lat=%s&lng=%s";
-    public static final String URL_WEB_SERVICE_GET_ALL_HOUSE_OF_KIND = "http://protectedriver-31067.rhcloud.com/house/getAllOfKind?type=%s";
+    public static final String URL_WEB_SERVICE_GET_ALL_HOUSE_OF_KIND = "http://protectedriver-31067.rhcloud.com/house/getAllOfKind";
     public static final String URL_WEB_SERVICE_GET_FAVORITE_HOUSES = "http://protectedriver-31067.rhcloud.com/house/getFavoriteHouses";
     public static final String URL_WEB_SERVICE_HANDLE_FAVORITE_HOUSES = "http://protectedriver-31067.rhcloud.com/house/handleFavoriteHouse";
     public static final String URL_WEB_SERVICE_DETAIL_HOUSE = "http://protectedriver-31067.rhcloud.com/house/detailInfo";
@@ -103,6 +102,7 @@ public class ApiConstant {
     public static final String ITEM_SAVED_SEARCH = "item_saved_search";
     public static final String LIST_SEARCH = "list_search";
     public static final String REG_ID = "reg_id";
+    public static final String CRITERIA = "criteria";
     public static String _ID_BOARD = "_id_board";
     public static String _ID_HOUSE = "_id_house";
     public static String _ID_OWNER = "_id_owner";
