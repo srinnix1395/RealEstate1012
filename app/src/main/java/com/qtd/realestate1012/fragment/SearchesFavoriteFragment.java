@@ -92,11 +92,26 @@ public class SearchesFavoriteFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        if (arrayList.size() == 0 || getUserVisibleHint()) {
-            refreshLayout.setRefreshing(true);
-            requestData();
-        }
+        refreshLayout.setRefreshing(true);
+        refreshData();
         EventBus.getDefault().register(this);
+    }
+
+    private void refreshData() {
+        if (HousieApplication.getInstance().getSharedPreUtils().getBoolean(AppConstant.USER_LOGGED_IN, false)) {
+            if (!refreshLayout.isEnabled()) {
+                refreshLayout.setEnabled(true);
+                refreshLayout.setRefreshing(true);
+            }
+            if (!ServiceUtils.isNetworkAvailable(getContext())) {
+                if (getUserVisibleHint()) {
+                    AlertUtils.showSnackBarNoInternet(getView());
+                }
+                getDataFromDatabase();
+            } else {
+                getDataFromServer();
+            }
+        }
     }
 
     @Override
@@ -113,16 +128,33 @@ public class SearchesFavoriteFragment extends Fragment {
         super.onDestroy();
     }
 
+    private void initViews() {
+        refreshLayout.setColorSchemeResources(R.color.colorPrimary, R.color.colorPrimaryDark);
+        refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                refreshData();
+            }
+        });
+
+        recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
+        RecyclerView.ItemAnimator itemAnimator = new DefaultItemAnimator();
+        itemAnimator.setAddDuration(1000);
+        itemAnimator.setRemoveDuration(1000);
+        recyclerView.setItemAnimator(itemAnimator);
+
+        if (!HousieApplication.getInstance().getSharedPreUtils().getBoolean(AppConstant.USER_LOGGED_IN, false)) {
+            refreshLayout.setEnabled(false);
+        }
+    }
+
     private void initData() {
         arrayList = new ArrayList<>();
         adapter = new SearchesAdapter(arrayList);
 
         recyclerView.setAdapter(adapter);
-
-        if (!ServiceUtils.isNetworkAvailable(getContext())) {
-            getDataFromDatabase();
-        }
     }
+
 
     private void getDataFromDatabase() {
         refreshLayout.setRefreshing(true);
@@ -165,78 +197,44 @@ public class SearchesFavoriteFragment extends Fragment {
                 });
     }
 
-    private void initViews() {
-        refreshLayout.setColorSchemeResources(R.color.colorPrimary, R.color.colorPrimaryDark);
-        refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+    private void getDataFromServer() {
+
+        JSONObject jsonRequest = new JSONObject();
+        try {
+            jsonRequest.put(ApiConstant._ID, HousieApplication.getInstance().getSharedPreUtils().getString(ApiConstant._ID, ""));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        request = new JsonObjectRequest(JsonRequest.Method.POST, ApiConstant.URL_WEB_SERVICE_FIND_SEARCH, jsonRequest, new Response.Listener<JSONObject>() {
             @Override
-            public void onRefresh() {
-                requestData();
+            public void onResponse(JSONObject response) {
+                try {
+                    switch (response.getString(ApiConstant.RESULT)) {
+                        case ApiConstant.FAILED: {
+                            refreshLayout.setRefreshing(false);
+                            Toast.makeText(getContext(), R.string.errorProcessing, Toast.LENGTH_SHORT).show();
+                            break;
+                        }
+                        case ApiConstant.SUCCESS: {
+                            handleResponseSuccess(response);
+                            break;
+                        }
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                error.printStackTrace();
+                refreshLayout.setRefreshing(false);
+                Toast.makeText(getContext(), R.string.errorProcessing, Toast.LENGTH_SHORT).show();
             }
         });
 
-        recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
-        RecyclerView.ItemAnimator itemAnimator = new DefaultItemAnimator();
-        itemAnimator.setAddDuration(1000);
-        itemAnimator.setRemoveDuration(1000);
-        recyclerView.setItemAnimator(itemAnimator);
-
-        if (!HousieApplication.getInstance().getSharedPreUtils().getBoolean(AppConstant.USER_LOGGED_IN, false)) {
-            refreshLayout.setEnabled(false);
-        }
-    }
-
-    private void requestData() {
-        if (!ServiceUtils.isNetworkAvailable(getContext())) {
-            if (getUserVisibleHint()) {
-                AlertUtils.showSnackBarNoInternet(getView());
-            }
-            refreshLayout.setRefreshing(false);
-            return;
-        }
-
-        boolean isUserLoggedIn = HousieApplication.getInstance().getSharedPreUtils().getBoolean(AppConstant.USER_LOGGED_IN, false);
-        if (isUserLoggedIn) {
-
-            JSONObject jsonRequest = new JSONObject();
-            try {
-                jsonRequest.put(ApiConstant._ID, HousieApplication.getInstance().getSharedPreUtils().getString(ApiConstant._ID, ""));
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-
-            request = new JsonObjectRequest(JsonRequest.Method.POST, ApiConstant.URL_WEB_SERVICE_FIND_SEARCH, jsonRequest, new Response.Listener<JSONObject>() {
-                @Override
-                public void onResponse(JSONObject response) {
-                    try {
-                        switch (response.getString(ApiConstant.RESULT)) {
-                            case ApiConstant.FAILED: {
-                                refreshLayout.setRefreshing(false);
-                                Toast.makeText(getContext(), R.string.errorProcessing, Toast.LENGTH_SHORT).show();
-                                break;
-                            }
-                            case ApiConstant.SUCCESS: {
-                                handleResponseSuccess(response);
-                                break;
-                            }
-                        }
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    error.printStackTrace();
-                    refreshLayout.setRefreshing(false);
-                    Toast.makeText(getContext(), R.string.errorProcessing, Toast.LENGTH_SHORT).show();
-                }
-            });
-
-            HousieApplication.getInstance().addToRequestQueue(request);
-        } else {
-            refreshLayout.setRefreshing(false);
-        }
-
+        HousieApplication.getInstance().addToRequestQueue(request);
     }
 
     private void handleResponseSuccess(final JSONObject response) {

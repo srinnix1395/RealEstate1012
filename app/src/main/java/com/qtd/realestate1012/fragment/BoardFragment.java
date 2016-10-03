@@ -95,6 +95,10 @@ public class BoardFragment extends Fragment {
 
     private void refreshData() {
         if (HousieApplication.getInstance().getSharedPreUtils().getBoolean(AppConstant.USER_LOGGED_IN, false)) {
+            if (!refreshLayout.isEnabled()) {
+                refreshLayout.setEnabled(true);
+                refreshLayout.setRefreshing(true);
+            }
             if (!ServiceUtils.isNetworkAvailable(getContext())) {
                 if (getUserVisibleHint()) {
                     AlertUtils.showSnackBarNoInternet(getView());
