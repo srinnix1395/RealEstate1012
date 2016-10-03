@@ -79,4 +79,9 @@ public class FavoriteFragment extends Fragment{
         ((HomesFavoriteFragment) adapter.getItem(1)).clearUserData();
         ((SearchesFavoriteFragment) adapter.getItem(2)).clearUserData();
     }
+
+    public void updateDataLikeHouse() {
+        ((BoardFragment) adapter.getItem(0)).getDataFromDatabase();
+        ((HomesFavoriteFragment) adapter.getItem(1)).getDataFromDatabase();
+    }
 }

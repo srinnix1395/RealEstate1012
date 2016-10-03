@@ -83,18 +83,61 @@ public class BoardFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         ButterKnife.bind(this, view);
-        initData();
         initViews();
+        initData();
     }
 
     private void initData() {
-        if (!ServiceUtils.isNetworkAvailable(getContext())) {
-            DatabaseHelper databaseHelper = DatabaseHelper.getInstance(getContext());
-            arrayListBoards = databaseHelper.getAllBoards();
-        } else {
-            arrayListBoards = new ArrayList<>();
-        }
+        arrayListBoards = new ArrayList<>();
         adapter = new BoardAdapter(arrayListBoards, false);
+
+        recyclerView.setAdapter(adapter);
+
+        if (!ServiceUtils.isNetworkAvailable(getContext())) {
+            getDataFromDatabase();
+        }
+    }
+
+    public void getDataFromDatabase() {
+        refreshLayout.setRefreshing(true);
+
+        Single.fromCallable(new Callable<ArrayList<Board>>() {
+            @Override
+            public ArrayList<Board> call() throws Exception {
+                DatabaseHelper databaseHelper = DatabaseHelper.getInstance(getContext());
+                return databaseHelper.getAllBoards();
+            }
+        }).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new SingleSubscriber<ArrayList<Board>>() {
+                    @Override
+                    public void onSuccess(ArrayList<Board> value) {
+                        int size = arrayListBoards.size();
+                        arrayListBoards.clear();
+                        adapter.notifyItemRangeRemoved(0, size);
+
+                        arrayListBoards.addAll(value);
+                        adapter.notifyItemRangeInserted(0, arrayListBoards.size());
+
+                        if (arrayListBoards.size() == 0) {
+                            recyclerView.setVisibility(View.INVISIBLE);
+                            layoutNoBoard.setVisibility(View.VISIBLE);
+                        } else {
+                            recyclerView.setVisibility(View.VISIBLE);
+                            layoutNoBoard.setVisibility(View.INVISIBLE);
+                        }
+
+                        refreshLayout.setRefreshing(false);
+                    }
+
+                    @Override
+                    public void onError(Throwable error) {
+                        error.printStackTrace();
+                        refreshLayout.setRefreshing(false);
+                        Log.e("board fragment", "onError: Đã có lỗi trong quá trình lấy sync data");
+                    }
+                });
+
     }
 
     @Override
@@ -125,18 +168,9 @@ public class BoardFragment extends Fragment {
         RecyclerView.ItemAnimator itemAnimator = new DefaultItemAnimator();
         itemAnimator.setAddDuration(1000);
         recyclerView.setItemAnimator(itemAnimator);
-        recyclerView.setAdapter(adapter);
 
         if (!HousieApplication.getInstance().getSharedPreUtils().getBoolean(AppConstant.USER_LOGGED_IN, false)) {
             refreshLayout.setEnabled(false);
-        }
-
-        if (arrayListBoards.size() == 0) {
-            recyclerView.setVisibility(View.INVISIBLE);
-            layoutNoBoard.setVisibility(View.VISIBLE);
-        } else {
-            recyclerView.setVisibility(View.VISIBLE);
-            layoutNoBoard.setVisibility(View.INVISIBLE);
         }
     }
 

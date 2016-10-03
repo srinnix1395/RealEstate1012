@@ -64,6 +64,18 @@ public class MainActivity extends AppCompatActivity implements ActivityCallback 
         updateRegId();
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    protected void onStop() {
+        EventBus.getDefault().unregister(this);
+        super.onStop();
+    }
+
     private void initData() {
         Intent intent = getIntent();
         if (intent.getAction().equals(AppConstant.ACTION_NOTIFICATION)) {
@@ -334,14 +346,9 @@ public class MainActivity extends AppCompatActivity implements ActivityCallback 
     }
 
     @Override
-    protected void onStart() {
-        super.onStart();
-        EventBus.getDefault().register(this);
-    }
-
-    @Override
-    protected void onStop() {
-        EventBus.getDefault().unregister(this);
-        super.onStop();
+    public void updateDataFavoriteFragment() {
+        if (favoriteFragment != null) {
+            favoriteFragment.updateDataLikeHouse();
+        }
     }
 }

@@ -52,7 +52,7 @@ import rx.schedulers.Schedulers;
 /**
  * Created by Dell on 7/31/2016.
  */
-public class SearchesFavoriteFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
+public class SearchesFavoriteFragment extends Fragment {
     private View view;
 
     @BindView(R.id.layoutRefresh)
@@ -85,13 +85,8 @@ public class SearchesFavoriteFragment extends Fragment implements SwipeRefreshLa
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         ButterKnife.bind(this, view);
-        initData();
         initViews();
-    }
-
-    @Override
-    public void onRefresh() {
-        requestData();
+        initData();
     }
 
     @Override
@@ -121,29 +116,72 @@ public class SearchesFavoriteFragment extends Fragment implements SwipeRefreshLa
     private void initData() {
         arrayList = new ArrayList<>();
         adapter = new SearchesAdapter(arrayList);
+
+        recyclerView.setAdapter(adapter);
+
+        if (!ServiceUtils.isNetworkAvailable(getContext())) {
+            getDataFromDatabase();
+        }
+    }
+
+    private void getDataFromDatabase() {
+        refreshLayout.setRefreshing(true);
+
+        Single.fromCallable(new Callable<ArrayList<ItemSavedSearch>>() {
+            @Override
+            public ArrayList<ItemSavedSearch> call() throws Exception {
+                DatabaseHelper databaseHelper = DatabaseHelper.getInstance(SearchesFavoriteFragment.this.getContext());
+
+                return databaseHelper.getAllSavedSearch();
+            }
+        }).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new SingleSubscriber<ArrayList<ItemSavedSearch>>() {
+                    @Override
+                    public void onSuccess(ArrayList<ItemSavedSearch> value) {
+                        int size = arrayList.size();
+                        arrayList.clear();
+                        adapter.notifyItemRangeRemoved(0, size);
+                        arrayList.addAll(value);
+                        adapter.notifyItemRangeInserted(0, arrayList.size());
+
+                        if (arrayList.size() == 0) {
+                            recyclerView.setVisibility(View.INVISIBLE);
+                            layoutNoSearches.setVisibility(View.VISIBLE);
+                        } else {
+                            recyclerView.setVisibility(View.VISIBLE);
+                            layoutNoSearches.setVisibility(View.INVISIBLE);
+                        }
+
+                        refreshLayout.setRefreshing(false);
+                    }
+
+                    @Override
+                    public void onError(Throwable error) {
+                        error.printStackTrace();
+                        refreshLayout.setRefreshing(false);
+                        Log.e("saved search fragment", "onError: Đã có lỗi trong quá trình lấy sync data");
+                    }
+                });
     }
 
     private void initViews() {
         refreshLayout.setColorSchemeResources(R.color.colorPrimary, R.color.colorPrimaryDark);
-        refreshLayout.setOnRefreshListener(this);
+        refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                requestData();
+            }
+        });
 
         recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
         RecyclerView.ItemAnimator itemAnimator = new DefaultItemAnimator();
         itemAnimator.setAddDuration(1000);
         itemAnimator.setRemoveDuration(1000);
         recyclerView.setItemAnimator(itemAnimator);
-        recyclerView.setAdapter(adapter);
 
         if (!HousieApplication.getInstance().getSharedPreUtils().getBoolean(AppConstant.USER_LOGGED_IN, false)) {
             refreshLayout.setEnabled(false);
-        }
-
-        if (arrayList.size() == 0) {
-            recyclerView.setVisibility(View.INVISIBLE);
-            layoutNoSearches.setVisibility(View.VISIBLE);
-        } else {
-            recyclerView.setVisibility(View.VISIBLE);
-            layoutNoSearches.setVisibility(View.INVISIBLE);
         }
     }
 

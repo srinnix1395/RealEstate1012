@@ -24,6 +24,7 @@ import com.qtd.realestate1012.activity.AllHouseActivity;
 import com.qtd.realestate1012.activity.HouseDetailActivity;
 import com.qtd.realestate1012.activity.LoginActivity;
 import com.qtd.realestate1012.adapter.HouseNewsAdapter;
+import com.qtd.realestate1012.callback.ActivityCallback;
 import com.qtd.realestate1012.constant.ApiConstant;
 import com.qtd.realestate1012.constant.AppConstant;
 import com.qtd.realestate1012.custom.BottomSheetListBoard;
@@ -75,6 +76,13 @@ public class HomeFragment extends Fragment {
     private HouseNewsAdapter adapter;
     private JsonObjectRequest requestGetNew;
     private Bundle bundle;
+    private ActivityCallback callback;
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        callback = (ActivityCallback) getActivity();
+    }
 
     @Nullable
     @Override
@@ -134,7 +142,6 @@ public class HomeFragment extends Fragment {
         try {
             jsonRequest.put(AppConstant.USER_LOGGED_IN, HousieApplication.getInstance().getSharedPreUtils().getBoolean(AppConstant.USER_LOGGED_IN, false));
             jsonRequest.put(ApiConstant._ID, HousieApplication.getInstance().getSharedPreUtils().getString(ApiConstant._ID, "-1"));
-//            jsonRequest.put(ApiConstant._ID, "57d6b208f07077132325fed7");
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -296,6 +303,8 @@ public class HomeFragment extends Fragment {
         } else {
             AlertUtils.showToastSuccess(getContext(), R.drawable.ic_heart_broken, R.string.homeUnsaved);
         }
+
+        callback.updateDataFavoriteFragment();
     }
 
     @Subscribe

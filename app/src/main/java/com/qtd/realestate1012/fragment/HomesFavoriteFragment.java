@@ -79,46 +79,54 @@ public class HomesFavoriteFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         ButterKnife.bind(this, view);
-        initData();
         initViews();
+        initData();
     }
 
     private void initData() {
         arrayListHouses = new ArrayList<>();
         adapter = new HouseAdapter(arrayListHouses);
 
+        recyclerView.setAdapter(adapter);
+
         if (!ServiceUtils.isNetworkAvailable(getContext())) {
-            Single.fromCallable(new Callable<ArrayList<CompactHouse>>() {
-                @Override
-                public ArrayList<CompactHouse> call() throws Exception {
-                    DatabaseHelper databaseHelper = DatabaseHelper.getInstance(getContext());
-                    return databaseHelper.getAllFavoriteHouse();
-                }
-            }).subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new SingleSubscriber<ArrayList<CompactHouse>>() {
-                        @Override
-                        public void onSuccess(ArrayList<CompactHouse> value) {
-                            arrayListHouses.addAll(value);
-                            adapter.notifyDataSetChanged();
-
-                            if (arrayListHouses.size() == 0) {
-                                recyclerView.setVisibility(View.INVISIBLE);
-                                layoutNoHouses.setVisibility(View.VISIBLE);
-                            } else {
-                                recyclerView.setVisibility(View.VISIBLE);
-                                layoutNoHouses.setVisibility(View.INVISIBLE);
-                            }
-                        }
-
-                        @Override
-                        public void onError(Throwable error) {
-                            error.printStackTrace();
-                            Log.e("homes favorite fragment", "onError: Đã có lỗi trong quá trình lấy sync data");
-                        }
-                    });
+            getDataFromDatabase();
         }
+    }
 
+    public void getDataFromDatabase() {
+        Single.fromCallable(new Callable<ArrayList<CompactHouse>>() {
+            @Override
+            public ArrayList<CompactHouse> call() throws Exception {
+                DatabaseHelper databaseHelper = DatabaseHelper.getInstance(getContext());
+                return databaseHelper.getAllFavoriteHouse();
+            }
+        }).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new SingleSubscriber<ArrayList<CompactHouse>>() {
+                    @Override
+                    public void onSuccess(ArrayList<CompactHouse> value) {
+                        arrayListHouses.addAll(value);
+                        adapter.notifyDataSetChanged();
+
+                        if (arrayListHouses.size() == 0) {
+                            recyclerView.setVisibility(View.INVISIBLE);
+                            layoutNoHouses.setVisibility(View.VISIBLE);
+                        } else {
+                            recyclerView.setVisibility(View.VISIBLE);
+                            layoutNoHouses.setVisibility(View.INVISIBLE);
+                        }
+
+                        refreshLayout.setRefreshing(false);
+                    }
+
+                    @Override
+                    public void onError(Throwable error) {
+                        error.printStackTrace();
+                        refreshLayout.setRefreshing(false);
+                        Log.e("homes favorite fragment", "onError: Đã có lỗi trong quá trình lấy sync data");
+                    }
+                });
     }
 
     private void initViews() {
@@ -127,8 +135,6 @@ public class HomesFavoriteFragment extends Fragment {
         RecyclerView.ItemAnimator itemAnimator = new DefaultItemAnimator();
         itemAnimator.setAddDuration(1000);
         recyclerView.setItemAnimator(itemAnimator);
-
-        recyclerView.setAdapter(adapter);
 
         refreshLayout.setColorSchemeResources(R.color.colorPrimary);
         refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -140,14 +146,6 @@ public class HomesFavoriteFragment extends Fragment {
 
         if (!HousieApplication.getInstance().getSharedPreUtils().getBoolean(AppConstant.USER_LOGGED_IN, false)) {
             refreshLayout.setEnabled(false);
-        }
-
-        if (arrayListHouses.size() == 0) {
-            recyclerView.setVisibility(View.INVISIBLE);
-            layoutNoHouses.setVisibility(View.VISIBLE);
-        } else {
-            recyclerView.setVisibility(View.VISIBLE);
-            layoutNoHouses.setVisibility(View.INVISIBLE);
         }
     }
 
