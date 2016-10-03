@@ -157,8 +157,6 @@ public class CreateBoardActivity extends AppCompatActivity {
                         }
                         case ApiConstant.SUCCESS: {
                             handleResponseSuccess(response);
-                            progressBar.setEnabled(false);
-                            progressBar.setVisibility(View.INVISIBLE);
                             break;
                         }
                     }
@@ -193,13 +191,13 @@ public class CreateBoardActivity extends AppCompatActivity {
                 .subscribe(new SingleSubscriber<Board>() {
                     @Override
                     public void onSuccess(final Board value) {
+                        progressBar.setEnabled(false);
+                        progressBar.setVisibility(View.INVISIBLE);
+
                         AlertUtils.showToastSuccess(CreateBoardActivity.this, R.drawable.ic_check_ok, R.string.createBoardSuccesfully);
                         new Handler().postDelayed(new Runnable() {
                             @Override
                             public void run() {
-                                Intent intent = new Intent();
-                                intent.putExtra(ApiConstant.BOARD, value);
-                                setResult(RESULT_OK, intent);
                                 CreateBoardActivity.this.finish();
                             }
                         }, 2500);
@@ -208,6 +206,8 @@ public class CreateBoardActivity extends AppCompatActivity {
                     @Override
                     public void onError(Throwable error) {
                         error.printStackTrace();
+                        progressBar.setEnabled(false);
+                        progressBar.setVisibility(View.INVISIBLE);
                     }
                 });
 

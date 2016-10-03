@@ -1,6 +1,5 @@
 package com.qtd.realestate1012.fragment;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -87,20 +86,59 @@ public class BoardFragment extends Fragment {
         initData();
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        refreshLayout.setRefreshing(true);
+        refreshData();
+    }
+
+    private void refreshData() {
+        if (HousieApplication.getInstance().getSharedPreUtils().getBoolean(AppConstant.USER_LOGGED_IN, false)) {
+            if (!ServiceUtils.isNetworkAvailable(getContext())) {
+                if (getUserVisibleHint()) {
+                    AlertUtils.showSnackBarNoInternet(getView());
+                }
+                getDataFromDatabase();
+            } else {
+                getDataFromServer();
+            }
+        }
+    }
+
+    private void initViews() {
+        Glide.with(this)
+                .load(R.drawable.house_paint)
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .override(324, 324)
+                .into(imvNoBoard);
+
+        refreshLayout.setColorSchemeResources(R.color.colorPrimary, R.color.colorPrimaryDark);
+        refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                refreshData();
+            }
+        });
+
+        recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
+        RecyclerView.ItemAnimator itemAnimator = new DefaultItemAnimator();
+        itemAnimator.setAddDuration(1000);
+        recyclerView.setItemAnimator(itemAnimator);
+
+        if (!HousieApplication.getInstance().getSharedPreUtils().getBoolean(AppConstant.USER_LOGGED_IN, false)) {
+            refreshLayout.setEnabled(false);
+        }
+    }
+
     private void initData() {
         arrayListBoards = new ArrayList<>();
         adapter = new BoardAdapter(arrayListBoards, false);
 
         recyclerView.setAdapter(adapter);
-
-        if (!ServiceUtils.isNetworkAvailable(getContext())) {
-            getDataFromDatabase();
-        }
     }
 
     public void getDataFromDatabase() {
-        refreshLayout.setRefreshing(true);
-
         Single.fromCallable(new Callable<ArrayList<Board>>() {
             @Override
             public ArrayList<Board> call() throws Exception {
@@ -140,93 +178,46 @@ public class BoardFragment extends Fragment {
 
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-        if (arrayListBoards.size() == 0 || getUserVisibleHint()) {
-            refreshLayout.setRefreshing(true);
-            requestData();
+    private void getDataFromServer() {
+        String idUserLoggedIn = HousieApplication.getInstance().getSharedPreUtils().getString(ApiConstant._ID, "-1");
+
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put(ApiConstant._ID, idUserLoggedIn);
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
-    }
 
-    private void initViews() {
-        Glide.with(this)
-                .load(R.drawable.house_paint)
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .override(324, 324)
-                .into(imvNoBoard);
-
-        refreshLayout.setColorSchemeResources(R.color.colorPrimary, R.color.colorPrimaryDark);
-        refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, ApiConstant.URL_WEB_SERVICE_GET_BOARDS,
+                jsonObject, new Response.Listener<JSONObject>() {
             @Override
-            public void onRefresh() {
-                requestData();
+            public void onResponse(JSONObject response) {
+                try {
+                    switch (response.getString(ApiConstant.RESULT)) {
+                        case ApiConstant.FAILED: {
+                            Toast.makeText(getActivity(), R.string.errorConnection, Toast.LENGTH_SHORT).show();
+                            break;
+                        }
+                        case ApiConstant.SUCCESS: {
+                            handleResponseSuccess(response);
+                            break;
+                        }
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                refreshLayout.setRefreshing(false);
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                error.printStackTrace();
+                Toast.makeText(getActivity(), R.string.errorConnection, Toast.LENGTH_SHORT).show();
+                refreshLayout.setRefreshing(false);
             }
         });
-
-        recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
-        RecyclerView.ItemAnimator itemAnimator = new DefaultItemAnimator();
-        itemAnimator.setAddDuration(1000);
-        recyclerView.setItemAnimator(itemAnimator);
-
-        if (!HousieApplication.getInstance().getSharedPreUtils().getBoolean(AppConstant.USER_LOGGED_IN, false)) {
-            refreshLayout.setEnabled(false);
-        }
-    }
-
-    private void requestData() {
-        if (!ServiceUtils.isNetworkAvailable(getContext())) {
-            if (getUserVisibleHint()) {
-                AlertUtils.showSnackBarNoInternet(fabAddBoard);
-            }
-            refreshLayout.setRefreshing(false);
-            return;
-        }
-
-        if (HousieApplication.getInstance().getSharedPreUtils().getBoolean(AppConstant.USER_LOGGED_IN, false)) {
-            String url = ApiConstant.URL_WEB_SERVICE_GET_BOARDS;
-
-            String idUserLoggedIn = HousieApplication.getInstance().getSharedPreUtils().getString(ApiConstant._ID, "-1");
-
-            JSONObject jsonObject = new JSONObject();
-            try {
-                jsonObject.put(ApiConstant._ID, idUserLoggedIn);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-
-            JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, url, jsonObject, new Response.Listener<JSONObject>() {
-                @Override
-                public void onResponse(JSONObject response) {
-                    try {
-                        switch (response.getString(ApiConstant.RESULT)) {
-                            case ApiConstant.FAILED: {
-                                Toast.makeText(getActivity(), R.string.errorConnection, Toast.LENGTH_SHORT).show();
-                                break;
-                            }
-                            case ApiConstant.SUCCESS: {
-                                handleResponseSuccess(response);
-                                break;
-                            }
-                        }
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                    refreshLayout.setRefreshing(false);
-
-                }
-            }, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    error.printStackTrace();
-                    Toast.makeText(getActivity(), R.string.errorConnection, Toast.LENGTH_SHORT).show();
-                    refreshLayout.setRefreshing(false);
-                }
-            });
-            HousieApplication.getInstance().addToRequestQueue(request);
-        } else {
-            refreshLayout.setRefreshing(false);
-        }
+        HousieApplication.getInstance().addToRequestQueue(request);
     }
 
     private void handleResponseSuccess(final JSONObject response) {
@@ -284,21 +275,7 @@ public class BoardFragment extends Fragment {
         }
         intent.putExtra(ApiConstant.LIST_BOARD, listBoard);
 
-        startActivityForResult(intent, AppConstant.REQUEST_CODE_CREATE_BOARD);
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, final Intent data) {
-        switch (requestCode) {
-            case AppConstant.REQUEST_CODE_CREATE_BOARD: {
-                if (resultCode == Activity.RESULT_OK && data != null) {
-                    arrayListBoards.add((Board) data.getParcelableExtra(ApiConstant.BOARD));
-                    adapter.notifyItemInserted(arrayListBoards.size() - 1);
-                }
-                break;
-            }
-        }
-
+        startActivity(intent);
     }
 
     public void clearUserData() {

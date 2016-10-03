@@ -254,8 +254,7 @@ public class BoardDetailActivity extends AppCompatActivity {
                 try {
                     switch (response.getString(ApiConstant.RESULT)) {
                         case ApiConstant.FAILED: {
-                            Toast.makeText(BoardDetailActivity.this, R.string.errorProcessing, Toast.LENGTH_SHORT)
-                                    .show();
+                            Toast.makeText(BoardDetailActivity.this, R.string.errorProcessing, Toast.LENGTH_SHORT).show();
                             break;
                         }
                         case ApiConstant.SUCCESS: {
@@ -278,8 +277,6 @@ public class BoardDetailActivity extends AppCompatActivity {
     }
 
     private void handleResponseActionSuccess(String idHouse) {
-        progressDialog.dismiss();
-
         int position = 0;
         for (CompactHouse house : arrayListHouse) {
             if (house.getId().equals(idHouse)) {
@@ -288,6 +285,9 @@ public class BoardDetailActivity extends AppCompatActivity {
                 break;
             }
         }
+
+        progressDialog.dismiss();
+
         adapter.notifyItemRemoved(position);
     }
 

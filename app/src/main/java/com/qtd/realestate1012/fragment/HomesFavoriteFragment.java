@@ -83,14 +83,50 @@ public class HomesFavoriteFragment extends Fragment {
         initData();
     }
 
+    private void initViews() {
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        RecyclerView.ItemAnimator itemAnimator = new DefaultItemAnimator();
+        itemAnimator.setAddDuration(1000);
+        recyclerView.setItemAnimator(itemAnimator);
+
+        refreshLayout.setColorSchemeResources(R.color.colorPrimary);
+        refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                refreshData();
+            }
+        });
+
+        if (!HousieApplication.getInstance().getSharedPreUtils().getBoolean(AppConstant.USER_LOGGED_IN, false)) {
+            refreshLayout.setEnabled(false);
+        }
+    }
+
     private void initData() {
         arrayListHouses = new ArrayList<>();
         adapter = new HouseAdapter(arrayListHouses);
 
         recyclerView.setAdapter(adapter);
+    }
 
-        if (!ServiceUtils.isNetworkAvailable(getContext())) {
-            getDataFromDatabase();
+    @Override
+    public void onStart() {
+        super.onStart();
+        refreshLayout.setRefreshing(true);
+        refreshData();
+    }
+
+    private void refreshData() {
+        if (HousieApplication.getInstance().getSharedPreUtils().getBoolean(AppConstant.USER_LOGGED_IN, false)) {
+            if (!ServiceUtils.isNetworkAvailable(getContext())) {
+                if (getUserVisibleHint()) {
+                    AlertUtils.showSnackBarNoInternet(getView());
+                }
+                getDataFromDatabase();
+            } else {
+                getDataFromServer();
+            }
         }
     }
 
@@ -129,87 +165,46 @@ public class HomesFavoriteFragment extends Fragment {
                 });
     }
 
-    private void initViews() {
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+    private void getDataFromServer() {
+        String idUserLoggedIn = HousieApplication.getInstance().getSharedPreUtils().getString(ApiConstant._ID, "-1");
+        String url = ApiConstant.URL_WEB_SERVICE_GET_FAVORITE_HOUSES;
 
-        RecyclerView.ItemAnimator itemAnimator = new DefaultItemAnimator();
-        itemAnimator.setAddDuration(1000);
-        recyclerView.setItemAnimator(itemAnimator);
+        JSONObject jsonRequest = new JSONObject();
+        try {
+            jsonRequest.put(ApiConstant._ID, idUserLoggedIn);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
-        refreshLayout.setColorSchemeResources(R.color.colorPrimary);
-        refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, url, jsonRequest, new Response.Listener<JSONObject>() {
             @Override
-            public void onRefresh() {
-                requestData();
+            public void onResponse(JSONObject response) {
+                try {
+                    switch (response.getString(ApiConstant.RESULT)) {
+                        case ApiConstant.FAILED: {
+                            Toast.makeText(getActivity(), R.string.errorConnection, Toast.LENGTH_SHORT).show();
+                            refreshLayout.setRefreshing(false);
+                            break;
+                        }
+                        case ApiConstant.SUCCESS: {
+                            handleResponseSuccess(response);
+                            break;
+                        }
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                error.printStackTrace();
+                Toast.makeText(getActivity(), R.string.errorConnection, Toast.LENGTH_SHORT).show();
+                refreshLayout.setRefreshing(false);
             }
         });
-
-        if (!HousieApplication.getInstance().getSharedPreUtils().getBoolean(AppConstant.USER_LOGGED_IN, false)) {
-            refreshLayout.setEnabled(false);
-        }
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        if (arrayListHouses.size() == 0 || getUserVisibleHint()) {
-            refreshLayout.setRefreshing(true);
-            requestData();
-        }
-    }
-
-    private void requestData() {
-        if (!ServiceUtils.isNetworkAvailable(getContext())) {
-            if (this.getUserVisibleHint()) {
-                AlertUtils.showSnackBarNoInternet(getView());
-            }
-            refreshLayout.setRefreshing(false);
-            return;
-        }
-
-        if (HousieApplication.getInstance().getSharedPreUtils().getBoolean(AppConstant.USER_LOGGED_IN, false)) {
-            String idUserLoggedIn = HousieApplication.getInstance().getSharedPreUtils().getString(ApiConstant._ID, "-1");
-            String url = ApiConstant.URL_WEB_SERVICE_GET_FAVORITE_HOUSES;
-
-            JSONObject jsonRequest = new JSONObject();
-            try {
-                jsonRequest.put(ApiConstant._ID, idUserLoggedIn);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-
-            JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, url, jsonRequest, new Response.Listener<JSONObject>() {
-                @Override
-                public void onResponse(JSONObject response) {
-                    try {
-                        switch (response.getString(ApiConstant.RESULT)) {
-                            case ApiConstant.FAILED: {
-                                Toast.makeText(getActivity(), R.string.errorConnection, Toast.LENGTH_SHORT).show();
-                                refreshLayout.setRefreshing(false);
-                                break;
-                            }
-                            case ApiConstant.SUCCESS: {
-                                handleResponseSuccess(response);
-                                break;
-                            }
-                        }
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-
-                }
-            }, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    error.printStackTrace();
-                    Toast.makeText(getActivity(), R.string.errorConnection, Toast.LENGTH_SHORT).show();
-                    refreshLayout.setRefreshing(false);
-                }
-            });
-            HousieApplication.getInstance().addToRequestQueue(request);
-        } else {
-            refreshLayout.setRefreshing(false);
-        }
+        HousieApplication.getInstance().addToRequestQueue(request);
     }
 
     private void handleResponseSuccess(final JSONObject response) {
