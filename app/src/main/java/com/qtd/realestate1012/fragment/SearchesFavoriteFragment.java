@@ -164,7 +164,7 @@ public class SearchesFavoriteFragment extends Fragment {
             public ArrayList<ItemSavedSearch> call() throws Exception {
                 DatabaseHelper databaseHelper = DatabaseHelper.getInstance(SearchesFavoriteFragment.this.getContext());
 
-                return databaseHelper.getAllSavedSearch();
+                return databaseHelper.getListSavedSearch();
             }
         }).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

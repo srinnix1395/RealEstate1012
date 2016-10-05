@@ -28,6 +28,9 @@ public class AppConstant {
     public static final int NOTIFICATION_ID = 10121995;
     public static final String DEVICE_TOKEN = "DEVICE_TOKEN";
     public static final String ACTION_NOTIFICATION = "Housie.notification.newHouse";
+    public static final String BOARD_DETAIL_ACTIVITY = "com.qtd.realestate1012.activity.BoardDetailActivity";
+    public static final String RESULT_ACTIVITY = "com.qtd.realestate1012.activity.ResultActivity";
+
 
     public static int ICON_TAB_NORMAL[] = {
             R.drawable.ic_home_dark_green,

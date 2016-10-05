@@ -92,7 +92,7 @@ public class BottomSheetListBoard extends BottomSheetDialogFragment {
             @Override
             public ArrayList<BoardHasHeart> call() throws Exception {
                 DatabaseHelper databaseHelper = DatabaseHelper.getInstance(getContext());
-                return databaseHelper.getAllBoardHasHeart(idHouse);
+                return databaseHelper.getListBoardHasHeart(idHouse);
             }
         }).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

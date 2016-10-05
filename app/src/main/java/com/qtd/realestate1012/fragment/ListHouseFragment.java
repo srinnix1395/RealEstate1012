@@ -253,8 +253,34 @@ public class ListHouseFragment extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == AppConstant.REQUEST_CODE_SIGN_IN && resultCode == Activity.RESULT_OK) {
-            String idHouse = data.getStringExtra(ApiConstant._ID_HOUSE);
-            openDialogBoard(idHouse);
+            final String idHouse = data.getStringExtra(ApiConstant._ID_HOUSE);
+
+            Single.fromCallable(new Callable<ArrayList<String>>() {
+                @Override
+                public ArrayList<String> call() throws Exception {
+                    DatabaseHelper databaseHelper = DatabaseHelper.getInstance(ListHouseFragment.this.getContext());
+                    return databaseHelper.getListIdFavoriteHouse();
+                }
+            }).subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new SingleSubscriber<ArrayList<String>>() {
+                        @Override
+                        public void onSuccess(ArrayList<String> value) {
+                            for (CompactHouse house : arrayList) {
+                                if (value.contains(house.getId())) {
+                                    house.setLiked(true);
+                                }
+                            }
+                            adapter.notifyDataSetChanged();
+
+                            openDialogBoard(idHouse);
+                        }
+
+                        @Override
+                        public void onError(Throwable error) {
+                            error.printStackTrace();
+                        }
+                    });
         }
     }
 

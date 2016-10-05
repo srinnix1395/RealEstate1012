@@ -1,5 +1,6 @@
 package com.qtd.realestate1012.activity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
@@ -22,9 +23,15 @@ import com.qtd.realestate1012.HousieApplication;
 import com.qtd.realestate1012.R;
 import com.qtd.realestate1012.adapter.HouseHasHeartAdapter;
 import com.qtd.realestate1012.constant.ApiConstant;
+import com.qtd.realestate1012.constant.AppConstant;
+import com.qtd.realestate1012.custom.BottomSheetListBoard;
+import com.qtd.realestate1012.database.DatabaseHelper;
+import com.qtd.realestate1012.messageevent.MessageClickImvHeartOnHouse;
 import com.qtd.realestate1012.model.CompactHouse;
 import com.qtd.realestate1012.utils.ProcessJson;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -73,6 +80,18 @@ public class ResultActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    protected void onStop() {
+        EventBus.getDefault().unregister(this);
+        super.onStop();
+    }
+
+    @Override
     protected void onDestroy() {
         if (request != null && !request.isCanceled()) {
             request.cancel();
@@ -112,7 +131,7 @@ public class ResultActivity extends AppCompatActivity {
     }
 
     @OnClick(R.id.tvError)
-    public void onClickTvError(){
+    public void onClickTvError() {
         tvError.setVisibility(View.INVISIBLE);
         progressBar.setEnabled(true);
         progressBar.setVisibility(View.VISIBLE);
@@ -191,5 +210,59 @@ public class ResultActivity extends AppCompatActivity {
                     }
                 });
     }
+
+    @Subscribe
+    public void handleMessageLikeHouse(MessageClickImvHeartOnHouse message) {
+        if (HousieApplication.getInstance().getSharedPreUtils().getBoolean(AppConstant.USER_LOGGED_IN, false)) {
+            openDialogBoard(message.id);
+        } else {
+            Intent intent = new Intent(ResultActivity.this, LoginActivity.class);
+            intent.putExtra(ApiConstant._ID_HOUSE, message.id);
+            startActivityForResult(intent, AppConstant.REQUEST_CODE_SIGN_IN);
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == AppConstant.REQUEST_CODE_SIGN_IN && resultCode == Activity.RESULT_OK) {
+            final String idHouse = data.getStringExtra(ApiConstant._ID_HOUSE);
+
+            Single.fromCallable(new Callable<ArrayList<String>>() {
+                @Override
+                public ArrayList<String> call() throws Exception {
+                    DatabaseHelper databaseHelper = DatabaseHelper.getInstance(ResultActivity.this);
+                    return databaseHelper.getListIdFavoriteHouse();
+                }
+            }).subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new SingleSubscriber<ArrayList<String>>() {
+                        @Override
+                        public void onSuccess(ArrayList<String> value) {
+                            for (CompactHouse house : arrayList) {
+                                if (value.contains(house.getId())) {
+                                    house.setLiked(true);
+                                }
+                            }
+                            adapter.notifyDataSetChanged();
+
+                            openDialogBoard(idHouse);
+                        }
+
+                        @Override
+                        public void onError(Throwable error) {
+                            error.printStackTrace();
+                        }
+                    });
+        }
+    }
+
+    public void openDialogBoard(String id) {
+        BottomSheetListBoard dialog = new BottomSheetListBoard();
+        Bundle bundle = new Bundle();
+        bundle.putString(ApiConstant._ID, id);
+        dialog.setArguments(bundle);
+        dialog.show(getSupportFragmentManager(), "dialog");
+    }
+
 
 }

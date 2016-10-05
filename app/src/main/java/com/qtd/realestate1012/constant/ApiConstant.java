@@ -58,7 +58,6 @@ public class ApiConstant {
     public static final String FACEBOOK = "facebook";
     public static final String PROVIDER = "provider";
     public static final String GOOGLE = "google";
-    public static final String HAS_BOARD = "has_board";
     public static final String LIST_BOARD = "list_board";
     public static final String FALSE = "false";
     public static final String TRUE = "true";
@@ -103,6 +102,7 @@ public class ApiConstant {
     public static final String LIST_SEARCH = "list_search";
     public static final String REG_ID = "reg_id";
     public static final String CRITERIA = "criteria";
+    public static final String LIST_BOARD_HOUSE = "list_board_house";
     public static String _ID_BOARD = "_id_board";
     public static String _ID_HOUSE = "_id_house";
     public static String _ID_OWNER = "_id_owner";

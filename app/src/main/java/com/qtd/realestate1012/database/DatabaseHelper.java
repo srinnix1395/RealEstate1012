@@ -49,7 +49,7 @@ public class DatabaseHelper {
 
     public static DatabaseHelper getInstance(Context mContext) {
         if (mInstance == null) {
-            synchronized (DatabaseHelper.class){
+            synchronized (DatabaseHelper.class) {
                 if (mInstance == null) {
                     mInstance = new DatabaseHelper(mContext);
                 }
@@ -104,7 +104,7 @@ public class DatabaseHelper {
         mDatabase.close();
     }
 
-    public ArrayList<Board> getAllBoards() {
+    public ArrayList<Board> getListBoard() {
         openDatabase();
         ArrayList<Board> arrayList = new ArrayList<>();
         try {
@@ -153,31 +153,6 @@ public class DatabaseHelper {
         }
     }
 
-    public void insertMultiplesBoard(ArrayList<Board> arrayList) {
-        try {
-            openDatabase();
-
-            mDatabase.beginTransaction();
-
-            for (Board board : arrayList) {
-                ContentValues contentValues = new ContentValues();
-                contentValues.put(_ID, board.getId());
-                contentValues.put(NAME, board.getName());
-                contentValues.put(FIRST_IMAGE, board.getImage());
-                contentValues.put(COUNT_HOUSE, board.getListHouse().size());
-
-                mDatabase.insertOrThrow(TABLE_BOARD, null, contentValues);
-            }
-
-            mDatabase.setTransactionSuccessful();
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-        } finally {
-            mDatabase.endTransaction();
-            closeDatabase();
-        }
-    }
-
     public boolean deleteBoard(String idBoard) {
         try {
             openDatabase();
@@ -195,7 +170,7 @@ public class DatabaseHelper {
         return false;
     }
 
-    public ArrayList<CompactHouse> getAllFavoriteHouse() {
+    public ArrayList<CompactHouse> getListFavoriteHouse() {
         ArrayList<CompactHouse> arrayList = new ArrayList<>();
 
         try {
@@ -295,7 +270,7 @@ public class DatabaseHelper {
         }
     }
 
-    public ArrayList<BoardHasHeart> getAllBoardHasHeart(String idHouse) {
+    public ArrayList<BoardHasHeart> getListBoardHasHeart(String idHouse) {
         ArrayList<BoardHasHeart> arrayList = new ArrayList<>();
         try {
             openDatabase();
@@ -362,6 +337,132 @@ public class DatabaseHelper {
             closeDatabase();
         }
         return arrayList;
+    }
+
+    public ArrayList<CompactHouse> getListFavoriteHouse(String idBoard) {
+        ArrayList<CompactHouse> arrayList = new ArrayList<>();
+
+        try {
+            openDatabase();
+
+            Cursor cursor = mDatabase.query(TABLE_HOUSE_FAVORITE, new String[]{
+                    _ID,
+                    DETAIL_ADDRESS,
+                    STREET,
+                    WARD,
+                    DISTRICT,
+                    CITY,
+                    PRICE,
+                    FIRST_IMAGE,
+            }, _ID_BOARD + "='" + idBoard + "'", null, null, null, null);
+
+            while (cursor.moveToNext()) {
+                String id = cursor.getString(0);
+                String detail = cursor.getString(1);
+                String street = cursor.getString(2);
+                String ward = cursor.getString(3);
+                String district = cursor.getString(4);
+                String city = cursor.getString(5);
+                int price = cursor.getInt(6);
+                String firstImage = cursor.getString(7);
+
+                arrayList.add(new CompactHouse(id, price, detail, street, ward, district, city, firstImage, "0", "0", true));
+            }
+            cursor.close();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            closeDatabase();
+        }
+        return arrayList;
+    }
+
+    public void updateListHouseInBoard(BoardHasHeart board, String action) {
+        try {
+            openDatabase();
+
+            mDatabase.beginTransaction();
+
+            ContentValues contentValues = new ContentValues();
+            if (action.equals(ApiConstant.ACTION)) {
+                contentValues.put(COUNT_HOUSE, board.getListHouse().size() + 1);
+            } else {
+                contentValues.put(COUNT_HOUSE, board.getListHouse().size() - 1);
+            }
+
+            mDatabase.update(TABLE_BOARD, contentValues, _ID + "='" + board.getId() + "'", null);
+
+            mDatabase.setTransactionSuccessful();
+            mDatabase.endTransaction();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            closeDatabase();
+        }
+    }
+
+    public ArrayList<ItemSavedSearch> getListSavedSearch() {
+        ArrayList<ItemSavedSearch> arrayList = new ArrayList<>();
+
+        try {
+            openDatabase();
+
+            Cursor cursor = mDatabase.query(TABLE_SAVED_SEARCH, new String[]{
+                    _ID,
+                    ApiConstant.STATUS,
+                    ApiConstant.PRICE_FROM,
+                    ApiConstant.PRICE_TO,
+                    ApiConstant.NUMBER_OF_ROOMS,
+                    ApiConstant.AREA_FROM,
+                    ApiConstant.AREA_TO,
+                    ApiConstant.PROPERTY_TYPE
+            }, null, null, null, null, null);
+            while (cursor.moveToNext()) {
+                String id = cursor.getString(0);
+                String status = cursor.getString(1);
+                int priceFrom = cursor.getInt(2);
+                int priceTo = cursor.getInt(3);
+                int numberOfRooms = cursor.getInt(4);
+                int areaFrom = cursor.getInt(5);
+                int areaTo = cursor.getInt(6);
+                String property = cursor.getString(7);
+
+                arrayList.add(new ItemSavedSearch(id, status, priceFrom, priceTo, numberOfRooms, areaFrom, areaTo, property));
+            }
+            cursor.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            closeDatabase();
+        }
+        return arrayList;
+    }
+
+    public void insertSavedSearch(ItemSavedSearch item) {
+        try {
+            openDatabase();
+
+            mDatabase.beginTransaction();
+
+            ContentValues contentValues = new ContentValues();
+            contentValues.put(_ID, item.getId());
+            contentValues.put(ApiConstant.STATUS, item.getStatus());
+            contentValues.put(ApiConstant.PRICE_FROM, item.getPriceFrom());
+            contentValues.put(ApiConstant.PRICE_TO, item.getPriceTo());
+            contentValues.put(ApiConstant.NUMBER_OF_ROOMS, item.getNumberOfRooms());
+            contentValues.put(ApiConstant.AREA_FROM, item.getAreaFrom());
+            contentValues.put(ApiConstant.AREA_TO, item.getAreaTo());
+
+            mDatabase.insertOrThrow(TABLE_SAVED_SEARCH, null, contentValues);
+
+            mDatabase.setTransactionSuccessful();
+            mDatabase.endTransaction();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            closeDatabase();
+        }
     }
 
     public void syncDataBoard(ArrayList<Board> arrayListServer) {
@@ -469,132 +570,6 @@ public class DatabaseHelper {
         }
     }
 
-    public ArrayList<CompactHouse> getAllFavoriteHouse(String idBoard) {
-        ArrayList<CompactHouse> arrayList = new ArrayList<>();
-
-        try {
-            openDatabase();
-
-            Cursor cursor = mDatabase.query(TABLE_HOUSE_FAVORITE, new String[]{
-                    _ID,
-                    DETAIL_ADDRESS,
-                    STREET,
-                    WARD,
-                    DISTRICT,
-                    CITY,
-                    PRICE,
-                    FIRST_IMAGE,
-            }, _ID_BOARD + "='" + idBoard + "'", null, null, null, null);
-
-            while (cursor.moveToNext()) {
-                String id = cursor.getString(0);
-                String detail = cursor.getString(1);
-                String street = cursor.getString(2);
-                String ward = cursor.getString(3);
-                String district = cursor.getString(4);
-                String city = cursor.getString(5);
-                int price = cursor.getInt(6);
-                String firstImage = cursor.getString(7);
-
-                arrayList.add(new CompactHouse(id, price, detail, street, ward, district, city, firstImage, "0", "0", true));
-            }
-            cursor.close();
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            closeDatabase();
-        }
-        return arrayList;
-    }
-
-    public void updateListHouseInBoard(BoardHasHeart board, String action) {
-        try {
-            openDatabase();
-
-            mDatabase.beginTransaction();
-
-            ContentValues contentValues = new ContentValues();
-            if (action.equals(ApiConstant.ACTION)) {
-                contentValues.put(COUNT_HOUSE, board.getListHouse().size() + 1);
-            } else {
-                contentValues.put(COUNT_HOUSE, board.getListHouse().size() - 1);
-            }
-
-            mDatabase.update(TABLE_BOARD, contentValues, _ID + "='" + board.getId() + "'", null);
-
-            mDatabase.setTransactionSuccessful();
-            mDatabase.endTransaction();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            closeDatabase();
-        }
-    }
-
-    public ArrayList<ItemSavedSearch> getAllSavedSearch() {
-        ArrayList<ItemSavedSearch> arrayList = new ArrayList<>();
-
-        try {
-            openDatabase();
-
-            Cursor cursor = mDatabase.query(TABLE_SAVED_SEARCH, new String[]{
-                    _ID,
-                    ApiConstant.STATUS,
-                    ApiConstant.PRICE_FROM,
-                    ApiConstant.PRICE_TO,
-                    ApiConstant.NUMBER_OF_ROOMS,
-                    ApiConstant.AREA_FROM,
-                    ApiConstant.AREA_TO,
-                    ApiConstant.PROPERTY_TYPE
-            }, null, null, null, null, null);
-            while (cursor.moveToNext()) {
-                String id = cursor.getString(0);
-                String status = cursor.getString(1);
-                int priceFrom = cursor.getInt(2);
-                int priceTo = cursor.getInt(3);
-                int numberOfRooms = cursor.getInt(4);
-                int areaFrom = cursor.getInt(5);
-                int areaTo = cursor.getInt(6);
-                String property = cursor.getString(7);
-
-                arrayList.add(new ItemSavedSearch(id, status, priceFrom, priceTo, numberOfRooms, areaFrom, areaTo, property));
-            }
-            cursor.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            closeDatabase();
-        }
-        return arrayList;
-    }
-
-    public void insertSavedSearch(ItemSavedSearch item) {
-        try {
-            openDatabase();
-
-            mDatabase.beginTransaction();
-
-            ContentValues contentValues = new ContentValues();
-            contentValues.put(_ID, item.getId());
-            contentValues.put(ApiConstant.STATUS, item.getStatus());
-            contentValues.put(ApiConstant.PRICE_FROM, item.getPriceFrom());
-            contentValues.put(ApiConstant.PRICE_TO, item.getPriceTo());
-            contentValues.put(ApiConstant.NUMBER_OF_ROOMS, item.getNumberOfRooms());
-            contentValues.put(ApiConstant.AREA_FROM, item.getAreaFrom());
-            contentValues.put(ApiConstant.AREA_TO, item.getAreaTo());
-
-            mDatabase.insertOrThrow(TABLE_SAVED_SEARCH, null, contentValues);
-
-            mDatabase.setTransactionSuccessful();
-            mDatabase.endTransaction();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            closeDatabase();
-        }
-    }
-
     public void syncDataSavedSearch(ArrayList<ItemSavedSearch> arrayListServer) {
         try {
             openDatabase();
@@ -643,6 +618,58 @@ public class DatabaseHelper {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
+            closeDatabase();
+        }
+    }
+
+    public void insertData(ArrayList<Board> boardArrayList, ArrayList<FavoriteHouse> houseArrayList, ArrayList<ItemSavedSearch> searchArrayList) {
+        try {
+            openDatabase();
+            mDatabase.beginTransaction();
+
+            for (Board board : boardArrayList) {
+                ContentValues contentValues = new ContentValues();
+                contentValues.put(_ID, board.getId());
+                contentValues.put(NAME, board.getName());
+                contentValues.put(FIRST_IMAGE, board.getImage());
+                contentValues.put(COUNT_HOUSE, board.getListHouse().size());
+
+                mDatabase.insertOrThrow(TABLE_BOARD, null, contentValues);
+            }
+
+            for (FavoriteHouse house : houseArrayList) {
+                ContentValues contentValues = new ContentValues();
+                contentValues.put(_ID, house.getId());
+                contentValues.put(DETAIL_ADDRESS, house.getDetailAddress());
+                contentValues.put(STREET, house.getStreet());
+                contentValues.put(WARD, house.getWard());
+                contentValues.put(DISTRICT, house.getDistrict());
+                contentValues.put(CITY, house.getCity());
+                contentValues.put(PRICE, house.getPrice());
+                contentValues.put(FIRST_IMAGE, house.getFirstImage());
+                contentValues.put(_ID_BOARD, house.getIdBoard());
+
+                mDatabase.insertOrThrow(TABLE_HOUSE_FAVORITE, null, contentValues);
+            }
+
+            for (ItemSavedSearch item : searchArrayList) {
+                ContentValues contentValues = new ContentValues();
+                contentValues.put(_ID, item.getId());
+                contentValues.put(ApiConstant.STATUS, item.getStatus());
+                contentValues.put(ApiConstant.PRICE_FROM, item.getPriceFrom());
+                contentValues.put(ApiConstant.PRICE_TO, item.getPriceTo());
+                contentValues.put(ApiConstant.NUMBER_OF_ROOMS, item.getNumberOfRooms());
+                contentValues.put(ApiConstant.AREA_FROM, item.getAreaFrom());
+                contentValues.put(ApiConstant.AREA_TO, item.getAreaTo());
+
+                mDatabase.insertOrThrow(TABLE_SAVED_SEARCH, null, contentValues);
+            }
+
+            mDatabase.setTransactionSuccessful();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            mDatabase.endTransaction();
             closeDatabase();
         }
     }

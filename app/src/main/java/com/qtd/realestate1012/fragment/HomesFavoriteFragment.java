@@ -26,7 +26,6 @@ import com.qtd.realestate1012.callback.ActivityCallback;
 import com.qtd.realestate1012.constant.ApiConstant;
 import com.qtd.realestate1012.constant.AppConstant;
 import com.qtd.realestate1012.database.DatabaseHelper;
-import com.qtd.realestate1012.model.Board;
 import com.qtd.realestate1012.model.CompactHouse;
 import com.qtd.realestate1012.model.FavoriteHouse;
 import com.qtd.realestate1012.utils.AlertUtils;
@@ -139,7 +138,7 @@ public class HomesFavoriteFragment extends Fragment {
             @Override
             public ArrayList<CompactHouse> call() throws Exception {
                 DatabaseHelper databaseHelper = DatabaseHelper.getInstance(getContext());
-                return databaseHelper.getAllFavoriteHouse();
+                return databaseHelper.getListFavoriteHouse();
             }
         }).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -215,33 +214,12 @@ public class HomesFavoriteFragment extends Fragment {
         Single.fromCallable(new Callable<ArrayList<FavoriteHouse>>() {
             @Override
             public ArrayList<FavoriteHouse> call() throws Exception {
-                ArrayList<CompactHouse> compactHouses = ProcessJson.getListCompactHouse(response);
-
-                if (compactHouses.size() > 0) {
-                    response.put(ApiConstant.HAS_BOARD, true);
-                } else {
-                    response.put(ApiConstant.HAS_BOARD, false);
-                }
-                ArrayList<Board> arrayListBoard = ProcessJson.getFavoriteBoards(response);
-
-                ArrayList<FavoriteHouse> arrayListFavoriteHouse = new ArrayList<>();
-                for (Board board : arrayListBoard) {
-                    if (compactHouses.size() == 0) {
-                        break;
-                    } else {
-                        for (int i = compactHouses.size() - 1; i >= 0; i--) {
-                            if (board.getListHouse().contains(compactHouses.get(i).getId())) {
-                                arrayListFavoriteHouse.add(new FavoriteHouse(compactHouses.get(i), board.getId()));
-                                compactHouses.remove(i);
-                            }
-                        }
-                    }
-                }
+                ArrayList<FavoriteHouse> compactHouses = ProcessJson.getListFavoriteHouse(response);
 
                 DatabaseHelper databaseHelper = DatabaseHelper.getInstance(getContext());
-                databaseHelper.syncDataFavoriteHouse(arrayListFavoriteHouse);
+                databaseHelper.syncDataFavoriteHouse(compactHouses);
 
-                return arrayListFavoriteHouse;
+                return compactHouses;
             }
         }).observeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

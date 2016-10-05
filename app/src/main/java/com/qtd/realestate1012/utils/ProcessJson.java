@@ -2,9 +2,9 @@ package com.qtd.realestate1012.utils;
 
 import com.qtd.realestate1012.constant.ApiConstant;
 import com.qtd.realestate1012.model.Board;
-import com.qtd.realestate1012.model.BoardHasHeart;
 import com.qtd.realestate1012.model.BunchHouse;
 import com.qtd.realestate1012.model.CompactHouse;
+import com.qtd.realestate1012.model.FavoriteHouse;
 import com.qtd.realestate1012.model.FullHouse;
 import com.qtd.realestate1012.model.ItemSavedSearch;
 import com.qtd.realestate1012.model.User;
@@ -60,27 +60,25 @@ public class ProcessJson {
         return arrayList;
     }
 
-    public static ArrayList<Board> getFavoriteBoards(JSONObject response) {
+    public static ArrayList<Board> getListBoard(JSONObject response) {
         ArrayList<Board> arrayList = new ArrayList<>();
         try {
-            if (response.getBoolean(ApiConstant.HAS_BOARD)) {
-                JSONArray jsonArray = response.getJSONArray(ApiConstant.LIST_BOARD);
-                for (int i = 0, size = jsonArray.length(); i < size; i++) {
-                    JSONObject jsonObject = jsonArray.getJSONObject(i);
+            JSONArray jsonArray = response.getJSONArray(ApiConstant.LIST_BOARD);
+            for (int i = 0, size = jsonArray.length(); i < size; i++) {
+                JSONObject jsonObject = jsonArray.getJSONObject(i);
 
-                    String id = jsonObject.getString(ApiConstant._ID);
-                    String name = jsonObject.getString(ApiConstant.NAME);
-                    String image = jsonObject.has(ApiConstant.FIRST_IMAGE) ? jsonObject.getString(ApiConstant.FIRST_IMAGE) : "";
+                String id = jsonObject.getString(ApiConstant._ID);
+                String name = jsonObject.has(ApiConstant.NAME) ? jsonObject.getString(ApiConstant.NAME) : "";
+                String image = jsonObject.has(ApiConstant.FIRST_IMAGE) ? jsonObject.getString(ApiConstant.FIRST_IMAGE) : "";
 
-                    JSONArray listHouse = jsonObject.getJSONArray(ApiConstant.LIST_HOUSE);
+                JSONArray listHouse = jsonObject.getJSONArray(ApiConstant.LIST_HOUSE);
 
-                    ArrayList<String> arrayList1 = new ArrayList<>();
-                    for (int j = 0, length = listHouse.length(); j < length; j++) {
-                        arrayList1.add(listHouse.getString(j));
-                    }
-
-                    arrayList.add(new Board(id, name, arrayList1, image));
+                ArrayList<String> arrayList1 = new ArrayList<>();
+                for (int j = 0, length = listHouse.length(); j < length; j++) {
+                    arrayList1.add(listHouse.getString(j));
                 }
+
+                arrayList.add(new Board(id, name, arrayList1, image));
             }
         } catch (JSONException e) {
             e.printStackTrace();
@@ -161,40 +159,6 @@ public class ProcessJson {
             e.printStackTrace();
         }
         return null;
-    }
-
-    public static ArrayList<Board> getFavoriteBoardsHasHeart(String json, String idHouse) {
-        ArrayList<Board> arrayList = new ArrayList<>();
-        try {
-            JSONObject response = new JSONObject(json);
-            if (response.getBoolean(ApiConstant.HAS_BOARD)) {
-                JSONArray jsonArray = response.getJSONArray(ApiConstant.LIST_BOARD);
-                for (int i = 0, size = jsonArray.length(); i < size; i++) {
-                    JSONObject jsonObject = jsonArray.getJSONObject(i);
-
-                    String id = jsonObject.getString(ApiConstant._ID);
-                    String name = jsonObject.getString(ApiConstant.NAME);
-                    String image = jsonObject.has(ApiConstant.FIRST_IMAGE) ? jsonObject.getString(ApiConstant.FIRST_IMAGE) : "";
-
-                    JSONArray listHouse = jsonObject.getJSONArray(ApiConstant.LIST_HOUSE);
-
-                    boolean hasHeart = false;
-
-                    ArrayList<String> arrayList1 = new ArrayList<>();
-                    for (int j = 0, length = listHouse.length(); j < length; j++) {
-                        arrayList1.add(listHouse.getString(j));
-                        if (listHouse.getString(j).equals(idHouse)) {
-                            hasHeart = true;
-                        }
-                    }
-
-                    arrayList.add(new BoardHasHeart(id, name, arrayList1, image, hasHeart));
-                }
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        return arrayList;
     }
 
     public static CompactHouse getInfoHouse(String data) {
@@ -351,5 +315,26 @@ public class ProcessJson {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public static ArrayList<FavoriteHouse> getListFavoriteHouse(JSONObject response) throws JSONException {
+        ArrayList<CompactHouse> houseArrayList = getListCompactHouse(response);
+
+        ArrayList<Board> boardArrayList = getListBoard(response);
+
+        ArrayList<FavoriteHouse> arrayListFavoriteHouse = new ArrayList<>();
+        for (Board board : boardArrayList) {
+            if (houseArrayList.size() == 0) {
+                break;
+            } else if (board.getListHouse().size() > 0) {
+                for (int i = houseArrayList.size() - 1; i >= 0; i--) {
+                    if (board.getListHouse().contains(houseArrayList.get(i).getId())) {
+                        arrayListFavoriteHouse.add(new FavoriteHouse(houseArrayList.get(i), board.getId()));
+                        houseArrayList.remove(i);
+                    }
+                }
+            }
+        }
+        return arrayListFavoriteHouse;
     }
 }

@@ -9,7 +9,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.PopupMenu;
-import android.util.Log;
 import android.view.MenuItem;
 import android.widget.Toast;
 
@@ -138,7 +137,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCallback 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == AppConstant.REQUEST_CODE_SIGN_IN && resultCode == RESULT_OK) {
-            Log.e("lákdfj", "onActivityResult: hello");
+            homeFragment.updateData(null);
         }
     }
 

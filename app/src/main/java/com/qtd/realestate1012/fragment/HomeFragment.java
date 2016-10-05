@@ -187,7 +187,7 @@ public class HomeFragment extends Fragment {
                 if (response.has(ApiConstant.BOARD)) {
                     jsonBoard = response.getJSONObject(ApiConstant.BOARD);
 
-                    ArrayList<Board> arrayList = ProcessJson.getFavoriteBoards(jsonBoard);
+                    ArrayList<Board> arrayList = ProcessJson.getListBoard(jsonBoard);
                     DatabaseHelper databaseHelper = DatabaseHelper.getInstance(getContext());
                     databaseHelper.syncDataBoard(arrayList);
                 }
@@ -267,8 +267,39 @@ public class HomeFragment extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == AppConstant.REQUEST_CODE_SIGN_IN && resultCode == Activity.RESULT_OK) {
             String idHouse = data.getStringExtra(ApiConstant._ID_HOUSE);
-            openDialogBoard(idHouse);
+            updateData(idHouse);
         }
+    }
+
+    public void updateData(final String idHouse) {
+        Single.fromCallable(new Callable<ArrayList<String>>() {
+            @Override
+            public ArrayList<String> call() throws Exception {
+                DatabaseHelper databaseHelper = DatabaseHelper.getInstance(HomeFragment.this.getContext());
+                return databaseHelper.getListIdFavoriteHouse();
+            }
+        }).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new SingleSubscriber<ArrayList<String>>() {
+                    @Override
+                    public void onSuccess(ArrayList<String> value) {
+                        for (Object obj : arrayListHouseNews) {
+                            if (obj instanceof BunchHouse) {
+                                ((BunchHouse) obj).resetImvHeart(value);
+                            }
+                        }
+                        adapter.notifyDataSetChanged();
+
+                        if (idHouse != null) {
+                            openDialogBoard(idHouse);
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable error) {
+                        error.printStackTrace();
+                    }
+                });
     }
 
     public void openDialogBoard(String id) {

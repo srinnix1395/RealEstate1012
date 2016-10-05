@@ -29,6 +29,8 @@ import com.qtd.realestate1012.activity.LoginActivity;
 import com.qtd.realestate1012.constant.ApiConstant;
 import com.qtd.realestate1012.database.DatabaseHelper;
 import com.qtd.realestate1012.model.Board;
+import com.qtd.realestate1012.model.FavoriteHouse;
+import com.qtd.realestate1012.model.ItemSavedSearch;
 import com.qtd.realestate1012.utils.AlertUtils;
 import com.qtd.realestate1012.utils.ProcessJson;
 
@@ -204,11 +206,13 @@ public class LoginPasswordFragment extends Fragment {
             Single.fromCallable(new Callable<ArrayList<Board>>() {
                 @Override
                 public ArrayList<Board> call() throws Exception {
-                    ArrayList<Board> arrayList = ProcessJson.getFavoriteBoards(response.getJSONObject(ApiConstant.BOARD));
+                    ArrayList<Board> boardArrayList = ProcessJson.getListBoard(response);
+                    ArrayList<FavoriteHouse> houseArrayList = ProcessJson.getListFavoriteHouse(response);
+                    ArrayList<ItemSavedSearch> searchArrayList = ProcessJson.getListItemSearch(response);
 
                     DatabaseHelper database = DatabaseHelper.getInstance(getContext());
-                    database.insertMultiplesBoard(arrayList);
-                    return arrayList;
+                    database.insertData(boardArrayList,houseArrayList,searchArrayList);
+                    return boardArrayList;
                 }
             }).subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
@@ -241,6 +245,7 @@ public class LoginPasswordFragment extends Fragment {
             @Override
             public void run() {
                 String idHouse = ((LoginActivity) getActivity()).getIdHouse();
+
                 if (idHouse != null) {
                     Intent intent = new Intent();
                     intent.putExtra(ApiConstant._ID_HOUSE, idHouse);

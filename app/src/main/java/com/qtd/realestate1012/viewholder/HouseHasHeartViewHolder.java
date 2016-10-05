@@ -11,7 +11,9 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.qtd.realestate1012.R;
 import com.qtd.realestate1012.activity.HouseDetailActivity;
 import com.qtd.realestate1012.constant.ApiConstant;
+import com.qtd.realestate1012.constant.AppConstant;
 import com.qtd.realestate1012.custom.RippleView;
+import com.qtd.realestate1012.messageevent.MessageClickImvHeartOnHouse;
 import com.qtd.realestate1012.messageevent.MessageRemoveHouseToBoard;
 import com.qtd.realestate1012.model.CompactHouse;
 import com.qtd.realestate1012.utils.UiUtils;
@@ -47,7 +49,7 @@ public class HouseHasHeartViewHolder extends RecyclerView.ViewHolder implements 
     ImageView imvHeart;
 
     private boolean flagClickHeart;
-    private String id;
+    private String idHouse;
 
     public HouseHasHeartViewHolder(View itemView) {
         super(itemView);
@@ -60,7 +62,7 @@ public class HouseHasHeartViewHolder extends RecyclerView.ViewHolder implements 
     }
 
     public void setupDataViewHolder(CompactHouse house) {
-        id = house.getId();
+        idHouse = house.getId();
 
         Glide.with(itemView.getContext())
                 .load(ApiConstant.URL_WEB_SERVICE_GET_IMAGE_HOUSE + house.getFirstImage())
@@ -95,10 +97,18 @@ public class HouseHasHeartViewHolder extends RecyclerView.ViewHolder implements 
     public void onComplete(RippleView rippleView) {
         if (!flagClickHeart) {
             Intent intent = new Intent(itemView.getContext(), HouseDetailActivity.class);
-            intent.putExtra(ApiConstant._ID, id);
+            intent.putExtra(ApiConstant._ID, idHouse);
             itemView.getContext().startActivity(intent);
-        } else {
-            EventBus.getDefault().post(new MessageRemoveHouseToBoard(id));
+            return;
+        }
+
+        if (itemView.getContext().getClass().getName().equals(AppConstant.BOARD_DETAIL_ACTIVITY)) {
+            EventBus.getDefault().post(new MessageRemoveHouseToBoard(idHouse));
+            return;
+        }
+
+        if (itemView.getContext().getClass().getName().equals(AppConstant.RESULT_ACTIVITY)) {
+            EventBus.getDefault().post(new MessageClickImvHeartOnHouse(idHouse));
         }
     }
 }

@@ -47,4 +47,12 @@ public class BunchHouse {
             house.setLiked(false);
         }
     }
+
+    public void resetImvHeart(ArrayList<String> listIdHouse) {
+        for (CompactHouse house : arrayList) {
+            if (listIdHouse.contains(house.getId())) {
+                house.setLiked(true);
+            }
+        }
+    }
 }

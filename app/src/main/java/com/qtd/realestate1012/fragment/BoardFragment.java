@@ -1,5 +1,6 @@
 package com.qtd.realestate1012.fragment;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -147,7 +148,7 @@ public class BoardFragment extends Fragment {
             @Override
             public ArrayList<Board> call() throws Exception {
                 DatabaseHelper databaseHelper = DatabaseHelper.getInstance(getContext());
-                return databaseHelper.getAllBoards();
+                return databaseHelper.getListBoard();
             }
         }).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -228,7 +229,7 @@ public class BoardFragment extends Fragment {
         Single.fromCallable(new Callable<ArrayList<Board>>() {
             @Override
             public ArrayList<Board> call() throws Exception {
-                ArrayList<Board> boardNews = ProcessJson.getFavoriteBoards(response);
+                ArrayList<Board> boardNews = ProcessJson.getListBoard(response);
                 DatabaseHelper databaseHelper = DatabaseHelper.getInstance(getContext());
                 databaseHelper.syncDataBoard(boardNews);
                 return boardNews;
@@ -267,18 +268,40 @@ public class BoardFragment extends Fragment {
     void onClick() {
         if (!HousieApplication.getInstance().getSharedPreUtils().getBoolean(AppConstant.USER_LOGGED_IN, false)) {
             Intent intentLogin = new Intent(getActivity(), LoginActivity.class);
+            intentLogin.putExtra(ApiConstant._ID_HOUSE, "");
             startActivityForResult(intentLogin, AppConstant.REQUEST_CODE_SIGN_IN);
             return;
         }
 
+        showActivityCreateBoard(true, new String[]{});
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == AppConstant.REQUEST_CODE_SIGN_IN && resultCode == Activity.RESULT_OK) {
+            ArrayList<Board> boardArrayList = data.getParcelableArrayListExtra(ApiConstant.LIST_BOARD);
+
+            String listBoard[] = new String[boardArrayList.size()];
+            for (int i = 0; i < boardArrayList.size(); i++) {
+                listBoard[i] = boardArrayList.get(i).getName();
+            }
+
+            showActivityCreateBoard(false, listBoard);
+        }
+    }
+
+    private void showActivityCreateBoard(boolean useLocalBoard, String[] boardArrayList) {
         Intent intent = new Intent(getActivity(), CreateBoardActivity.class);
 
-        String listBoard[] = new String[arrayListBoards.size()];
-        for (int i = 0; i < arrayListBoards.size(); i++) {
-            listBoard[i] = arrayListBoards.get(i).getName();
+        if (useLocalBoard) {
+            String listBoard[] = new String[arrayListBoards.size()];
+            for (int i = 0; i < arrayListBoards.size(); i++) {
+                listBoard[i] = arrayListBoards.get(i).getName();
+            }
+            intent.putExtra(ApiConstant.LIST_BOARD, listBoard);
+        } else {
+            intent.putExtra(ApiConstant.LIST_BOARD, boardArrayList);
         }
-        intent.putExtra(ApiConstant.LIST_BOARD, listBoard);
-
         startActivity(intent);
     }
 

@@ -35,9 +35,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private void initData() {
         Intent intent = getIntent();
-        if (intent != null) {
-            idHouse = intent.getStringExtra(ApiConstant._ID_HOUSE);
-        }
+        idHouse = intent.getStringExtra(ApiConstant._ID_HOUSE);
     }
 
     private void initView() {
