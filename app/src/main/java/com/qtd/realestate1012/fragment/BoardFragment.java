@@ -281,12 +281,15 @@ public class BoardFragment extends Fragment {
         if (requestCode == AppConstant.REQUEST_CODE_SIGN_IN && resultCode == Activity.RESULT_OK) {
             ArrayList<Board> boardArrayList = data.getParcelableArrayListExtra(ApiConstant.LIST_BOARD);
 
-            String listBoard[] = new String[boardArrayList.size()];
-            for (int i = 0; i < boardArrayList.size(); i++) {
-                listBoard[i] = boardArrayList.get(i).getName();
+            if (boardArrayList != null) {
+                String listBoard[] = new String[boardArrayList.size()];
+                for (int i = 0; i < boardArrayList.size(); i++) {
+                    listBoard[i] = boardArrayList.get(i).getName();
+                }
+                showActivityCreateBoard(false, listBoard);
+            } else {
+                showActivityCreateBoard(false, new String[]{});
             }
-
-            showActivityCreateBoard(false, listBoard);
         }
     }
 

@@ -407,35 +407,34 @@ public class LoginUsernameFragment extends Fragment implements GoogleApiClient.O
                 response.getString(ApiConstant.EMAIL),
                 response.getString(ApiConstant.PROVIDER));
 
-        if (response.has(ApiConstant.BOARD)) {
-            Single.fromCallable(new Callable<ArrayList<Board>>() {
-                @Override
-                public ArrayList<Board> call() throws Exception {
+        Single.fromCallable(new Callable<ArrayList<Board>>() {
+            @Override
+            public ArrayList<Board> call() throws Exception {
+                if (!response.getBoolean(ApiConstant.TYPE_REGISTER)) {
                     ArrayList<Board> boardArrayList = ProcessJson.getListBoard(response);
-                    ArrayList<FavoriteHouse> houseArrayList = ProcessJson.getListFavoriteHouse(response);
+                    ArrayList<FavoriteHouse> houseArrayList = ProcessJson.getListFavoriteHouse(response, boardArrayList);
                     ArrayList<ItemSavedSearch> searchArrayList = ProcessJson.getListItemSearch(response);
 
                     DatabaseHelper database = DatabaseHelper.getInstance(getContext());
-                    database.insertData(boardArrayList,houseArrayList,searchArrayList);
+                    database.insertData(boardArrayList, houseArrayList, searchArrayList);
                     return boardArrayList;
                 }
-            }).subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new SingleSubscriber<ArrayList<Board>>() {
-                        @Override
-                        public void onSuccess(ArrayList<Board> value) {
-                            finishActivity(value);
-                        }
 
-                        @Override
-                        public void onError(Throwable error) {
-                            error.printStackTrace();
-                        }
-                    });
+                return null;
+            }
+        }).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new SingleSubscriber<ArrayList<Board>>() {
+                    @Override
+                    public void onSuccess(ArrayList<Board> value) {
+                        finishActivity(value);
+                    }
 
-        } else {
-            finishActivity(null);
-        }
+                    @Override
+                    public void onError(Throwable error) {
+                        error.printStackTrace();
+                    }
+                });
     }
 
     private void finishActivity(final ArrayList<Board> arrayList) {

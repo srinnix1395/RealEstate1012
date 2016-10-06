@@ -337,4 +337,24 @@ public class ProcessJson {
         }
         return arrayListFavoriteHouse;
     }
+
+    public static ArrayList<FavoriteHouse> getListFavoriteHouse(JSONObject response, ArrayList<Board> boardArrayList) throws JSONException {
+        ArrayList<CompactHouse> houseArrayList = getListCompactHouse(response);
+
+        ArrayList<FavoriteHouse> arrayListFavoriteHouse = new ArrayList<>();
+        for (Board board : boardArrayList) {
+            if (houseArrayList.size() == 0) {
+                break;
+            } else if (board.getListHouse().size() > 0) {
+                for (int i = houseArrayList.size() - 1; i >= 0; i--) {
+                    if (board.getListHouse().contains(houseArrayList.get(i).getId())) {
+                        arrayListFavoriteHouse.add(new FavoriteHouse(houseArrayList.get(i), board.getId()));
+                        houseArrayList.remove(i);
+                    }
+                }
+            }
+        }
+        return arrayListFavoriteHouse;
+    }
+
 }

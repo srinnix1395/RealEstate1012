@@ -207,7 +207,7 @@ public class LoginPasswordFragment extends Fragment {
                 @Override
                 public ArrayList<Board> call() throws Exception {
                     ArrayList<Board> boardArrayList = ProcessJson.getListBoard(response);
-                    ArrayList<FavoriteHouse> houseArrayList = ProcessJson.getListFavoriteHouse(response);
+                    ArrayList<FavoriteHouse> houseArrayList = ProcessJson.getListFavoriteHouse(response, boardArrayList);
                     ArrayList<ItemSavedSearch> searchArrayList = ProcessJson.getListItemSearch(response);
 
                     DatabaseHelper database = DatabaseHelper.getInstance(getContext());
