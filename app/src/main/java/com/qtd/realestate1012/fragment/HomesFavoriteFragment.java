@@ -89,17 +89,13 @@ public class HomesFavoriteFragment extends Fragment {
         itemAnimator.setAddDuration(1000);
         recyclerView.setItemAnimator(itemAnimator);
 
-        refreshLayout.setColorSchemeResources(R.color.colorPrimary);
+        refreshLayout.setColorSchemeResources(R.color.colorPrimary, R.color.colorPrimaryDark);
         refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 refreshData();
             }
         });
-
-        if (!HousieApplication.getInstance().getSharedPreUtils().getBoolean(AppConstant.USER_LOGGED_IN, false)) {
-            refreshLayout.setEnabled(false);
-        }
     }
 
     private void initData() {
@@ -123,13 +119,18 @@ public class HomesFavoriteFragment extends Fragment {
                 refreshLayout.setRefreshing(true);
             }
             if (!ServiceUtils.isNetworkAvailable(getContext())) {
-                if (getUserVisibleHint()) {
+                if (getParentFragment().isVisible() && getUserVisibleHint()) {
                     AlertUtils.showSnackBarNoInternet(getView());
                 }
                 getDataFromDatabase();
             } else {
                 getDataFromServer();
             }
+        } else {
+            refreshLayout.setRefreshing(false);
+            refreshLayout.setEnabled(false);
+            recyclerView.setVisibility(View.INVISIBLE);
+            layoutNoHouses.setVisibility(View.VISIBLE);
         }
     }
 

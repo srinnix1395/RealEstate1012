@@ -182,20 +182,15 @@ public class HomeFragment extends Fragment {
         Single.fromCallable(new Callable<ArrayList<Object>>() {
             @Override
             public ArrayList<Object> call() throws Exception {
-                JSONObject jsonBoard = new JSONObject();
-
-                if (response.has(ApiConstant.BOARD)) {
-                    jsonBoard = response.getJSONObject(ApiConstant.BOARD);
-
-                    ArrayList<Board> arrayList = ProcessJson.getListBoard(jsonBoard);
+                ArrayList<Board> boardArrayList = ProcessJson.getListBoard(response);
+                if (boardArrayList.size() > 0) {
                     DatabaseHelper databaseHelper = DatabaseHelper.getInstance(getContext());
-                    databaseHelper.syncDataBoard(arrayList);
+                    databaseHelper.syncDataBoard(boardArrayList);
                 }
 
-                return ProcessJson.getArrayListHousesNew(jsonBoard, response.getJSONArray(ApiConstant.LIST_HOUSE));
+                return ProcessJson.getArrayListHousesNew(response, response.getJSONArray(ApiConstant.LIST_HOUSE));
             }
-        })
-                .subscribeOn(Schedulers.io())
+        }).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new SingleSubscriber<ArrayList<Object>>() {
                     @Override

@@ -134,13 +134,6 @@ public class MainActivity extends AppCompatActivity implements ActivityCallback 
         transaction.commit();
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == AppConstant.REQUEST_CODE_SIGN_IN && resultCode == RESULT_OK) {
-            homeFragment.updateData(null);
-        }
-    }
-
     private void showPopUpMenu() {
         PopupMenu popupMenu = new PopupMenu(this, findViewById(R.id.viewAnchor));
 
@@ -196,6 +189,13 @@ public class MainActivity extends AppCompatActivity implements ActivityCallback 
         popupMenu.show();
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == AppConstant.REQUEST_CODE_SIGN_IN && resultCode == RESULT_OK) {
+            homeFragment.updateData(null);
+        }
+    }
+
     private void onClickLogout() {
         if (!ServiceUtils.isNetworkAvailable(this)) {
             Toast.makeText(MainActivity.this, R.string.noInternetConnection, Toast.LENGTH_SHORT).show();
@@ -222,7 +222,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCallback 
     }
 
     @Subscribe
-    public void handleMessageSignOug(MessageSignOutResult message) {
+    public void handleMessageSignOut(MessageSignOutResult message) {
         processLogout(message.result);
     }
 
@@ -238,12 +238,10 @@ public class MainActivity extends AppCompatActivity implements ActivityCallback 
         HousieApplication.getInstance().getSharedPreUtils().removeUserData();
 
 //        home fragment
-        if (homeFragment.isVisible()) {
-            homeFragment.clearUserData();
-        }
+        homeFragment.clearUserData();
 
 //        search fragment
-        if (searchFragment.isVisible()) {
+        if (searchFragment != null && searchFragment.isVisible()) {
             searchFragment.clearUserData();
         }
 

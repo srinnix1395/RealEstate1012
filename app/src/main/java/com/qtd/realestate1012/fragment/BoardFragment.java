@@ -101,13 +101,18 @@ public class BoardFragment extends Fragment {
                 refreshLayout.setRefreshing(true);
             }
             if (!ServiceUtils.isNetworkAvailable(getContext())) {
-                if (getUserVisibleHint()) {
+                if (getParentFragment().isVisible() && getUserVisibleHint()) {
                     AlertUtils.showSnackBarNoInternet(getView());
                 }
                 getDataFromDatabase();
             } else {
                 getDataFromServer();
             }
+        } else {
+            refreshLayout.setRefreshing(false);
+            refreshLayout.setEnabled(false);
+            recyclerView.setVisibility(View.INVISIBLE);
+            layoutNoBoard.setVisibility(View.VISIBLE);
         }
     }
 
@@ -130,10 +135,6 @@ public class BoardFragment extends Fragment {
         RecyclerView.ItemAnimator itemAnimator = new DefaultItemAnimator();
         itemAnimator.setAddDuration(1000);
         recyclerView.setItemAnimator(itemAnimator);
-
-        if (!HousieApplication.getInstance().getSharedPreUtils().getBoolean(AppConstant.USER_LOGGED_IN, false)) {
-            refreshLayout.setEnabled(false);
-        }
     }
 
     private void initData() {

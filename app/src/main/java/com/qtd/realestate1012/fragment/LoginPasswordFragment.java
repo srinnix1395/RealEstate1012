@@ -202,7 +202,7 @@ public class LoginPasswordFragment extends Fragment {
                 response.getString(ApiConstant.EMAIL),
                 response.getString(ApiConstant.PROVIDER));
 
-        if (response.has(ApiConstant.BOARD)) {
+        if (type.equals(ApiConstant.TYPE_LOGIN)) {
             Single.fromCallable(new Callable<ArrayList<Board>>() {
                 @Override
                 public ArrayList<Board> call() throws Exception {
@@ -211,7 +211,7 @@ public class LoginPasswordFragment extends Fragment {
                     ArrayList<ItemSavedSearch> searchArrayList = ProcessJson.getListItemSearch(response);
 
                     DatabaseHelper database = DatabaseHelper.getInstance(getContext());
-                    database.insertData(boardArrayList,houseArrayList,searchArrayList);
+                    database.insertData(boardArrayList, houseArrayList, searchArrayList);
                     return boardArrayList;
                 }
             }).subscribeOn(Schedulers.io())
@@ -227,7 +227,6 @@ public class LoginPasswordFragment extends Fragment {
                             error.printStackTrace();
                         }
                     });
-
         } else {
             finishActivity(null);
         }
@@ -239,7 +238,6 @@ public class LoginPasswordFragment extends Fragment {
         } else {
             AlertUtils.showToastSuccess(view.getContext(), R.drawable.ic_account_checked, R.string.registerSuccess);
         }
-
 
         new Handler().postDelayed(new Runnable() {
             @Override

@@ -97,7 +97,7 @@ public class DialogSignOut extends AlertDialog implements GoogleApiClient.OnConn
     }
 
     private void logoutHousie() {
-        EventBus.getDefault().post(new MessageSignOutResult(mResult));
+        EventBus.getDefault().post(new MessageSignOutResult(ApiConstant.SUCCESS));
     }
 
     private void logoutGoogle() {
@@ -141,9 +141,5 @@ public class DialogSignOut extends AlertDialog implements GoogleApiClient.OnConn
     @Override
     public void onConnectionSuspended(int i) {
         mGoogleApiClient.connect();
-    }
-
-    public String getmResult() {
-        return mResult;
     }
 }

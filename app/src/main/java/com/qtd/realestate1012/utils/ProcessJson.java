@@ -24,6 +24,7 @@ public class ProcessJson {
 
         ArrayList<Object> arrayList = new ArrayList<>();
 
+        //// TODO: 10/7/2016 cho veef laays toan bo ket qua
         for (int i = 0, size = jsonArray.length(); i < 1; i++) {
             try {
                 JSONObject houseType = jsonArray.getJSONObject(i);
@@ -64,25 +65,28 @@ public class ProcessJson {
         ArrayList<Board> arrayList = new ArrayList<>();
         try {
             JSONArray jsonArray = response.getJSONArray(ApiConstant.LIST_BOARD);
-            for (int i = 0, size = jsonArray.length(); i < size; i++) {
-                JSONObject jsonObject = jsonArray.getJSONObject(i);
+            if (jsonArray.length() > 0) {
+                for (int i = 0, size = jsonArray.length(); i < size; i++) {
+                    JSONObject jsonObject = jsonArray.getJSONObject(i);
 
-                String id = jsonObject.getString(ApiConstant._ID);
-                String name = jsonObject.has(ApiConstant.NAME) ? jsonObject.getString(ApiConstant.NAME) : "";
-                String image = jsonObject.has(ApiConstant.FIRST_IMAGE) ? jsonObject.getString(ApiConstant.FIRST_IMAGE) : "";
+                    String id = jsonObject.getString(ApiConstant._ID);
+                    String name = jsonObject.has(ApiConstant.NAME) ? jsonObject.getString(ApiConstant.NAME) : "";
+                    String image = jsonObject.has(ApiConstant.FIRST_IMAGE) ? jsonObject.getString(ApiConstant.FIRST_IMAGE) : "";
 
-                JSONArray listHouse = jsonObject.getJSONArray(ApiConstant.LIST_HOUSE);
+                    JSONArray listHouse = jsonObject.getJSONArray(ApiConstant.LIST_HOUSE);
 
-                ArrayList<String> arrayList1 = new ArrayList<>();
-                for (int j = 0, length = listHouse.length(); j < length; j++) {
-                    arrayList1.add(listHouse.getString(j));
+                    ArrayList<String> arrayList1 = new ArrayList<>();
+                    for (int j = 0, length = listHouse.length(); j < length; j++) {
+                        arrayList1.add(listHouse.getString(j));
+                    }
+
+                    arrayList.add(new Board(id, name, arrayList1, image));
                 }
-
-                arrayList.add(new Board(id, name, arrayList1, image));
             }
         } catch (JSONException e) {
             e.printStackTrace();
         }
+
         return arrayList;
     }
 
@@ -216,9 +220,9 @@ public class ProcessJson {
 
     public static ArrayList<String> getListIdFavoriteHouse(JSONObject jsonBoard) {
         ArrayList<String> arrayList = new ArrayList<>();
-        if (jsonBoard.has(ApiConstant.LIST_BOARD)) {
-            try {
-                JSONArray jsonArray = jsonBoard.getJSONArray(ApiConstant.LIST_BOARD);
+        try {
+            JSONArray jsonArray = jsonBoard.getJSONArray(ApiConstant.LIST_BOARD);
+            if (jsonArray.length() > 0) {
                 for (int i = 0, size = jsonArray.length(); i < size; i++) {
                     JSONArray listHouse = jsonArray.getJSONObject(i).getJSONArray(ApiConstant.LIST_HOUSE);
                     if (listHouse.length() > 0) {
@@ -227,9 +231,9 @@ public class ProcessJson {
                         }
                     }
                 }
-            } catch (JSONException e) {
-                e.printStackTrace();
             }
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
         return arrayList;
     }

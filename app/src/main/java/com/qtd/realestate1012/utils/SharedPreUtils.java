@@ -70,7 +70,6 @@ public class SharedPreUtils {
         editor.remove(ApiConstant._ID);
         editor.remove(ApiConstant.EMAIL);
         editor.remove(ApiConstant.PROVIDER);
-        editor.remove(ApiConstant.LIST_BOARD);
 
         editor.apply();
     }

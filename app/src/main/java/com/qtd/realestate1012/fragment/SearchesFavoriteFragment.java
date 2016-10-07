@@ -104,13 +104,18 @@ public class SearchesFavoriteFragment extends Fragment {
                 refreshLayout.setRefreshing(true);
             }
             if (!ServiceUtils.isNetworkAvailable(getContext())) {
-                if (getUserVisibleHint()) {
+                if (getParentFragment().isVisible() && getUserVisibleHint()) {
                     AlertUtils.showSnackBarNoInternet(getView());
                 }
                 getDataFromDatabase();
             } else {
                 getDataFromServer();
             }
+        } else {
+            refreshLayout.setRefreshing(false);
+            refreshLayout.setEnabled(false);
+            recyclerView.setVisibility(View.INVISIBLE);
+            layoutNoSearches.setVisibility(View.VISIBLE);
         }
     }
 
@@ -142,10 +147,6 @@ public class SearchesFavoriteFragment extends Fragment {
         itemAnimator.setAddDuration(1000);
         itemAnimator.setRemoveDuration(1000);
         recyclerView.setItemAnimator(itemAnimator);
-
-        if (!HousieApplication.getInstance().getSharedPreUtils().getBoolean(AppConstant.USER_LOGGED_IN, false)) {
-            refreshLayout.setEnabled(false);
-        }
     }
 
     private void initData() {
@@ -287,21 +288,6 @@ public class SearchesFavoriteFragment extends Fragment {
         }
     }
 
-    public void clearUserData() {
-        int size = arrayList.size();
-        arrayList.clear();
-        adapter.notifyItemRangeRemoved(0, size);
-        refreshLayout.setEnabled(false);
-
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                recyclerView.setVisibility(View.INVISIBLE);
-                layoutNoSearches.setVisibility(View.VISIBLE);
-            }
-        }, 1000);
-    }
-
     @Subscribe
     public void handleMessageRemoveSaveSearch(MessageRemoveSavedSearch message) {
         final int position = message.position;
@@ -353,5 +339,20 @@ public class SearchesFavoriteFragment extends Fragment {
         });
 
         HousieApplication.getInstance().addToRequestQueue(requestRemove);
+    }
+
+    public void clearUserData() {
+        int size = arrayList.size();
+        arrayList.clear();
+        adapter.notifyItemRangeRemoved(0, size);
+        refreshLayout.setEnabled(false);
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                recyclerView.setVisibility(View.INVISIBLE);
+                layoutNoSearches.setVisibility(View.VISIBLE);
+            }
+        }, 1000);
     }
 }

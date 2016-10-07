@@ -453,6 +453,7 @@ public class DatabaseHelper {
             contentValues.put(ApiConstant.NUMBER_OF_ROOMS, item.getNumberOfRooms());
             contentValues.put(ApiConstant.AREA_FROM, item.getAreaFrom());
             contentValues.put(ApiConstant.AREA_TO, item.getAreaTo());
+            contentValues.put(ApiConstant.PROPERTY_TYPE, item.getPropertyType());
 
             mDatabase.insertOrThrow(TABLE_SAVED_SEARCH, null, contentValues);
 
@@ -593,6 +594,7 @@ public class DatabaseHelper {
                     contentValues.put(ApiConstant.NUMBER_OF_ROOMS, item.getNumberOfRooms());
                     contentValues.put(ApiConstant.AREA_FROM, item.getAreaFrom());
                     contentValues.put(ApiConstant.AREA_TO, item.getAreaTo());
+                    contentValues.put(ApiConstant.PROPERTY_TYPE, item.getPropertyType());
 
                     mDatabase.insertOrThrow(TABLE_SAVED_SEARCH, null, contentValues);
                 }
@@ -661,6 +663,7 @@ public class DatabaseHelper {
                 contentValues.put(ApiConstant.NUMBER_OF_ROOMS, item.getNumberOfRooms());
                 contentValues.put(ApiConstant.AREA_FROM, item.getAreaFrom());
                 contentValues.put(ApiConstant.AREA_TO, item.getAreaTo());
+                contentValues.put(ApiConstant.PROPERTY_TYPE, item.getPropertyType());
 
                 mDatabase.insertOrThrow(TABLE_SAVED_SEARCH, null, contentValues);
             }
