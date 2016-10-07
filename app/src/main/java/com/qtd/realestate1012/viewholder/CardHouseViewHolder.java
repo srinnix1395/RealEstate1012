@@ -14,6 +14,7 @@ import com.qtd.realestate1012.constant.ApiConstant;
 import com.qtd.realestate1012.custom.RippleView;
 import com.qtd.realestate1012.messageevent.MessageClickImvHeartOnCardHouseViewHolder;
 import com.qtd.realestate1012.model.CompactHouse;
+import com.qtd.realestate1012.utils.UiUtils;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -46,6 +47,7 @@ public class CardHouseViewHolder extends RecyclerView.ViewHolder implements Ripp
     RippleView rippleView;
 
     private String id;
+    private boolean isClickHeart;
 
     public CardHouseViewHolder(View itemView) {
         super(itemView);
@@ -54,6 +56,12 @@ public class CardHouseViewHolder extends RecyclerView.ViewHolder implements Ripp
     }
 
     private void initViews() {
+        itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                isClickHeart = false;
+            }
+        });
         rippleView.setOnRippleCompleteListener(this);
     }
 
@@ -80,11 +88,17 @@ public class CardHouseViewHolder extends RecyclerView.ViewHolder implements Ripp
 
     @OnClick(R.id.imvHeart)
     void onClick() {
-        EventBus.getDefault().post(new MessageClickImvHeartOnCardHouseViewHolder(id));
+        isClickHeart = true;
+        rippleView.animateRipple(imvHeart.getLeft() + imvHeart.getWidth() / 2, imvHeart.getTop() + UiUtils.convertPixelsToDp(itemView.getContext(), 10) + imvHeart.getHeight() / 2);
     }
 
     @Override
     public void onComplete(RippleView rippleView) {
+        if (isClickHeart) {
+            EventBus.getDefault().post(new MessageClickImvHeartOnCardHouseViewHolder(id));
+            return;
+        }
+
         Intent intent = new Intent(itemView.getContext(), HouseDetailActivity.class);
         intent.putExtra(ApiConstant._ID, id);
         itemView.getContext().startActivity(intent);

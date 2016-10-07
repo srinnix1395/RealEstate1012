@@ -150,6 +150,8 @@ public class ListHouseFragment extends Fragment {
             Toast.makeText(getContext(), R.string.noInternetConnection, Toast.LENGTH_SHORT).show();
             progressBar.setEnabled(false);
             progressBar.setVisibility(View.INVISIBLE);
+            tvError.setText(R.string.noInternetConnection);
+            tvError.setVisibility(View.VISIBLE);
             return;
         }
 
