@@ -226,6 +226,7 @@ public class SearchFragment extends Fragment implements OnMapReadyCallback {
             locationButton = ((View) supportMapFragment.getView().findViewById(Integer.parseInt("1")).getParent()).findViewById(Integer.parseInt("2"));
             locationButton.setVisibility(View.INVISIBLE);
         }
+
         requestData();
     }
 
@@ -324,7 +325,7 @@ public class SearchFragment extends Fragment implements OnMapReadyCallback {
 
                 FragmentTransaction transaction = getFragmentManager().beginTransaction();
                 transaction.remove(listHouseFragment);
-                listHouseFragment.onDestroy();
+                listHouseFragment.onDestroyView();
                 transaction.show(supportMapFragment);
                 transaction.commit();
 
@@ -393,6 +394,14 @@ public class SearchFragment extends Fragment implements OnMapReadyCallback {
                     }
                     case R.id.radioHospital: {
                         mapManager.requestLocationNearbyPlace(ApiConstant.API_PLACE_TYPE_HOSPITAL);
+                        break;
+                    }
+                    case R.id.radioPark:{
+                        mapManager.requestLocationNearbyPlace(ApiConstant.API_PLACE_TYPE_PARK);
+                        break;
+                    }
+                    case R.id.radioBank:{
+                        mapManager.requestLocationNearbyPlace(ApiConstant.API_PLACE_TYPE_BANK);
                         break;
                     }
                 }

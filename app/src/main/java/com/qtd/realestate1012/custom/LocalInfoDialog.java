@@ -66,7 +66,7 @@ public class LocalInfoDialog extends Dialog {
         }
     }
 
-    @OnClick({R.id.radioAmenities, R.id.radioSchools, R.id.radioSatellite, R.id.radioHospital})
+    @OnClick({R.id.radioPark, R.id.radioBank, R.id.radioRestaurant, R.id.radioSchools, R.id.radioSatellite, R.id.radioHospital})
     void onClick(View view) {
         switch (view.getId()) {
             case R.id.radioSatellite: {

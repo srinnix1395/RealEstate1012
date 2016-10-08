@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="15dp">
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:orientation="vertical"
+              android:padding="@dimen/activity_horizontal_margin">
 
     <TextView
         style="?android:attr/textAppearanceMedium"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/localInfoDialog"
-        android:textColor="@color/colorDarkGray" />
+        android:textColor="@color/colorDarkGray"/>
 
     <RadioGroup
         android:id="@+id/radioGroup"
@@ -19,40 +19,70 @@
         android:layout_marginTop="10dp">
 
         <RadioButton
-            android:id="@+id/radioAmenities"
-            style="?android:attr/textAppearanceMedium"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="15dp"
-            android:text="@string/amenities"
-            android:textColor="@color/colorDarkGray" />
-
-        <RadioButton
             android:id="@+id/radioHospital"
             style="?android:attr/textAppearanceMedium"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="15dp"
+            android:padding="10dp"
             android:text="@string/hospitals"
-            android:textColor="@color/colorDarkGray" />
+            android:textColor="@color/colorDarkGray"
+            android:textSize="16sp"/>
 
         <RadioButton
             android:id="@+id/radioSchools"
             style="?android:attr/textAppearanceMedium"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="15dp"
+            android:padding="10dp"
             android:text="@string/schools"
-            android:textColor="@color/colorDarkGray" />
+            android:textColor="@color/colorDarkGray"
+            android:textSize="16sp"/>
 
+        <RadioButton
+            android:id="@+id/radioPark"
+            style="?android:attr/textAppearanceMedium"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:text="@string/park"
+            android:textColor="@color/colorDarkGray"
+            android:textSize="16sp"/>
+
+        <RadioButton
+            android:id="@+id/radioBank"
+            style="?android:attr/textAppearanceMedium"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:text="@string/bank"
+            android:textColor="@color/colorDarkGray"
+            android:textSize="16sp"/>
+
+        <RadioButton
+            android:id="@+id/radioRestaurant"
+            style="?android:attr/textAppearanceMedium"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:text="@string/restaurant"
+            android:textColor="@color/colorDarkGray"
+            android:textSize="16sp"/>
     </RadioGroup>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_marginEnd="5dp"
+        android:layout_marginStart="5dp"
+        android:background="@color/colorDarkGray"/>
 
     <RadioButton
         android:id="@+id/radioSatellite"
         style="?android:attr/textAppearanceMedium"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="15dp"
+        android:padding="10dp"
         android:text="@string/satellite"
-        android:textColor="@color/colorDarkGray" />
+        android:textColor="@color/colorDarkGray"
+        android:textSize="16sp"/>
 </LinearLayout>

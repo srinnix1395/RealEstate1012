@@ -26,9 +26,8 @@
     <string name="pleaseCheckYourConnection">Hãy kiểm tra lại kết nối Internet</string>
     <string name="pleaseEnableLocationService">Hãy kích hoạt dịch vụ vị trí.</string>
     <string name="localInfoDialog">Thông tin về khu vực</string>
-    <string name="amenities">Các tiện ích</string>
     <string name="satellite">Chế độ vệ tinh</string>
-    <string name="schools">Các trường học</string>
+    <string name="schools">Trường học</string>
     <string name="noInternetConnection">Không có kết nối internet</string>
     <string name="currency">VNĐ</string>
     <string name="errorConnection">Đã có lỗi trong quá trình kêt nối, xin thử lại</string>
@@ -37,7 +36,7 @@
     <string name="boards">Nhóm</string>
     <string name="homes">Nhà</string>
     <string name="searches">Các tìm kiếm</string>
-    <string name="hospitals">Các bệnh viện</string>
+    <string name="hospitals">Bệnh viện</string>
     <string name="houses">" ngôi nhà"</string>
     <string name="loginOrRegister">Đăng nhập hoặc\n đăng ký một tài khoản</string>
     <string name="register">Đăng ký</string>
@@ -156,5 +155,8 @@
     <string name="newHome">Một ngôi nhà vừa đăng phù hợp với tìm kiếm của bạn</string>
     <string name="homeUnsaved">Nhà đã được xóa</string>
     <string name="result">Kết quả</string>
+    <string name="park">Công viên</string>
+    <string name="bank">Ngân hàng</string>
+    <string name="restaurant">Nhà hàng</string>
 
 </resources>

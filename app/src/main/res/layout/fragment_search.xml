@@ -26,35 +26,6 @@
                 android:padding="5dp"
                 tools:targetApi="lollipop">
 
-                <!--animation-->
-
-                <!--<FrameLayout-->
-                <!--android:layout_width="0dp"-->
-                <!--android:layout_height="match_parent"-->
-                <!--android:layout_marginBottom="4dp"-->
-                <!--android:layout_weight="8">-->
-
-                <!--<TextView-->
-                <!--android:id="@+id/tvSearchAddress"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_gravity="bottom"-->
-                <!--android:layout_marginBottom="3dp"-->
-                <!--android:layout_marginStart="3dp"-->
-                <!--android:gravity="center_vertical"-->
-                <!--android:text="@string/searchAddress"-->
-                <!--android:textColor="@android:color/white"-->
-                <!--android:textSize="16sp"/>-->
-
-                <!--<View-->
-                <!--android:id="@+id/viewLine"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="1dp"-->
-                <!--android:layout_gravity="bottom"-->
-                <!--android:background="@android:color/white"/>-->
-
-                <!--</FrameLayout>-->
-
                 <EditText
                     android:id="@+id/etSearch"
                     android:layout_width="0dp"

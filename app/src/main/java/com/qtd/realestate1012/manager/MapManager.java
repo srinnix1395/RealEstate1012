@@ -156,6 +156,18 @@ public class MapManager implements GoogleMap.OnMarkerClickListener, GoogleMap.On
                 markerType = R.drawable.drawable_marker_hospital;
                 break;
             }
+            case ApiConstant.API_PLACE_TYPE_PARK:{
+                markerType = R.drawable.drawable_marker_park;
+                break;
+            }
+            case ApiConstant.API_PLACE_TYPE_BANK:{
+                markerType = R.drawable.drawable_marker_bank;
+                break;
+            }
+            case ApiConstant.API_PLACE_TYPE_RESTAURANT:{
+                markerType = R.drawable.drawable_marker_restaurant;
+                break;
+            }
         }
         for (Place place : arrayLocationNearby) {
             arrayLocationNearByMarker.add(drawLocationNearByMarker(place, markerType));
@@ -183,8 +195,8 @@ public class MapManager implements GoogleMap.OnMarkerClickListener, GoogleMap.On
         return map.getMapType();
     }
 
-    public void setMapType(int mapTypeSatellite) {
-        map.setMapType(mapTypeSatellite);
+    public void setMapType(int mapType) {
+        map.setMapType(mapType);
     }
 
 

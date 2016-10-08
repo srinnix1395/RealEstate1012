@@ -115,20 +115,19 @@ public class ApiConstant {
     public static final String API_MAP_GEO_CODE = "https://maps.googleapis.com/maps/api/geocode/json?lat&key=";
 
     public static final String API_KEY = "AIzaSyAXKdlSDdIttYHwoyC2Ss_BqQa1HETpbBs";
-    public static final String API_PLACE_TYPE_SCHOOL = "school";
-    public static final int DEFAULT_RADIUS = 1750;
-    public static final String API_PLACE_STATUS_SUCCESS = "OK";
-    public static final String API_PLACE_STATUS_FAILED = "REQUEST_DENIED";
-    public static final String API_PLACE_STATUS = "status";
+    public static final int DEFAULT_RADIUS = 1500;
     public static final String API_PLACE_KEY_RESULTS = "results";
     public static final String API_PLACE_GEOMETRY = "geometry";
     public static final String API_PLACE_LOCATION = "location";
     public static final String API_PLACE_LATITUDE = "lat";
     public static final String API_PLACE_LONGITUDE = "lng";
     public static final String API_PLACE_PLACE_ID = "place_id";
-    public static final String API_PLACE_DATA = "data";
-    public static final String API_PLACE_KEY_TYPE = "type";
     public static final String API_PLACE_TYPE_HOSPITAL = "hospital";
+    public static final String API_PLACE_TYPE_SCHOOL = "school";
+    public static final String API_PLACE_TYPE_RESTAURANT = "restaurant";
+    public static final String API_PLACE_TYPE_PARK = "park";
+    public static final String API_PLACE_TYPE_BANK= "bank";
+
     public static final String API_PLACES_TYPES = "types";
 
     public static final String NEXT_PAGE_TOKEN = "next_page_token";

@@ -10,7 +10,7 @@
         android:top="7dp"/>
     <item
         android:bottom="8dp"
-        android:drawable="@drawable/ic_school"
+        android:drawable="@drawable/ic_food"
         android:gravity="center|top"
         android:left="8dp"
         android:right="8dp"
