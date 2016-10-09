@@ -55,10 +55,15 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.concurrent.Callable;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import rx.Single;
+import rx.SingleSubscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by Dell on 7/30/2016.
@@ -396,12 +401,16 @@ public class SearchFragment extends Fragment implements OnMapReadyCallback {
                         mapManager.requestLocationNearbyPlace(ApiConstant.API_PLACE_TYPE_HOSPITAL);
                         break;
                     }
-                    case R.id.radioPark:{
+                    case R.id.radioPark: {
                         mapManager.requestLocationNearbyPlace(ApiConstant.API_PLACE_TYPE_PARK);
                         break;
                     }
-                    case R.id.radioBank:{
+                    case R.id.radioBank: {
                         mapManager.requestLocationNearbyPlace(ApiConstant.API_PLACE_TYPE_BANK);
+                        break;
+                    }
+                    case R.id.radioRestaurant: {
+                        mapManager.requestLocationNearbyPlace(ApiConstant.API_PLACE_TYPE_RESTAURANT);
                         break;
                     }
                 }
@@ -446,14 +455,30 @@ public class SearchFragment extends Fragment implements OnMapReadyCallback {
     }
 
     @Subscribe
-    public void handleRequestLocationNearBy(MessageDataLocationNearBy message) {
+    public void handleRequestLocationNearBy(final MessageDataLocationNearBy message) {
         if (message.result != null) {
             switch (message.result) {
                 case ApiConstant.SUCCESS: {
-                    ArrayList<Place> arrayLocationNearby = PlaceManager.getLocationNearBy(message.data);
-                    mapManager.showLocationNearByMarker(message.placeType, arrayLocationNearby);
-                    tvInfoType.setText(message.placeType);
-                    layoutLocalInfo.setVisibility(View.VISIBLE);
+                    Single.fromCallable(new Callable<ArrayList<Place>>() {
+                        @Override
+                        public ArrayList<Place> call() throws Exception {
+                            return PlaceManager.getLocationNearBy(message.data);
+                        }
+                    }).subscribeOn(Schedulers.io())
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribe(new SingleSubscriber<ArrayList<Place>>() {
+                                @Override
+                                public void onSuccess(ArrayList<Place> value) {
+                                    mapManager.showLocationNearByMarker(message.placeType, value);
+                                    tvInfoType.setText(message.placeType);
+                                    layoutLocalInfo.setVisibility(View.VISIBLE);
+                                }
+
+                                @Override
+                                public void onError(Throwable error) {
+                                    error.printStackTrace();
+                                }
+                            });
                     break;
                 }
                 case ApiConstant.FAILED: {

@@ -126,7 +126,7 @@ public class MapManager implements GoogleMap.OnMarkerClickListener, GoogleMap.On
         markerOptions.snippet(house.toString());
         markerOptions.position(new LatLng(house.getDouble(ApiConstant.LATITUDE), house.getDouble(ApiConstant.LONGITUDE)));
 
-        MarkerInfoHouse view = new MarkerInfoHouse(context, house.getInt(ApiConstant.PRICE));
+        MarkerInfoHouse view = new MarkerInfoHouse(context, house.getString(ApiConstant.STATUS), house.getInt(ApiConstant.PRICE));
         markerOptions.icon(BitmapDescriptorFactory.fromBitmap(UiUtils.getBitmapFromView(view)));
         return map.addMarker(markerOptions);
     }
@@ -156,15 +156,15 @@ public class MapManager implements GoogleMap.OnMarkerClickListener, GoogleMap.On
                 markerType = R.drawable.drawable_marker_hospital;
                 break;
             }
-            case ApiConstant.API_PLACE_TYPE_PARK:{
+            case ApiConstant.API_PLACE_TYPE_PARK: {
                 markerType = R.drawable.drawable_marker_park;
                 break;
             }
-            case ApiConstant.API_PLACE_TYPE_BANK:{
+            case ApiConstant.API_PLACE_TYPE_BANK: {
                 markerType = R.drawable.drawable_marker_bank;
                 break;
             }
-            case ApiConstant.API_PLACE_TYPE_RESTAURANT:{
+            case ApiConstant.API_PLACE_TYPE_RESTAURANT: {
                 markerType = R.drawable.drawable_marker_restaurant;
                 break;
             }

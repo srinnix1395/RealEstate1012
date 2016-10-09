@@ -130,4 +130,11 @@
         <item>Đất nền</item>
     </string-array>
     <!--array property type-->
+
+
+    <!--array city-->
+    <string-array name="cities_array">
+        <item>Hà Nội</item>
+    </string-array>
+    <!--array city-->
 </resources>

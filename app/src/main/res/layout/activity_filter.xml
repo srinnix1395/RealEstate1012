@@ -53,17 +53,17 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="30dp">
 
                 <FrameLayout
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_weight="3">
 
                     <android.support.v7.widget.AppCompatSpinner
                         android:id="@+id/spinnerPriceFrom"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:entries="@array/price_range_from_sale"/>
 
                     <View
@@ -85,13 +85,13 @@
 
                 <FrameLayout
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_weight="3">
 
                     <android.support.v7.widget.AppCompatSpinner
                         android:id="@+id/spinnerPriceTo"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:entries="@array/price_range_to_sale"/>
 
                     <View
@@ -180,17 +180,17 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="30dp">
 
                 <FrameLayout
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_weight="3">
 
                     <android.support.v7.widget.AppCompatSpinner
                         android:id="@+id/spinnerAreaFrom"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:entries="@array/area_from"/>
 
                     <View
@@ -212,13 +212,13 @@
 
                 <FrameLayout
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_weight="3">
 
                     <android.support.v7.widget.AppCompatSpinner
                         android:id="@+id/spinnerAreaTo"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:entries="@array/area_to"/>
 
                     <View

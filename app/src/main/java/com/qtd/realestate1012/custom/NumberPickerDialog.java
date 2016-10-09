@@ -43,11 +43,11 @@ public class NumberPickerDialog extends Dialog {
     private void initData() {
         switch (type) {
             case AppConstant.TYPE_PICKER_AREA: {
-                numberPicker.setValue(20);
+                numberPicker.setMinValue(10);
                 break;
             }
             case AppConstant.TYPE_PICKER_NUMBER_OF_ROOM: {
-                numberPicker.setValue(0);
+                numberPicker.setMinValue(1);
                 break;
             }
         }

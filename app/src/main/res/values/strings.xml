@@ -158,5 +158,6 @@
     <string name="park">Công viên</string>
     <string name="bank">Ngân hàng</string>
     <string name="restaurant">Nhà hàng</string>
+    <string name="detailAddress">Địa chỉ chi tiết</string>
 
 </resources>

@@ -2,11 +2,11 @@
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:drawable="@drawable/ic_marker"/>
     <item
-        android:bottom="14dp"
+        android:bottom="20dp"
         android:drawable="@drawable/ic_background_marker"
         android:gravity="center|top"
-        android:left="10dp"
-        android:right="10dp"
+        android:left="15dp"
+        android:right="15dp"
         android:top="7dp"/>
     <item
         android:bottom="8dp"
@@ -14,5 +14,5 @@
         android:gravity="center|top"
         android:left="8dp"
         android:right="8dp"
-        android:top="4.5dp"/>
+        android:top="7dp"/>
 </layer-list>

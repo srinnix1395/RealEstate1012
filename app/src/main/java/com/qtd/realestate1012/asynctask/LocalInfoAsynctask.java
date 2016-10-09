@@ -40,6 +40,10 @@ public class LocalInfoAsyncTask extends AsyncTask<String, Void, JSONArray> {
                     jsonArray = PlaceManager.getPlace(ApiConstant.API_PLACE_TYPE_BANK, latitude, longitude);
                     break;
                 }
+                case ApiConstant.API_PLACE_TYPE_RESTAURANT:{
+                    jsonArray = PlaceManager.getPlace(ApiConstant.API_PLACE_TYPE_RESTAURANT, latitude, longitude);
+                    break;
+                }
 
             }
         } catch (Exception e) {

@@ -5,6 +5,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.qtd.realestate1012.R;
+import com.qtd.realestate1012.constant.ApiConstant;
 
 import java.util.Locale;
 
@@ -18,9 +19,13 @@ public class MarkerInfoHouse extends RelativeLayout {
     @BindView(R.id.tvPrice)
     TextView tvPrice;
 
-    public MarkerInfoHouse(Context context, int price) {
+    public MarkerInfoHouse(Context context, String status,int price) {
         super(context);
-        inflate(context, R.layout.view_marker_info_house, this);
+        if (status.equals(ApiConstant.SALE)) {
+            inflate(context, R.layout.view_marker_info_house_sale, this);
+        } else {
+            inflate(context, R.layout.view_marker_info_house_rent, this);
+        }
         ButterKnife.bind(this);
         tvPrice.setText(String.format(Locale.getDefault(), "%,d %s", price, getContext().getString(R.string.currency)));
     }

@@ -376,6 +376,7 @@ public class HouseDetailActivity extends AppCompatActivity implements ViewTreeOb
 
     private void openMapActivity(int mapType) {
         Intent intent = new Intent(this, MapViewActivity.class);
+        intent.putExtra(ApiConstant.STATUS, fullHouse.getStatus());
         intent.putExtra(ApiConstant.LATITUDE, Double.parseDouble(fullHouse.getLat()));
         intent.putExtra(ApiConstant.LONGITUDE, Double.parseDouble(fullHouse.getLng()));
         intent.putExtra(ApiConstant.PRICE, fullHouse.getPrice());

@@ -109,7 +109,6 @@ public class BoardDetailActivity extends AppCompatActivity {
                     @Override
                     public void onError(Throwable error) {
                         error.printStackTrace();
-                        Log.e("Board detail", "onError: Đã có lỗi khi lấy dữ liệu từ database");
                         progressBar.setEnabled(false);
                         progressBar.setVisibility(View.INVISIBLE);
                     }

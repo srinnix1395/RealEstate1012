@@ -37,6 +37,7 @@ public class MapViewActivity extends AppCompatActivity implements OnMapReadyCall
     private Marker myPosition;
     private int price;
     private int mapType;
+    private String status;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -51,6 +52,7 @@ public class MapViewActivity extends AppCompatActivity implements OnMapReadyCall
         Intent intent = getIntent();
 
         if (intent != null) {
+            status = intent.getStringExtra(ApiConstant.STATUS);
             latLng = new LatLng(intent.getDoubleExtra(ApiConstant.LATITUDE, 0), intent.getDoubleExtra(ApiConstant.LONGITUDE, 0));
             price = intent.getIntExtra(ApiConstant.PRICE, 0);
             mapType = intent.getIntExtra(ApiConstant.MAP_TYPE, GoogleMap.MAP_TYPE_NORMAL);
@@ -89,7 +91,7 @@ public class MapViewActivity extends AppCompatActivity implements OnMapReadyCall
 
         MarkerOptions markerOptions = new MarkerOptions();
         markerOptions.position(latLng);
-        View view = new MarkerInfoHouse(this, price);
+        View view = new MarkerInfoHouse(this, status, price);
         markerOptions.icon(BitmapDescriptorFactory.fromBitmap(UiUtils.getBitmapFromView(view)));
 
         myPosition = map.addMarker(markerOptions);

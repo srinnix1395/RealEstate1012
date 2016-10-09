@@ -10,8 +10,10 @@ import com.qtd.realestate1012.constant.ApiConstant;
 import com.qtd.realestate1012.model.Board;
 import com.qtd.realestate1012.model.BoardHasHeart;
 import com.qtd.realestate1012.model.CompactHouse;
+import com.qtd.realestate1012.model.District;
 import com.qtd.realestate1012.model.FavoriteHouse;
 import com.qtd.realestate1012.model.ItemSavedSearch;
+import com.qtd.realestate1012.model.Street;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -29,6 +31,8 @@ public class DatabaseHelper {
     public static final String TABLE_BOARD = "tblBoard";
     public static final String TABLE_HOUSE_FAVORITE = "tblHouseFavorite";
     public static final String TABLE_SAVED_SEARCH = "tblSavedSearch";
+    public static final String TABLE_STREET = "tblStreet";
+    public static final String TABLE_DISTRICT = "tblDistrict";
 
     public static final String _ID = "_ID";
     public static final String NAME = "Name";
@@ -42,6 +46,8 @@ public class DatabaseHelper {
     public static final String CITY = "City";
     public static final String PRICE = "Price";
     public static final String _ID_BOARD = "_ID_Board";
+
+    public static final String _ID_DISTRICT = "_ID_DISTRICT";
 
     private Context mContext;
     private SQLiteDatabase mDatabase;
@@ -675,5 +681,59 @@ public class DatabaseHelper {
             mDatabase.endTransaction();
             closeDatabase();
         }
+    }
+
+    public ArrayList<District> getListDistrict() {
+        District district;
+        ArrayList<District> listDistrict = new ArrayList<>();
+
+        try {
+            openDatabase();
+            Cursor cursor = mDatabase.query(TABLE_DISTRICT, new String[]{
+                    _ID_DISTRICT,
+                    NAME
+            }, null, null, null, null, null);
+
+            while (cursor.moveToNext()) {
+                district = new District(cursor.getInt(0), cursor.getString(1));
+                listDistrict.add(district);
+                cursor.moveToNext();
+            }
+            cursor.close();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            closeDatabase();
+        }
+        return listDistrict;
+    }
+
+    public ArrayList<Street> getListStreet() {
+        Street street;
+        ArrayList<Street> listStreet = new ArrayList<>();
+
+        try {
+            openDatabase();
+
+            Cursor cursor = mDatabase.query(TABLE_STREET, new String[]{
+                    _ID,
+                    _ID_DISTRICT,
+                    NAME
+            }, null, null, null, null, null);
+
+            while (cursor.moveToNext()) {
+                street = new Street(cursor.getInt(0), cursor.getInt(1), cursor.getString(2));
+                listStreet.add(street);
+                cursor.moveToNext();
+            }
+            cursor.close();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            closeDatabase();
+        }
+        return listStreet;
     }
 }

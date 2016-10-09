@@ -92,16 +92,15 @@ public class PlaceManager {
                 JSONArray arrayResult = jsonArray.getJSONObject(j).getJSONArray(ApiConstant.API_PLACE_KEY_RESULTS);
                 for (int i = 0, size = arrayResult.length(); i < size; i++) {
                     JSONObject place = arrayResult.getJSONObject(i);
-                    if (place.getJSONArray(ApiConstant.API_PLACES_TYPES).length() == 3) {
-                        JSONObject location = place.getJSONObject(ApiConstant.API_PLACE_GEOMETRY).getJSONObject(ApiConstant.API_PLACE_LOCATION);
 
-                        String placeID = place.getString(ApiConstant.API_PLACE_PLACE_ID);
-                        String name = place.getString(ApiConstant.NAME);
-                        String address = place.getString(ApiConstant.VICINITY);
-                        double latitude = location.getDouble(ApiConstant.API_PLACE_LATITUDE);
-                        double longitude = location.getDouble(ApiConstant.API_PLACE_LONGITUDE);
-                        arrayList.add(new Place(placeID, name, address, latitude, longitude));
-                    }
+                    JSONObject location = place.getJSONObject(ApiConstant.API_PLACE_GEOMETRY).getJSONObject(ApiConstant.API_PLACE_LOCATION);
+
+                    String placeID = place.getString(ApiConstant.API_PLACE_PLACE_ID);
+                    String name = place.getString(ApiConstant.NAME);
+                    String address = place.getString(ApiConstant.VICINITY);
+                    double latitude = location.getDouble(ApiConstant.API_PLACE_LATITUDE);
+                    double longitude = location.getDouble(ApiConstant.API_PLACE_LONGITUDE);
+                    arrayList.add(new Place(placeID, name, address, latitude, longitude));
                 }
             }
 
