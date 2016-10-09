@@ -373,6 +373,11 @@ public class PostActivity extends AppCompatActivity implements GeoCoderCallback 
 
 
     private boolean validateData() {
+        if (tvProperty.getText().toString().isEmpty() || tvArea.getText().toString().isEmpty()
+                || etDetailAddress.getText().toString().isEmpty() || tvNumberOfRoom.getText().toString().isEmpty()
+                || tvImages.getText().toString().isEmpty() || etDescription.getText().toString().isEmpty()) {
+            return false;
+        }
 
         return true;
     }
@@ -387,6 +392,13 @@ public class PostActivity extends AppCompatActivity implements GeoCoderCallback 
 
     @OnClick(R.id.tvReset)
     void onClickTvReset() {
-
+        radioSale.performClick();
+        tvProperty.setText("");
+        tvArea.setText("");
+        etDetailAddress.setText("");
+        tvNumberOfRoom.setText("");
+        tvImages.setText("");
+        etDescription.setText("");
+        spinnerDistrict.setSelection(0,true);
     }
 }
