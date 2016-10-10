@@ -12,7 +12,7 @@
         android:layout_height="match_parent"
         android:layout_below="@+id/toolbar"
         android:fillViewport="true"
-        android:paddingBottom="64dp">
+        android:paddingBottom="96dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -171,6 +171,65 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
                 android:layout_marginTop="@dimen/high_margin"
+                android:text="@string/price"
+                android:textColor="@android:color/black"
+                android:textSize="16sp"/>
+
+            <RelativeLayout
+                android:id="@+id/layoutPrice"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/background_tv_search">
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@+id/layout5"
+                    android:layout_marginBottom="9dp">
+
+                    <TextView
+                        android:id="@+id/tvPrice"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="0.5dp"
+                        android:layout_gravity="bottom"
+                        android:background="@color/colorDarkGray"/>
+                </FrameLayout>
+
+
+                <LinearLayout
+                    android:id="@+id/layout5"
+                    android:layout_width="@dimen/defaultSize"
+                    android:layout_height="@dimen/defaultSize"
+                    android:layout_alignParentEnd="true"
+                    android:orientation="horizontal">
+
+                    <View
+                        android:layout_width="0.5dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginBottom="9dp"
+                        android:background="#8a8a8a"/>
+
+                    <ImageView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:paddingBottom="10dp"
+                        android:scaleType="center"
+                        android:src="@drawable/ic_number_of_room"/>
+
+                </LinearLayout>
+            </RelativeLayout>
+
+            <TextView
+                style="?android:attr/textAppearanceSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="@dimen/high_margin"
                 android:text="@string/address"
                 android:textColor="@android:color/black"
                 android:textSize="16sp"/>
@@ -189,8 +248,7 @@
                     <android.support.v7.widget.AppCompatSpinner
                         android:id="@+id/spinnerCity"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:entries="@array/cities_array"/>
+                        android:layout_height="match_parent"/>
 
                     <View
                         android:layout_width="match_parent"
@@ -239,7 +297,7 @@
                     android:layout_weight="3">
 
                     <android.support.v7.widget.AppCompatSpinner
-                        android:id="@+id/spinnerWard"
+                        android:id="@+id/spinnerDistrict"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"/>
 
@@ -288,22 +346,29 @@
                     android:layout_width="130dp"
                     android:layout_height="match_parent"
                     android:layout_marginStart="-5dp"
-                    android:hint="@string/detailAddress"/>
+                    android:hint="@string/detailAddress"
+                    android:textColor="@android:color/black"/>
 
                 <TextView
                     android:id="@+id/tvStreet"
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"/>
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:textColor="@android:color/black"/>
 
                 <TextView
                     android:id="@+id/tvDistrict"
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"/>
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:textColor="@android:color/black"/>
 
                 <TextView
                     android:id="@+id/tvCity"
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"/>
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:textColor="@android:color/black"/>
             </LinearLayout>
 
             <TextView
@@ -439,8 +504,7 @@
             <EditText
                 android:id="@+id/etDescription"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/description"/>
+                android:layout_height="wrap_content"/>
         </LinearLayout>
     </ScrollView>
 

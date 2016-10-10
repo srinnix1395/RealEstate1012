@@ -147,9 +147,8 @@ public class ProfileActivity extends AppCompatActivity implements Toolbar.OnMenu
 
         JSONObject jsonRequest = new JSONObject();
         try {
-//            jsonRequest.put(ApiConstant._ID, HousieApplication.getInstance().getSharedPreUtils()
-//                    .getString(ApiConstant._ID, ""));
-            jsonRequest.put(ApiConstant._ID, "57d6b208f07077132325fed7");
+            jsonRequest.put(ApiConstant._ID, HousieApplication.getInstance().getSharedPreUtils()
+                    .getString(ApiConstant._ID, ""));
         } catch (JSONException e) {
             e.printStackTrace();
         }

@@ -19,6 +19,7 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -73,9 +74,6 @@ public class PostActivity extends AppCompatActivity implements GeoCoderCallback 
     @BindView(R.id.spinnerDistrict)
     AppCompatSpinner spinnerDistrict;
 
-    @BindView(R.id.spinnerWard)
-    AppCompatSpinner spinnerWard;
-
     @BindView(R.id.spinnerStreet)
     AppCompatSpinner spinnerStreet;
 
@@ -106,6 +104,9 @@ public class PostActivity extends AppCompatActivity implements GeoCoderCallback 
     @BindView(R.id.tvCity)
     TextView tvCity;
 
+    @BindView(R.id.layoutPrice)
+    RelativeLayout layoutPrice;
+
     private ArrayList<Image> images;
     ProgressDialog progressDialog;
 
@@ -114,6 +115,7 @@ public class PostActivity extends AppCompatActivity implements GeoCoderCallback 
     private ArrayList<Street> streetArrayList;
     private ArrayAdapter streetAdapter;
     private ArrayList<Street> streetsByDistrict;
+    private ArrayAdapter<CharSequence> cityAdapter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -145,13 +147,18 @@ public class PostActivity extends AppCompatActivity implements GeoCoderCallback 
 
     private void initData() {
         DatabaseHelper myDatabase = DatabaseHelper.getInstance(this);
+        streetsByDistrict = new ArrayList<>();
 
-        streetsByDistrict.clear();
+        cityAdapter = ArrayAdapter.createFromResource(this, R.array.cities_array, R.layout.support_simple_spinner_dropdown_item);
+        spinnerCity.setAdapter(cityAdapter);
+        displayText(", " + cityAdapter.getItem(0).toString(), tvCity);
+
         districtArrayList = myDatabase.getListDistrict();
-        streetArrayList = myDatabase.getListStreet();
         districtAdapter = new ArrayAdapter<>(this, R.layout.support_simple_spinner_dropdown_item, districtArrayList);
         spinnerDistrict.setAdapter(districtAdapter);
         displayText(districtArrayList.get(0).getDistrictName(), tvDistrict);
+
+        streetArrayList = myDatabase.getListStreet();
         getStreetsByDistrict(0);
         streetAdapter = new ArrayAdapter<>(this, R.layout.support_simple_spinner_dropdown_item, streetsByDistrict);
         spinnerStreet.setAdapter(streetAdapter);
@@ -201,7 +208,6 @@ public class PostActivity extends AppCompatActivity implements GeoCoderCallback 
         } else {
             textView.setText("");
         }
-
     }
 
 
@@ -222,6 +228,34 @@ public class PostActivity extends AppCompatActivity implements GeoCoderCallback 
         RadioButton radioAny = (RadioButton) view.findViewById(R.id.radioAny);
         radioAny.setVisibility(View.GONE);
 
+        if (!tvProperty.getText().toString().isEmpty()) {
+            switch (tvProperty.getText().toString()) {
+                case "Nhà riêng": {
+                    radioGroup.check(R.id.radioPrivateHouse);
+                    break;
+                }
+                case "Chung cư": {
+                    radioGroup.check(R.id.radioCondominium);
+                    break;
+                }
+                case "Cửa hàng": {
+                    radioGroup.check(R.id.radioShop);
+                    break;
+                }
+                case "Kho, nhà xưởng": {
+                    radioGroup.check(R.id.radioWarehouse);
+                    break;
+                }
+                case "Khu nghỉ dưỡng":{
+                    radioGroup.check(R.id.radioResort);
+                    break;
+                }
+                case "Đất nền":{
+                    radioGroup.check(R.id.radioLand);
+                    break;
+                }
+            }
+        }
         builder.setPositiveButton(R.string.OK, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
@@ -399,6 +433,20 @@ public class PostActivity extends AppCompatActivity implements GeoCoderCallback 
         tvNumberOfRoom.setText("");
         tvImages.setText("");
         etDescription.setText("");
-        spinnerDistrict.setSelection(0,true);
+        spinnerDistrict.setSelection(0, true);
+    }
+
+    @OnClick(R.id.layoutPrice)
+    void onClickLayoutPrice(){
+        NumberPickerDialog dialog = new NumberPickerDialog(this, AppConstant.TYPE_PICKER_PRICE, new
+                OnDismissDialogCallback() {
+                    @Override
+                    public void onDismissListener(int result, int data) {
+                        if (result == RESULT_OK) {
+                            tvArea.setText(String.format(Locale.getDefault(), "%d %s", data, getString(R.string.room)));
+                        }
+                    }
+                });
+        dialog.show();
     }
 }

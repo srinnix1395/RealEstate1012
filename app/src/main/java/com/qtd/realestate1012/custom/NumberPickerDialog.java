@@ -50,6 +50,10 @@ public class NumberPickerDialog extends Dialog {
                 numberPicker.setMinValue(1);
                 break;
             }
+            case AppConstant.TYPE_PICKER_PRICE:{
+                numberPicker.setMinValue(1000000);
+                break;
+            }
         }
     }
 
