@@ -30,6 +30,7 @@ public class NumberPickerDialog extends Dialog {
         super(context);
         this.type = type;
         this.callback = callback;
+        setCancelable(false);
     }
 
     @Override
@@ -38,20 +39,24 @@ public class NumberPickerDialog extends Dialog {
         setContentView(R.layout.dialog_number_picker);
         ButterKnife.bind(this);
         initData();
+        initViews();
+    }
+
+    private void initViews() {
+        numberPicker.setWrapSelectorWheel(true);
+        numberPicker.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
     }
 
     private void initData() {
         switch (type) {
             case AppConstant.TYPE_PICKER_AREA: {
                 numberPicker.setMinValue(10);
+                numberPicker.setMaxValue(3000);
                 break;
             }
             case AppConstant.TYPE_PICKER_NUMBER_OF_ROOM: {
                 numberPicker.setMinValue(1);
-                break;
-            }
-            case AppConstant.TYPE_PICKER_PRICE:{
-                numberPicker.setMinValue(1000000);
+                numberPicker.setMaxValue(10);
                 break;
             }
         }
@@ -71,8 +76,8 @@ public class NumberPickerDialog extends Dialog {
     }
 
     @Override
-    public void setOnDismissListener(OnDismissListener listener) {
-        callback.onDismissListener(result, data);
-        super.setOnDismissListener(listener);
+    public void dismiss() {
+        callback.onDismiss(result,data);
+        super.dismiss();
     }
 }

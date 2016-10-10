@@ -131,7 +131,8 @@
                     <TextView
                         android:id="@+id/tvArea"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"/>
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical"/>
 
                     <View
                         android:layout_width="match_parent"
@@ -175,54 +176,12 @@
                 android:textColor="@android:color/black"
                 android:textSize="16sp"/>
 
-            <RelativeLayout
-                android:id="@+id/layoutPrice"
+            <EditText
+                android:id="@+id/etPrice"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/background_tv_search">
-
-                <FrameLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_alignBottom="@+id/layout5"
-                    android:layout_marginBottom="9dp">
-
-                    <TextView
-                        android:id="@+id/tvPrice"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"/>
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="0.5dp"
-                        android:layout_gravity="bottom"
-                        android:background="@color/colorDarkGray"/>
-                </FrameLayout>
-
-
-                <LinearLayout
-                    android:id="@+id/layout5"
-                    android:layout_width="@dimen/defaultSize"
-                    android:layout_height="@dimen/defaultSize"
-                    android:layout_alignParentEnd="true"
-                    android:orientation="horizontal">
-
-                    <View
-                        android:layout_width="0.5dp"
-                        android:layout_height="match_parent"
-                        android:layout_marginBottom="9dp"
-                        android:background="#8a8a8a"/>
-
-                    <ImageView
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:paddingBottom="10dp"
-                        android:scaleType="center"
-                        android:src="@drawable/ic_number_of_room"/>
-
-                </LinearLayout>
-            </RelativeLayout>
+                android:layout_marginStart="-5dp"
+                android:inputType="numberSigned"/>
 
             <TextView
                 style="?android:attr/textAppearanceSmall"
@@ -396,7 +355,8 @@
                     <TextView
                         android:id="@+id/tvNumberOfRoom"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"/>
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical"/>
 
                     <View
                         android:layout_width="match_parent"
@@ -455,7 +415,8 @@
                     <TextView
                         android:id="@+id/tvImages"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical"
                         android:lines="1"
                         android:paddingEnd="64dp"/>
 
@@ -505,6 +466,7 @@
                 android:id="@+id/etDescription"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
+
         </LinearLayout>
     </ScrollView>
 

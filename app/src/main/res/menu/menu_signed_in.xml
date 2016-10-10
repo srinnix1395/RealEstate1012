@@ -10,6 +10,10 @@
         android:title="@string/yourPost"
         app:showAsAction="never"/>
     <item
+        android:id="@+id/miPostHouse"
+        android:title="@string/postHouse"
+        app:showAsAction="never"/>
+    <item
         android:id="@+id/miSetting"
         android:title="@string/setting"
         app:showAsAction="never"/>

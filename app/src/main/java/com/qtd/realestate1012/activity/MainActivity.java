@@ -177,6 +177,10 @@ public class MainActivity extends AppCompatActivity implements ActivityCallback 
                             break;
                         }
                         case R.id.miSetting: {
+
+                            break;
+                        }
+                        case R.id.miPostHouse: {
                             Intent intent = new Intent(MainActivity.this, PostActivity.class);
                             startActivity(intent);
                             break;

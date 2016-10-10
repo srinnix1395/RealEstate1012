@@ -13,7 +13,7 @@
         <RadioButton
             android:id="@+id/radioAny"
             style="?android:attr/textAppearanceMedium"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:checked="true"
             android:padding="10dp"
@@ -23,8 +23,8 @@
         <RadioButton
             android:id="@+id/radioPrivateHouse"
             style="?android:attr/textAppearanceMedium"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:padding="10dp"
             android:text="@string/privateHouse"
             android:textSize="16sp"/>
@@ -32,8 +32,8 @@
         <RadioButton
             android:id="@+id/radioCondominium"
             style="?android:attr/textAppearanceMedium"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:padding="10dp"
             android:text="@string/condominium"
             android:textSize="16sp"/>
@@ -41,8 +41,8 @@
         <RadioButton
             android:id="@+id/radioShop"
             style="?android:attr/textAppearanceMedium"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:padding="10dp"
             android:text="@string/shop"
             android:textSize="16sp"/>
@@ -50,8 +50,8 @@
         <RadioButton
             android:id="@+id/radioWarehouse"
             style="?android:attr/textAppearanceMedium"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:padding="10dp"
             android:text="@string/warehouse"
             android:textSize="16sp"/>
@@ -59,8 +59,8 @@
         <RadioButton
             android:id="@+id/radioResort"
             style="?android:attr/textAppearanceMedium"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:padding="10dp"
             android:text="@string/resort"
             android:textSize="16sp"/>
@@ -68,8 +68,8 @@
         <RadioButton
             android:id="@+id/radioLand"
             style="?android:attr/textAppearanceMedium"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:padding="10dp"
             android:text="@string/land"
             android:textSize="16sp"/>

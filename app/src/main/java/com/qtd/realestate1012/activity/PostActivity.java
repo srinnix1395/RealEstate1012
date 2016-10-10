@@ -19,7 +19,6 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -104,8 +103,8 @@ public class PostActivity extends AppCompatActivity implements GeoCoderCallback 
     @BindView(R.id.tvCity)
     TextView tvCity;
 
-    @BindView(R.id.layoutPrice)
-    RelativeLayout layoutPrice;
+    @BindView(R.id.etPrice)
+    EditText etPrice;
 
     private ArrayList<Image> images;
     ProgressDialog progressDialog;
@@ -246,11 +245,11 @@ public class PostActivity extends AppCompatActivity implements GeoCoderCallback 
                     radioGroup.check(R.id.radioWarehouse);
                     break;
                 }
-                case "Khu nghỉ dưỡng":{
+                case "Khu nghỉ dưỡng": {
                     radioGroup.check(R.id.radioResort);
                     break;
                 }
-                case "Đất nền":{
+                case "Đất nền": {
                     radioGroup.check(R.id.radioLand);
                     break;
                 }
@@ -296,7 +295,7 @@ public class PostActivity extends AppCompatActivity implements GeoCoderCallback 
         NumberPickerDialog dialog = new NumberPickerDialog(this, AppConstant.TYPE_PICKER_AREA, new
                 OnDismissDialogCallback() {
                     @Override
-                    public void onDismissListener(int result, int data) {
+                    public void onDismiss(int result, int data) {
                         if (result == RESULT_OK) {
                             tvArea.setText(String.format(Locale.getDefault(), "%d m2", data));
                         }
@@ -310,9 +309,9 @@ public class PostActivity extends AppCompatActivity implements GeoCoderCallback 
         NumberPickerDialog dialog = new NumberPickerDialog(this, AppConstant.TYPE_PICKER_NUMBER_OF_ROOM, new
                 OnDismissDialogCallback() {
                     @Override
-                    public void onDismissListener(int result, int data) {
+                    public void onDismiss(int result, int data) {
                         if (result == RESULT_OK) {
-                            tvArea.setText(String.format(Locale.getDefault(), "%d %s", data, getString(R.string.room)));
+                            tvNumberOfRoom.setText(String.format(Locale.getDefault(), "%d %s", data, getString(R.string.room)));
                         }
                     }
                 });
@@ -333,7 +332,9 @@ public class PostActivity extends AppCompatActivity implements GeoCoderCallback 
 
         progressDialog.show();
 
-        String address = null;
+        String address = etDetailAddress.getText().toString() + tvStreet.getText().toString() + tvDistrict.getText().toString()
+                + tvCity.getText().toString();
+        address = address.replace(',', ' ');
         GeoCoderGetLatLngAsyncTask asyncTask = new GeoCoderGetLatLngAsyncTask(this, this);
         asyncTask.execute(address);
     }
@@ -343,17 +344,18 @@ public class PostActivity extends AppCompatActivity implements GeoCoderCallback 
         if (latLng != null) {
             String url = ApiConstant.URL_WEB_SERVICE_POST_HOUSE;
 
+
             JSONObject jsonRequest = new JSONObject();
             try {
-                jsonRequest.put(ApiConstant.AREA, tvArea.getText().toString());
+                jsonRequest.put(ApiConstant.AREA, getNumber(tvArea.getText().toString()));
                 jsonRequest.put(ApiConstant.CITY, tvCity.getText().toString());
                 jsonRequest.put(ApiConstant.DESCRIPTION, etDescription.getText().toString());
                 jsonRequest.put(ApiConstant.DETAIL_ADDRESS, etDetailAddress.getText().toString());
                 jsonRequest.put(ApiConstant.DISTRICT, tvDistrict.getText().toString());
                 jsonRequest.put(ApiConstant.LATITUDE, latLng.latitude);
                 jsonRequest.put(ApiConstant.LONGITUDE, latLng.longitude);
-                jsonRequest.put(ApiConstant.NUMBER_OF_ROOMS, tvNumberOfRoom.getText().toString());
-//                price
+                jsonRequest.put(ApiConstant.NUMBER_OF_ROOMS, getNumber(tvNumberOfRoom.getText().toString()));
+                jsonRequest.put(ApiConstant.PRICE, etPrice.getText().toString());
                 jsonRequest.put(ApiConstant.PROPERTY_TYPE, tvProperty.getText().toString());
                 jsonRequest.put(ApiConstant.STATUS, radioSale.isChecked() ? getString(R.string.forSale) : getString(R.string.forRent));
                 jsonRequest.put(ApiConstant.STREET, tvStreet.getText().toString());
@@ -405,6 +407,11 @@ public class PostActivity extends AppCompatActivity implements GeoCoderCallback 
         }
     }
 
+    private String getNumber(String s) {
+        String[] temp = s.split(" ");
+        return temp[0];
+    }
+
 
     private boolean validateData() {
         if (tvProperty.getText().toString().isEmpty() || tvArea.getText().toString().isEmpty()
@@ -434,19 +441,5 @@ public class PostActivity extends AppCompatActivity implements GeoCoderCallback 
         tvImages.setText("");
         etDescription.setText("");
         spinnerDistrict.setSelection(0, true);
-    }
-
-    @OnClick(R.id.layoutPrice)
-    void onClickLayoutPrice(){
-        NumberPickerDialog dialog = new NumberPickerDialog(this, AppConstant.TYPE_PICKER_PRICE, new
-                OnDismissDialogCallback() {
-                    @Override
-                    public void onDismissListener(int result, int data) {
-                        if (result == RESULT_OK) {
-                            tvArea.setText(String.format(Locale.getDefault(), "%d %s", data, getString(R.string.room)));
-                        }
-                    }
-                });
-        dialog.show();
     }
 }
