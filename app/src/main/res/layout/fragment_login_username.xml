@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -73,7 +74,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="@drawable/background_button_facebook"
-                    android:src="@drawable/ic_facebook" />
+                    app:srcCompat="@drawable/ic_facebook" />
 
             </FrameLayout>
 
@@ -83,7 +84,7 @@
                 android:layout_height="44dp"
                 android:background="@drawable/background_button_google"
                 android:elevation="4dp"
-                android:src="@drawable/ic_google"
+                app:srcCompat="@drawable/ic_google"
                 tools:targetApi="lollipop" />
 
 

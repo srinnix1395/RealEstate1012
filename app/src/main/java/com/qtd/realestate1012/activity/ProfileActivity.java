@@ -255,7 +255,7 @@ public class ProfileActivity extends AppCompatActivity implements Toolbar.OnMenu
         JSONObject jsonRequest = new JSONObject();
         try {
             jsonRequest.put(ApiConstant._ID, userNew.getId());
-            jsonRequest.put(ApiConstant.EMAIL, userNew.getId());
+            jsonRequest.put(ApiConstant.EMAIL, userNew.getEmail());
             jsonRequest.put(ApiConstant.PROVIDER, userNew.getProvider());
             jsonRequest.put(ApiConstant.NAME, userNew.getName());
             jsonRequest.put(ApiConstant.TELEPHONE, userNew.getPhoneNumber());

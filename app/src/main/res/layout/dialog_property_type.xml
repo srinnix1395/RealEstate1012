@@ -7,7 +7,7 @@
 
     <RadioGroup
         android:id="@+id/radioProperty"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <RadioButton

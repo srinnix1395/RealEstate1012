@@ -95,7 +95,7 @@
                 android:layout_alignParentEnd="true"
                 android:layout_margin="16dp"
                 android:background="?android:attr/selectableItemBackground"
-                android:src="@drawable/ic_location"
+                app:srcCompat="@drawable/ic_location"
                 app:backgroundTint="@color/colorWhiteBackground"/>
         </RelativeLayout>
     </android.support.design.widget.CoordinatorLayout>
@@ -179,7 +179,7 @@
                 android:layout_height="@dimen/defaultSize"
                 android:layout_marginStart="10dp"
                 android:scaleType="center"
-                android:src="@drawable/ic_close"/>
+                app:srcCompat="@drawable/ic_close"/>
 
             <TextView
                 android:id="@+id/tvInfoType"

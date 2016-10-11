@@ -72,6 +72,6 @@
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_margin="@dimen/com_facebook_tooltip_horizontal_padding"
-            android:src="@drawable/ic_heart_outline"/>
+            app:srcCompat="@drawable/ic_heart_outline"/>
     </RelativeLayout>
 </com.qtd.realestate1012.custom.RippleView>
