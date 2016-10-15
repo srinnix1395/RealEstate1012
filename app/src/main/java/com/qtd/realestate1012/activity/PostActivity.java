@@ -82,9 +82,6 @@ public class PostActivity extends AppCompatActivity implements GeoCoderCallback 
     @BindView(R.id.etDescription)
     EditText etDescription;
 
-    @BindView(R.id.tvArea)
-    TextView tvArea;
-
     @BindView(R.id.tvNumberOfRoom)
     TextView tvNumberOfRoom;
 
@@ -105,6 +102,9 @@ public class PostActivity extends AppCompatActivity implements GeoCoderCallback 
 
     @BindView(R.id.etPrice)
     EditText etPrice;
+
+    @BindView(R.id.etArea)
+    EditText etArea;
 
     private ArrayList<Image> images;
     ProgressDialog progressDialog;
@@ -290,23 +290,9 @@ public class PostActivity extends AppCompatActivity implements GeoCoderCallback 
         }
     }
 
-    @OnClick(R.id.layoutArea)
-    void onClickLayoutArea() {
-        NumberPickerDialog dialog = new NumberPickerDialog(this, AppConstant.TYPE_PICKER_AREA, new
-                OnDismissDialogCallback() {
-                    @Override
-                    public void onDismiss(int result, int data) {
-                        if (result == RESULT_OK) {
-                            tvArea.setText(String.format(Locale.getDefault(), "%d m2", data));
-                        }
-                    }
-                });
-        dialog.show();
-    }
-
     @OnClick(R.id.layoutNumberOfRoom)
     void onClickLayoutNumberOfRoom() {
-        NumberPickerDialog dialog = new NumberPickerDialog(this, AppConstant.TYPE_PICKER_NUMBER_OF_ROOM, new
+        NumberPickerDialog dialog = new NumberPickerDialog(this, new
                 OnDismissDialogCallback() {
                     @Override
                     public void onDismiss(int result, int data) {
@@ -343,22 +329,27 @@ public class PostActivity extends AppCompatActivity implements GeoCoderCallback 
     public void onResult(LatLng latLng) {
         if (latLng != null) {
             String url = ApiConstant.URL_WEB_SERVICE_POST_HOUSE;
+//            String url = "http://192.168.1.51:8080/house/post";
 
 
             JSONObject jsonRequest = new JSONObject();
+
+            String address = etDetailAddress.getText().toString() + tvStreet.getText() + tvStreet.getText() + tvDistrict.getText()
+                    + tvCity.getText();
             try {
-                jsonRequest.put(ApiConstant.AREA, getNumber(tvArea.getText().toString()));
-                jsonRequest.put(ApiConstant.CITY, tvCity.getText().toString());
+                jsonRequest.put(ApiConstant.ADDRESS, address);
+                jsonRequest.put(ApiConstant.AREA, getNumber(etArea.getText().toString()));
+                jsonRequest.put(ApiConstant.CITY, tvCity.getText().toString().replace(',',' ').trim());
                 jsonRequest.put(ApiConstant.DESCRIPTION, etDescription.getText().toString());
                 jsonRequest.put(ApiConstant.DETAIL_ADDRESS, etDetailAddress.getText().toString());
-                jsonRequest.put(ApiConstant.DISTRICT, tvDistrict.getText().toString());
+                jsonRequest.put(ApiConstant.DISTRICT, tvDistrict.getText().toString().replace(',',' ').trim());
                 jsonRequest.put(ApiConstant.LATITUDE, latLng.latitude);
                 jsonRequest.put(ApiConstant.LONGITUDE, latLng.longitude);
                 jsonRequest.put(ApiConstant.NUMBER_OF_ROOMS, getNumber(tvNumberOfRoom.getText().toString()));
                 jsonRequest.put(ApiConstant.PRICE, etPrice.getText().toString());
                 jsonRequest.put(ApiConstant.PROPERTY_TYPE, tvProperty.getText().toString());
                 jsonRequest.put(ApiConstant.STATUS, radioSale.isChecked() ? getString(R.string.forSale) : getString(R.string.forRent));
-                jsonRequest.put(ApiConstant.STREET, tvStreet.getText().toString());
+                jsonRequest.put(ApiConstant.STREET, tvStreet.getText().toString().replace(',',' ').trim());
                 jsonRequest.put(ApiConstant.WARD, "");
 
                 jsonRequest.put(ApiConstant._ID_OWNER, HousieApplication.getInstance().getSharedPreUtils().getString
@@ -402,6 +393,7 @@ public class PostActivity extends AppCompatActivity implements GeoCoderCallback 
                             }, 2500);
                         }
                     });
+
         } else {
             //// TODO: 10/9/2016 không tìm thấy tọa độ
         }
@@ -414,7 +406,7 @@ public class PostActivity extends AppCompatActivity implements GeoCoderCallback 
 
 
     private boolean validateData() {
-        if (tvProperty.getText().toString().isEmpty() || tvArea.getText().toString().isEmpty()
+        if (tvProperty.getText().toString().isEmpty() || etArea.getText().toString().isEmpty()
                 || etDetailAddress.getText().toString().isEmpty() || tvNumberOfRoom.getText().toString().isEmpty()
                 || tvImages.getText().toString().isEmpty() || etDescription.getText().toString().isEmpty()) {
             return false;
@@ -435,7 +427,7 @@ public class PostActivity extends AppCompatActivity implements GeoCoderCallback 
     void onClickTvReset() {
         radioSale.performClick();
         tvProperty.setText("");
-        tvArea.setText("");
+        etArea.setText("");
         etDetailAddress.setText("");
         tvNumberOfRoom.setText("");
         tvImages.setText("");

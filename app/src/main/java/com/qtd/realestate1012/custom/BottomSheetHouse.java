@@ -12,7 +12,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.qtd.realestate1012.R;
 import com.qtd.realestate1012.activity.HouseDetailActivity;
 import com.qtd.realestate1012.constant.ApiConstant;
@@ -70,7 +69,6 @@ public class BottomSheetHouse extends BottomSheetDialogFragment implements Rippl
         if (house != null) {
             Glide.with(getContext())
                     .load(ApiConstant.URL_WEB_SERVICE_GET_IMAGE_HOUSE + house.getFirstImage())
-                    .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .placeholder(R.drawable.ic_apartment)
                     .error(R.drawable.ic_apartment)
                     .into(imvImage);

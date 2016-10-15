@@ -28,7 +28,6 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.JsonRequest;
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
 import com.nguyenhoanglam.imagepicker.activity.ImagePicker;
@@ -353,7 +352,6 @@ public class ProfileActivity extends AppCompatActivity implements Toolbar.OnMenu
     private void setData() {
         Glide.with(this)
                 .load(userOld.getImage())
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .crossFade(1000)
                 .error(R.drawable.ic_account_profile)
                 .into(imvImage);
@@ -396,7 +394,6 @@ public class ProfileActivity extends AppCompatActivity implements Toolbar.OnMenu
             avatar = images.get(0);
             Glide.with(this)
                     .load(avatar.getPath())
-                    .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .into(imvImage);
             isEditAvatar = true;
         }

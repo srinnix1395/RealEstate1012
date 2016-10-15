@@ -15,460 +15,423 @@
         android:fillViewport="true"
         android:paddingBottom="96dp">
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:paddingEnd="@dimen/activity_horizontal_margin"
-            android:paddingStart="@dimen/activity_horizontal_margin"
-            android:paddingTop="@dimen/activity_horizontal_margin">
+            android:layout_height="wrap_content">
 
-            <RadioGroup
-                android:id="@+id/radioGroup"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="vertical"
+                android:paddingEnd="@dimen/activity_horizontal_margin"
+                android:paddingStart="@dimen/activity_horizontal_margin"
+                android:paddingTop="@dimen/activity_horizontal_margin">
 
-                <RadioButton
-                    android:id="@+id/radioSale"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:checked="true"
-                    android:text="@string/forSale"/>
-
-                <RadioButton
-                    android:id="@+id/radioRent"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/forRent"/>
-            </RadioGroup>
-
-            <TextView
-                style="?android:attr/textAppearanceSmall"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:layout_marginTop="@dimen/high_margin"
-                android:text="@string/propertyType"
-                android:textColor="@android:color/black"
-                android:textSize="16sp"/>
-
-            <RelativeLayout
-                android:id="@+id/layoutProperty"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/background_tv_search">
-
-                <FrameLayout
+                <RadioGroup
+                    android:id="@+id/radioGroup"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_alignBottom="@+id/layout3"
-                    android:layout_marginBottom="9dp">
+                    android:orientation="horizontal">
 
-                    <TextView
-                        android:id="@+id/tvPropertyType"
+                    <RadioButton
+                        android:id="@+id/radioSale"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:checked="true"
+                        android:text="@string/forSale"/>
+
+                    <RadioButton
+                        android:id="@+id/radioRent"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/forRent"/>
+                </RadioGroup>
+
+                <TextView
+                    style="?android:attr/textAppearanceSmall"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="@dimen/high_margin"
+                    android:text="@string/propertyType"
+                    android:textColor="@android:color/black"
+                    android:textSize="16sp"/>
+
+                <RelativeLayout
+                    android:id="@+id/layoutProperty"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/background_tv_search">
+
+                    <FrameLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:paddingBottom="5dp"
-                        android:paddingStart="10dp"
-                        android:textSize="16sp"/>
+                        android:layout_alignBottom="@+id/layout3"
+                        android:layout_marginBottom="9dp">
 
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="0.5dp"
-                        android:layout_gravity="bottom"
-                        android:background="@color/colorDarkGray"/>
-                </FrameLayout>
+                        <TextView
+                            android:id="@+id/tvPropertyType"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:paddingBottom="5dp"
+                            android:paddingStart="10dp"
+                            android:textSize="16sp"/>
 
-
-                <LinearLayout
-                    android:id="@+id/layout3"
-                    android:layout_width="@dimen/defaultSize"
-                    android:layout_height="@dimen/defaultSize"
-                    android:layout_alignParentEnd="true"
-                    android:orientation="horizontal">
-
-                    <View
-                        android:layout_width="0.5dp"
-                        android:layout_height="match_parent"
-                        android:layout_marginBottom="9dp"
-                        android:background="#8a8a8a"/>
-
-                    <ImageView
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:paddingBottom="10dp"
-                        android:scaleType="center"
-                        app:srcCompat="@drawable/ic_number_of_room"/>
-
-                </LinearLayout>
-            </RelativeLayout>
-
-            <TextView
-                style="?android:attr/textAppearanceSmall"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:layout_marginTop="@dimen/high_margin"
-                android:text="@string/area"
-                android:textColor="@android:color/black"
-                android:textSize="16sp"/>
-
-            <RelativeLayout
-                android:id="@+id/layoutArea"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/background_tv_search">
-
-                <FrameLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_alignBottom="@+id/layout1"
-                    android:layout_marginBottom="9dp">
-
-                    <TextView
-                        android:id="@+id/tvArea"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:gravity="center_vertical"/>
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="0.5dp"
-                        android:layout_gravity="bottom"
-                        android:background="@color/colorDarkGray"/>
-                </FrameLayout>
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="0.5dp"
+                            android:layout_gravity="bottom"
+                            android:background="@color/colorDarkGray"/>
+                    </FrameLayout>
 
 
-                <LinearLayout
-                    android:id="@+id/layout1"
-                    android:layout_width="@dimen/defaultSize"
-                    android:layout_height="@dimen/defaultSize"
-                    android:layout_alignParentEnd="true"
-                    android:orientation="horizontal">
+                    <LinearLayout
+                        android:id="@+id/layout3"
+                        android:layout_width="@dimen/defaultSize"
+                        android:layout_height="@dimen/defaultSize"
+                        android:layout_alignParentEnd="true"
+                        android:orientation="horizontal">
 
-                    <View
-                        android:layout_width="0.5dp"
-                        android:layout_height="match_parent"
-                        android:layout_marginBottom="9dp"
-                        android:background="#8a8a8a"/>
+                        <View
+                            android:layout_width="0.5dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginBottom="9dp"
+                            android:background="#8a8a8a"/>
 
-                    <ImageView
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:paddingBottom="10dp"
-                        android:scaleType="center"
-                        app:srcCompat="@drawable/ic_number_of_room"/>
+                        <ImageView
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:paddingBottom="10dp"
+                            android:scaleType="center"
+                            app:srcCompat="@drawable/ic_number_of_room"/>
 
-                </LinearLayout>
-            </RelativeLayout>
-
-            <TextView
-                style="?android:attr/textAppearanceSmall"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:layout_marginTop="@dimen/high_margin"
-                android:text="@string/price"
-                android:textColor="@android:color/black"
-                android:textSize="16sp"/>
-
-            <EditText
-                android:id="@+id/etPrice"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="-5dp"
-                android:inputType="numberSigned"/>
-
-            <TextView
-                style="?android:attr/textAppearanceSmall"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:layout_marginTop="@dimen/high_margin"
-                android:text="@string/address"
-                android:textColor="@android:color/black"
-                android:textSize="16sp"/>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="30dp"
-                android:layout_marginTop="10dp"
-                android:baselineAligned="false">
-
-                <FrameLayout
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="3">
-
-                    <android.support.v7.widget.AppCompatSpinner
-                        android:id="@+id/spinnerCity"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"/>
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="0.5dp"
-                        android:layout_gravity="bottom"
-                        android:background="@color/colorDarkGray"/>
-                </FrameLayout>
-
-
-                <!--<TextView-->
-                <!--style="?android:attr/textAppearanceLarge"-->
-                <!--android:layout_width="0dp"-->
-                <!--android:layout_height="match_parent"-->
-                <!--android:layout_weight="1"-->
-                <!--android:fontFamily="sans-serif-light"-->
-                <!--android:gravity="center"-->
-                <!--android:text="@string/line"/>-->
-
-                <!--<FrameLayout-->
-                <!--android:layout_width="0dp"-->
-                <!--android:layout_height="match_parent"-->
-                <!--android:layout_weight="3">-->
-
-                <!--<android.support.v7.widget.AppCompatSpinner-->
-                <!--android:id="@+id/spinnerDistrict"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="match_parent"/>-->
-
-                <!--<View-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="0.5dp"-->
-                <!--android:layout_gravity="bottom"-->
-                <!--android:background="@color/colorDarkGray"/>-->
-                <!--</FrameLayout>-->
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="30dp"
-                android:layout_marginTop="10dp">
-
-                <FrameLayout
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="3">
-
-                    <android.support.v7.widget.AppCompatSpinner
-                        android:id="@+id/spinnerDistrict"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"/>
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="0.5dp"
-                        android:layout_gravity="bottom"
-                        android:background="@color/colorDarkGray"/>
-                </FrameLayout>
-
+                    </LinearLayout>
+                </RelativeLayout>
 
                 <TextView
-                    style="?android:attr/textAppearanceLarge"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:fontFamily="sans-serif-light"
-                    android:gravity="center"
-                    android:text="@string/line"/>
-
-                <FrameLayout
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="3">
-
-                    <android.support.v7.widget.AppCompatSpinner
-                        android:id="@+id/spinnerStreet"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"/>
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="0.5dp"
-                        android:layout_gravity="bottom"
-                        android:background="@color/colorDarkGray"/>
-                </FrameLayout>
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp">
+                    style="?android:attr/textAppearanceSmall"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="@dimen/high_margin"
+                    android:text="@string/area"
+                    android:textColor="@android:color/black"
+                    android:textSize="16sp"/>
 
                 <EditText
-                    android:id="@+id/etDetailAddress"
-                    android:layout_width="130dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginStart="-5dp"
-                    android:hint="@string/detailAddress"
-                    android:textColor="@android:color/black"/>
-
-                <TextView
-                    android:id="@+id/tvStreet"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:gravity="center_vertical"
-                    android:textColor="@android:color/black"/>
-
-                <TextView
-                    android:id="@+id/tvDistrict"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:gravity="center_vertical"
-                    android:textColor="@android:color/black"/>
-
-                <TextView
-                    android:id="@+id/tvCity"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:gravity="center_vertical"
-                    android:textColor="@android:color/black"/>
-            </LinearLayout>
-
-            <TextView
-                style="?android:attr/textAppearanceSmall"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:layout_marginTop="@dimen/high_margin"
-                android:text="@string/numberOfRoom"
-                android:textColor="@android:color/black"
-                android:textSize="16sp"/>
-
-            <RelativeLayout
-                android:id="@+id/layoutNumberOfRoom"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/background_tv_search">
-
-                <FrameLayout
+                    android:id="@+id/etArea"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_alignBottom="@+id/layout2"
-                    android:layout_marginBottom="9dp">
+                    android:layout_marginStart="-5dp"
+                    android:inputType="number"/>
 
-                    <TextView
-                        android:id="@+id/tvNumberOfRoom"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:gravity="center_vertical"/>
+                <TextView
+                    style="?android:attr/textAppearanceSmall"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="@dimen/high_margin"
+                    android:text="@string/price"
+                    android:textColor="@android:color/black"
+                    android:textSize="16sp"/>
 
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="0.5dp"
-                        android:layout_gravity="bottom"
-                        android:background="@color/colorDarkGray"/>
-                </FrameLayout>
+                <EditText
+                    android:id="@+id/etPrice"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="-5dp"
+                    android:inputType="number"/>
 
+                <TextView
+                    style="?android:attr/textAppearanceSmall"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="@dimen/high_margin"
+                    android:text="@string/address"
+                    android:textColor="@android:color/black"
+                    android:textSize="16sp"/>
 
                 <LinearLayout
-                    android:id="@+id/layout2"
-                    android:layout_width="@dimen/defaultSize"
-                    android:layout_height="@dimen/defaultSize"
-                    android:layout_alignParentEnd="true"
-                    android:orientation="horizontal">
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:layout_marginTop="10dp"
+                    android:baselineAligned="false">
 
-                    <View
-                        android:layout_width="0.5dp"
+                    <FrameLayout
+                        android:layout_width="0dp"
                         android:layout_height="match_parent"
-                        android:layout_marginBottom="9dp"
-                        android:background="#8a8a8a"/>
+                        android:layout_weight="3">
 
-                    <ImageView
+                        <android.support.v7.widget.AppCompatSpinner
+                            android:id="@+id/spinnerCity"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"/>
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="0.5dp"
+                            android:layout_gravity="bottom"
+                            android:background="@color/colorDarkGray"/>
+                    </FrameLayout>
+
+
+                    <!--<TextView-->
+                    <!--style="?android:attr/textAppearanceLarge"-->
+                    <!--android:layout_width="0dp"-->
+                    <!--android:layout_height="match_parent"-->
+                    <!--android:layout_weight="1"-->
+                    <!--android:fontFamily="sans-serif-light"-->
+                    <!--android:gravity="center"-->
+                    <!--android:text="@string/line"/>-->
+
+                    <!--<FrameLayout-->
+                    <!--android:layout_width="0dp"-->
+                    <!--android:layout_height="match_parent"-->
+                    <!--android:layout_weight="3">-->
+
+                    <!--<android.support.v7.widget.AppCompatSpinner-->
+                    <!--android:id="@+id/spinnerDistrict"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="match_parent"/>-->
+
+                    <!--<View-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="0.5dp"-->
+                    <!--android:layout_gravity="bottom"-->
+                    <!--android:background="@color/colorDarkGray"/>-->
+                    <!--</FrameLayout>-->
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:layout_marginTop="10dp">
+
+                    <FrameLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="3">
+
+                        <android.support.v7.widget.AppCompatSpinner
+                            android:id="@+id/spinnerDistrict"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"/>
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="0.5dp"
+                            android:layout_gravity="bottom"
+                            android:background="@color/colorDarkGray"/>
+                    </FrameLayout>
+
+
+                    <TextView
+                        style="?android:attr/textAppearanceLarge"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:paddingBottom="10dp"
-                        android:scaleType="center"
-                        app:srcCompat="@drawable/ic_number_of_room"/>
+                        android:fontFamily="sans-serif-light"
+                        android:gravity="center"
+                        android:text="@string/line"/>
 
+                    <FrameLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="3">
+
+                        <android.support.v7.widget.AppCompatSpinner
+                            android:id="@+id/spinnerStreet"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"/>
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="0.5dp"
+                            android:layout_gravity="bottom"
+                            android:background="@color/colorDarkGray"/>
+                    </FrameLayout>
                 </LinearLayout>
-            </RelativeLayout>
 
-            <TextView
-                style="?android:attr/textAppearanceSmall"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:layout_marginTop="@dimen/high_margin"
-                android:text="@string/image"
-                android:textColor="@android:color/black"
-                android:textSize="16sp"/>
-
-            <RelativeLayout
-                android:id="@+id/layoutImage"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/background_tv_search">
-
-                <FrameLayout
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_alignBottom="@+id/layout"
-                    android:layout_marginBottom="9dp">
+                    android:layout_marginTop="10dp">
+
+                    <EditText
+                        android:id="@+id/etDetailAddress"
+                        android:layout_width="130dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="-5dp"
+                        android:hint="@string/detailAddress"
+                        android:textColor="@android:color/black"/>
 
                     <TextView
-                        android:id="@+id/tvImages"
-                        android:layout_width="match_parent"
+                        android:id="@+id/tvStreet"
+                        android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:gravity="center_vertical"
-                        android:lines="1"
-                        android:paddingEnd="64dp"/>
+                        android:textColor="@android:color/black"/>
 
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="0.5dp"
-                        android:layout_gravity="bottom"
-                        android:background="@color/colorDarkGray"/>
-                </FrameLayout>
-
-
-                <LinearLayout
-                    android:id="@+id/layout"
-                    android:layout_width="@dimen/defaultSize"
-                    android:layout_height="@dimen/defaultSize"
-                    android:layout_alignParentEnd="true"
-                    android:orientation="horizontal">
-
-                    <View
-                        android:layout_width="0.5dp"
+                    <TextView
+                        android:id="@+id/tvDistrict"
+                        android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:layout_marginBottom="9dp"
-                        android:background="#8a8a8a"/>
+                        android:gravity="center_vertical"
+                        android:textColor="@android:color/black"/>
 
-                    <ImageView
-                        android:layout_width="0dp"
+                    <TextView
+                        android:id="@+id/tvCity"
+                        android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:paddingBottom="10dp"
-                        android:scaleType="center"
-                        app:srcCompat="@drawable/ic_number_of_room"/>
-
+                        android:gravity="center_vertical"
+                        android:textColor="@android:color/black"/>
                 </LinearLayout>
-            </RelativeLayout>
 
-            <TextView
-                style="?android:attr/textAppearanceSmall"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:layout_marginTop="@dimen/high_margin"
-                android:text="@string/description"
-                android:textColor="@android:color/black"
-                android:textSize="16sp"/>
+                <TextView
+                    style="?android:attr/textAppearanceSmall"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="@dimen/high_margin"
+                    android:text="@string/numberOfRoom"
+                    android:textColor="@android:color/black"
+                    android:textSize="16sp"/>
 
-            <EditText
-                android:id="@+id/etDescription"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                <RelativeLayout
+                    android:id="@+id/layoutNumberOfRoom"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/background_tv_search">
 
-        </LinearLayout>
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignBottom="@+id/layout2"
+                        android:layout_marginBottom="9dp">
+
+                        <TextView
+                            android:id="@+id/tvNumberOfRoom"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="center_vertical"/>
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="0.5dp"
+                            android:layout_gravity="bottom"
+                            android:background="@color/colorDarkGray"/>
+                    </FrameLayout>
+
+
+                    <LinearLayout
+                        android:id="@+id/layout2"
+                        android:layout_width="@dimen/defaultSize"
+                        android:layout_height="@dimen/defaultSize"
+                        android:layout_alignParentEnd="true"
+                        android:orientation="horizontal">
+
+                        <View
+                            android:layout_width="0.5dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginBottom="9dp"
+                            android:background="#8a8a8a"/>
+
+                        <ImageView
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:paddingBottom="10dp"
+                            android:scaleType="center"
+                            app:srcCompat="@drawable/ic_number_of_room"/>
+
+                    </LinearLayout>
+                </RelativeLayout>
+
+                <TextView
+                    style="?android:attr/textAppearanceSmall"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="@dimen/high_margin"
+                    android:text="@string/image"
+                    android:textColor="@android:color/black"
+                    android:textSize="16sp"/>
+
+                <RelativeLayout
+                    android:id="@+id/layoutImage"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/background_tv_search">
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignBottom="@+id/layout"
+                        android:layout_marginBottom="9dp">
+
+                        <TextView
+                            android:id="@+id/tvImages"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="center_vertical"
+                            android:lines="1"
+                            android:paddingEnd="64dp"/>
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="0.5dp"
+                            android:layout_gravity="bottom"
+                            android:background="@color/colorDarkGray"/>
+                    </FrameLayout>
+
+
+                    <LinearLayout
+                        android:id="@+id/layout"
+                        android:layout_width="@dimen/defaultSize"
+                        android:layout_height="@dimen/defaultSize"
+                        android:layout_alignParentEnd="true"
+                        android:orientation="horizontal">
+
+                        <View
+                            android:layout_width="0.5dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginBottom="9dp"
+                            android:background="#8a8a8a"/>
+
+                        <ImageView
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:paddingBottom="10dp"
+                            android:scaleType="center"
+                            app:srcCompat="@drawable/ic_number_of_room"/>
+
+                    </LinearLayout>
+                </RelativeLayout>
+
+                <TextView
+                    style="?android:attr/textAppearanceSmall"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="@dimen/high_margin"
+                    android:text="@string/description"
+                    android:textColor="@android:color/black"
+                    android:textSize="16sp"/>
+
+                <EditText
+                    android:id="@+id/etDescription"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+            </LinearLayout>
+        </RelativeLayout>
+
     </ScrollView>
 
     <LinearLayout
@@ -513,4 +476,5 @@
             android:textColor="@color/colorPrimary"
             android:textStyle="bold"/>
     </LinearLayout>
+
 </RelativeLayout>

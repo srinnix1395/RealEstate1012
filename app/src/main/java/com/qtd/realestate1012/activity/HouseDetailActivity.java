@@ -28,7 +28,6 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.JsonRequest;
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.google.android.gms.maps.GoogleMap;
 import com.qtd.realestate1012.HousieApplication;
 import com.qtd.realestate1012.R;
@@ -43,10 +42,15 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.Locale;
+import java.util.concurrent.Callable;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import rx.Single;
+import rx.SingleSubscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by DELL on 8/22/2016.
@@ -203,11 +207,6 @@ public class HouseDetailActivity extends AppCompatActivity implements ViewTreeOb
                         }
                         case ApiConstant.SUCCESS: {
                             setData(response);
-
-                            progressBar.setEnabled(false);
-                            progressBar.setVisibility(View.INVISIBLE);
-
-                            layoutTotalInfo.setVisibility(View.VISIBLE);
                             break;
                         }
                     }
@@ -228,35 +227,62 @@ public class HouseDetailActivity extends AppCompatActivity implements ViewTreeOb
         HousieApplication.getInstance().addToRequestQueue(request);
     }
 
-    private void setData(JSONObject response) {
-        fullHouse = ProcessJson.getDetailInfoHouse(response);
-        if (fullHouse != null) {
-            Glide.with(this)
-                    .load(ApiConstant.URL_WEB_SERVICE_GET_IMAGE_HOUSE + fullHouse.getFirstImage())
-                    .diskCacheStrategy(DiskCacheStrategy.ALL)
-                    .crossFade(1000)
-                    .into(imvImage);
+    private void setData(final JSONObject response) {
+        Single.fromCallable(new Callable<FullHouse>() {
+            @Override
+            public FullHouse call() throws Exception {
+                return ProcessJson.getDetailInfoHouse(response);
+            }
+        }).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new SingleSubscriber<FullHouse>() {
+                    @Override
+                    public void onSuccess(FullHouse value) {
+                        fullHouse = value;
 
-            tvAddressToolbar.setText(String.format("%s %s, %s", fullHouse.getDetailAddress(), fullHouse.getStreet(), fullHouse.getWard()));
-            tvAddressCityToolbar.setText(String.format("%s, %s", fullHouse.getDistrict(), fullHouse.getCity()));
+                        if (fullHouse != null) {
+                            Glide.with(HouseDetailActivity.this)
+                                    .load(ApiConstant.URL_WEB_SERVICE_GET_IMAGE_HOUSE + fullHouse.getFirstImage())
+                                    .crossFade(1000)
+                                    .into(imvImage);
 
-            tvImages.setText(String.format("%s %s", fullHouse.getImages().size(), getString(R.string.photo)));
-            tvPrice.setText(String.format(Locale.getDefault(), "%,d %s", fullHouse.getPrice(), getString(R.string.currency)));
-            tvInfo.setText(String.format(Locale.getDefault(), "%d %s, %s m2", fullHouse.getNumberOfRoom(), getString(R.string.room), fullHouse.getArea()));
-            tvType.setText(fullHouse.getPropertyType());
-            tvIntro.setText(fullHouse.getDescription());
+                            tvAddressToolbar.setText(String.format("%s %s, %s", fullHouse.getDetailAddress(), fullHouse.getStreet(), fullHouse.getWard()));
+                            tvAddressCityToolbar.setText(String.format("%s, %s", fullHouse.getDistrict(), fullHouse.getCity()));
 
-            tvStatus.setText(fullHouse.getStatus());
-            tvArea.setText(String.format(Locale.getDefault(), "%,d m2", fullHouse.getArea()));
-            tvPriceInfo.setText(String.format("%s %s", fullHouse.getPrice(), getString(R.string.currency)));
-            tvPriceOverArea.setText(String.format(Locale.getDefault(), "%,d %s/m2", (fullHouse.getPrice() / fullHouse.getArea()), getString(R.string.currency)));
-            tvNumberOfRoom.setText(String.format(Locale.getDefault(), "%d %s", fullHouse.getNumberOfRoom(), getString(R.string.room)));
-            tvPropertyType.setText(fullHouse.getPropertyType());
+                            tvImages.setText(String.format("%s %s", fullHouse.getImages().size(), getString(R.string.photo)));
+                            tvPrice.setText(String.format(Locale.getDefault(), "%,d %s", fullHouse.getPrice(), getString(R.string.currency)));
+                            tvInfo.setText(String.format(Locale.getDefault(), "%d %s, %s m2", fullHouse.getNumberOfRoom(), getString(R.string.room), fullHouse.getArea()));
+                            tvType.setText(fullHouse.getPropertyType());
+                            tvIntro.setText(fullHouse.getDescription());
+
+                            tvStatus.setText(fullHouse.getStatus());
+                            tvArea.setText(String.format(Locale.getDefault(), "%,d m2", fullHouse.getArea()));
+                            tvPriceInfo.setText(String.format("%s %s", fullHouse.getPrice(), getString(R.string.currency)));
+                            tvPriceOverArea.setText(String.format(Locale.getDefault(), "%,d %s/m2", (fullHouse.getPrice() / fullHouse.getArea()), getString(R.string.currency)));
+                            tvNumberOfRoom.setText(String.format(Locale.getDefault(), "%d %s", fullHouse.getNumberOfRoom(), getString(R.string.room)));
+                            tvPropertyType.setText(fullHouse.getPropertyType());
 //        tvAddedOn
-            tvAddressInfo.setText(fullHouse.getAddress());
+                            tvAddressInfo.setText(fullHouse.getAddress());
 
-            etContentEmail.setText(String.format("%s %s", getString(R.string.iAmInterestingEmail), fullHouse.getAddress()));
-        }
+                            etContentEmail.setText(String.format("%s %s", getString(R.string.iAmInterestingEmail), fullHouse.getAddress()));
+                        }
+
+                        progressBar.setEnabled(false);
+                        progressBar.setVisibility(View.INVISIBLE);
+
+                        layoutTotalInfo.setVisibility(View.VISIBLE);
+                    }
+
+                    @Override
+                    public void onError(Throwable error) {
+                        error.printStackTrace();
+
+                        progressBar.setEnabled(false);
+                        progressBar.setVisibility(View.INVISIBLE);
+
+                        layoutTotalInfo.setVisibility(View.VISIBLE);
+                    }
+                });
     }
 
     @Override

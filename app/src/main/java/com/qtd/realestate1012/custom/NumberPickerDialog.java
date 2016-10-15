@@ -8,7 +8,6 @@ import android.widget.NumberPicker;
 
 import com.qtd.realestate1012.R;
 import com.qtd.realestate1012.callback.OnDismissDialogCallback;
-import com.qtd.realestate1012.constant.AppConstant;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -22,13 +21,11 @@ public class NumberPickerDialog extends Dialog {
     NumberPicker numberPicker;
 
     private OnDismissDialogCallback callback;
-    private int type;
     private int result = 0;
     private int data;
 
-    public NumberPickerDialog(Context context, int type, OnDismissDialogCallback callback) {
+    public NumberPickerDialog(Context context, OnDismissDialogCallback callback) {
         super(context);
-        this.type = type;
         this.callback = callback;
         setCancelable(false);
     }
@@ -48,18 +45,8 @@ public class NumberPickerDialog extends Dialog {
     }
 
     private void initData() {
-        switch (type) {
-            case AppConstant.TYPE_PICKER_AREA: {
-                numberPicker.setMinValue(10);
-                numberPicker.setMaxValue(3000);
-                break;
-            }
-            case AppConstant.TYPE_PICKER_NUMBER_OF_ROOM: {
-                numberPicker.setMinValue(1);
-                numberPicker.setMaxValue(10);
-                break;
-            }
-        }
+        numberPicker.setMinValue(1);
+        numberPicker.setMaxValue(10);
     }
 
     @OnClick(R.id.tvCancel)

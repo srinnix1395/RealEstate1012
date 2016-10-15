@@ -41,6 +41,7 @@
         <activity android:name=".activity.CreateBoardActivity"/>
 
         <activity
+            android:windowSoftInputMode="adjustResize"
             android:name=".activity.PostActivity"
             android:theme="@style/StylePostActivity"/>
 

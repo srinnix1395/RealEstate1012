@@ -6,7 +6,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.qtd.realestate1012.R;
 import com.qtd.realestate1012.activity.HouseDetailActivity;
 import com.qtd.realestate1012.constant.ApiConstant;
@@ -148,7 +147,6 @@ public class HouseNewsViewHolder implements RippleView.OnRippleCompleteListener 
         CompactHouse house = bunchHouse.getCompactHouse(0);
         Glide.with(view.getContext())
                 .load(url + house.getFirstImage())
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .placeholder(R.drawable.ic_apartment)
                 .crossFade()
                 .into(imvImage1);
@@ -164,7 +162,6 @@ public class HouseNewsViewHolder implements RippleView.OnRippleCompleteListener 
         house = bunchHouse.getCompactHouse(1);
         Glide.with(view.getContext())
                 .load(url + bunchHouse.getCompactHouse(1).getFirstImage())
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .placeholder(R.drawable.ic_apartment)
                 .crossFade()
                 .into(imvImage2);
@@ -180,7 +177,6 @@ public class HouseNewsViewHolder implements RippleView.OnRippleCompleteListener 
         house = bunchHouse.getCompactHouse(2);
         Glide.with(view.getContext())
                 .load(url + bunchHouse.getCompactHouse(2).getFirstImage())
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .placeholder(R.drawable.ic_apartment)
                 .crossFade()
                 .into(imvImage3);
@@ -196,7 +192,6 @@ public class HouseNewsViewHolder implements RippleView.OnRippleCompleteListener 
         house = bunchHouse.getCompactHouse(3);
         Glide.with(view.getContext())
                 .load(url + bunchHouse.getCompactHouse(3).getFirstImage())
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .placeholder(R.drawable.ic_apartment)
                 .crossFade()
                 .into(imvImage4);
@@ -212,7 +207,6 @@ public class HouseNewsViewHolder implements RippleView.OnRippleCompleteListener 
         house = bunchHouse.getCompactHouse(4);
         Glide.with(view.getContext())
                 .load(url + bunchHouse.getCompactHouse(4).getFirstImage())
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .placeholder(R.drawable.ic_apartment)
                 .crossFade()
                 .into(imvImage5);

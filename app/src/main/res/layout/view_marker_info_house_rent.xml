@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scaleType="fitXY"
-        app:srcCompat="@drawable/ic_message_bubble"/>
+        app:srcCompat="@drawable/ic_message_bubble_sale"/>
 
     <TextView
         android:id="@+id/tvPrice"
@@ -19,7 +19,7 @@
         android:fontFamily="sans-serif-light"
         android:gravity="center"
         android:paddingBottom="5dp"
-        android:textColor="@color/colorPrimary"
+        android:textColor="#8fdfb1"
         android:textSize="12sp"
         android:textStyle="bold"/>
 </RelativeLayout>

@@ -24,7 +24,6 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.qtd.realestate1012.HousieApplication;
 import com.qtd.realestate1012.R;
 import com.qtd.realestate1012.activity.CreateBoardActivity;
@@ -119,7 +118,6 @@ public class BoardFragment extends Fragment {
     private void initViews() {
         Glide.with(this)
                 .load(R.drawable.house_paint)
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .override(324, 324)
                 .into(imvNoBoard);
 

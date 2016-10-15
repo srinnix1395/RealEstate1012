@@ -9,7 +9,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.qtd.realestate1012.R;
 import com.qtd.realestate1012.constant.ApiConstant;
 import com.qtd.realestate1012.custom.BlurTransformation;
@@ -91,7 +90,6 @@ public class BoardHasHeartViewHolder extends RecyclerView.ViewHolder {
         tvCount.setText(String.format(Locale.getDefault(), "%d %s", board.getListHouse().size(), itemView.getContext().getString(R.string.houses)));
         Glide.with(itemView.getContext())
                 .load(ApiConstant.URL_WEB_SERVICE_GET_IMAGE_HOUSE + board.getImage())
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .bitmapTransform(new BlurTransformation(itemView.getContext()))
                 .placeholder(R.color.colorFacebookGray)
                 .error(R.color.colorFacebookGray)
