@@ -395,7 +395,7 @@ public class PostActivity extends AppCompatActivity implements GeoCoderCallback 
                     });
 
         } else {
-            //// TODO: 10/9/2016 không tìm thấy tọa độ
+            Toast.makeText(this, R.string.pleaseInputRightAddress, Toast.LENGTH_SHORT).show();
         }
     }
 

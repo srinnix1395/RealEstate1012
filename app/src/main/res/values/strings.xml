@@ -160,5 +160,6 @@
     <string name="restaurant">Nhà hàng</string>
     <string name="detailAddress">Địa chỉ chi tiết</string>
     <string name="postHouse">Đăng nhà</string>
+    <string name="pleaseInputRightAddress">Hãy nhập chính xác địa chỉ</string>
 
 </resources>

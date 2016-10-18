@@ -24,8 +24,7 @@ public class ProcessJson {
 
         ArrayList<Object> arrayList = new ArrayList<>();
 
-        //// TODO: 10/7/2016 cho veef laays toan bo ket qua
-        for (int i = 0, size = jsonArray.length(); i < 1; i++) {
+        for (int i = 0, size = jsonArray.length(); i < size; i++) {
             try {
                 JSONObject houseType = jsonArray.getJSONObject(i);
 
