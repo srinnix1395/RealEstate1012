@@ -69,6 +69,7 @@ public class ListHouseFragment extends Fragment {
     private String url;
     private String type;
     private boolean listHouseNull;
+    private ArrayList<String> listIdChanged = new ArrayList<>();
 
     @Nullable
     @Override
@@ -310,6 +311,20 @@ public class ListHouseFragment extends Fragment {
                 house.setLiked(isLike);
             }
         }
+        adapter.notifyDataSetChanged();
+
+        if (listIdChanged.contains(id)) {
+            listIdChanged.remove(id);
+        } else {
+            listIdChanged.add(id);
+        }
+
+
+        if (isLike) {
+            AlertUtils.showToastSuccess(getContext(), R.drawable.ic_heart_white_large, R.string.homeSaved);
+        } else {
+            AlertUtils.showToastSuccess(getContext(), R.drawable.ic_heart_broken, R.string.homeUnsaved);
+        }
 
         AlertUtils.showToastSuccess(getContext(), R.drawable.ic_heart_white_large, R.string.homeSaved);
     }
@@ -319,5 +334,9 @@ public class ListHouseFragment extends Fragment {
             house.setLiked(false);
         }
         adapter.notifyDataSetChanged();
+    }
+
+    public ArrayList<String> getListIdChanged() {
+        return listIdChanged;
     }
 }

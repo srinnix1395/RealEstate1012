@@ -36,7 +36,7 @@ public class FcmHousieService extends FirebaseMessagingService {
         builder.setVibrate(new long[]{
                 0, 200, 200, 600, 600
         });
-        builder.mNotification.flags = Notification.FLAG_INSISTENT;
+        builder.mNotification.flags = Notification.FLAG_AUTO_CANCEL;
 
         Intent intent = new Intent(this, MainActivity.class);
         intent.setAction(AppConstant.ACTION_NOTIFICATION);

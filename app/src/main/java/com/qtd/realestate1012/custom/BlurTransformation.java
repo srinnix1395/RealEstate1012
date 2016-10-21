@@ -30,8 +30,8 @@ public class BlurTransformation extends BitmapTransformation {
 
 
         Bitmap inputBitmap = Bitmap.createScaledBitmap(toTransform, width, height, false);
-//        Bitmap outputBitmap = Bitmap.createBitmap(inputBitmap);
-        Bitmap outputBitmap = inputBitmap.copy(Bitmap.Config.ARGB_8888, true);
+        Bitmap outputBitmap = Bitmap.createBitmap(inputBitmap);
+//        Bitmap outputBitmap = inputBitmap.copy(Bitmap.Config.ARGB_8888, true);
 
 
         ScriptIntrinsicBlur theIntrinsic = ScriptIntrinsicBlur.create(rs, Element.U8_4(rs));

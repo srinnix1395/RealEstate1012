@@ -171,6 +171,7 @@ public class BottomSheetListBoard extends BottomSheetDialogFragment {
                         }
                         case ApiConstant.SUCCESS: {
                             response.put(ApiConstant.ACTION, event.action);
+                            response.put(ApiConstant._ID_HOUSE, idHouse);
                             handleResponseSuccess(response, event.board);
                             break;
                         }
@@ -195,13 +196,16 @@ public class BottomSheetListBoard extends BottomSheetDialogFragment {
             public Void call() throws Exception {
                 DatabaseHelper databaseHelper = DatabaseHelper.getInstance(getContext());
                 String action = response.getString(ApiConstant.ACTION);
+
+                String firstImage = "";
                 if (action.equals(ApiConstant.ACTION_ADD)) {
                     CompactHouse house = ProcessJson.getCompactHouse(response.getString(ApiConstant.HOUSE));
+                    firstImage = house.getFirstImage();
                     databaseHelper.insertHouseFavorite(new FavoriteHouse(house, board.getId()));
                 } else {
                     databaseHelper.deleteHouseFavorite(idHouse);
                 }
-                databaseHelper.updateListHouseInBoard(board, action);
+                databaseHelper.updateListHouseInBoard(board, firstImage, action);
                 return null;
             }
         }).subscribeOn(Schedulers.io())

@@ -21,6 +21,7 @@ public class AppConstant {
     public static final String HOUSIE_SHARED_PREFERENCES = "housie_shared_preferences";
     public static final String USER_LOGGED_IN = "user_logged_in";
     public static final String LAST_EMAIL_AT_LOGIN_ACTIVITY = "last_email";
+    public static final int REQUEST_CODE_DETAIL_KIND = 8;
 
     public static int ICON_TAB_NORMAL[] = {
             R.drawable.ic_home_dark_green,

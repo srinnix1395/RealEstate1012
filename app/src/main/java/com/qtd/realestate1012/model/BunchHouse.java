@@ -55,4 +55,12 @@ public class BunchHouse {
             }
         }
     }
+
+    public void updateImvHeart(ArrayList<String> listId) {
+        for (CompactHouse house : arrayList) {
+            if (listId.contains(house.getId())) {
+                house.setLiked(!house.isLiked);
+            }
+        }
+    }
 }

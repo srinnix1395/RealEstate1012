@@ -2,11 +2,11 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 xmlns:app="http://schemas.android.com/apk/res-auto"
                 android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginBottom="4dp"
-    android:clickable="true">
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
+                android:clickable="true">
 
-    <include layout="@layout/bottom_sheet_dialog_house" />
+    <include layout="@layout/bottom_sheet_dialog_house"/>
 
     <ImageView
         android:id="@+id/imvHeart"
@@ -14,5 +14,5 @@
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_margin="@dimen/com_facebook_tooltip_horizontal_padding"
-        app:srcCompat="@drawable/ic_heart_outline" />
+        app:srcCompat="@drawable/ic_heart_outline"/>
 </RelativeLayout>

@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_marginBottom="5dp"
-    android:background="@color/colorWhiteBackground"
-    android:orientation="vertical">
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:layout_marginBottom="5dp"
+              android:background="@color/colorWhiteBackground"
+              android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -30,13 +30,13 @@
                     android:id="@+id/imvImage1"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:scaleType="fitXY" />
+                    android:scaleType="fitXY"/>
 
 
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:src="@drawable/background_house_fade" />
+                    android:src="@drawable/background_house_fade"/>
 
                 <TextView
                     android:id="@+id/tvPrice1"
@@ -47,7 +47,7 @@
                     android:layout_marginStart="@dimen/com_facebook_tooltip_horizontal_padding"
                     android:fontFamily="sans-serif-light"
                     android:textColor="@android:color/white"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"/>
 
                 <TextView
                     android:id="@+id/tvAddress1"
@@ -60,7 +60,7 @@
                     android:fontFamily="sans-serif-light"
                     android:lines="1"
                     android:textColor="@android:color/white"
-                    android:textSize="12sp" />
+                    android:textSize="12sp"/>
 
                 <TextView
                     android:id="@+id/tvAddress12"
@@ -75,7 +75,7 @@
                     android:fontFamily="sans-serif-light"
                     android:lines="1"
                     android:textColor="@android:color/white"
-                    android:textSize="12sp" />
+                    android:textSize="12sp"/>
 
                 <ImageView
                     android:id="@+id/imvHeart1"
@@ -83,7 +83,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
                     android:layout_margin="@dimen/com_facebook_tooltip_horizontal_padding"
-                    app:srcCompat="@drawable/ic_heart_outline" />
+                    app:srcCompat="@drawable/ic_heart_outline"/>
             </RelativeLayout>
         </com.qtd.realestate1012.custom.RippleView>
 
@@ -103,13 +103,13 @@
                     android:id="@+id/imvImage2"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:scaleType="fitXY" />
+                    android:scaleType="fitXY"/>
 
 
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:src="@drawable/background_house_fade" />
+                    android:src="@drawable/background_house_fade"/>
 
                 <TextView
                     android:id="@+id/tvPrice2"
@@ -120,7 +120,7 @@
                     android:layout_marginStart="@dimen/com_facebook_tooltip_horizontal_padding"
                     android:fontFamily="sans-serif-light"
                     android:textColor="@android:color/white"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"/>
 
                 <TextView
                     android:id="@+id/tvAddress2"
@@ -133,7 +133,7 @@
                     android:fontFamily="sans-serif-light"
                     android:lines="1"
                     android:textColor="@android:color/white"
-                    android:textSize="12sp" />
+                    android:textSize="12sp"/>
 
                 <TextView
                     android:id="@+id/tvAddress22"
@@ -148,7 +148,7 @@
                     android:fontFamily="sans-serif-light"
                     android:lines="1"
                     android:textColor="@android:color/white"
-                    android:textSize="12sp" />
+                    android:textSize="12sp"/>
 
                 <ImageView
                     android:id="@+id/imvHeart2"
@@ -156,7 +156,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
                     android:layout_margin="@dimen/com_facebook_tooltip_horizontal_padding"
-                    app:srcCompat="@drawable/ic_heart_outline" />
+                    app:srcCompat="@drawable/ic_heart_outline"/>
             </RelativeLayout>
         </com.qtd.realestate1012.custom.RippleView>
 
@@ -184,13 +184,13 @@
                     android:id="@+id/imvImage3"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:scaleType="fitXY" />
+                    android:scaleType="fitXY"/>
 
 
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:src="@drawable/background_house_fade" />
+                    android:src="@drawable/background_house_fade"/>
 
                 <TextView
                     android:id="@+id/tvPrice3"
@@ -201,7 +201,7 @@
                     android:layout_marginStart="@dimen/com_facebook_tooltip_horizontal_padding"
                     android:fontFamily="sans-serif-light"
                     android:textColor="@android:color/white"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"/>
 
                 <TextView
                     android:id="@+id/tvAddress3"
@@ -214,7 +214,7 @@
                     android:fontFamily="sans-serif-light"
                     android:lines="1"
                     android:textColor="@android:color/white"
-                    android:textSize="12sp" />
+                    android:textSize="12sp"/>
 
                 <TextView
                     android:id="@+id/tvAddress32"
@@ -229,7 +229,7 @@
                     android:fontFamily="sans-serif-light"
                     android:lines="1"
                     android:textColor="@android:color/white"
-                    android:textSize="12sp" />
+                    android:textSize="12sp"/>
 
                 <ImageView
                     android:id="@+id/imvHeart3"
@@ -237,7 +237,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
                     android:layout_margin="@dimen/com_facebook_tooltip_horizontal_padding"
-                    app:srcCompat="@drawable/ic_heart_outline" />
+                    app:srcCompat="@drawable/ic_heart_outline"/>
             </RelativeLayout>
         </com.qtd.realestate1012.custom.RippleView>
 
@@ -258,13 +258,13 @@
                     android:id="@+id/imvImage4"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:scaleType="fitXY" />
+                    android:scaleType="fitXY"/>
 
 
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:src="@drawable/background_house_fade" />
+                    android:src="@drawable/background_house_fade"/>
 
                 <TextView
                     android:id="@+id/tvPrice4"
@@ -275,7 +275,7 @@
                     android:layout_marginStart="@dimen/com_facebook_tooltip_horizontal_padding"
                     android:fontFamily="sans-serif-light"
                     android:textColor="@android:color/white"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"/>
 
                 <TextView
                     android:id="@+id/tvAddress4"
@@ -288,7 +288,7 @@
                     android:fontFamily="sans-serif-light"
                     android:lines="1"
                     android:textColor="@android:color/white"
-                    android:textSize="12sp" />
+                    android:textSize="12sp"/>
 
                 <TextView
                     android:id="@+id/tvAddress42"
@@ -303,7 +303,7 @@
                     android:fontFamily="sans-serif-light"
                     android:lines="1"
                     android:textColor="@android:color/white"
-                    android:textSize="12sp" />
+                    android:textSize="12sp"/>
 
                 <ImageView
                     android:id="@+id/imvHeart4"
@@ -311,7 +311,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
                     android:layout_margin="@dimen/com_facebook_tooltip_horizontal_padding"
-                    app:srcCompat="@drawable/ic_heart_outline" />
+                    app:srcCompat="@drawable/ic_heart_outline"/>
             </RelativeLayout>
         </com.qtd.realestate1012.custom.RippleView>
     </LinearLayout>
@@ -332,12 +332,12 @@
                 android:id="@+id/imvImage5"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:scaleType="fitXY" />
+                android:scaleType="fitXY"/>
 
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:src="@drawable/background_house_fade" />
+                android:src="@drawable/background_house_fade"/>
 
             <TextView
                 android:id="@+id/tvPrice5"
@@ -348,7 +348,7 @@
                 android:layout_marginStart="@dimen/com_facebook_tooltip_horizontal_padding"
                 android:fontFamily="sans-serif-light"
                 android:textColor="@android:color/white"
-                android:textStyle="bold" />
+                android:textStyle="bold"/>
 
             <TextView
                 android:id="@+id/tvAddress5"
@@ -361,7 +361,7 @@
                 android:fontFamily="sans-serif-light"
                 android:lines="1"
                 android:textColor="@android:color/white"
-                android:textSize="12sp" />
+                android:textSize="12sp"/>
 
             <TextView
                 android:id="@+id/tvAddress52"
@@ -376,7 +376,7 @@
                 android:fontFamily="sans-serif-light"
                 android:lines="1"
                 android:textColor="@android:color/white"
-                android:textSize="12sp" />
+                android:textSize="12sp"/>
 
             <ImageView
                 android:id="@+id/imvHeart5"
@@ -384,7 +384,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:layout_margin="@dimen/com_facebook_tooltip_horizontal_padding"
-                app:srcCompat="@drawable/ic_heart_outline" />
+                app:srcCompat="@drawable/ic_heart_outline"/>
         </RelativeLayout>
     </com.qtd.realestate1012.custom.RippleView>
 
@@ -406,5 +406,5 @@
         android:textColor="@color/colorDarkGray"
         android:textSize="16sp"
         android:textStyle="bold"
-        tools:targetApi="lollipop" />
+        tools:targetApi="lollipop"/>
 </LinearLayout>

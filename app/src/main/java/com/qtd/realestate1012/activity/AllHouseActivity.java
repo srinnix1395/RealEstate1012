@@ -12,6 +12,8 @@ import com.qtd.realestate1012.R;
 import com.qtd.realestate1012.constant.ApiConstant;
 import com.qtd.realestate1012.fragment.ListHouseFragment;
 
+import java.util.ArrayList;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -23,6 +25,7 @@ public class AllHouseActivity extends AppCompatActivity {
     Toolbar toolbar;
 
     private String type;
+    private ListHouseFragment listHouseFragment;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -48,11 +51,11 @@ public class AllHouseActivity extends AppCompatActivity {
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                finish();
+                getHouseLikeAndFinish();
             }
         });
 
-        ListHouseFragment listHouseFragment = new ListHouseFragment();
+        listHouseFragment = new ListHouseFragment();
         Bundle bundle = new Bundle();
         bundle.putString(ApiConstant.URL_WEB_SERVICE, ApiConstant.URL_WEB_SERVICE_GET_ALL_HOUSE_OF_KIND);
         bundle.putString(ApiConstant.TYPE, type);
@@ -61,5 +64,21 @@ public class AllHouseActivity extends AppCompatActivity {
         getSupportFragmentManager().beginTransaction().add(R.id.layout, listHouseFragment).commit();
     }
 
+    private void getHouseLikeAndFinish() {
+        ArrayList<String> listChanged = listHouseFragment.getListIdChanged();
 
+        if (listChanged.size() > 0) {
+            Intent intent = new Intent();
+            intent.putStringArrayListExtra(ApiConstant.LIST_ID, listChanged);
+            setResult(RESULT_OK, intent);
+        } else {
+            setResult(RESULT_CANCELED);
+        }
+        finish();
+    }
+
+    @Override
+    public void onBackPressed() {
+        getHouseLikeAndFinish();
+    }
 }

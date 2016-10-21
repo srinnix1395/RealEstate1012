@@ -263,6 +263,17 @@ public class HomeFragment extends Fragment {
         if (requestCode == AppConstant.REQUEST_CODE_SIGN_IN && resultCode == Activity.RESULT_OK) {
             String idHouse = data.getStringExtra(ApiConstant._ID_HOUSE);
             updateData(idHouse);
+            return;
+        }
+
+        if (requestCode == AppConstant.REQUEST_CODE_DETAIL_KIND && resultCode == Activity.RESULT_OK) {
+            ArrayList<String> listId = data.getStringArrayListExtra(ApiConstant.LIST_ID);
+            for (Object object : arrayListHouseNews) {
+                if (object instanceof BunchHouse) {
+                    ((BunchHouse) object).updateImvHeart(listId);
+                }
+            }
+            adapter.notifyDataSetChanged();
         }
     }
 
@@ -319,7 +330,6 @@ public class HomeFragment extends Fragment {
         for (Object object : arrayListHouseNews) {
             if (object instanceof BunchHouse) {
                 ((BunchHouse) object).resetImvHeart(idHouse, isLike);
-                break;
             }
         }
         adapter.notifyDataSetChanged();
@@ -337,7 +347,7 @@ public class HomeFragment extends Fragment {
     public void handleEventClickSeeAllViewHolder(MessageEventClickSeeAllViewHolder message) {
         Intent intent = new Intent(getContext(), AllHouseActivity.class);
         intent.putExtra(ApiConstant.TYPE, message.type);
-        getContext().startActivity(intent);
+        startActivityForResult(intent, AppConstant.REQUEST_CODE_DETAIL_KIND);
     }
 
     @OnClick(R.id.tvError)

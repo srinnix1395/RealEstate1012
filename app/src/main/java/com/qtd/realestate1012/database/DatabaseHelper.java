@@ -384,16 +384,22 @@ public class DatabaseHelper {
         return arrayList;
     }
 
-    public void updateListHouseInBoard(BoardHasHeart board, String action) {
+    public void updateListHouseInBoard(BoardHasHeart board, String firstImage, String action) {
         try {
             openDatabase();
 
             mDatabase.beginTransaction();
 
             ContentValues contentValues = new ContentValues();
-            if (action.equals(ApiConstant.ACTION)) {
+            if (action.equals(ApiConstant.ACTION_ADD)) {
+                if (board.getListHouse().size() == 0) {
+                    contentValues.put(FIRST_IMAGE, firstImage);
+                }
                 contentValues.put(COUNT_HOUSE, board.getListHouse().size() + 1);
             } else {
+                if (board.getListHouse().size() == 1) {
+                    contentValues.put(FIRST_IMAGE, "");
+                }
                 contentValues.put(COUNT_HOUSE, board.getListHouse().size() - 1);
             }
 
