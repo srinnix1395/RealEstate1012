@@ -291,6 +291,7 @@ public class HouseNewsViewHolder implements RippleView.OnRippleCompleteListener 
     private void startDetailHouseActivity(int i) {
         Intent intent = new Intent(view.getContext(), HouseDetailActivity.class);
         intent.putExtra(ApiConstant._ID, bunchHouse.getCompactHouse(i).getId());
+        intent.putExtra(ApiConstant.LIKE, bunchHouse.getCompactHouse(i).isLiked());
         view.getContext().startActivity(intent);
     }
 

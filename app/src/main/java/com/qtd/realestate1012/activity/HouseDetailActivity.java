@@ -130,6 +130,7 @@ public class HouseDetailActivity extends AppCompatActivity implements ViewTreeOb
 
     private String id;
     private FullHouse fullHouse;
+    private boolean isLiked;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -143,6 +144,7 @@ public class HouseDetailActivity extends AppCompatActivity implements ViewTreeOb
     private void initData() {
         Intent intent = getIntent();
         id = intent.getStringExtra(ApiConstant._ID);
+        isLiked = intent.getBooleanExtra(ApiConstant.LIKE, false);
         Log.e("fsaj", "initData: " + id);
     }
 
@@ -287,7 +289,11 @@ public class HouseDetailActivity extends AppCompatActivity implements ViewTreeOb
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_detail_house_activity, menu);
+        if (isLiked) {
+            getMenuInflater().inflate(R.menu.menu_detail_house_activity_like, menu);
+        } else {
+            getMenuInflater().inflate(R.menu.menu_detail_house_activity_not_like, menu);
+        }
         return true;
     }
 
@@ -311,7 +317,18 @@ public class HouseDetailActivity extends AppCompatActivity implements ViewTreeOb
     }
 
     private void onClickMenuShare() {
-        //// TODO: 10/1/2016 share house
+        Intent shareIntent = getPackageManager().getLaunchIntentForPackage("com.facebook.katana");
+        if (shareIntent != null) {
+            shareIntent = new Intent();
+            shareIntent.setAction(Intent.ACTION_SEND);
+            shareIntent.setPackage("com.facebook.katana");
+            shareIntent.setType("text/plain");
+
+            shareIntent.putExtra(Intent.EXTRA_SUBJECT, "Nha minh quan tam");
+            shareIntent.putExtra(Intent.EXTRA_TEXT, "http://stackoverflow.com/questions/7545254/android-and-facebook-share-intent");
+
+            startActivity(shareIntent);
+        }
     }
 
     @OnClick({R.id.layoutImage, R.id.tvImages})

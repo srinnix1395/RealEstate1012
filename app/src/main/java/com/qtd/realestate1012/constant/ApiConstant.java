@@ -104,6 +104,7 @@ public class ApiConstant {
     public static final String CRITERIA = "criteria";
     public static final String LIST_BOARD_HOUSE = "list_board_house";
     public static final String LIST_ID = "list_id";
+    public static final String LIKE = "like";
     public static String _ID_BOARD = "_id_board";
     public static String _ID_HOUSE = "_id_house";
     public static String _ID_OWNER = "_id_owner";
