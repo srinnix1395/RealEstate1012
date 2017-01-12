@@ -28,7 +28,8 @@
     <string name="localInfoDialog">Thông tin về khu vực</string>
     <string name="satellite">Chế độ vệ tinh</string>
     <string name="schools">Trường học</string>
-    <string name="noInternetConnection">Không có kết nối internet</string>
+    <string name="noInternetConnection">Không có kết nối internet\n
+    Chạm để thử lại</string>
     <string name="currency">VNĐ</string>
     <string name="errorConnection">Đã có lỗi trong quá trình kêt nối, xin thử lại</string>
     <string name="selectBoard">Chọn nhóm</string>
